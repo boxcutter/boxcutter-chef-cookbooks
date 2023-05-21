@@ -13,19 +13,14 @@ jobs:
           - ubuntu-2004
           - ubuntu-2204
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: boxcutter-chef-cookbooks/boxcutter-chef-cookbooks
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-      with:
-        path: boxcutter-chef-cookbooks
     - name: Checkout chef-cookbooks repository
       uses: actions/checkout@v3
       with:
         repository: boxcutter/chef-cookbooks
-        path: chef-cookbooks
+        path: ../chef-cookbooks
     - name: Install Chef
       uses: actionshub/chef-install@1.1.0
       with:
