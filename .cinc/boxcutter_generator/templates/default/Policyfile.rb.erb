@@ -8,11 +8,13 @@ name '<%= policy_name %>'
 
 <% if include_chef_repo_source %>
 # This lets you source cookbooks from your chef-repo.
+default_source :chef_repo, '../../../chef-cookbooks/cookbooks'
 default_source :chef_repo, '../'
 
 <% end -%>
 # Where to find external cookbooks:
-default_source :supermarket
+default_source :chef_repo, '../../../chef-cookbooks/cookbooks'
+default_source :chef_repo, '../'
 
 # run_list: chef-client will run these recipes in the order specified.
 run_list '<%= policy_run_list %>'
@@ -22,4 +24,5 @@ run_list '<%= policy_run_list %>'
 # cookbook 'example_cookbook', path: '../cookbooks/example_cookbook'
 <% else %>
 cookbook '<%= cookbook_name %>', path: '.'
+cookbook '<%= cookbook_name %>_test', path: 'test/cookbooks/<%= cookbook_name %>_test'
 <% end %>

@@ -1,5 +1,6 @@
 context = ChefCLI::Generator.context
 cookbook_dir = File.join(context.cookbook_root, context.cookbook_name)
+cookbook_name = context.cookbook_name
 
 silence_chef_formatter unless context.verbose
 
@@ -116,6 +117,27 @@ else
     helpers(ChefCLI::Generator::TemplateHelper)
     action :create_if_missing
   end
+end
+
+# Test Cookbook
+directory "#{cookbook_dir}/test/cookbooks/#{cookbook_name}_test" do
+  recursive true
+end
+
+directory "#{cookbook_dir}/test/cookbooks/#{cookbook_name}_test/recipes" do
+  recursive true
+end
+
+template "#{cookbook_dir}/test/cookbooks/#{cookbook_name}_test/metadata.rb" do
+  source 'test_cookbook/metadata.rb.erb'
+  helpers(ChefCLI::Generator::TemplateHelper)
+  action :create_if_missing
+end
+
+template "#{cookbook_dir}/test/cookbooks/#{cookbook_name}_test/recipes/default.rb" do
+  source 'test_cookbook/recipe.rb.erb'
+  helpers(ChefCLI::Generator::TemplateHelper)
+  action :create_if_missing
 end
 
 # compliance phase
