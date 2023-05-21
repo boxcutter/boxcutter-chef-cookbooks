@@ -32,7 +32,7 @@ jobs:
     - name: Run Kitchen
       working-directory: boxcutter-chef-cookbooks
       run: |
-        kitchen test ${{ matrix.os }}
+        kitchen converge ${{ matrix.os }}
       env:
         CHEF_LICENSE: accept-no-persist
         CHEF_VERSION: 14.15.6
