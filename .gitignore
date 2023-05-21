@@ -6,3 +6,27 @@ Gemfile.lock
 .bundle
 vendor
 .idea/
+.vscode/
+
+# test kitchen
+.kitchen/
+kitchen.local.yml
+
+# Chef Infra
+Berksfile.lock
+.zero-knife.rb
+Policyfile.lock.json
+
+.DS_Store
+
+.cinc/cinc_guid
+.cinc/local-mode-cache/
+.cinc/ohai/
+nodes/
+
+# Ignore Chef key files and secrets
+.cinc/encrypted_data_bag_secret.pem
+
+*-clear/
+
+bundle-metadata.json
