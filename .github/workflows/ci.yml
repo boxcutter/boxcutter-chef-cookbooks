@@ -25,8 +25,8 @@ jobs:
       uses: actionshub/chef-install@1.1.0
       with:
         omnitruckUrl: omnitruck.cinc.sh
-        project: chef-workstation
-        version: 20.11.180
+        project: cinc-workstation
+        version: 22.12.1024
     - name: Run Kitchen
       uses: actionshub/test-kitchen@2.0.0
       with:
