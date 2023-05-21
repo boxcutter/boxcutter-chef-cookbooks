@@ -7,7 +7,7 @@
 name 'boxcutter-chef-cookbooks'
 
 # Where to find external cookbooks:
-default_source :chef_repo, '../../../chef-cookbooks/cookbooks'
+default_source :chef_repo, '../chef-cookbooks/cookbooks'
 default_source :chef_repo, '.'
 
 # run_list: chef-client will run these recipes in the order specified.
