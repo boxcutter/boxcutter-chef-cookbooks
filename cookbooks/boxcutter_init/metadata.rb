@@ -13,9 +13,5 @@ chef_version '>= 16.0'
 }.each do |p|
   supports p
 end
-[
-  'fb_apt',
-  'fb_rpm',
-].each do |cb|
-  depends cb
-end
+depends 'fb_apt'
+depends 'fb_rpm'

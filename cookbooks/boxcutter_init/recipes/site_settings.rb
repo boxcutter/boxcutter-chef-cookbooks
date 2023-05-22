@@ -17,3 +17,18 @@
 # limitations under the License.
 
 # This is where you set your own stuff...
+if node.ubuntu?
+  # us.archive.ubuntu.com and the core Ubuntu repositories do not have ARM
+  # binaries. ARM binaries are only on ports.ubuntu.com
+  node.default['fb_apt']['mirror'] = if node['kernel']['machine'] == 'aarch64'
+                                       'http://ports.ubuntu.com/ubuntu-ports'
+                                     else
+                                       'http://archive.ubuntu.com/ubuntu'
+                                     end
+
+  node.default['fb_apt']['security_mirror'] = if node['kernel']['machine'] == 'aarch64'
+                                                'http://ports.ubuntu.com/ubuntu-ports'
+                                              else
+                                                'http://security.ubuntu.com/ubuntu'
+                                              end
+end
