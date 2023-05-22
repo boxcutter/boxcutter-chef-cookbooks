@@ -15,9 +15,6 @@ provisioner:
 transport:
   name: dokken
 
-verifier:
-  name: inspec
-
 platforms:
   # @see https://github.com/chef-cookbooks/testing_examples/blob/main/kitchen.dokken.yml
   # @see https://hub.docker.com/u/dokken
