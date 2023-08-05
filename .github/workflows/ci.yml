@@ -46,7 +46,7 @@ jobs:
         repository: boxcutter/chef-cookbooks
         path: chef-cookbooks
     - name: Install Chef
-      uses: actionshub/chef-install@1.1.0
+      uses: actionshub/chef-install@main
       with:
         omnitruckUrl: omnitruck.cinc.sh
         project: cinc-workstation
