@@ -5,12 +5,14 @@ driver:
   docker_registry: docker.io
   chef_image: boxcutter/cinc
   chef_version: 17.10.0
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
 
 provisioner:
   name: dokken
   product_name: cinc
   chef_binary: /opt/cinc/bin/cinc-client
   chef_license: accept-no-persist
+  chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
 
 transport:
   name: dokken
@@ -25,13 +27,22 @@ platforms:
     driver:
       image: boxcutter/dokken-ubuntu-20.04
       pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
+
+  - name: ubuntu-22.04
+    driver:
+      image: boxcutter/dokken-ubuntu-22.04
+      pid_one_command: /bin/systemd
+
+  - name: centos-stream-9
+    driver:
+      image: boxcutter/dokken-centos-stream-9
+      pid_one_command: /usr/lib/systemd/systemd
 
 suites:
   - name: default
-    run_list:
-      - recipe[<%= cookbook_name %>::default]
+    # run_list set in Policyfile.rb, this does nothing
+    # run_list:
+    #   - recipe[<%= cookbook_name %>::default]
     verifier:
       inspec_tests:
         - test/integration/default
