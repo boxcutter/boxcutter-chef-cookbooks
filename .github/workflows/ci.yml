@@ -58,3 +58,10 @@ jobs:
       env:
         CHEF_LICENSE: accept-no-persist
         CHEF_VERSION: 14.15.6
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Run Shellcheck
+        uses: ludeeus/action-shellcheck@2.0.0
