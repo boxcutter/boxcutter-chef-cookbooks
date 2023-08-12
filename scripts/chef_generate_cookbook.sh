@@ -17,7 +17,7 @@ COOKBOOK_NAME=$1
 # make sure we're in the cookbooks subdir
 pushd "${REPO_PATH}/cookbooks"
 
-cinc generate cookbook ${COOKBOOK_NAME} \
+cinc generate cookbook "${COOKBOOK_NAME}" \
   --copyright 'Boxcutter' \
   --email 'noreply@boxcutter.io' \
   --license 'apachev2' \

@@ -13,7 +13,7 @@ fi
 
 ATTRIBUTE_NAME=$1
 
-cinc generate attribute ${ATTRIBUTE_NAME} \
+cinc generate attribute "${ATTRIBUTE_NAME}" \
   --copyright 'Boxcutter' \
   --email 'noreply@boxcutter.io' \
   --license 'apachev2' \

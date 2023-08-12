@@ -13,7 +13,7 @@ fi
 
 RECIPE_NAME=$1
 
-cinc generate recipe ${RECIPE_NAME} \
+cinc generate recipe "${RECIPE_NAME}" \
   --copyright 'Boxcutter' \
   --email 'noreply@boxcutter.io' \
   --license 'apachev2' \
