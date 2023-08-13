@@ -89,7 +89,7 @@ jobs:
           # If its not configured, the repository default branch is used.
           base: ${{ github.ref }}
           filters: |
-            boxcutter-chef-cookbooks/boxcutter_python: 'boxcutter-chef-cookbooks/boxcutter_python/**'
+            boxcutter-chef-cookbooks/cookbooks/boxcutter_python: 'boxcutter-chef-cookbooks/cookbooks/boxcutter_python/**'
 
     kitchen:
       needs: changes
