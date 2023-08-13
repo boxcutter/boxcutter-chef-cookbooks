@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: boxcutter/${{ matrix.cookbook }}
+        working-directory: ${{ matrix.cookbook }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -57,7 +57,7 @@ jobs:
           project: cinc-workstation
           version: 23.7.1042
       - name: Run Kitchen
-        working-directory: ${{ matrix.cookbook }}
+        working-directory: boxcutter_chef_cookbooks/${{ matrix.cookbook }}
         run: |
           kitchen test
         env:
