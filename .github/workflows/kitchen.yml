@@ -57,12 +57,7 @@ jobs:
           project: cinc-workstation
           version: 23.7.1042
       - name: Run Kitchen
-        # working-directory: ${{ matrix.cookbook }}
         run: |
           pwd
           echo ${{ github.workspace }}
-          tree ${{ github.workspace }}
-          kitchen test
-        env:
-          CHEF_LICENSE: accept-no-persist
-          CHEF_VERSION: 18.2.7
+          echo ${{ matrix.cookbook }}
