@@ -7,7 +7,7 @@ python_user = 'python'
 python_group = 'python'
 python_home = '/home/python'
 
-node.default['polymath_python']['pyenv'] = {
+node.default['boxcutter_python']['pyenv'] = {
   ::File.join(python_home, '.pyenv') => {
     'user' => python_user,
     'group' => python_group,

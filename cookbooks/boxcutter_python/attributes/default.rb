@@ -1,3 +1,3 @@
-default['polymath_python'] = {
+default['boxcutter_python'] = {
   'pyenv' => {},
 }

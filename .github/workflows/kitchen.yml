@@ -59,7 +59,8 @@ jobs:
       - name: Run Kitchen
         working-directory: ${{ matrix.cookbook }}
         run: |
-          tree
+          echo ${{ github.workspace }}
+          tree ${{ github.workspace }}
           kitchen test
         env:
           CHEF_LICENSE: accept-no-persist
