@@ -57,8 +57,9 @@ jobs:
           project: cinc-workstation
           version: 23.7.1042
       - name: Run Kitchen
-        working-directory: boxcutter_chef_cookbooks/${{ matrix.cookbook }}
+        working-directory: ${{ matrix.cookbook }}
         run: |
+          tree
           kitchen test
         env:
           CHEF_LICENSE: accept-no-persist
