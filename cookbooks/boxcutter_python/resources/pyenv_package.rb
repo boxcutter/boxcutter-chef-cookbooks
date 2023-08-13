@@ -17,7 +17,7 @@ action :install do
             end
 
   boxcutter_python_pyenv_script "pip-install#{new_resource.package_name}-#{new_resource.pyenv_version}" do
-    code %(eval "$(pyenv virtualenv-init -)" && #{command})
+    code %{eval "$(pyenv virtualenv-init -)" && #{command}}
     pyenv_root new_resource.pyenv_root
     pyenv_version new_resource.pyenv_version
     user new_resource.user
@@ -29,7 +29,8 @@ end
 
 action_class do
   def pip_package_installed?(python_package, python_version)
-    cmd = Mixlib::ShellOut.new(script_code(%(eval "$(pyenv virtualenv-init -)" && pip freeze --all)), user: new_resource.user, group: new_resource.group, environment: script_environment)
+    cmd = Mixlib::ShellOut.new(script_code(%{eval "$(pyenv virtualenv-init -)" && pip freeze --all}),
+                               user: new_resource.user, group: new_resource.group, environment: script_environment)
     cmd.run_command
     package_string = if python_version.nil?
                        "#{python_package}==#{python_version}"
@@ -41,11 +42,11 @@ action_class do
 
   def script_code(command)
     script = []
-    script << %(export PYENV_ROOT="#{new_resource.pyenv_root}")
+    script << %{export PYENV_ROOT="#{new_resource.pyenv_root}"}
     script << %(export PATH="${PYENV_ROOT}/bin:$PATH")
     script << %{eval "$(pyenv init -)"}
     if new_resource.pyenv_version
-      script << %(export PYENV_VERSION="#{new_resource.pyenv_version}")
+      script << %{export PYENV_VERSION="#{new_resource.pyenv_version}"}
     end
     script << command
     script.join("\n").concat("\n")

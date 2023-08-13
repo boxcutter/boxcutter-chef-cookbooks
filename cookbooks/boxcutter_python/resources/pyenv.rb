@@ -11,10 +11,10 @@ action :manage do
       user pyenv_data['user']
       group pyenv_data['group']
       environment build_environment
-      creates "#{pyenv_root}"
+      creates pyenv_root
     end
 
-    current_pythons = Dir.glob("#{::File.join(pyenv_root, 'versions')}/*").select { |f| !::File.symlink?(f) }.sort
+    current_pythons = Dir.glob("#{::File.join(pyenv_root, 'versions')}/*").reject { |f| ::File.symlink?(f) }.sort
     desired_pythons = pyenv_data['pythons'].keys.map { |d| ::File.join(pyenv_root, 'versions', d) }
     pythons_to_delete = current_pythons - desired_pythons
     Chef::Log.info("current_pythons=#{current_pythons}, pythons_to_delete=#{pythons_to_delete}")
@@ -26,14 +26,16 @@ action :manage do
       end
     end
 
-    current_virtualenvs = Dir.glob("#{::File.join(pyenv_root, 'versions')}/*").select { |f| ::File.symlink?(f) }.map { |f| ::File.basename(f) }.sort
+    current_virtualenvs = Dir.glob("#{::File.join(pyenv_root, 'versions')}/*").select do |f|
+                            ::File.symlink?(f)
+                          end.map { |f| ::File.basename(f) }.sort
     desired_virtualenvs = pyenv_data['virtualenvs'].keys
     virtualenvs_to_delete = current_virtualenvs - desired_virtualenvs
     Chef::Log.info("current_virtualenvs=#{current_virtualenvs}, virtualenvs_to_delete=#{virtualenvs_to_delete}")
 
     virtualenvs_to_delete.each do |virtualenv_name|
       boxcutter_python_pyenv_script "pyenv-uninstall-#{virtualenv_name}" do
-        code %(eval "$(pyenv virtualenv-init -)" && pyenv uninstall --force #{virtualenv_name})
+        code %{eval "$(pyenv virtualenv-init -)" && pyenv uninstall --force #{virtualenv_name}}
         pyenv_root pyenv_root
         user pyenv_data['user']
         group pyenv_data['group']
@@ -70,7 +72,7 @@ action :manage do
       virtualenv_python = virtualenv_config['python']
 
       boxcutter_python_pyenv_script "pyenv-virtualenv-#{virtualenv_name}" do
-        code %(eval "$(pyenv virtualenv-init -)" && pyenv virtualenv #{virtualenv_python} #{virtualenv_name})
+        code %{eval "$(pyenv virtualenv-init -)" && pyenv virtualenv #{virtualenv_python} #{virtualenv_name}}
         pyenv_root pyenv_root
         user pyenv_data['user']
         group pyenv_data['group']

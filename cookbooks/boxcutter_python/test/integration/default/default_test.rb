@@ -18,7 +18,8 @@ describe command("PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv which python"
   its('exit_status') { should cmp 0 }
 end
 
-describe command("su --login --command \"PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv versions --bare\" #{pyenv_user}") do
+command = "su --login --command \"PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv versions --bare\" #{pyenv_user}"
+describe command(command) do
   its('stdout') { should match('3.8.13') }
   its('stdout') { should match('3.10.4') }
   its('stdout') { should match('venv38') }

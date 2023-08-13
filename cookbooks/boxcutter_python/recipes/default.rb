@@ -18,42 +18,42 @@
 
 case node['platform_family']
 when 'rhel'
-  package %w(
-      git
-      gcc
-      zlib-devel
-      bzip2
-      bzip2-devel
-      readline-devel
-      sqlite
-      sqlite-devel
-      openssl-devel
-      tk-devel
-      libffi-devel
-      xz-devel
-    ) do
+  package %w{
+    git
+    gcc
+    zlib-devel
+    bzip2
+    bzip2-devel
+    readline-devel
+    sqlite
+    sqlite-devel
+    openssl-devel
+    tk-devel
+    libffi-devel
+    xz-devel
+  } do
     action :upgrade
   end
 when 'debian'
-  package %w(
-      build-essential
-      git
-      libssl-dev
-      zlib1g-dev
-      libbz2-dev
-      libreadline-dev
-      libsqlite3-dev
-      wget
-      curl
-      llvm
-      libncursesw5-dev
-      xz-utils
-      tk-dev
-      libxml2-dev
-      libxmlsec1-dev
-      libffi-dev
-      liblzma-dev
-    ) do
+  package %w{
+    build-essential
+    git
+    libssl-dev
+    zlib1g-dev
+    libbz2-dev
+    libreadline-dev
+    libsqlite3-dev
+    wget
+    curl
+    llvm
+    libncursesw5-dev
+    xz-utils
+    tk-dev
+    libxml2-dev
+    libxmlsec1-dev
+    libffi-dev
+    liblzma-dev
+  } do
     action :upgrade
   end
 end

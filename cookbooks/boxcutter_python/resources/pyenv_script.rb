@@ -30,11 +30,11 @@ end
 action_class do
   def script_code
     script = []
-    script << %(export PYENV_ROOT="#{new_resource.pyenv_root}")
+    script << %{export PYENV_ROOT="#{new_resource.pyenv_root}"}
     script << %(export PATH="${PYENV_ROOT}/bin:$PATH")
     script << %{eval "$(pyenv init -)"}
     if new_resource.pyenv_version
-      script << %(export PYENV_VERSION="#{new_resource.pyenv_version}")
+      script << %{export PYENV_VERSION="#{new_resource.pyenv_version}"}
     end
     script << new_resource.code
     script.join("\n").concat("\n")
