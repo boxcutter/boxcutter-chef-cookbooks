@@ -30,7 +30,6 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - centos-7
           - centos-stream-9
           - ubuntu-2004
           - ubuntu-2204
