@@ -24,7 +24,7 @@ module FB
       },
       'boxcutter' => {
         'gid' => 1000,
-      }.freeze,
-    }
+      },
+    }.freeze
   end
 end
