@@ -25,7 +25,7 @@ jobs:
           # If its not configured, the repository default branch is used.
           base: ${{ github.ref }}
           filters: |
-            cookbooks/boxcutter_python: 'cookbooks/boxcutter_python/**'
+            boxcutter-chef-cookbooks/cookbooks/boxcutter_python: 'boxcutter-chef-cookbooks/cookbooks/boxcutter_python/**'
 
   # Job to run pulumi projects
   build:
