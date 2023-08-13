@@ -53,6 +53,7 @@ suites:
   - name: default
     # run_list set in Policyfile.rb, this does nothing
     # run_list:
+    #  - recipe[boxcutter_ohai]
     #  - recipe[boxcutter_init::default]
     verifier:
       inspec_tests:

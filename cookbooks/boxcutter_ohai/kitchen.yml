@@ -4,14 +4,14 @@ driver:
   privileged: true  # allows systemd services to start
   docker_registry: docker.io
   chef_image: boxcutter/cinc
-  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+  chef_version: current
 
 provisioner:
   name: dokken
   product_name: cinc
   chef_binary: /opt/cinc/bin/cinc-client
   chef_license: accept-no-persist
-  chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  chef_log_level: auto
   client_rb:
     # Passwd plugin is needed to use the fb_users cookbook
     ohai.optional_plugins:
@@ -52,9 +52,7 @@ suites:
   - name: default
     # run_list set in Policyfile.rb, this does nothing
     # run_list:
-    #   - recipe[boxcutter_ohai]
-    #   - recipe[boxcutter_init]
-    #   - recipe[<%= cookbook_name %>::default]
+    #   - recipe[boxcutter_ohai::default]
     verifier:
       inspec_tests:
         - test/integration/default

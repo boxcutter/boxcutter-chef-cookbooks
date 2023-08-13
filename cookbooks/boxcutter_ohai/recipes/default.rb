@@ -1,6 +1,6 @@
 #
-# Cookbook:: boxcutter_init
-# Recipe:: site_settings
+# Cookbook:: boxcutter_ohai
+# Recipe:: default
 #
 # Copyright:: 2023, Boxcutter
 #
@@ -15,6 +15,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-# This is where you set your own stuff...
-include_recipe 'boxcutter_site_settings'
