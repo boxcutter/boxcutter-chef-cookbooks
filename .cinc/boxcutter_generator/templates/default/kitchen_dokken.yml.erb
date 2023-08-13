@@ -12,6 +12,12 @@ provisioner:
   chef_binary: /opt/cinc/bin/cinc-client
   chef_license: accept-no-persist
   chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  client_rb:
+    # Passwd plugin is needed to use the fb_users cookbook
+    ohai.optional_plugins:
+      - Passwd
+    ohai.critical_plugins:
+      - Passwd
 
 transport:
   name: dokken
@@ -36,6 +42,11 @@ platforms:
     driver:
       image: boxcutter/dokken-centos-stream-9
       pid_one_command: /usr/lib/systemd/systemd
+      intermediate_instructions:
+        # stub out /etc/fstab for fb_fstab
+        - RUN touch /etc/fstab
+        # enable EPEL (for stuff like hddtemp)
+        - RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
 suites:
   - name: default
