@@ -1,4 +1,3 @@
 # boxcutter_python
 
-TODO: Enter the cookbook description here.
-
+Manage multiple side-by-side Python environments with pyenv,
