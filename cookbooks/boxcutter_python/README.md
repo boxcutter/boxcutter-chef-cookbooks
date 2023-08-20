@@ -75,3 +75,11 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 # autocompletion
 eval "$(pyenv init -)"
 ```
+
+### Sharing python environments with all users and system scripts
+
+Some of the plugins for pyenv assume that the binaries for `pyenv` are located
+in the same place where the python environments are installed:
+https://github.com/pyenv/pyenv/issues/1843
+
+
