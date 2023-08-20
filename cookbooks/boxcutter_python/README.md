@@ -6,22 +6,56 @@ Manage multiple side-by-side Python environments with pyenv.
 
 This cookbook uses [pyenv](https://github.com/pyenv/pyenv) to install and
 manage multiple versions of Python side-by-side on a single host. This allows
-use of Python code without touching the system Python in multiple, isolated
-environments with possibly completely different packages and dependencies.
+use of Python code without touching the system Python. And then virtualenv
+can be used to create multiple, isolated environments within that python
+install.
 
-Use the `node['boxcutter_python']['pyenv']` attribute to define locations for
-each python install to be managed by pyenv. By convention this is normally
-`$HOME/.pyenv` under a user account. The pyenv program uses login shells to
-do its magic, so it requires a user context to run within.
+Use the `node['polymath_python']['pyenv']` attribute to define a hash
+with a key specifying locations for each python install to be managed by
+pyenv. By convention this is normally $HOME/.pyenv under a user account.
+The pyenv program uses login shells to do its magic, so it requires a
+user context to run within.
 
-```
+Within the hash, you'll need to specify key-value pairs denoting
+the version of python to install, the default version of python to
+use within the pyenv environment, and the user/group to use
+for permissions.
+
+Here's an example that installs Python 3.10.4 for the user `alice`:
+
+```ruby
 node.default['boxcutter_python']['pyenv'] = {
   '/home/alice/.pyenv' => {
     'user' => 'alice',
     'group' => 'alice',
-    'default_python' => '3.10.4',
+    'default_python' => '3.10.11',
     'pythons' => {
-      '3.10.4' => nil,
+      '3.10.11' => nil,
+    },
+  },
+}
+```
+
+Sometimes you'll need to refer to the locations where the python installations
+(a.k.a. "pythons") are installed to integrate with other tools like editors
+or development environments.
+
+The python installations are installed in `~alice/.pyenv/versions`
+There will be a subdirectory underneath patching the "pythons" string. In this
+example, `~alice/.pyenv/versions/3.10.4`.
+
+Multiple versions of python can be installed side-by-side, by adding multiple
+version strings to the "pythons" hash, like so:
+
+```ruby
+node.default['boxcutter_python']['pyenv'] = {
+  '/home/alice/.pyenv' => {
+    'user' => 'alice',
+    'group' => 'alice',
+    'default_python' => '3.10.11',
+    'pythons' => {
+      '3.10.11' => nil,
+      '3.11.4' => nil,
     },
   },
 }

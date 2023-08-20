@@ -1,5 +1,5 @@
 action :manage do
-  node['polymath_python']['pyenv'].each do |pyenv_root, pyenv_data|
+  node['boxcutter_python']['pyenv'].each do |pyenv_root, pyenv_data|
     build_environment = {
       'PYENV_ROOT' => pyenv_root,
     }
