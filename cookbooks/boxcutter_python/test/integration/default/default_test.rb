@@ -25,7 +25,8 @@ describe command("PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv virtualenv --
   its('stdout') { should match(/pyenv-virtualenv /) }
 end
 
-describe command("PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv which python") do
+command = "su --login --command \"PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv which python\" #{pyenv_user}"
+describe command(command) do
   its('exit_status') { should cmp 0 }
 end
 
