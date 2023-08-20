@@ -4,7 +4,18 @@
 # found at https://docs.chef.io/inspec/resources/
 
 pyenv_user = 'python'
+pyenv_group = 'python'
+pyenv_home = '/home/python'
 pyenv_root = '/home/python/.pyenv'
+
+describe user(pyenv_user) do
+  it { should exist }
+  its('uid') { should eq 994 }
+  its('gid') { should eq 994 }
+  its('group') { should eq pyenv_group }
+  its('home') { should eq pyenv_home }
+  its('shell') { should eq '/bin/bash' }
+end
 
 describe command("PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv --version") do
   its('stdout') { should match(/pyenv /) }

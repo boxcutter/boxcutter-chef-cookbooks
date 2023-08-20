@@ -60,3 +60,18 @@ node.default['boxcutter_python']['pyenv'] = {
   },
 }
 ```
+
+To use the installed versions of python, you'll need to set up your shell
+environment for pyenv. Usually you'll add these statements to your `~/.bashrc`
+or equivalent for your shell environment:
+
+```bash
+# PYENV_ROOT should point to the root path of the pyenv environment, usually
+# $HOME/.pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+# Add the pyenv executable to your PATH
+export PATH="$PYENV_ROOT/bin:$PATH"
+# Install pyenv into your shell as a shell function, enable shims and
+# autocompletion
+eval "$(pyenv init -)"
+```
