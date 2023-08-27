@@ -6,6 +6,9 @@ module FB
         'uid' => 0,
         'system' => true,
       },
+      'anaconda' => {
+        'uid' => 993,
+      },
       'python' => {
         'uid' => 994,
       },
@@ -18,6 +21,9 @@ module FB
       'root' => {
         'gid' => 0,
         'system' => true,
+      },
+      'anaconda' => {
+        'gid' => 993,
       },
       'python' => {
         'gid' => 994,

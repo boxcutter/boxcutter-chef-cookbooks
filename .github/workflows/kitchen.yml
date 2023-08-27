@@ -26,6 +26,7 @@ jobs:
           base: ${{ github.ref }}
           filters: |
             cookbooks/boxcutter_python: 'cookbooks/boxcutter_python/**'
+            cookbooks/boxcutter_anaconda: 'cookbooks/boxcutter_anaconda/**'
 
   # Job to run pulumi projects
   build:
