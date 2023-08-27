@@ -43,7 +43,7 @@ node.default['boxcutter_anaconda']['config'] = {
       'auto_activate_base': false,
       'notify_outdated_conda': false,
     },
-  }
+  },
 }
 
 include_recipe 'boxcutter_anaconda::default'
