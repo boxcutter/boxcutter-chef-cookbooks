@@ -17,8 +17,8 @@ describe user(anaconda_user) do
   its('shell') { should eq '/bin/bash' }
 end
 
-pyenv_versions_command = \
-  %(su --login #{anaconda_user} --command "#{miniconda_root}/bin/conda list")
-describe command(pyenv_versions_command) do
+conda_list_command = \
+  %{su --login #{anaconda_user} --command "#{miniconda_root}/bin/conda list"}
+describe command(conda_list_command) do
   its('stdout') { should match(/^cmake/) }
 end

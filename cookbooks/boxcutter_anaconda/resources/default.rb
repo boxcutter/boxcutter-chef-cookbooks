@@ -3,7 +3,7 @@ unified_mode true
 action :manage do
   node['boxcutter_anaconda']['config'].each do |anaconda_root, anaconda_data|
     use_full_anaconda_install = false
-    use_full_anaconda_install = anaconda_data['full_install'] if anaconda_data.has_key?('full_install')
+    use_full_anaconda_install = anaconda_data['full_install'] if anaconda_data.key?('full_install')
 
     conda_binary_path = ::File.join(anaconda_root, 'bin', 'conda')
     unless ::File.exist?(conda_binary_path)
@@ -37,7 +37,7 @@ action :manage do
       end
     end
 
-    if anaconda_data.has_key?('condarc')
+    if anaconda_data.key?('condarc')
       condarc_path = ::File.join(anaconda_root, '.condarc')
       template condarc_path do
         source 'condarc'

@@ -31,7 +31,7 @@ action_class do
   end
 
   def conda_package_installed?
-    command = %(conda list --full-name #{new_resource.package_name} | grep "^#{new_resource.package_name} ")
+    command = %{conda list --full-name #{new_resource.package_name} | grep "^#{new_resource.package_name} "}
     cmd = Mixlib::ShellOut.new(
       'bash',
       input: conda_command_script(new_resource.anaconda_root, command),
@@ -46,7 +46,7 @@ action_class do
   end
 
   def conda_command_script(anaconda_root, command)
-    script = <<~BASH
+    <<~BASH
       # >>> conda initialize >>>
       __conda_setup="$('#{anaconda_root}/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
       if [ $? -eq 0 ]; then

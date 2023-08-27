@@ -28,7 +28,7 @@ jobs:
             cookbooks/boxcutter_python: 'cookbooks/boxcutter_python/**'
             cookbooks/boxcutter_anaconda: 'cookbooks/boxcutter_anaconda/**'
 
-  # Job to run pulumi projects
+  # Job to run Test Kitchen on just the cookbooks that changed
   build:
     needs: changes
     strategy:
