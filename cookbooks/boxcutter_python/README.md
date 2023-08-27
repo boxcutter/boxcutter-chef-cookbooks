@@ -10,7 +10,7 @@ use of Python code without touching the system Python. And then virtualenv
 can be used to create multiple, isolated environments within that python
 install.
 
-Use the `node['polymath_python']['pyenv']` attribute to define a hash
+Use the `node['boxcutter_python']['pyenv']` attribute to define a hash
 with a key specifying locations for each python install to be managed by
 pyenv. By convention this is normally $HOME/.pyenv under a user account.
 The pyenv program uses login shells to do its magic, so it requires a
@@ -85,7 +85,7 @@ https://github.com/pyenv/pyenv/issues/1843
 
 However, you can install bare versions of python in shared locations and
 manage them as plain python virtualenvs. This is supported via the 
-`node['polymath_python']['python_build']` attribute. It uses the same
+`node['boxcutter_python']['python_build']` attribute. It uses the same
 form as the `pyenv` attribute, just without the keys that wouldn't be
 applicable system-wide.
 
