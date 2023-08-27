@@ -26,7 +26,8 @@ describe command("PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv virtualenv --
 end
 
 pyenv_versions_command = \
-  "su --login #{pyenv_user} --command \"PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv versions --bare\""
+  %{su --login #{pyenv_user} --command "PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv versions --bare"}
+  # "su --login #{pyenv_user} --command \"PYENV_ROOT=#{pyenv_root} #{pyenv_root}/bin/pyenv versions --bare\""
 describe command(pyenv_versions_command) do
   its('stdout') { should match('3.8.13') }
   its('stdout') { should match('3.10.4') }

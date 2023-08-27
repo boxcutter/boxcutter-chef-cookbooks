@@ -79,7 +79,25 @@ eval "$(pyenv init -)"
 ### Sharing python environments with all users and system scripts
 
 Some of the plugins for pyenv assume that the binaries for `pyenv` are located
-in the same place where the python environments are installed:
+in the same place where the python environments are installed, so you can't
+really use pyenv outside of the context of a user:
 https://github.com/pyenv/pyenv/issues/1843
 
+However, you can install bare versions of python in shared locations and
+manage them as plain python virtualenvs. This is supported via the 
+`node['polymath_python']['python_build']` attribute. It uses the same
+form as the `pyenv` attribute, just without the keys that wouldn't be
+applicable system-wide.
 
+```ruby
+node.default['boxcutter_python']['python_build'] = {
+  '/opt/python' => {
+    'user' => 'alice',
+    'group' => 'alice',
+    'pythons' => {
+      '3.10.11' => nil,
+      '3.11.4' => nil,
+    },
+  },
+}
+```
