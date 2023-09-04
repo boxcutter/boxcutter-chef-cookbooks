@@ -13,6 +13,8 @@ provisioner:
   chef_license: accept-no-persist
   chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
   client_rb:
+    # Needed to avoid apply2file error on intel for mac
+    file_backup_path: nil
     # Passwd plugin is needed to use the fb_users cookbook
     ohai.optional_plugins:
       - Passwd
