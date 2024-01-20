@@ -12,17 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
     - name: Install dependencies
       run: bundle install
-    # - name: Run rspec
-    #   run: ./scripts/run_chefspec
-    - name: Run rubocop
-      run: ./scripts/run_rubocop .rubocop.yml
+    - name: Run rspec
+      run: ./scripts/run_chefspec
     - name: Run cookstyle
       run: ./scripts/run_cookstyle
   kitchen:
@@ -36,11 +34,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         path: boxcutter-chef-cookbooks
     - name: Checkout chef-cookbooks repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: boxcutter/chef-cookbooks
         path: chef-cookbooks
@@ -61,6 +59,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run Shellcheck
         uses: ludeeus/action-shellcheck@2.0.0
