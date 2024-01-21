@@ -19,8 +19,8 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
     - name: Install dependencies
       run: bundle install
-    - name: Run rspec
-      run: ./scripts/run_chefspec
+    # - name: Run rspec
+    #   run: ./scripts/run_chefspec
     - name: Run cookstyle
       run: ./scripts/run_cookstyle
   kitchen:

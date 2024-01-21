@@ -946,7 +946,6 @@ Style/HashEachMethods:
 Style/HashLikeCase:
   Enabled: false
 
-# MAT: Policyfiles don't use hash rocket syntax
 # Style/HashSyntax:
 #   EnforcedStyle: hash_rockets
 
