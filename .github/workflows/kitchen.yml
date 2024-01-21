@@ -12,7 +12,7 @@ jobs:
       # Expose matched filters as job 'cookbooks' output variable
       cookbooks: ${{ steps.filter.outputs.changes }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: boxcutter-chef-cookbooks
       - uses: dorny/paths-filter@v2
@@ -40,11 +40,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: boxcutter-chef-cookbooks
       - name: Checkout chef-cookbooks repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: boxcutter/chef-cookbooks
           path: chef-cookbooks
@@ -53,11 +53,11 @@ jobs:
         with:
           omnitruckUrl: omnitruck.cinc.sh
           project: cinc-workstation
-          version: 23.7.1042
+          version: 23.12.1055
       - name: Run Kitchen
         working-directory: boxcutter-chef-cookbooks/${{ matrix.cookbook }}
         run: |
           kitchen test
         env:
           CHEF_LICENSE: accept-no-persist
-          CHEF_VERSION: 18.2.7
+          CHEF_VERSION: 18.3.0
