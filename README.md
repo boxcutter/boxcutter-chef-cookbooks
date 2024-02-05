@@ -16,7 +16,7 @@ automation.
 "recipe[boxcutter_ohai],recipe[boxcutter_init],..."
 ```
 
-Also make sure that all the cookbooks in Facebook's `chef-cookbooks`
+ Also make sure that all the cookbooks in Facebook's `chef-cookbooks`
 and this `boxcutter-chef-cookbooks` are in the cookbook path:
 
 ```ruby
