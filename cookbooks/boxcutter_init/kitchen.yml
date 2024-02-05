@@ -4,7 +4,7 @@ driver:
   privileged: true  # allows systemd services to start
   docker_registry: docker.io
   chef_image: boxcutter/cinc
-  chef_version: 17.10.0
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
 
 provisioner:
   name: dokken

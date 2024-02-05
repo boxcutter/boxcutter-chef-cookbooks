@@ -4,14 +4,14 @@ driver:
   privileged: true  # allows systemd services to start
   docker_registry: docker.io
   chef_image: boxcutter/cinc
-  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+  chef_version: <%%= ENV['CHEF_VERSION'] || 'current' %>
 
 provisioner:
   name: dokken
   product_name: cinc
   chef_binary: /opt/cinc/bin/cinc-client
   chef_license: accept-no-persist
-  chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  chef_log_level: <%%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
   client_rb:
     # Needed to avoid apply2file error on intel for mac
     file_backup_path: nil
