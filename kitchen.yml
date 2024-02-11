@@ -19,7 +19,7 @@ transport:
 lifecycle:
   post_create:
     - remote: |
-        bash -xc '
+        bash -c -x '
           # Force firstboot
           touch /root/firstboot_os
         '
