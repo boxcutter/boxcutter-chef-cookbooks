@@ -64,3 +64,12 @@ include_recipe 'boxcutter_python::default'
 #   group python_group
 #   live_stream true
 # end
+
+# List out venvs with "pyenv versions"
+boxcutter_python_pyenv_package 'vcstool' do
+  pyenv_root '/home/python/.pyenv'
+  pyenv_version '3.10.4/envs/venv310'
+  user 'python'
+  group 'python'
+  live_stream true
+end
