@@ -61,3 +61,4 @@ jobs:
         env:
           CHEF_LICENSE: accept-no-persist
           CHEF_VERSION: 18.3.0
+          CHEF_LOG_LEVEL: debug
