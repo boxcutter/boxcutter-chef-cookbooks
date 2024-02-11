@@ -70,11 +70,11 @@ action_class do
 
     case node['kernel']['machine']
     when 'x86_64', 'amd64'
-      url = 'https://repo.anaconda.com/miniconda/Miniconda3-py311_23.5.2-0-Linux-x86_64.sh'
-      checksum = '634d76df5e489c44ade4085552b97bebc786d49245ed1a830022b0b406de5817'
+      url = 'https://repo.anaconda.com/miniconda/Miniconda3-py311_23.11.0-2-Linux-x86_64.sh'
+      checksum = 'c9ae82568e9665b1105117b4b1e499607d2a920f0aea6f94410e417a0eff1b9c'
     when 'aarch64', 'arm64'
-      url = 'https://repo.anaconda.com/miniconda/Miniconda3-py311_23.5.2-0-Linux-aarch64.sh'
-      checksum = '3962738cfac270ae4ff30da0e382aecf6b3305a12064b196457747b157749a7a'
+      url = 'https://repo.anaconda.com/miniconda/Miniconda3-py311_23.11.0-2-Linux-aarch64.sh'
+      checksum = 'decd447fb99dbd0fc5004481ec9bf8c04f9ba28b35a9292afe49ecefe400237f'
     end
 
     return url, checksum
@@ -99,11 +99,11 @@ action_class do
     # -t           run package tests after installation (may install conda-build)
     case node['kernel']['machine']
     when 'x86_64', 'amd64'
-      url = 'https://repo.anaconda.com/archive/Anaconda3-2023.07-1-Linux-x86_64.sh'
-      checksum = '111ce0a7f26e606863008a9519fd608b1493e483b6f487aea71d82b13fe0967e'
+      url = 'https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-x86_64.sh'
+      checksum = '6c8a4abb36fbb711dc055b7049a23bbfd61d356de9468b41c5140f8a11abd851'
     when 'aarch64', 'arm64'
-      url = 'https://repo.anaconda.com/archive/Anaconda3-2023.07-1-Linux-aarch64.sh'
-      checksum = '2ebe549375f3f5ffec9558a8a8405ebd697e69c8133b8f9c1c5cd4ff69d1cc74'
+      url = 'https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-aarch64.sh'
+      checksum = '69ee26361c1ec974199bce5c0369e3e9a71541de7979d2b9cfa4af556d1ae0ea'
     end
 
     return url, checksum
