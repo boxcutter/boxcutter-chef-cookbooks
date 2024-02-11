@@ -16,6 +16,13 @@ provisioner:
 transport:
   name: dokken
 
+lifecycle:
+  post_create:
+    - remote: |
+        bash -xc '
+          # Force firstboot
+          touch /root/firstboot_os
+        '
 platforms:
   # @see https://github.com/chef-cookbooks/testing_examples/blob/main/kitchen.dokken.yml
   # @see https://hub.docker.com/u/dokken
