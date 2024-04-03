@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: boxcutter-chef-cookbooks
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@v3
         id: filter
         with:
           working-directory: boxcutter-chef-cookbooks
