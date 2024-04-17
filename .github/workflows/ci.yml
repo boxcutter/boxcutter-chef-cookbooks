@@ -56,7 +56,6 @@ jobs:
       env:
         CHEF_LICENSE: accept-no-persist
         CHEF_VERSION: 18.4.2
-        CHEF_LOG_LEVEL: debug
   shellcheck:
     runs-on: ubuntu-latest
     steps:
