@@ -1,4 +1,4 @@
-#  boxcutter_tailscale
+# boxcutter_tailscale
 
 Configures the Tailscale VPN https://tailscale.com/
 
