@@ -115,7 +115,7 @@ when 'centos'
       'tailscale' => {
         'name' => 'Tailscale stable',
         'baseurl' => "https://pkgs.tailscale.com/stable/centos/#{node['platform_version']}/$basearch",
-        'gpgcheck' => false,
+        'gpgcheck' => true,
         'repo_gpgcheck' => true,
         'gpgkey' => 'https://pkgs.tailscale.com/stable/centos/9/repo.gpg',
         'type' => 'rpm',

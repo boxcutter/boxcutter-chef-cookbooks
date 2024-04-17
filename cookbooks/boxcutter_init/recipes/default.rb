@@ -29,6 +29,7 @@ include_recipe 'boxcutter_init::site_settings'
 
 if node.centos?
   # HERE: yum
+  include_recipe 'fb_dnf'
   include_recipe 'fb_rpm'
 end
 if node.debian? || node.ubuntu?

@@ -33,3 +33,5 @@ if node.ubuntu?
                                                 'http://security.ubuntu.com/ubuntu'
                                               end
 end
+
+include_recipe '::dnf'

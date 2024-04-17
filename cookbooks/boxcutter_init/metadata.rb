@@ -19,6 +19,7 @@ end
   'fb_chrony',
   'fb_collectd',
   'fb_cron',
+  'fb_dnf',
   'fb_dnsmasq',
   'fb_dracut',
   'fb_e2fsprogs',
