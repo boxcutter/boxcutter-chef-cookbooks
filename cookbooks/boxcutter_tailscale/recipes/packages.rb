@@ -52,7 +52,7 @@ when 'ubuntu'
   # remains the same:
   # -----BEGIN PGP PUBLIC KEY BLOCK-----
   # -----END PGP PUBLIC KEY BLOCK-----
-  node.default['fb_apt']['keys']['458CA832957F5868'] = <<-eos
+  node.default['fb_apt']['keys']['458CA832957F5868'] = <<-EOS
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQINBF5UmbgBEADAA5mxC8EoWEf53RVdlhQJbNnQW7fctUA5yNcGUbGGGTk6XFqO
@@ -105,7 +105,7 @@ KqB6je3plIWOLSPuCJ/kR9xdFp7Qk88GCXEd0+4z/vFn4hoOr85NXFtxhS8k9GfJ
 mM/ZfUq7YmHR+Rswe0zrrCwTDdePjGMo9cHpd39jCvc=
 =AIVM
 -----END PGP PUBLIC KEY BLOCK-----
-  eos
+  EOS
 
   # Omit signed-by and use apt-key to import the key
   node.default['fb_apt']['repos'] << "deb https://pkgs.tailscale.com/stable/ubuntu #{node['lsb']['codename']} main"
