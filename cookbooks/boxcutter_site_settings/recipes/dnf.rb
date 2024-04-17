@@ -262,7 +262,6 @@ if node.centos?
           },
         },
       },
-    }
-
+    },
   )
 end
