@@ -27,6 +27,7 @@ jobs:
           filters: |
             cookbooks/boxcutter_python: 'cookbooks/boxcutter_python/**'
             cookbooks/boxcutter_anaconda: 'cookbooks/boxcutter_anaconda/**'
+            cookbooks/boxcutter_tailscale: 'cookbooks/boxcutter_tailscale/**'
 
   # Job to run Test Kitchen on just the cookbooks that changed
   build:
