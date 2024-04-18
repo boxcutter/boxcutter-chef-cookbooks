@@ -1,6 +1,6 @@
 require 'chef/mixin/shell_out'
 
-module Polymath
+module Boxcutter
   class Tailscale
     module Helpers
       include Chef::Mixin::ShellOut

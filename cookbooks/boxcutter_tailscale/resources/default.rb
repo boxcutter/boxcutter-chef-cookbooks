@@ -24,7 +24,7 @@ property :use_tailscale_dns, [true, false], default: false
 property :shields_up, [true, false], default: true
 
 class Helpers
-  extend ::Polymath::Tailscale::Helpers
+  extend ::Boxcutter::Tailscale::Helpers
 end
 
 load_current_value do
