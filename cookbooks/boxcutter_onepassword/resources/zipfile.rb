@@ -33,12 +33,12 @@ action :install do
     checksum package_info['checksum']
   end
 
-  path = "/opt/#{name}/bin"
+  binary_path = "/opt/#{name}/bin"
 
   [
     '/opt',
     "/opt/#{name}",
-    path,
+    binary_path,
   ].each do |path|
     directory path do
       owner node.root_user
@@ -49,14 +49,14 @@ action :install do
 
   execute "extract #{name}" do
     command <<-BASH
-      unzip -od #{path} #{tmp_path}
+      unzip -od #{binary_path} #{tmp_path}
     BASH
-    creates "#{path}/#{name}"
+    creates "#{binary_path}/#{name}"
   end
 
   new_resource.bin_links.each do |link_name|
     link "/usr/local/bin/#{link_name}" do
-      to "#{path}/#{name}"
+      to "#{binary_path}/#{name}"
     end
   end
 end

@@ -79,7 +79,8 @@ module Boxcutter
 
     def self.token_from_env_or_file(environment_variable_name, file_path)
       if ENV[environment_variable_name]
-        Chef::Log.debug("boxcutter_onepassword[token_from_env_or_file]: Using 1Password token found in #{environment_variable_name} environment variable")
+        Chef::Log.debug("boxcutter_onepassword[token_from_env_or_file]: Using 1Password " +
+                        "token found in #{environment_variable_name} environment variable")
         return ENV[environment_variable_name]
       end
 
