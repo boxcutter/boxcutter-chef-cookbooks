@@ -4,14 +4,15 @@ module Boxcutter
       if op_connect_server_token_found?
         environment = {
           'OP_CONNECT_HOST' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_host_path),
-          'OP_CONNECT_TOKEN' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_token_path)
+          'OP_CONNECT_TOKEN' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_token_path),
         }
       elsif op_service_account_token_found?
         environment = {
-          'OP_SERVICE_ACCOUNT_TOKEN' => token_from_env_or_file('OP_SERVICE_ACCOUNT_TOKEN', op_service_account_token_path)
+          'OP_SERVICE_ACCOUNT_TOKEN' => token_from_env_or_file('OP_SERVICE_ACCOUNT_TOKEN',
+                                                               op_service_account_token_path),
         }
       else
-        raise 'polymath_onepassword[op_read]: 1Password token not found'
+        fail 'polymath_onepassword[op_read]: 1Password token not found'
       end
       command = '/usr/local/bin/op user get --me'
       shellout = Mixlib::ShellOut.new(command, env: environment)
@@ -25,8 +26,6 @@ module Boxcutter
       shellout.error!
       shellout.stdout.strip
     end
-
-    private
 
     def self.encrypted_data_bag_secret_directory
       return '/etc/chef' unless Chef::Config[:encrypted_data_bag_secret]
@@ -87,13 +86,13 @@ module Boxcutter
       if File.exist?(file_path)
         File.open(file_path, 'r') do |file|
           token = file.read.strip
-          raise "boxcutter_onepassword[token_from_env_or_file]: #{file_path} empty" if token.empty?
+          fail "boxcutter_onepassword[token_from_env_or_file]: #{file_path} empty" if token.empty?
           Chef::Log.debug("boxcutter_onepassword[token_from_env_or_file]: Using 1Password token found in #{file_path}")
           return token
         end
       end
 
-      raise 'boxcutter_onepassword[op_service_account_token]: 1Password Service account token not found'
+      fail 'boxcutter_onepassword[op_service_account_token]: 1Password Service account token not found'
     end
   end
 end

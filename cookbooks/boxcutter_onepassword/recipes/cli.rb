@@ -17,5 +17,5 @@
 # limitations under the License.
 
 boxcutter_onepassword_zipfile 'op' do
-  bin_links %w(op)
+  bin_links %w{op}
 end
