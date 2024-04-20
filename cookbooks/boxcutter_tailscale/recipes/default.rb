@@ -32,6 +32,7 @@ service 'disable tailscaled' do
 end
 
 boxcutter_tailscale 'default' do
+  hostname lazy { node['boxcutter_tailscale']['hostname'] }
   api_base_url lazy { node['boxcutter_tailscale']['api_base_url'] }
   tailnet lazy { node['boxcutter_tailscale']['tailnet'] }
   ephemeral lazy { node['boxcutter_tailscale']['ephemeral'] }
