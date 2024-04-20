@@ -36,15 +36,13 @@ take precedence.
 1Password Connect environment variables:
 - `OP_CONNECT_HOST`
 - `OP_CONNECT_TOKEN`
-- 
+
 1Password Connect files:
 - `/etc/chef/op_connect_host`
 - `/etc/chef/op_connect_token`
 
-- . The default
-location is usually `/etc/chef` and it can be configured with the
+The default location is usually `/etc/chef` and it can be configured with the
 `encrypted_data_bag` setting in the Chef `client.rb`
-
 
 ### Secret retrieval
 
