@@ -28,42 +28,44 @@ class Helpers
 end
 
 load_current_value do |new_resource|
-  begin
-    status = Helpers.tailscale_status
-    Chef::Log.debug("boxcutter_tailscale[load_current_value]: tailscale status output #{status}")
-    # Description of the fields:
-    # https://github.com/tailscale/tailscale/blob/main/ipn/ipnstate/ipnstate.go
-    if status['BackendState'] != 'Running'
-      Chef::Log.debug("boxcutter_tailscale[load_current_value]: tailscale backend not running.")
-      current_value_does_not_exist!
-    end
 
-    if status['Self'].key?('Tags')
-      # tags are in the form `['tag:chef', 'tag:chef-ephemeral']`, strip off
-      # the "tag:" prefix from each string to compare
-      tags = status['Self']['Tags']
-      clean_tags = tags.map { |tag| tag.gsub("tag:", "") }
-      tags clean_tags
-    end
-    hostname status['Self']['HostName'] unless new_resource.hostname.nil?
-
-    prefs = Helpers.tailscale_debug_prefs
-    Chef::Log.debug("boxcutter_tailscale[load_current_value]: prefs=#{prefs}")
-    # Description of the fields:
-    # https://github.com/tailscale/tailscale/blob/main/ipn/prefs.go
-    shields_up prefs['ShieldsUp']
-    use_tailscale_dns prefs['CorpDNS']
-  rescue Mixlib::ShellOut::ShellCommandFailed => e
-    current_value_does_not_exist!
-  rescue JSON::ParserError => e
+  status = Helpers.tailscale_status
+  Chef::Log.debug("boxcutter_tailscale[load_current_value]: tailscale status output #{status}")
+  # Description of the fields:
+  # https://github.com/tailscale/tailscale/blob/main/ipn/ipnstate/ipnstate.go
+  if status['BackendState'] != 'Running'
+    Chef::Log.debug('boxcutter_tailscale[load_current_value]: tailscale backend not running.')
     current_value_does_not_exist!
   end
+
+  if status['Self'].key?('Tags')
+    # tags are in the form `['tag:chef', 'tag:chef-ephemeral']`, strip off
+    # the "tag:" prefix from each string to compare
+    tags = status['Self']['Tags']
+    clean_tags = tags.map { |tag| tag.gsub('tag:', '') }
+    tags clean_tags
+  end
+  hostname status['Self']['HostName'] unless new_resource.hostname.nil?
+
+  prefs = Helpers.tailscale_debug_prefs
+  Chef::Log.debug("boxcutter_tailscale[load_current_value]: prefs=#{prefs}")
+  # Description of the fields:
+  # https://github.com/tailscale/tailscale/blob/main/ipn/prefs.go
+  shields_up prefs['ShieldsUp']
+  use_tailscale_dns prefs['CorpDNS']
+rescue Mixlib::ShellOut::ShellCommandFailed
+  current_value_does_not_exist!
+rescue JSON::ParserError
+  current_value_does_not_exist!
+
 end
 
 action :manage do
   converge_if_changed do
     Chef::Log.debug('boxcutter_tailscale: needs_tailscale_up? == true')
-    if node.run_state.key?('boxcutter_tailscale') && node.run_state['boxcutter_tailscale'].key?('oauth_client_id') && node.run_state['boxcutter_tailscale'].key?('oauth_client_secret') \
+    if node.run_state.key?('boxcutter_tailscale') \
+       && node.run_state['boxcutter_tailscale'].key?('oauth_client_id') \
+       && node.run_state['boxcutter_tailscale'].key?('oauth_client_secret') \
        || node['boxcutter_tailscale']['oauth_client_id'] && node['boxcutter_tailscale']['oauth_client_secret']
       api_key = get_oauth_token(new_resource.api_base_url, oauth_client_id, oauth_client_secret)
       auth_key = create_auth_key(new_resource.api_base_url, new_resource.tailnet, api_key, new_resource.ephemeral,
