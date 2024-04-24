@@ -4,8 +4,9 @@ Configures the Tailscale VPN https://tailscale.com/
 
 ## Attributes
 
-- node['boxcutter_tailscale']['oauth_clients']
-- node['boxcutter_tailscale']['auth_keys']
+- node['boxcutter_tailscale']['oauth_client_id']
+- node['boxcutter_tailscale']['oauth_client_secret']
+- node['boxcutter_tailscale']['auth_key']
 - node['boxcutter_tailscale']['ephemeral']
 - node['boxcutter_tailscale']['tags']
 - node['boxcutter_tailscale']['enable']
@@ -27,10 +28,10 @@ Since this is a secret, it is recommended this key be stored in
 `node.run_state` so that it is not stored on the Chef server after the Chef run.
 
 The automation will look for credentials in the following preference order:
-1. `node.run_state['boxcutter_tailscale']['oauth_clients']`
-2. `node.run_state['boxcutter_tailscale']['auth_keys']`
-3. `node['boxcutter_tailscale']['oauth_clients']`
-4. `node['boxcutter_tailscale']['auth_keys']`
+1. `node.run_state['boxcutter_tailscale']['oauth_client_id']` and `node.run_state['boxcutter_tailscale']['oauth_client_secret']`
+2. `node.run_state['boxcutter_tailscale']['auth_key']`
+3. `node['boxcutter_tailscale']['oauth_client_id']` and `node['boxcutter_tailscale']['oauth_client_secret']`
+4. `node['boxcutter_tailscale']['auth_key']`
 
 You can generate a new OAuth Client using the [OAuth clients](https://login.tailscale.com/admin/settings/oauth)
 page of the admin console. `Devices: Write` permission is sufficient permissions
@@ -51,12 +52,8 @@ Conflicts with `aut_keys`, if provided.
 ```
 # Initialize the parent hash if it doesn't exist
 node.run_state['boxcutter_tailscale'] ||= {}
-node.run_state['boxcutter_tailscale']['oauth_clients'] = [
-  {
-    'oauth_client_id' => 'kEbPBn6g1234CNTRL',
-    'oauth_client_secret' => 'tskey-client-kEbPBn6g1234CNTRL-xhYtNZWtJpbG12342XAwbLpraivu3FYQ',
-  },
-]
+node.run_state['boxcutter_tailscale']['oauth_client_id'] = 'kEbPBn6g1234CNTRL'
+node.run_state['boxcutter_tailscale']['oauth_client_secret'] = 'tskey-client-kEbPBn6g1234CNTRL-xhYtNZWtJpbG12342XAwbLpraivu3FYQ'
 # Must have at least one ACL tag, otherwise you will get an error when the node is created.
 # Also tags MUST match the ones defined when the OAuth Client was defined, otherwise you'll
 # get a 400 error.
@@ -66,14 +63,12 @@ node.default['boxcutter_tailscale']['tags'] = 'chef'
 
 Pre-authorization keys ("auth keys") are also supported. If an auth key is used,
 the "ephemeral" setting and "tags" must match the setting used when the key was generated.
-Conflicts with `oauth_clients`, if provided.
+Conflicts with `oauth_client_id` and `oauth_client_secret`, if provided.
 
 ```
 # Initialize the parent hash if it doesn't exist
 node.run_state['boxcutter_tailscale'] ||= {}
-node.run_state['boxcutter_tailscale']['auth_keys'] = [
-  'tskey-auth-kFac9sh1234CNTRL-fKBnjZUfDbVXyYJg2qhqSVDDk12tZoSL1',
-]
+node.run_state['boxcutter_tailscale']['auth_key'] = 'tskey-auth-kFac9sh1234CNTRL-fKBnjZUfDbVXyYJg2qhqSVDDk12tZoSL1',
 # Automatically inherits ephemeral setting and tags from when the auth key was generated
 # They MUST match in the attributes otherwsie you'll get an error when the node is
 # created - for pre-created authorization keys only.
@@ -95,7 +90,7 @@ set enable to `false`.
 
 By default, this cookbook will configure the machine name to be automatically
 generated from its OS hostname. If a device already on the tailnet has the same
-name , the new machine will get a name like `<hostname>-1`. If the conflicting
+name, the new machine will get a name like `<hostname>-1`. If the conflicting
 machine's name is later changed, this machine will still maintain the
 `<hostname>-1` machine name. If the value of the `hostname`
 attribute is `nil`, this auto-naming scheme is used.

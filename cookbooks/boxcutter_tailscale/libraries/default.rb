@@ -5,15 +5,24 @@ module Boxcutter
     module Helpers
       include Chef::Mixin::ShellOut
 
-      def load_config
-        result = shell_out!('/usr/bin/tailscale debug prefs')
-        JSON.parse(result.stdout)
-      rescue Mixlib::ShellOut::ShellCommandFailed => e
-        Chef::Log.error("boxcutter_tailscale: load_config() failed to execute command: #{e.message}")
-        return nil
-      rescue JSON::ParserError => e
-        Chef::Log.error("boxcutter_tailscale: load_config() JSON parsing failed: #{e.message}")
-        return nil
+      def tailscale_status
+        cmd = Mixlib::ShellOut.new('/usr/bin/tailscale status --peers=false --json')
+        cmd.run_command
+        cmd.error!
+
+        # Description of the fields:
+        # https://github.com/tailscale/tailscale/blob/main/ipn/ipnstate/ipnstate.go
+        JSON.parse(cmd.stdout)
+      end
+
+      def tailscale_debug_prefs
+        cmd = Mixlib::ShellOut.new('/usr/bin/tailscale debug prefs')
+        cmd.run_command
+        cmd.error!
+
+        # Description of the fields:
+        # https://github.com/tailscale/tailscale/blob/main/ipn/prefs.go
+        JSON.parse(cmd.stdout)
       end
     end
   end

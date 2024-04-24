@@ -5,7 +5,7 @@ require 'uri'
 unified_mode true
 
 property :hostname, String,
-         desccription: 'Hostname to use instead of the auto-generating the machine name from the OS hostname'
+         description: 'Hostname to use instead of the auto-generating the machine name from the OS hostname'
 property :tailnet, String,
          description: 'Organization name found on the General Settings page of the Tailscale admin console'
 property :api_base_url, String, default: 'https://api.tailscale.com',
@@ -27,42 +27,54 @@ class Helpers
   extend ::Boxcutter::Tailscale::Helpers
 end
 
-load_current_value do
-  prefs = Helpers.load_config
-  Chef::Log.debug("boxcutter_tailscale load_current_value prefs=#{prefs}")
+load_current_value do |new_resource|
+  begin
+    status = Helpers.tailscale_status
+    Chef::Log.debug("boxcutter_tailscale[load_current_value]: tailscale status output #{status}")
+    # Description of the fields:
+    # https://github.com/tailscale/tailscale/blob/main/ipn/ipnstate/ipnstate.go
+    if status['BackendState'] != 'Running'
+      Chef::Log.debug("boxcutter_tailscale[load_current_value]: tailscale backend not running.")
+      current_value_does_not_exist!
+    end
+
+    if status['Self'].key?('Tags')
+      # tags are in the form `['tag:chef', 'tag:chef-ephemeral']`, strip off
+      # the "tag:" prefix from each string to compare
+      tags = status['Self']['Tags']
+      clean_tags = tags.map { |tag| tag.gsub("tag:", "") }
+      tags clean_tags
+    end
+    hostname status['Self']['HostName'] unless new_resource.hostname.nil?
+
+    prefs = Helpers.tailscale_debug_prefs
+    Chef::Log.debug("boxcutter_tailscale[load_current_value]: prefs=#{prefs}")
+    # Description of the fields:
+    # https://github.com/tailscale/tailscale/blob/main/ipn/prefs.go
+    shields_up prefs['ShieldsUp']
+    use_tailscale_dns prefs['CorpDNS']
+  rescue Mixlib::ShellOut::ShellCommandFailed => e
+    current_value_does_not_exist!
+  rescue JSON::ParserError => e
+    current_value_does_not_exist!
+  end
 end
 
 action :manage do
-  if needs_tailscale_up?
+  converge_if_changed do
     Chef::Log.debug('boxcutter_tailscale: needs_tailscale_up? == true')
-    cmd = nil
-    if node.run_state.key?('boxcutter_tailscale') && node.run_state['boxcutter_tailscale'].key?('oauth_clients') \
-       || node['boxcutter_tailscale']['oauth_clients']
-      oauth_clients.each do |oauth_client|
-        Chef::Log.debug('boxcutter_tailscale: trying OAuth client')
-        api_key = get_oauth_token(new_resource.api_base_url, oauth_client['oauth_client_id'],
-                                  oauth_client['oauth_client_secret'])
-        auth_key = create_auth_key(new_resource.api_base_url, new_resource.tailnet, api_key, new_resource.ephemeral,
-                                   new_resource.tags)
-        # Using `shell_out` rather than `execute` resource so we can try an auth_key
-        # and have it fail silently
-        cmd = shell_out(tailscale_up_cmd(auth_key))
-        Chef::Log.debug("boxcutter_tailscale: tailscale up exitstatus=#{cmd.exitstatus}, stdout=#{cmd.stdout}")
-      end
+    if node.run_state.key?('boxcutter_tailscale') && node.run_state['boxcutter_tailscale'].key?('oauth_client_id') && node.run_state['boxcutter_tailscale'].key?('oauth_client_secret') \
+       || node['boxcutter_tailscale']['oauth_client_id'] && node['boxcutter_tailscale']['oauth_client_secret']
+      api_key = get_oauth_token(new_resource.api_base_url, oauth_client_id, oauth_client_secret)
+      auth_key = create_auth_key(new_resource.api_base_url, new_resource.tailnet, api_key, new_resource.ephemeral,
+                                 new_resource.tags)
+      shell_out!(tailscale_up_cmd(auth_key))
     elsif node.run_state.key?('boxcutter_tailscale') && node.run_state['boxcutter_tailscale'].key?('auth_keys') \
-          || node['boxcutter_tailscale']['auth_keys']
-      auth_keys.each do |auth_key|
-        Chef::Log.debug('boxcutter_tailscale: trying auth key')
-        # Using `shell_out` rather than `execute` resource so we can try an auth_key
-        # and have it fail silently
-        cmd = shell_out(tailscale_up_cmd(auth_key))
-        Chef::Log.debug("boxcutter_tailscale: tailscale up exitstatus=#{cmd.exitstatus}, stdout=#{cmd.stdout}")
-      end
+          || node['boxcutter_tailscale']['auth_key']
+      shell_out!(tailscale_up_cmd(auth_key))
     else
-      fail 'boxcutter_tailscale: needs tailscale up but oauth_clients or auth_keys not found'
+      fail 'boxcutter_tailscale: needs tailscale up but oauth_client_id/oauth_client_secret or auth_key not found'
     end
-
-    cmd.error!
   end
 end
 
@@ -111,12 +123,16 @@ action_class do
     end
   end
 
-  def oauth_clients
-    run_state_or_attribute('oauth_clients')
+  def oauth_client_id
+    run_state_or_attribute('oauth_client_id')
   end
 
-  def auth_keys
-    run_state_or_attribute('auth_keys')
+  def oauth_client_secret
+    run_state_or_attribute('oauth_client_secret')
+  end
+
+  def auth_key
+    run_state_or_attribute('auth_key')
   end
 
   def get_oauth_token(api_base_url, oauth_client_id, oauth_client_secret)

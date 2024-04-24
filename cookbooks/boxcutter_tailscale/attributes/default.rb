@@ -1,7 +1,8 @@
 default['boxcutter_tailscale'] = {
   'enable' => true,
-  'oauth_clients' => nil,
-  'auth_keys' => nil,
+  'oauth_client_id' => nil,
+  'oauth_client_secret' => nil,
+  'auth_key' => nil,
   'api_base_url' => 'https://api.tailscale.com',
   'tailnet' => nil,
   'tags' => [],
