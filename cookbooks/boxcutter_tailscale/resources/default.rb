@@ -10,12 +10,13 @@ property :tailnet, String,
          description: 'Organization name found on the General Settings page of the Tailscale admin console'
 property :api_base_url, String, default: 'https://api.tailscale.com',
          description: 'The base URL for the Tailscale API'
-property :ephemeral, [true, false], default: true,
+property :ephemeral, [true, false], default: true, desired_state: false,
          description: 'Whether or not devices will be automatically removed after going offline'
-property :tags, [String, Array], default: [], coerce: lambda { |v|
-  # Coerce the input into an array if it's a string
-  v.is_a?(String) ? [v] : v
-}
+property :tags, [String, Array], default: [],
+         coerce: lambda { |v|
+           # Coerce the input into an array if it's a string
+           v.is_a?(String) ? [v] : v
+         }
 # Having a timeout is not the default, but we need to set one in case of an expired/bad
 # auth key, as otherwise `tailscale up` hangs forever
 # https://github.com/tailscale/tailscale/issues/938
@@ -28,7 +29,6 @@ class Helpers
 end
 
 load_current_value do |new_resource|
-
   status = Helpers.tailscale_status
   Chef::Log.debug("boxcutter_tailscale[load_current_value]: tailscale status output #{status}")
   # Description of the fields:
@@ -68,10 +68,10 @@ action :manage do
        && node.run_state['boxcutter_tailscale'].key?('oauth_client_secret') \
        || node['boxcutter_tailscale']['oauth_client_id'] && node['boxcutter_tailscale']['oauth_client_secret']
       api_key = get_oauth_token(new_resource.api_base_url, oauth_client_id, oauth_client_secret)
-      auth_key = create_auth_key(new_resource.api_base_url, new_resource.tailnet, api_key, new_resource.ephemeral,
+      one_time_auth_key = create_auth_key(new_resource.api_base_url, new_resource.tailnet, api_key, new_resource.ephemeral,
                                  new_resource.tags)
-      shell_out!(tailscale_up_cmd(auth_key))
-    elsif node.run_state.key?('boxcutter_tailscale') && node.run_state['boxcutter_tailscale'].key?('auth_keys') \
+      shell_out!(tailscale_up_cmd(one_time_auth_key))
+    elsif node.run_state.key?('boxcutter_tailscale') && node.run_state['boxcutter_tailscale'].key?('auth_key') \
           || node['boxcutter_tailscale']['auth_key']
       shell_out!(tailscale_up_cmd(auth_key))
     else

@@ -61,3 +61,27 @@ suites:
       inspec_tests:
         - test/integration/default
     attributes:
+
+  - name: no_key
+    provisioner:
+      policyfile_path: policyfiles/Policyfile.no_key.rb
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+
+  - name: oauth_client
+    provisioner:
+      policyfile_path: policyfiles/Policyfile.oauth_client.rb
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+
+  - name: auth_key
+    provisioner:
+      policyfile_path: policyfiles/Policyfile.auth_key.rb
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
