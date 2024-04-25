@@ -68,8 +68,11 @@ action :manage do
        && node.run_state['boxcutter_tailscale'].key?('oauth_client_secret') \
        || node['boxcutter_tailscale']['oauth_client_id'] && node['boxcutter_tailscale']['oauth_client_secret']
       api_key = get_oauth_token(new_resource.api_base_url, oauth_client_id, oauth_client_secret)
-      one_time_auth_key = create_auth_key(new_resource.api_base_url, new_resource.tailnet, api_key, new_resource.ephemeral,
-                                 new_resource.tags)
+      one_time_auth_key = create_auth_key(new_resource.api_base_url,
+                                          new_resource.tailnet,
+                                          api_key,
+                                          new_resource.ephemeral,
+                                          new_resource.tags)
       shell_out!(tailscale_up_cmd(one_time_auth_key))
     elsif node.run_state.key?('boxcutter_tailscale') && node.run_state['boxcutter_tailscale'].key?('auth_key') \
           || node['boxcutter_tailscale']['auth_key']
