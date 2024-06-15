@@ -93,7 +93,9 @@ if node.linux? && !node.container?
   include_recipe 'fb_hdparm'
   include_recipe 'fb_sdparm'
   include_recipe 'fb_nscd'
-  include_recipe 'fb_hddtemp'
+  # hddtemp was removed from ubuntu 22.04 and Debian 12 due to lack of
+  # maintenance
+  # include_recipe 'fb_hddtemp'
 end
 include_recipe 'fb_postfix'
 # HERE: nfs
