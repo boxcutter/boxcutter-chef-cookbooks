@@ -13,7 +13,7 @@ module FB
         'uid' => 994,
       },
       'boxcutter' => {
-        'uid' => 1000,
+        'uid' => 2001,
       },
     }.freeze
 
@@ -29,7 +29,7 @@ module FB
         'gid' => 994,
       },
       'boxcutter' => {
-        'gid' => 1000,
+        'gid' => 2001,
       },
     }.freeze
   end

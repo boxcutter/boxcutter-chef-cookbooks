@@ -17,8 +17,8 @@
 # limitations under the License.
 
 caretakers = {
-  'sheila' => '1001',
-  'taylor' => '1002',
+  'sheila' => '2002',
+  'taylor' => '2003',
 }
 
 caretakers.each do |user, uid|
@@ -34,7 +34,7 @@ end
 group 'sudo' do
   members caretakers.keys
   system true
-  gid 1000
+  gid 2001
 end
 
 node.default['fb_sudo']['users']['%sudo']['dont prompt for password'] = 'ALL=NOPASSWD: ALL'
