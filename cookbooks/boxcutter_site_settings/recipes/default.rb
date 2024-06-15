@@ -17,6 +17,7 @@
 # limitations under the License.
 
 node.default['fb_users']['user_defaults']['gid'] = 'boxcutter'
+include_recipe 'boxcutter_users'
 
 if node.ubuntu?
   # us.archive.ubuntu.com and the core Ubuntu repositories do not have ARM
