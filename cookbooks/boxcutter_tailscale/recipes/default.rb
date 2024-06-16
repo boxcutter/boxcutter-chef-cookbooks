@@ -17,10 +17,10 @@
 # limitations under the License.
 
 node.default['fb_iptables']['dynamic_chains']['filter']['ts-input'] = [
-  'INPUT'
+  'INPUT',
 ]
 node.default['fb_iptables']['dynamic_chains']['filter']['ts-forward'] = [
-  'FORWARD'
+  'FORWARD',
 ]
 
 include_recipe 'boxcutter_tailscale::packages'
