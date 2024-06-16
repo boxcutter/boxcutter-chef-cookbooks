@@ -44,5 +44,7 @@ node.default['fb_ssh']['enable_central_authorized_keys'] = true
 
 node.default['fb_ssh']['authorized_keys']['taylor']['mahowald'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDBZjVID1mAqZyhD3p0VbJtidKAxMHUwLmEMaCAJX0UN mahowald'
-node.default['fb_ssh']['authorized_keys']['sheila']['sheila'] =
+node.default['fb_ssh']['authorized_keys']['taylor']['sheila'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINy9cJcJl8oN6bRtcBc4RZq8f/T6P1AFR3YS1YRYi5YY sheila'
+node.default['fb_ssh']['authorized_keys']['sheila']['mahowald'] =
+  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMC7b+X2a0mRV8A7W5zolbrkALqFizKtuhmM+xZWKohl sheila@mahowald'
