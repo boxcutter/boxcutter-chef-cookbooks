@@ -22,6 +22,9 @@ module FB
         'gid' => 0,
         'system' => true,
       },
+      'docker' => {
+        'gid' => 992,
+      },
       'anaconda' => {
         'gid' => 993,
       },
