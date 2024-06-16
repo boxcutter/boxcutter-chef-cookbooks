@@ -172,7 +172,6 @@ sudo ln -sf /etc/cinc/client-prod.pem /etc/chef/client.pem
 sudo tee /etc/chefctl-config.rb <<EOF
 chef_client '/opt/cinc/bin/cinc-client'
 chef_options ['--no-fork']
-# chef_options ['--config', '/etc/cinc/client.rb', '--json-attributes', '/etc/cinc/run-list.json']
 log_dir '/var/log/chef'
 EOF
 
