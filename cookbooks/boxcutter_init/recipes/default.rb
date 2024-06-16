@@ -36,7 +36,9 @@ if node.debian? || node.ubuntu?
   include_recipe 'fb_apt'
 end
 # HERE: chef_client
-include_recipe 'boxcutter_chef::cinc_client' unless node.in_kitchen?
+unless ['dokken', 'kitchen-test'].include?(node['hostname']) # in_kitchen?
+  include_recipe 'boxcutter_chef::cinc_client'
+end
 if node.centos?
   include_recipe 'fb_e2fsprogs'
   include_recipe 'fb_util_linux'
