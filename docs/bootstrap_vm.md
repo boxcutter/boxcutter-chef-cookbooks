@@ -2,6 +2,8 @@
 
 ## Ubuntu
 
+## Spin up Ubuntu 22.04 cloud image as a VM
+
 ```
 curl -LO https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
 
@@ -122,6 +124,8 @@ virsh snapshot-delete ubuntu-server-2204 clean
 virsh destroy ubuntu-server-2404
 virsh undefine ubuntu-server-2404 --nvram --remove-all-storage
 ```
+
+## Install cinc-client and chefctl
 
 ```
 # chefctl uses a shebang that points at /opt/chef, so make sure we have a link
