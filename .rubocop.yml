@@ -926,7 +926,7 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 
 Style/GlobalStdStream:
-  Enabled: true
+  Enabled: false
 
 Style/GlobalVars:
   Enabled: true

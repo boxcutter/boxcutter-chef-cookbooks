@@ -6,6 +6,8 @@ https://github.com/socallinuxexpo/scale-chef
 Chefctl pluggable chef controller comes from
 https://github.com/facebook/chef-utils/tree/main/chefctl
 
+Taste Tester comes from https://github.com/facebook/taste-tester
+
 ## Recipes
 
 - chefctl - Install and configure the Meta wrapper for cinc-client
