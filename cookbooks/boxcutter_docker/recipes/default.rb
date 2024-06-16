@@ -20,8 +20,8 @@ FB::Users.initialize_group(node, node['boxcutter_docker']['group'])
 
 node.default['fb_iptables']['filter']['DOCKER-USER']['rules']['dockeruser'] = {
   'rules' => [
-    '-j FORWARD'
-  ]
+    '-j FORWARD',
+  ],
 }
 
 node.default['fb_iptables']['dynamic_chains']['filter']['DOCKER-ISOLATION-STAGE-1'] = [
@@ -42,12 +42,12 @@ node.default['fb_iptables']['filter']['FORWARD']['rules']['docker'] = {
 
 case node['platform']
 when 'ubuntu'
-  %w(
+  %w{
     ca-certificates
     curl
     gnupg
     lsb-release
-  ).each do |package|
+  }.each do |package|
     package package do
       action :upgrade
     end
@@ -92,9 +92,11 @@ when 'ubuntu'
   # -----END PGP PUBLIC KEY BLOCK-----
   case node['kernel']['machine']
   when 'aarch64', 'arm64'
-    node.default['fb_apt']['repos'] << "deb [arch=arm64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
+    node.default['fb_apt']['repos'] <<
+      "deb [arch=arm64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
   when 'x86_64', 'amd64'
-    node.default['fb_apt']['repos'] << "deb [arch=amd64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
+    node.default['fb_apt']['repos'] <<
+      "deb [arch=amd64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
   end
 
   node.default['fb_apt']['keys']['8D81803C0EBFCD88'] = <<~EOS
@@ -176,25 +178,25 @@ end
 
 case node['platform']
 when 'ubuntu'
-  %w(
+  %w{
     docker-ce
     docker-ce-cli
     containerd.io
     docker-buildx-plugin
     docker-compose-plugin
-  ).each do |package|
+  }.each do |package|
     package package do
       action :upgrade
     end
   end
 when 'centos'
-  %w(
+  %w{
     docker-ce
     docker-ce-cli
     containerd.io
     docker-buildx-plugin
     docker-compose-plugin
-  ).each do |package|
+  }.each do |package|
     package package do
       action :upgrade
     end
