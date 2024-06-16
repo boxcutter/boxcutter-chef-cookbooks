@@ -36,6 +36,7 @@ if node.debian? || node.ubuntu?
   include_recipe 'fb_apt'
 end
 # HERE: chef_client
+include_recipe 'boxcutter_chef::cinc_client' unless node.in_kitchen?
 if node.centos?
   include_recipe 'fb_e2fsprogs'
   include_recipe 'fb_util_linux'
@@ -44,68 +45,68 @@ if node.systemd? && !node.container?
   include_recipe 'fb_systemd'
   include_recipe 'fb_timers'
 end
-if node.macos?
-  include_recipe 'fb_launchd'
-end
+# if node.macos?
+#   include_recipe 'fb_launchd'
+# end
 include_recipe 'fb_nsswitch'
-include_recipe 'fb_ssh'
 # HERE: ssh
-include_recipe 'fb_less'
-if node.linux? && !node.embedded? && !node.container?
-  include_recipe 'fb_ethtool'
-end
-if node.centos?
-  include_recipe 'fb_ldconfig'
-end
-if node.linux? && !node.container?
-  if node.fedora?
-    include_recipe 'fb_grubby'
-  end
-  include_recipe 'fb_grub'
-end
-if node.centos?
-  include_recipe 'fb_dracut'
-end
-if node.centos? && !node.container?
-  include_recipe 'fb_storage'
-end
+include_recipe 'fb_ssh'
+# include_recipe 'fb_less'
+# if node.linux? && !node.embedded? && !node.container?
+#   include_recipe 'fb_ethtool'
+# end
+# if node.centos?
+#   include_recipe 'fb_ldconfig'
+# end
+# if node.linux? && !node.container?
+#   if node.fedora?
+#     include_recipe 'fb_grubby'
+#   end
+#   include_recipe 'fb_grub'
+# end
+# if node.centos?
+#   include_recipe 'fb_dracut'
+# end
+# if node.centos? && !node.container?
+#   include_recipe 'fb_storage'
+# end
 if !node.container?
   include_recipe 'fb_modprobe'
 end
-include_recipe 'fb_securetty'
-include_recipe 'fb_hostname'
-include_recipe 'fb_hosts'
+# include_recipe 'fb_securetty'
+# include_recipe 'fb_hostname'
+# include_recipe 'fb_hosts'
 include_recipe 'fb_ethers'
 # HERE: resolv
 include_recipe 'fb_limits'
-include_recipe 'fb_hostconf'
+# include_recipe 'fb_hostconf'
 include_recipe 'fb_sysctl'
 # HERE: networking
 include_recipe 'fb_users'
-if node.centos?
-  # We turn this off because the override causes intermittent failures in
-  # Travis when rsyslog is restarted
-  node.default['fb_syslog']['_enable_syslog_socket_override'] = false
-end
+# if node.centos?
+#   # We turn this off because the override causes intermittent failures in
+#   # Travis when rsyslog is restarted
+#   node.default['fb_syslog']['_enable_syslog_socket_override'] = false
+# end
 if !node.container?
   include_recipe 'fb_syslog'
 end
-if node.linux? && !node.container?
-  include_recipe 'fb_hdparm'
-  include_recipe 'fb_sdparm'
-  include_recipe 'fb_nscd'
-  # hddtemp was removed from ubuntu 22.04 and Debian 12 due to lack of
-  # maintenance
-  # include_recipe 'fb_hddtemp'
-end
-include_recipe 'fb_postfix'
+# if node.linux? && !node.container?
+#   include_recipe 'fb_hdparm'
+#   include_recipe 'fb_sdparm'
+#   include_recipe 'fb_nscd'
+#   # hddtemp was removed from ubuntu 22.04 and Debian 12 due to lack of
+#   # maintenance
+#   # include_recipe 'fb_hddtemp'
+# end
+# include_recipe 'fb_postfix'
 # HERE: nfs
-include_recipe 'fb_swap'
+# include_recipe 'fb_swap'
 # WARNING!
 # fb_fstab is one of the most powerful cookbooks in the facebook suite,
 # but it requires some setup since it will take full ownership of /etc/fstab
-include_recipe 'fb_fstab'
-include_recipe 'fb_mlocate'
+# include_recipe 'fb_fstab'
+# include_recipe 'fb_mlocate'
 include_recipe 'fb_logrotate'
 # HERE: autofs
 include_recipe 'fb_tmpclean'
@@ -114,41 +115,41 @@ include_recipe 'fb_sudo'
 if node.linux? && !node.container?
   include_recipe 'fb_chrony'
 
-  if node.centos?
-    node.default['fb_ipset']['auto_cleanup'] = false
-    include_recipe 'fb_ebtables'
-    include_recipe 'fb_ipset'
-    include_recipe 'fb_iptables'
-    include_recipe 'fb_iproute'
-    include_recipe 'fb_ipset::cleanup'
-  end
+  # if node.centos?
+  #   node.default['fb_ipset']['auto_cleanup'] = false
+  #   include_recipe 'fb_ebtables'
+  #   include_recipe 'fb_ipset'
+  #   include_recipe 'fb_iptables'
+  #   include_recipe 'fb_iproute'
+  #   include_recipe 'fb_ipset::cleanup'
+  # end
 end
 include_recipe 'fb_motd'
 include_recipe 'fb_profile'
 
-if node.firstboot_tier?
-  include_recipe 'fb_init_sample::firstboot'
-end
+# if node.firstboot_tier?
+#   include_recipe 'fb_init_sample::firstboot'
+# end
 
-unless node.centos6?
-  include_recipe 'fb_apcupsd'
-  # Turn off dnsmasq as it doesn't play well with travis
-  node.default['fb_dnsmasq']['enable'] = false
-  if !node.container?
-    include_recipe 'fb_dnsmasq'
-  end
-end
-include_recipe 'fb_collectd'
-include_recipe 'fb_rsync::server'
-if node.centos?
-  include_recipe 'fb_sysstat'
-end
-if node.linux?
-  include_recipe 'fb_screen'
-  if !node.container?
-    include_recipe 'fb_stunnel'
-  end
-end
+# unless node.centos6?
+#   include_recipe 'fb_apcupsd'
+#   # Turn off dnsmasq as it doesn't play well with travis
+#   node.default['fb_dnsmasq']['enable'] = false
+#   if !node.container?
+#     include_recipe 'fb_dnsmasq'
+#   end
+# end
+# include_recipe 'fb_collectd'
+# include_recipe 'fb_rsync::server'
+# if node.centos?
+#   include_recipe 'fb_sysstat'
+# end
+# if node.linux?
+#   include_recipe 'fb_screen'
+#   if !node.container?
+#     include_recipe 'fb_stunnel'
+#   end
+# end
 
 # we recommend you put this as late in the list as possible - it's one of the
 # few places where APIs need to use another API directly... other cookbooks
