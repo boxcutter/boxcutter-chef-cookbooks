@@ -47,7 +47,7 @@ while a new credential is being propagated to the entire fleet.
 
 The automation will automatically allocate a new one-time preauthorization key using
 the OAuth Client on each Chef run, when something needs to be changed on your tailnet.
-Conflicts with `aut_keys`, if provided.
+Conflicts with `auth_key`, if provided.
 
 ```
 # Initialize the parent hash if it doesn't exist
