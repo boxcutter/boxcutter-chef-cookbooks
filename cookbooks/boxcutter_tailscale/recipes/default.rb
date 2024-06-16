@@ -16,6 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+node.default['fb_iptables']['dynamic_chains']['filter']['ts-input'] = [
+  'INPUT'
+]
+node.default['fb_iptables']['dynamic_chains']['filter']['ts-forward'] = [
+  'FORWARD'
+]
+
 include_recipe 'boxcutter_tailscale::packages'
 
 service 'tailscaled' do
