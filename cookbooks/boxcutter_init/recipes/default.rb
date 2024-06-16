@@ -37,7 +37,7 @@ if node.debian? || node.ubuntu?
 end
 # HERE: chef_client
 unless ['dokken', 'kitchen-test'].include?(node['hostname']) # in_kitchen?
-  include_recipe 'boxcutter_chef::cinc_client'
+  include_recipe 'boxcutter_chef::default'
 end
 if node.centos?
   include_recipe 'fb_e2fsprogs'

@@ -1,0 +1,13 @@
+local_mode true
+chef_repo_path '/var/chef/repos/boxcutter-chef-cookbooks'
+cookbook_path [
+  '/var/chef/repos/chef-cookbooks/cookbooks',
+  '/var/chef/repos/boxcutter-chef-cookbooks/cookbooks'
+]
+follow_client_key_symlink true
+client_fork false
+no_lazy_load false
+local_key_generation true
+json_attribs '/etc/cinc/run-list.json'
+ohai.critical_plugins ||= []
+ohai.critical_plugins += [:Passwd]

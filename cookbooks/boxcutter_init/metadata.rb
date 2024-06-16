@@ -74,6 +74,7 @@ end
   'fb_tmpclean',
   'fb_util_linux',
   'fb_users',
+  'boxcutter_chef',
   'boxcutter_site_settings',
 ].each do |cb|
   depends cb

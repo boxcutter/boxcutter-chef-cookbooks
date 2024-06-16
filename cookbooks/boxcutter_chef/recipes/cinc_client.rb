@@ -115,3 +115,70 @@ when 'centos'
     notifies :run, 'ruby_block[reexec chef]', :immediately
   end
 end
+
+link '/opt/chef' do
+  to '/opt/cinc'
+end
+
+config_dir = '/etc/cinc'
+config_symlink = '/etc/chef'
+
+[
+  '/var/chef',
+  config_dir,
+].each do |dir|
+  directory dir do
+    owner 'root'
+    group 'root'
+    mode '0755'
+  end
+end
+
+link config_symlink do
+  to config_dir
+end
+
+%w{
+  chef-apply
+  chef-client
+  chef-shell
+  chef-solo
+}.each do |f|
+  link "/usr/bin/#{f}" do
+    to '/opt/cinc/bin/cinc-wrapper'
+  end
+end
+
+ruby_block 'reload_client_config' do
+  block do
+    Chef::Config.from_file("#{config_dir}/client.rb")
+  end
+  action :nothing
+end
+
+template "#{config_dir}/client-prod.rb" do
+  owner 'root'
+  group 'root'
+  mode '0644'
+  notifies :create, 'ruby_block[reload_client_config]', :immediately
+end
+
+link "#{config_dir}/client.rb" do
+  # don't overwrite this if it's a link ot somewhere else, because
+  # taste-tester
+  not_if { File.symlink?("#{config_dir}/client.rb") }
+  to "#{config_dir}/client-prod.rb"
+end
+
+link "#{config_dir}/client.pem" do
+  # don't overwrite this if it's a link ot somewhere else, because
+  # taste-tester
+  not_if { File.symlink?("#{config_dir}/client.pem") }
+  to "#{config_dir}/client-prod.pem"
+end
+
+template "#{config_dir}/run-list.json" do
+  owner 'root'
+  group 'root'
+  mode '0644'
+end

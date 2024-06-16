@@ -1,6 +1,10 @@
 # boxcutter_chef
 
-Setup Chef configuration management.
+Setup Chef configuration management. Based on
+https://github.com/socallinuxexpo/scale-chef
+
+Chefctl pluggable chef controller comes from
+https://github.com/facebook/chef-utils/tree/main/chefctl
 
 ## Recipes
 

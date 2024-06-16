@@ -15,3 +15,28 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+cookbook_file '/usr/local/sbin/chefctl.rb' do
+  source 'chefctl/chefctl.rb'
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
+link '/usr/local/sbin/chefctl' do
+  to '/usr/local/sbin/chefctl.rb'
+end
+
+cookbook_file '/etc/chefctl-config.rb' do
+  source 'chefctl/chefctl-config.rb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
+cookbook_file '/etc/chef/chefctl_hooks.rb' do
+  source 'chefctl/chefctl_hooks.rb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
