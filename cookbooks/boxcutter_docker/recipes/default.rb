@@ -18,15 +18,11 @@
 
 FB::Users.initialize_group(node, node['boxcutter_docker']['group'])
 
-node.default['fb_iptables']['filter']['DOCKER-USER']['rules']['dockeruser'] = {
-  'rules' => [
-    '-j FORWARD',
-  ],
-}
-
-node.default['fb_iptables']['dynamic_chains']['filter']['DOCKER-ISOLATION-STAGE-1'] = [
-  'FORWARD',
-]
+%w{DOCKER-USER DOCKER-ISOLATION-STAGE-1}.each do |chain|
+  node.default['fb_iptables']['dynamic_chains']['filter'][chain] = [
+    'FORWARD',
+  ]
+end
 %w{DOCKER DOCKER-ISOLATION-STAGE-2}.each do |chain|
   node.default['fb_iptables']['dynamic_chains']['filter'][chain] = []
 end
