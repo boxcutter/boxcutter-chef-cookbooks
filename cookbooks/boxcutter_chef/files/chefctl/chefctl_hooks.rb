@@ -61,31 +61,31 @@ module BoxcutterHook
   # The return value is ignored.
   # def pre_run(output)
   # end
-  def pre_run(output)
+  def pre_run(_output)
     unless ::File.exist?('/var/chef/repo')
       Chefctl.logger.info('Initializing repo in /var/chef/repo')
       Dir.chdir '/var/chef' do
         Mixlib::ShellOut.new(
-          'git clone https://github.com/boxcutter/boxcutter-chef-cookbooks'
-          # 'git clone git@github.com:socallinuxexpo/scale-chef.git repo',
+          'git clone https://github.com/boxcutter/boxcutter-chef-cookbooks',
+            # 'git clone git@github.com:socallinuxexpo/scale-chef.git repo',
           ).run_command
       end
     end
     Dir.chdir '/var/chef/repo' do
       Chefctl.logger.info('Updating repo in /var/chef/repo')
-      s = Mixlib::ShellOut.new("git fetch origin").run_command
+      s = Mixlib::ShellOut.new('git fetch origin').run_command
       if s.error?
-        Chefctl.logger.error("Failed to fetch git changes")
+        Chefctl.logger.error('Failed to fetch git changes')
         Chefctl.logger.debug(" - STDOUT: #{s.stdout}")
         Chefctl.logger.debug(" - STDERR: #{s.stdout}")
         return
       end
-      s = Mixlib::ShellOut.new("git reset --hard origin/main").run_command
+      s = Mixlib::ShellOut.new('git reset --hard origin/main').run_command
       if s.error?
-        Chefctl.logger.error("Failed to update git repo")
+        Chefctl.logger.error('Failed to update git repo')
         return
       end
-      Chefctl.logger.info("Updated repo!")
+      Chefctl.logger.info('Updated repo!')
     end
   end
 
