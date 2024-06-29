@@ -24,15 +24,18 @@
 
 # The chef-client process to use.
 # chef_client '/opt/chef/bin/chef-client'
+chef_client '/opt/cinc/bin/cinc-client'
 
 # Whether or not chef-client should provide debug output.
 # debug false
 
 # Default options to pass to chef-client.
 # chef_options ['--no-fork']
+chef_options ['--no-fork']
 
 # Whether or not to provide human-readable output.
 # human false
+human true
 
 # If set, ignore the splay and stop pending chefctl processes before
 # running. This is intended for interactive runs of chef
@@ -47,6 +50,7 @@
 
 # Directory where per-run chef logs should be placed.
 # log_dir '/var/chef/outputs'
+log_dir '/var/log/chef'
 
 # If set, will not copy chef log to stdout.
 # quiet false
