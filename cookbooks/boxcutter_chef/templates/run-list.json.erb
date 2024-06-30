@@ -1,5 +1,7 @@
-{
-  "run_list" : [
-    "boxcutter_init::default"
-  ]
-}
+<%
+  run_list = ['recipe[boxcutter_ohai]']
+  run_list << 'recipe[boxcutter_init]'
+  run_list << "role[tier_#{node['polymath_config']['tier']}]"
+  run_list_map = {'run_list': run_list}
+%>
+<%= run_list_map.to_json %>
