@@ -58,6 +58,8 @@ cookbook_file '/usr/local/sbin/stop_chef_temporarily' do
   mode '0755'
 end
 
+confdir = '/etc/chef'
+
 {
   'chef' => {
     'time' => '*/15 * * * *',
