@@ -47,12 +47,14 @@ link '/usr/local/sbin/stop_chef_temporarily' do
 end
 
 cookbook_file '/usr/local/sbin/taste-untester' do
+  source 'taste-tester/taste-untester'
   owner 'root'
   group 'root'
   mode '0755'
 end
 
 cookbook_file '/usr/local/sbin/stop_chef_temporarily' do
+  source 'chefctl/stop_chef_temporarily'
   owner 'root'
   group 'root'
   mode '0755'
