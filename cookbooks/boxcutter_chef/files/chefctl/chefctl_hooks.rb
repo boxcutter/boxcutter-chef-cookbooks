@@ -71,7 +71,7 @@ module BoxcutterHook
           ).run_command
       end
     end
-    Dir.chdir '/var/chef/repos' do
+    Dir.chdir '/var/chef/repos/boxcutter-chef-cookbooks' do
       Chefctl.logger.info('Updating repo in /var/chef/repos/boxcutter-chef-cookbooks')
       s = Mixlib::ShellOut.new('git fetch origin').run_command
       if s.error?
