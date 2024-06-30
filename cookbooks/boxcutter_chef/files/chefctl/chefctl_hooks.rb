@@ -89,12 +89,12 @@ module BoxcutterHook
           Chefctl.logger.error('Failed to fetch git changes')
           Chefctl.logger.debug(" - STDOUT: #{s.stdout}")
           Chefctl.logger.debug(" - STDERR: #{s.stdout}")
-          return
+          return 'Failed to fetch git changes'
         end
         s = Mixlib::ShellOut.new('git reset --hard origin/main').run_command
         if s.error?
           Chefctl.logger.error("Failed to update git repo #{repo}")
-          return
+          return 'Failed to update git repo'
         end
         Chefctl.logger.info("Updated #{repo}!")
       end
