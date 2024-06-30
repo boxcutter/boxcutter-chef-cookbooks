@@ -12,7 +12,7 @@ Ohai.plugin(:BoxcutterConfig) do
     if ::File.exist?(config_filename)
       begin
         data.merge!(JSON.parse(::File.read(config_filename)))
-      rescue
+      rescue StandardError
         Ohai::Log.warn("Invalid #{config_filename}")
       end
     end
