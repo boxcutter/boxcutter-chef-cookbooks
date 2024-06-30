@@ -1,0 +1,4 @@
+# This file is configured by Chef. Local changes will be overwritten.
+<% node['boxcutter_nfs']['server']['exports'].each do |export_point, clients| %>
+<%= export_point %> <%= clients.join(' ') %>
+<% end %>

@@ -1,0 +1,6 @@
+# This file is configured by Chef. Local changes will be overwritten.
+#
+<% sysconfig = node['boxcutter_nfs']['server']['config'] %>
+<% sysconfig.sort.each do |k, v| %>
+  <%=  k.upcase %>="<%= v %>"
+<% end %>
