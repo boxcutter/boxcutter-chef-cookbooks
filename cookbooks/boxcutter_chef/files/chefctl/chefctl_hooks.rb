@@ -62,30 +62,42 @@ module BoxcutterHook
   # def pre_run(output)
   # end
   def pre_run(_output)
-    unless ::File.exist?('/var/chef/repos')
-      Chefctl.logger.info('Initializing repo in /var/chef/repos')
+    unless ::File.exist?('/var/chef/repos/chef-cookbooks')
+      Chefctl.logger.info('Initializing chef-coobooks in /var/chef/repos')
       Dir.chdir '/var/chef/repos' do
         Mixlib::ShellOut.new(
-          'git clone https://github.com/boxcutter/boxcutter-chef-cookbooks',
-            # 'git clone git@github.com:socallinuxexpo/scale-chef.git repo',
+          'git clone https://github.com/boxcutter/chef-cookbooks',
           ).run_command
       end
     end
-    Dir.chdir '/var/chef/repos/boxcutter-chef-cookbooks' do
-      Chefctl.logger.info('Updating repo in /var/chef/repos/boxcutter-chef-cookbooks')
-      s = Mixlib::ShellOut.new('git fetch origin').run_command
-      if s.error?
-        Chefctl.logger.error('Failed to fetch git changes')
-        Chefctl.logger.debug(" - STDOUT: #{s.stdout}")
-        Chefctl.logger.debug(" - STDERR: #{s.stdout}")
-        return
+    unless ::File.exist?('/var/chef/repos/boxcutter-chef-cookbooks')
+      Chefctl.logger.info('Initializing boxcutter-chef-coobooks in /var/chef/repos')
+      Dir.chdir '/var/chef/repos' do
+        Mixlib::ShellOut.new(
+          'git clone https://github.com/boxcutter/boxcutter-chef-cookbooks',
+          ).run_command
       end
-      s = Mixlib::ShellOut.new('git reset --hard origin/main').run_command
-      if s.error?
-        Chefctl.logger.error('Failed to update git repo')
-        return
+    end
+    [
+      '/var/chef/repos/chef-cookbooks',
+      '/var/chef/repos/boxcutter-chef-cookbooks',
+    ].each do |repo|
+      Dir.chdir repo do
+        Chefctl.logger.info("Updating #{repo}")
+        s = Mixlib::ShellOut.new('git fetch origin').run_command
+        if s.error?
+          Chefctl.logger.error('Failed to fetch git changes')
+          Chefctl.logger.debug(" - STDOUT: #{s.stdout}")
+          Chefctl.logger.debug(" - STDERR: #{s.stdout}")
+          return
+        end
+        s = Mixlib::ShellOut.new('git reset --hard origin/main').run_command
+        if s.error?
+          Chefctl.logger.error("Failed to update git repo #{repo}")
+          return
+        end
+        Chefctl.logger.info("Updated #{repo}!")
       end
-      Chefctl.logger.info('Updated repo!')
     end
   end
 
