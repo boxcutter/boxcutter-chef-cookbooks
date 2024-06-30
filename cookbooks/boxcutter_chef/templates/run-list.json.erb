@@ -1,6 +1,9 @@
 <%
   run_list = ['recipe[boxcutter_ohai]']
   run_list << 'recipe[boxcutter_init]'
+  unless node['boxcutter_config']['tier'].nil?
+    run_list << "role[tier_#{node['boxcutter_config']['tier']}]"
+  end
   run_list_map = {'run_list': run_list}
 %>
 <%= run_list_map.to_json %>
