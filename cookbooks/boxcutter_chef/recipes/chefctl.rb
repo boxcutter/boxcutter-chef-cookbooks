@@ -40,3 +40,45 @@ end
 link '/usr/local/sbin/chefctl' do
   to '/usr/local/sbin/chefctl.rb'
 end
+
+link '/usr/local/sbin/stop_chef_temporarily' do
+  only_if { ::File.symlink?('/usr/local/sbin/stop_chef_temporarily') }
+  action :delete
+end
+
+cookbook_file '/usr/local/sbin/taste-untester' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
+cookbook_file '/usr/local/sbin/stop_chef_temporarily' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
+{
+  'chef' => {
+    'time' => '*/15 * * * *',
+    'command' => '/usr/bin/test -f /var/chef/cron.default.override -o ' +
+      "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q &>/dev/null"
+  },
+  'taste-untester' => {
+    'time' => '*/5 * * * *',
+    'command' => '/usr/local/sbin/taste-untester &>/dev/null',
+  },
+  'remove override files' => {
+    'time' => '*/5 * * * *',
+    'command' => '/usr/bin/find /var/chef/ -maxdepth 1 ' +
+      '-name cron.default.override -mmin +60 -exec /bin/rm -f {} \; &>/dev/null'
+  },
+  # keep two weeks of chef run logs
+  'cleanup chef logs' => {
+    'time' => '1 1 * * *',
+    'command' => '/usr/bin/find /var/log/chef -maxdepth 1 ' +
+      '-name chef.2* -mtime +14 -exec /bin/rm -f {} \; &>/dev/null'
+  },
+}.each do |name, job|
+  node.default['fb_cron']['jobs'][name] = job
+end
