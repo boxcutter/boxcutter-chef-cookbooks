@@ -62,17 +62,17 @@ module BoxcutterHook
   # def pre_run(output)
   # end
   def pre_run(_output)
-    unless ::File.exist?('/var/chef/repo')
-      Chefctl.logger.info('Initializing repo in /var/chef/repo')
-      Dir.chdir '/var/chef' do
+    unless ::File.exist?('/var/chef/repos')
+      Chefctl.logger.info('Initializing repo in /var/chef/repos')
+      Dir.chdir '/var/chef/repos' do
         Mixlib::ShellOut.new(
           'git clone https://github.com/boxcutter/boxcutter-chef-cookbooks',
             # 'git clone git@github.com:socallinuxexpo/scale-chef.git repo',
           ).run_command
       end
     end
-    Dir.chdir '/var/chef/repo' do
-      Chefctl.logger.info('Updating repo in /var/chef/repo')
+    Dir.chdir '/var/chef/repos' do
+      Chefctl.logger.info('Updating repo in /var/chef/repos')
       s = Mixlib::ShellOut.new('git fetch origin').run_command
       if s.error?
         Chefctl.logger.error('Failed to fetch git changes')
