@@ -70,7 +70,7 @@ log_dir '/var/log/chef'
 # whyrun false
 
 # The default location of the chefctl plugin file.
-# plugin_path '/etc/chef/chefctl_hooks.rb'
+plugin_path '/etc/chef/chefctl_hooks.rb'
 
 # The default PATH environment variable to use for chef-client.
 # path %w{
