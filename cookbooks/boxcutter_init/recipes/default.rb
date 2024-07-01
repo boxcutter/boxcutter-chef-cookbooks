@@ -107,25 +107,34 @@ end
 # WARNING!
 # fb_fstab is one of the most powerful cookbooks in the facebook suite,
 # but it requires some setup since it will take full ownership of /etc/fstab
-# include_recipe 'fb_fstab'
+if !node.container?
+  include_recipe 'fb_fstab'
+end
 # include_recipe 'fb_mlocate'
 include_recipe 'fb_logrotate'
 # HERE: autofs
 include_recipe 'fb_tmpclean'
 include_recipe 'fb_sudo'
 # HERE: ntp
-if node.linux? && !node.container?
+if node.linux?
   include_recipe 'fb_chrony'
 
-  # if node.centos?
-  #   node.default['fb_ipset']['auto_cleanup'] = false
-  #   include_recipe 'fb_ebtables'
-  #   include_recipe 'fb_ipset'
-  #   include_recipe 'fb_iptables'
-  #   include_recipe 'fb_iproute'
-  #   include_recipe 'fb_ipset::cleanup'
-  # end
+  node.default['fb_ipset']['auto_cleanup'] = false
+  include_recipe 'fb_ipset'
+  include_recipe 'fb_iptables'
 end
+# if node.linux? && !node.container?
+#   include_recipe 'fb_chrony'
+# 
+#   if node.centos?
+#     node.default['fb_ipset']['auto_cleanup'] = false
+#     include_recipe 'fb_ebtables'
+#     include_recipe 'fb_ipset'
+#     include_recipe 'fb_iptables'
+#     include_recipe 'fb_iproute'
+#     include_recipe 'fb_ipset::cleanup'
+#   end
+# end
 include_recipe 'fb_motd'
 include_recipe 'fb_profile'
 

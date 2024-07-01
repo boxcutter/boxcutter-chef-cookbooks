@@ -264,4 +264,8 @@ if node.centos?
       },
     },
   )
+
+  package 'epel-release' do
+    action :upgrade
+  end
 end
