@@ -15,3 +15,35 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+nfs_server_hosts = %w(
+  nfs-server-centos-stream-9
+  nfs-server-ubuntu-2204
+).include?(node['hostname'])
+
+if nfs_server_hosts
+  node.default['fb_iptables']['filter']['INPUT']['rules']['nfs server'] = {
+    'rules' => [
+      '-p tcp --dport 2049 -j ACCEPT',
+      '-p udp --dport 2049 -j ACCEPT',
+    ],
+  }
+
+  directory '/var/nfs' do
+    owner node.root_user
+    group node.root_group
+    mode '0755'
+  end
+
+  directory '/var/nfs/general' do
+    owner 'nobody'
+    group node.ubuntu? ? 'nogroup' : 'nobody'
+    mode '0777'
+  end
+
+  node.default['boxcutter_nfs']['server']['exports']['/var/nfs/general'] = %w{
+    *(rw,sync,no_subtree_check,insecure)
+  }
+
+  include_recipe 'boxcutter_nfs::server'
+end
