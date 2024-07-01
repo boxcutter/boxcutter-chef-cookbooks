@@ -16,10 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-nfs_server_hosts = %w(
+nfs_server_hosts = %w{
   nfs-server-centos-stream-9
   nfs-server-ubuntu-2204
-).include?(node['hostname'])
+}.include?(node['hostname'])
 
 if nfs_server_hosts
   node.default['fb_iptables']['filter']['INPUT']['rules']['nfs server'] = {
