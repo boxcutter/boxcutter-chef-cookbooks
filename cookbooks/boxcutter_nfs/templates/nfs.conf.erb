@@ -1,0 +1,8 @@
+# This file is configured by Chef. Local changes will be overwritten.
+<% node['boxcutter_nfs']['server']['nfs_conf'].each do |section, conf| %>
+[<%= section %>]
+<%   conf.each do |key, val| %>
+<%=    key %> = <%= val.is_a?(Array) ? val.join(', ') : val %>
+<%   end %>
+
+<% end %>

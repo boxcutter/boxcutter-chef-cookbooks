@@ -8,29 +8,49 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
+#     http://www.apache.org/licenses/LICENSE-2.0 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-package 'nfs-common' do
-  action :upgrade
-end
+if node.ubuntu?
+  package 'nfs-common' do
+    action :upgrade
+  end
 
-template '/etc/idmapd.conf' do
-  source 'idmapd.conf.erb'
-  owner node.root_user
-  group node.root_group
-  mode '0644'
-end
+  template '/etc/idmapd.conf' do
+    source 'idmapd.conf.erb'
+    owner node.root_user
+    group node.root_group
+    mode '0644'
+  end
 
-service 'rpcbind' do
-  action [:enable, :start]
-end
+  service 'rpcbind' do
+    action [:enable, :start]
+  end
 
-service 'rpc-statd' do
-  action [:enable, :start]
+  service 'rpc-statd' do
+    action [:enable, :start]
+  end
+else
+  package 'nfs-utils' do
+    action :upgrade
+  end
+
+  template '/etc/idmapd.conf' do
+    source 'idmapd.conf.erb'
+    owner node.root_user
+    group node.root_group
+    mode '0644'
+  end
+
+  service 'rpcbind' do
+    action [:enable, :start]
+  end
+
+  service 'rpc-statd' do
+    action [:enable, :start]
+  end
 end

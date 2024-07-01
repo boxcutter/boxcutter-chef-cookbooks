@@ -23,3 +23,9 @@ it cant mount NFS shares.
 id <-> name mapping. The documentation implies sections and options in this
 file are case-sensitive, but they're not. We use all lower-case for these
 values.
+
+References:
+
+Ubuntu: https://ubuntu.com/server/docs/network-file-system-nfs
+
+RedHat: https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_file_systems/deploying-an-nfs-server_managing-file-systems#configuring-an-nfsv4-only-server_deploying-an-nfs-server
