@@ -146,18 +146,8 @@ client_fork false
 no_lazy_load false
 local_key_generation true
 json_attribs '/etc/cinc/run-list.json'
-EOF
-
-sudo tee /etc/cinc/client.d/ohai.rb <<EOF
-ohai.critical_plugins += [
-  :Passwd,
-]
-
-ohai.optional_plugins += [
-  :Lspci,
-  :Passwd,
-  :ShardSeed,
-]
+ohai.critical_plugins ||= []
+ohai.critical_plugins += [:Passwd]
 EOF
 
 sudo openssl genrsa -out /etc/cinc/client-prod.pem
@@ -179,7 +169,8 @@ EOF
 sudo tee /etc/chef/run-list.json <<EOF
 {
   "run_list" : [
-    "boxcutter_init::default"
+    "recipe[boxcutter_ohai]",
+    "recipe[boxcutter_init]"
   ]
 }
 EOF
