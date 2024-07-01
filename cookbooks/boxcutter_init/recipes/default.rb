@@ -125,7 +125,7 @@ if node.linux?
 end
 # if node.linux? && !node.container?
 #   include_recipe 'fb_chrony'
-# 
+#
 #   if node.centos?
 #     node.default['fb_ipset']['auto_cleanup'] = false
 #     include_recipe 'fb_ebtables'
