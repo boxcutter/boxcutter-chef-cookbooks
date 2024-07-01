@@ -15,6 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# rubocop:disable Style/IdenticalConditionalBranches
 if node.ubuntu?
   package 'nfs-common' do
     action :upgrade

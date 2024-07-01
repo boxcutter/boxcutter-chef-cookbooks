@@ -27,15 +27,16 @@ when 'rhel'
     },
     'client' => {},
     'idmap' => {
-      'general' => {}
+      'general' => {},
       'mapping' => {},
       'translation' => {},
       'static' => {},
       'UMICH_SCHEMA' => {
         'LDAP_server' => 'ldap-server.local.domain.edu',
         'LDAP_base' => 'dc=local,dc=domain,dc=edu',
-      }
-    }
+      },
+    },
+  }
 when 'debian'
   default['boxcutter_nfs'] = {
     'server' => {
@@ -69,12 +70,12 @@ when 'debian'
     'client' => {},
     'idmap' => {
       'general' => {
-        'verbosity' => '0'
+        'verbosity' => '0',
       },
       'mapping' => {
         'nobody-user' => 'nobody',
         'nobody-group' => 'nogroup',
-      }
-    }
+      },
+    },
   }
 end
