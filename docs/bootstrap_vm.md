@@ -414,6 +414,7 @@ sudo chmod +x /usr/local/sbin/chefctl.rb
 sudo ln -sf /usr/local/sbin/chefctl.rb /usr/local/sbin/chefctl
 
 sudo touch /root/firstboot_os
+echo "{\"tier\": \"robot\"}" > /etc/boxcutter-config.json
 sudo chefctl -iv
 
 /opt/cinc/bin/cinc-client -c /etc/cinc/client.rb -j /etc/chef/run-list.json
