@@ -103,6 +103,7 @@ end
 # end
 # include_recipe 'fb_postfix'
 # HERE: nfs
+include_recipe 'boxcutter_nfs::client'
 # include_recipe 'fb_swap'
 # WARNING!
 # fb_fstab is one of the most powerful cookbooks in the facebook suite,
