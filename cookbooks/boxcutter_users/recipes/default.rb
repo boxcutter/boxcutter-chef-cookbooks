@@ -39,7 +39,7 @@ end
 
 node.default['fb_sudo']['users']['%sudo']['dont prompt for password'] = 'ALL=NOPASSWD: ALL'
 
- node.default['fb_ssh']['enable_central_authorized_keys'] = true
+node.default['fb_ssh']['enable_central_authorized_keys'] = true
 # node.default['fb_ssh']['enable_central_authorized_principals'] = true
 
 node.default['fb_ssh']['authorized_keys']['taylor']['mahowald'] =
