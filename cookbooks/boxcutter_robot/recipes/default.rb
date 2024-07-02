@@ -44,7 +44,7 @@ if nfs_client_hosts
   include_recipe 'boxcutter_nfs::client'
 
   node.default['fb_fstab']['mounts'][''] = {
-    'device' => '10.63.46.39:/var/nfs/general',
+    'device' => '10.63.46.196:/var/nfs/general',
     'mount_point' => '/mnt/server',
     'type' => 'nfs',
   }
