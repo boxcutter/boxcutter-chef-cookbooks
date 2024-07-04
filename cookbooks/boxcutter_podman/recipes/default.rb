@@ -18,13 +18,14 @@
 
 if node.ubuntu20?
   node.default['fb_apt']['repos'] <<
-    "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_#{node['lsb']['release']}/ /"
+    'deb https://download.opensuse.org/repositories/devel:/kubic:/' +
+      "libcontainers:/stable/xUbuntu_#{node['lsb']['release']}/ /"
 
   # https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_20.04/Release.key
   node.default['fb_apt']['keys']['4D64390375060AA4'] = <<~EOS
     -----BEGIN PGP PUBLIC KEY BLOCK-----
     Version: GnuPG v1.4.5 (GNU/Linux)
-    
+
     mQENBFtkV0cBCADStSTCG5qgYtzmWfymHZqxxhfwfS6fdHJcbGUeXsI5dxjeCWhs
     XarZm6rWZOd5WfSmpXhbKOyM6Ll+6bpSl5ICHLa6fcpizYWEPa8fpg9EGl0cF12G
     GgVLnnOZ6NIbsoW0LHt2YN0jn8xKVwyPp7KLHB2paZh+KuURERG406GXY/DgCxUx
