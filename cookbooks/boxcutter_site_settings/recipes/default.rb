@@ -34,6 +34,11 @@ if node.ubuntu?
                                               else
                                                 'http://security.ubuntu.com/ubuntu'
                                               end
+
+  # Timesync is masked by default in Ubuntu now
+  if node.systemd?
+    node.default['fb_systemd']['timesyncd']['enable'] = false
+  end
 end
 
 include_recipe '::dnf'
