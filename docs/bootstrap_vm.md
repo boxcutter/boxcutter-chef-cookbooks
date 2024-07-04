@@ -397,7 +397,8 @@ EOF
 sudo tee /etc/chef/run-list.json <<EOF
 {
   "run_list" : [
-    "boxcutter_init::default"
+    "recipe[boxcutter_ohai]",
+    "recipe[boxcutter_init]"
   ]
 }
 EOF
