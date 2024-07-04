@@ -1,6 +1,6 @@
 name 'boxcutter_docker'
 maintainer 'Boxcutter'
-maintainer_email 'noreply@boxcutter.io'
+maintainer_email 'noreply@boxcutter.dev'
 license 'Apache-2.0'
 description 'Installs/Configures boxcutter_docker'
 source_url 'https://github.com/boxcutter/boxcutter-chef-cookbooks/'

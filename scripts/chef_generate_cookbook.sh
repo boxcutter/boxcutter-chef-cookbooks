@@ -19,7 +19,7 @@ pushd "${REPO_PATH}/cookbooks"
 
 cinc generate cookbook "${COOKBOOK_NAME}" \
   --copyright 'Boxcutter' \
-  --email 'noreply@boxcutter.io' \
+  --email 'noreply@boxcutter.dev' \
   --license 'apachev2' \
   --kitchen dokken \
   --generator-cookbook "${GENERATOR_COOKBOOK}"
