@@ -49,3 +49,12 @@ if nfs_client_hosts
     'type' => 'nfs',
   }
 end
+
+robot_hosts = %w{
+  robot-centos-stream-9
+  robot-ubuntu-2204
+}.include?(node['hostname'])
+
+if robot_hosts
+  include_recipe 'boxcutter_podman'
+end
