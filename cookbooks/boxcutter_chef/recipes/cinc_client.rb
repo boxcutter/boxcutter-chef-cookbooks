@@ -157,6 +157,8 @@ ruby_block 'reload_client_config' do
 end
 
 template "#{config_dir}/client-prod.rb" do
+  source 'client-prod.rb.erb'
+  cookbook 'boxcutter_chef'
   owner 'root'
   group 'root'
   mode '0644'
@@ -178,6 +180,8 @@ link "#{config_dir}/client.pem" do
 end
 
 template "#{config_dir}/run-list.json" do
+  source 'run-list.json.erb'
+  cookbook 'boxcutter_chef'
   owner 'root'
   group 'root'
   mode '0644'
