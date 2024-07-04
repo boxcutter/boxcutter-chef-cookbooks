@@ -42,3 +42,5 @@ if node.ubuntu?
 end
 
 include_recipe '::dnf'
+
+node.default['fb_ssh']['sshd_config']['X11Forwarding'] = true

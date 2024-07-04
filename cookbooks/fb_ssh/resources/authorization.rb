@@ -31,7 +31,17 @@ action_class do
       allowed_users = node['fb_ssh']["authorized_#{type}_users"]
     end
     if type == 'keys'
-      auth_map = data_bag('fb_ssh_authorized_keys').map { |x| [x, nil] }.to_h
+      # The data_bag() mixin can throw 404 exceptions when trying to access
+      # an empty data bag directory in taste tester. Deal with this exception
+      # case.
+      # https://github.com/chef/chef/issues/7094
+      # https://serverfault.com/questions/683155/how-to-check-if-chef-databag-exists
+      begin
+        auth_map = data_bag('fb_ssh_authorized_keys').map { |x| [x, nil] }.to_h
+      rescue Net::HTTPServerException, Chef::Exceptions::InvalidDataBagPath
+        auth_map = {}
+      end
+
       auth_map.merge!(node['fb_ssh']['authorized_keys'])
     else
       auth_map = node['fb_ssh']["authorized_#{type}"]
