@@ -42,7 +42,7 @@ action :configure do
 end
 
 action_class do
-  def current_networks()
+  def current_networks
     result = shell_out!('docker network ls --no-trunc --format "{{json .}}"')
     networks = {}
     result.stdout.each_line do |line|
@@ -54,7 +54,8 @@ action_class do
     end
     networks
   end
-  def current_volumes()
+
+  def current_volumes
     result = shell_out!('docker volume ls --format "{{json .}}"')
     volumes = {}
     result.stdout.each_line do |line|
@@ -68,7 +69,7 @@ action_class do
     volumes
   end
 
-  def current_containers()
+  def current_containers
     result = shell_out!('docker container ls --all --no-trunc --format "{{json .}}"')
     containers = {}
     result.stdout.each_line do |line|
@@ -84,13 +85,13 @@ action_class do
 
   def container_run_command(name, data)
     env = data['environment']&.map do |key, value|
-      "--env #{key}#{value ? "={value}" : ''}"
+      "--env #{key}#{value ? '={value}' : ''}"
     end&.join(' ')
     ports = data['ports']&.map do |host_port, container_port|
       "-p #{host_port}:#{container_port}"
     end&.join(' ')
-    mounts = data['mounts']&.map do |name, data|
-      "--mount #{data['type'] == 'bind' ? 'type=bind,' : ''}source=#{data['source']},target=#{data['target']}"
+    mounts = data['mounts']&.map do |_name, options|
+      "--mount #{options['type'] == 'bind' ? 'type=bind,' : ''}source=#{options['source']},target=#{options['target']}"
     end&.join(' ')
     command = [
       data['command'], data['command_args']
