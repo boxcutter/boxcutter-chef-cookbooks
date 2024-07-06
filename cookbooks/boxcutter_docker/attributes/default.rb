@@ -12,4 +12,5 @@ default['boxcutter_docker'] = {
   'bind_mounts' => {},
   'volumes' => {},
   'devices' => {},
+  'networks' => {},
 }
