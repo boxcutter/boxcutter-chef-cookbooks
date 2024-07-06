@@ -56,5 +56,5 @@ robot_hosts = %w{
 }.include?(node['hostname'])
 
 if robot_hosts
-  include_recipe 'boxcutter_podman'
+  # include_recipe 'boxcutter_podman'
 end
