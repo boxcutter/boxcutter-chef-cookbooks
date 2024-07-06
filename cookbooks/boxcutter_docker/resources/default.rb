@@ -106,7 +106,7 @@ action_class do
 
   def container_run_command(name, data)
     env = data['environment']&.map do |key, value|
-      "--env #{key}#{value ? '={value}' : ''}"
+      "--env #{key}#{value ? "=#{value}" : ''}"
     end&.join(' ')
     ports = data['ports']&.map do |host_port, container_port|
       "-p #{host_port}:#{container_port}"
