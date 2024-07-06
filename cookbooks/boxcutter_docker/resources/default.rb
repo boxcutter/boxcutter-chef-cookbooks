@@ -1,8 +1,15 @@
 unified_mode true
 
 action :configure do
+  current_networks = network_ls
   current_containers = container_ls
   current_volumes = volume_ls
+
+  node['boxcutter_docker']['networks'].each do |name, data|
+    if !current_networks[name]
+      network_create(name, data)
+    end
+  end
 
   node['boxcutter_docker']['volumes'].each do |name, data|
     if !current_volumes[name]
@@ -62,6 +69,19 @@ action_class do
     networks
   end
 
+  def network_create_command(name, _data)
+    "docker network create #{name}"
+  end
+
+  def network_create(name, data)
+    command = network_create_command(name, data)
+    puts "MISCHA: network_create_command=#{command}"
+    Chef::Log.debug("boxcutter_docker: network_create_command=#{command}")
+    execute "docker network create #{name}" do
+      command command
+    end
+  end
+
   def volume_ls
     result = shell_out!('docker volume ls --format "{{json .}}"')
     volumes = {}
@@ -114,10 +134,24 @@ action_class do
     mounts = data['mounts']&.map do |_name, options|
       "--mount #{options['type'] == 'bind' ? 'type=bind,' : ''}source=#{options['source']},target=#{options['target']}"
     end&.join(' ')
+    ulimits = data['ulimits']&.map do |key, value|
+      "--ulimit #{key}#{value ? "=#{value}" : ''}"
+    end&.join(' ')
+    logging_options = data['logging_options']&.map do |key, value|
+      "--log-opt #{key}#{value ? "=#{value}" : ''}"
+    end&.join(' ')
+    extra_options = data['extra_options']&.map do |key, value|
+      if value.is_a?(Array)
+        value.map { |v| "--#{key}=#{v}" }.join(' ')
+      else
+        "--#{key}#{value ? "=#{value}" : ''}"
+      end
+    end&.join(' ')
     command = [
       data['command'], data['command_args']
     ].compact.join(' ')
     "docker container run --detach #{env} #{ports} #{mounts} " +
+      "#{ulimits} #{logging_options} #{extra_options} " +
       "--name #{name} #{data['image']} #{command}"
   end
 
