@@ -3,9 +3,13 @@ default['boxcutter_docker'] = {
   'group' => 'docker',
   'config' => {
     'log-opts' => {
-      'max-size' => '200m',
-      'max-file' => '3',
+      'max-size' => '25m',
+      'max-file' => '10',
     },
   },
-  'context' => {},
+  'containers' => {},
+  'contexts' => {},
+  'bind_mounts' => {},
+  'volumes' => {},
+  'devices' => {},
 }

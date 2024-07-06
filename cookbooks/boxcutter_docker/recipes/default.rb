@@ -242,3 +242,7 @@ service 'disable docker' do
   action [:stop, :disable]
   not_if { node['boxcutter_docker']['enable'] }
 end
+
+boxcutter_docker 'configure' do
+  only_if { node['boxcutter_docker']['enable'] }
+end
