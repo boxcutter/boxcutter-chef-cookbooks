@@ -1,0 +1,63 @@
+---
+driver:
+  name: dokken
+  privileged: true  # allows systemd services to start
+  docker_registry: docker.io
+  chef_image: boxcutter/cinc
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+
+provisioner:
+  name: dokken
+  product_name: cinc
+  chef_binary: /opt/cinc/bin/cinc-client
+  chef_license: accept-no-persist
+  chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  client_rb:
+    # Needed to avoid apply2file error on intel for mac
+    file_backup_path: nil
+    # Passwd plugin is needed to use the fb_users cookbook
+    ohai.optional_plugins:
+      - Passwd
+    ohai.critical_plugins:
+      - Passwd
+
+transport:
+  name: dokken
+
+verifier:
+  name: inspec
+
+platforms:
+  # @see https://github.com/chef-cookbooks/testing_examples/blob/main/kitchen.dokken.yml
+  # @see https://hub.docker.com/u/dokken
+  - name: ubuntu-20.04
+    driver:
+      image: boxcutter/dokken-ubuntu-20.04
+      pid_one_command: /bin/systemd
+
+  - name: ubuntu-22.04
+    driver:
+      image: boxcutter/dokken-ubuntu-22.04
+      pid_one_command: /bin/systemd
+
+  - name: centos-stream-9
+    driver:
+      image: boxcutter/dokken-centos-stream-9
+      pid_one_command: /usr/lib/systemd/systemd
+      intermediate_instructions:
+        # stub out /etc/fstab for fb_fstab
+        - RUN touch /etc/fstab
+        # enable EPEL (for stuff like hddtemp)
+        - RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+
+suites:
+  - name: default
+    # run_list set in Policyfile.rb, this does nothing
+    # run_list:
+    #   - recipe[boxcutter_ohai]
+    #   - recipe[boxcutter_init]
+    #   - recipe[boxcutter_jfrog::default]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
