@@ -1,7 +1,14 @@
 unified_mode true
 
 action :configure do
-  containers = current_containers
+  current_containers = container_ls
+  current_volumes = volume_ls
+
+  node['boxcutter_docker']['volumes'].each do |name, data|
+    if !current_volumes[name]
+      volume_create(name, data)
+    end
+  end
 
   node['boxcutter_docker']['bind_mounts'].each do |resource_name, data|
     name = data['path'] || resource_name
@@ -16,7 +23,7 @@ action :configure do
   node['boxcutter_docker']['containers'].each do |name, data|
     desired_state = 'running'
 
-    if !containers[name]
+    if !current_containers[name]
       if desired_state == 'running'
         container_run(name, data)
         service_action = :start
@@ -42,7 +49,7 @@ action :configure do
 end
 
 action_class do
-  def current_networks
+  def network_ls
     result = shell_out!('docker network ls --no-trunc --format "{{json .}}"')
     networks = {}
     result.stdout.each_line do |line|
@@ -55,7 +62,7 @@ action_class do
     networks
   end
 
-  def current_volumes
+  def volume_ls
     result = shell_out!('docker volume ls --format "{{json .}}"')
     volumes = {}
     result.stdout.each_line do |line|
@@ -69,7 +76,21 @@ action_class do
     volumes
   end
 
-  def current_containers
+  def volume_create_command(name, data)
+    driver = data['driver'] || 'local'
+    "docker volume create --driver #{driver} #{name}"
+  end
+
+  def volume_create(name, data)
+    command = volume_create_command(name, data)
+    puts "MISCHA: volume_create_command=#{command}"
+    Chef::Log.debug("boxcutter_docker: volume_create_command=#{command}")
+    execute "volume create #{name}" do
+      command command
+    end
+  end
+
+  def container_ls
     result = shell_out!('docker container ls --all --no-trunc --format "{{json .}}"')
     containers = {}
     result.stdout.each_line do |line|
