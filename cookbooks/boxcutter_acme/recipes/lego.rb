@@ -57,6 +57,6 @@ execute 'extract lego' do
   creates "#{path}/bin/lego"
 end
 
-link "/opt/lego/latest/bin" do
-  to "#{path}"
+link '/opt/lego/latest/bin' do
+  to path.to_s
 end

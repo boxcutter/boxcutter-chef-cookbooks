@@ -21,7 +21,6 @@ maintainer_email 'noreply@facebook.com'
 license 'Apache-2.0'
 source_url 'https://github.com/facebook/chef-cookbooks/'
 description 'Installs/Configures sssd'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 supports 'centos'
 supports 'debian'
 supports 'ubuntu'
