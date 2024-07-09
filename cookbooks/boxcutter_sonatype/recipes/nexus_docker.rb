@@ -24,11 +24,11 @@ node.default['fb_iptables']['filter']['INPUT']['rules']['nexus'] = {
 
 include_recipe 'boxcutter_docker'
 
-%w(
+%w{
   /opt
   /opt/sonatype
   /opt/sonatype/sonatype-work
-).each do |path|
+}.each do |path|
   node.default['boxcutter_docker']['bind_mounts'][path] = {
     'owner' => node.root_user,
     'group' => node.root_group,
@@ -54,8 +54,8 @@ node.default['boxcutter_docker']['containers']['nexus3'] = {
       'type' => 'bind',
       'source' => '/opt/sonatype/sonatype-work/nexus-data',
       'target' => '/nexus-data',
-    }
-  }
+    },
+  },
 }
 
 # ruby_block 'wait until nexus ready' do
