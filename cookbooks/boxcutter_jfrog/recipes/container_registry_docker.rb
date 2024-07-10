@@ -20,7 +20,7 @@
 primary_interface = node['network']['default_interface']
 
 # Get the IP address of the primary interface
-primary_ip = node['network']['interfaces'][primary_interface]['addresses'].find do |ip, params|
+primary_ip = node['network']['interfaces'][primary_interface]['addresses'].find do |_ip, params|
   params['family'] == 'inet'
 end.first
 
