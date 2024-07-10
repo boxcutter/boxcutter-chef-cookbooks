@@ -16,6 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Default interface is typically identified by having the default route
+primary_interface = node['network']['default_interface']
+
+# Get the IP address of the primary interface
+primary_ip = node['network']['interfaces'][primary_interface]['addresses'].find do |ip, params|
+  params['family'] == 'inet'
+end.first
+
+# Print the IP address
+Chef::Log.info("Primary IP address is #{primary_ip}")
+puts "MISCHA: Primary IP address is #{primary_ip}"
+
 node.default['fb_iptables']['filter']['INPUT']['rules']['jcr'] = {
   'rules' => [
     '-p tcp --dport 8081 -j ACCEPT',
@@ -74,7 +86,7 @@ node.default['boxcutter_docker']['containers']['artifactory'] = {
     'JF_SHARED_DATABASE_PASSWORD' => 'superseekret',
     'JF_SHARED_DATABASE_URL' => 'jdbc:postgresql://postgresql:5432/artifactory',
     'JF_SHARED_DATABASE_DRIVER' => 'org.postgresql.Driver',
-    'JF_SHARED_NODE_IP' => '10.63.45.247',
+    'JF_SHARED_NODE_IP' => primary_ip,
     # 'JF_SHARED_NODE_ID' => 'artifactory',
     # 'JF_SHARED_NODE_NAME' => 'artifactory',
     # 'JF_ROUTER_ENTRYPOINTS_EXTERNALPORT' => '8082',

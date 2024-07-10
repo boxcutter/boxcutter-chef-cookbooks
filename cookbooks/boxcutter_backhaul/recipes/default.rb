@@ -47,3 +47,11 @@ if nfs_server_hosts
 
   include_recipe 'boxcutter_nfs::server'
 end
+
+artifactory_hosts = %w{
+  crake-artifactory-playpen
+}.include?(node['hostname'])
+
+if artifactory_hosts
+  include_recipe 'boxcutter_jfrog::container_registry_docker'
+end
