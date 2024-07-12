@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: bundle install
     - name: Run rspec
-      run: ./scripts/run_chefspec
+      run: ./scripts/run_chefspec cookbooks/*/spec/*_spec.rb cookbooks/*/spec/unit/resources/*_spec.rb cookbooks/*/spec/unit/libraries/*_spec.rb
     - name: Run cookstyle
       run: ./scripts/run_cookstyle
   kitchen:
