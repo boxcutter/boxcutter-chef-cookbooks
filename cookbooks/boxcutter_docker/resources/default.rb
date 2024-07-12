@@ -101,6 +101,7 @@ action_class do
     end
     contexts
   end
+
   def context_create_command(name, data)
     cmd = ["docker context create #{name}"]
     cmd << data['docker_endpoint']

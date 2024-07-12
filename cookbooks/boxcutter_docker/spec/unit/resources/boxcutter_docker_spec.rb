@@ -23,11 +23,14 @@ describe 'boxcutter_docker' do
   }
 
   before do
-    default_contexts = '{"Name":"default","Description":"Current DOCKER_HOST based configuration","DockerEndpoint":"unix:///var/run/docker.sock","Current":true,"Error":"","ContextType":"moby"}'
+    default_contexts = '{"Name":"default",' +
+      '"Description":"Current DOCKER_HOST based configuration",' +
+      '"DockerEndpoint":"unix:///var/run/docker.sock",' +
+      '"Current":true,"Error":"","ContextType":"moby"}'
     stubs_for_provider('boxcutter_docker[test]') do |provider|
       allow(provider).to receive_shell_out(
         'docker context ls --format "{{json .}}"',
-        stdout: default_contexts
+        stdout: default_contexts,
       )
 
       default_buildkits = <<~EOS
@@ -51,12 +54,12 @@ EOS
 
       allow(provider).to receive_shell_out(
         'docker volume ls --format "{{json .}}"',
-        stdout: ''
+        stdout: '',
       )
 
       allow(provider).to receive_shell_out(
         'docker container ls --all --no-trunc --format "{{json .}}"',
-        stdout: ''
+        stdout: '',
       )
     end
   end
@@ -68,17 +71,23 @@ EOS
   # contexts
   context 'default context' do
     default_attributes['boxcutter_docker']['contexts']['docker-test'] = {
-      'docker' => 'host=tcp://docker:2375'
+      'docker' => 'host=tcp://docker:2375',
     }
 
-    it { is_expected.to run_execute('docker context create docker-test').with(command: 'docker context create docker-test ')}
+    it {
+      is_expected.to run_execute(
+        'docker context create docker-test',
+      ).with(
+        command: 'docker context create docker-test ',
+      )
+    }
   end
 
   # buildkits
   context 'buildkits' do
     default_attributes['boxcutter_docker']['buildkits']['jetson'] = {
       'docker' => 'host=ssh://craft@10.63.34.181',
-      'description' => 'NVIDIA Jetson'
+      'description' => 'NVIDIA Jetson',
     }
 
     it {
@@ -112,9 +121,9 @@ EOS
 
     it {
       is_expected.to run_execute(
-        'volume create postgres_data'
+        'volume create postgres_data',
       ).with(
-        command: 'docker volume create --driver local postgres_data'
+        command: 'docker volume create --driver local postgres_data',
       )
     }
   end
