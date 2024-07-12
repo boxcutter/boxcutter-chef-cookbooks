@@ -50,6 +50,7 @@ end
 
 artifactory_hosts = %w{
   crake-artifactory-playpen
+  hq0-rt01
 }.include?(node['hostname'])
 
 if artifactory_hosts
