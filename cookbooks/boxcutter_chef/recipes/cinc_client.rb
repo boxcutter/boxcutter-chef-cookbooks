@@ -29,16 +29,16 @@ when 'ubuntu'
     package_info = value_for_platform(
       'ubuntu' => {
         '20.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/20.04/cinc_18.4.12-1_amd64.deb',
-          'checksum' => 'ac02fab9c6351893e250b3ba91d6604dfffedefe80609d44ab2189caea281ca2',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/ubuntu/20.04/cinc_18.5.0-1_amd64.deb',
+          'checksum' => 'def7a65cda41fb378b0a14a310e880c677f9ebf40f960243894020e1c72420b8',
         },
         '22.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/22.04/cinc_18.4.12-1_amd64.deb',
-          'checksum' => 'f79d89bad254ce9a2881eed77cd5f0d9a172f4e2ed29f161cb620206b0d103a6',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/ubuntu/22.04/cinc_18.5.0-1_amd64.deb',
+          'checksum' => 'e7a9bbcf112d0d523689c32230080b834f651d2ac4a4d5d38c1befe77de28148',
         },
         '24.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/22.04/cinc_18.4.12-1_amd64.deb',
-          'checksum' => 'f79d89bad254ce9a2881eed77cd5f0d9a172f4e2ed29f161cb620206b0d103a6',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/ubuntu/22.04/cinc_18.5.0-1_amd64.deb',
+          'checksum' => 'e7a9bbcf112d0d523689c32230080b834f651d2ac4a4d5d38c1befe77de28148',
         },
       },
     )
@@ -46,16 +46,16 @@ when 'ubuntu'
     package_info = value_for_platform(
       'ubuntu' => {
         '20.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/20.04/cinc_18.4.12-1_arm64.deb',
-          'checksum' => 'e83412c10f1daa47c92d2230486cb29e43a42f07c9e89a3cd4ccc71d31a0026c',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/ubuntu/20.04/cinc_18.5.0-1_arm64.deb',
+          'checksum' => '6037cd2c35898ed388372adcbe267e7833546488750596e1a802b87ca6f9b614',
         },
         '22.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/22.04/cinc_18.4.12-1_arm64.deb',
-          'checksum' => 'c98805280ac44428af455f245ea1892e707bb45a68b12ca50ddf78978ede7856',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/ubuntu/22.04/cinc_18.5.0-1_arm64.deb',
+          'checksum' => 'a4d858a02e135f61b8183a1db037b27f1cb45cdaf43e1492e8a7bda660fc5189',
         },
         '24.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/22.04/cinc_18.4.12-1_arm64.deb',
-          'checksum' => 'c98805280ac44428af455f245ea1892e707bb45a68b12ca50ddf78978ede7856',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/ubuntu/22.04/cinc_18.5.0-1_arm64.deb',
+          'checksum' => 'a4d858a02e135f61b8183a1db037b27f1cb45cdaf43e1492e8a7bda660fc5189',
         },
       },
     )
