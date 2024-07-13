@@ -84,6 +84,7 @@ include_recipe 'fb_limits'
 # include_recipe 'fb_hostconf'
 include_recipe 'fb_sysctl'
 # HERE: networking
+include_recipe 'boxcutter_users::root'
 include_recipe 'fb_users'
 # if node.centos?
 #   # We turn this off because the override causes intermittent failures in

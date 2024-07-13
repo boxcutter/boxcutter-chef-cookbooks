@@ -20,6 +20,8 @@ puts "MISCHA: node['boxcutter_config']['tier] = #{node['boxcutter_config']['tier
 node.default['fb_users']['user_defaults']['gid'] = 'boxcutter'
 include_recipe 'boxcutter_users'
 
+include_recipe '::ssh'
+
 if node.ubuntu?
   # us.archive.ubuntu.com and the core Ubuntu repositories do not have ARM
   # binaries. ARM binaries are only on ports.ubuntu.com
@@ -44,3 +46,7 @@ end
 include_recipe '::dnf'
 
 node.default['fb_ssh']['sshd_config']['X11Forwarding'] = true
+
+if node.linux?
+  include_recipe '::users'
+end
