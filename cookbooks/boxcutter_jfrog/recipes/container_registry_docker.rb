@@ -193,3 +193,5 @@ file '/var/chef/.jfrog_container_registry_docker_configured' do
   notifies :post, 'http_request[accept_eula]', :immediately
   notifies :post, 'http_request[change default admin password]', :immediately
 end
+
+include_recipe 'boxcutter_acme::lego'
