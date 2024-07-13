@@ -24,6 +24,9 @@ module FB
       'craft' => {
         'uid' => 2004,
       },
+      'david' => {
+        'uid' => 2005,
+      },
     }.freeze
 
     GID_MAP = {
@@ -51,6 +54,9 @@ module FB
       },
       'craft' => {
         'gid' => 2004,
+      },
+      'david' => {
+        'gid' => 2005,
       },
     }.freeze
   end

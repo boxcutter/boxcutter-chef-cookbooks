@@ -40,7 +40,6 @@ end
 node.default['fb_sudo']['users']['%sudo']['dont prompt for password'] = 'ALL=NOPASSWD: ALL'
 
 node.default['fb_ssh']['enable_central_authorized_keys'] = true
-# node.default['fb_ssh']['enable_central_authorized_principals'] = true
 
 node.default['fb_ssh']['authorized_keys']['taylor']['mahowald'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDBZjVID1mAqZyhD3p0VbJtidKAxMHUwLmEMaCAJX0UN mahowald'
@@ -50,3 +49,7 @@ node.default['fb_ssh']['authorized_keys']['taylor']['crake_chef_workstation'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFgc04AMr0cqL3Il8l+jSuRtgHAjntGzDltnOCB2Uihz crakeChefWorkstation'
 node.default['fb_ssh']['authorized_keys']['sheila']['mahowald'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMC7b+X2a0mRV8A7W5zolbrkALqFizKtuhmM+xZWKohl sheila@mahowald'
+node.default['fb_ssh']['authorized_keys']['david']['primary'] =
+  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGrsc/f7awkWNJn/mUM5Z4It61b+AqpHvFpnV6bxn8vT dtarazi@olin.edu'
+node.default['fb_ssh']['authorized_keys']['david']['primary'] =
+  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKyLT95GOjIh1FsXyyeUDzr7JubWRxq3KvP7cmUfsfYm david@polymathrobotics.com'
