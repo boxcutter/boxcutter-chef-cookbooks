@@ -163,6 +163,8 @@ local_key_generation true
 json_attribs '/etc/cinc/run-list.json'
 ohai.critical_plugins ||= []
 ohai.critical_plugins += [:Passwd]
+ohai.optional_plugins ||= []
+ohai.optional_plugins += [:Passwd]
 EOF
 
 sudo openssl genrsa -out /etc/cinc/client-prod.pem
@@ -387,6 +389,8 @@ local_key_generation true
 json_attribs '/etc/cinc/run-list.json'
 ohai.critical_plugins ||= []
 ohai.critical_plugins += [:Passwd]
+ohai.optional_plugins ||= []
+ohai.optional_plugins += [:Passwd]
 EOF
 
 sudo openssl genrsa -out /etc/cinc/client-prod.pem
