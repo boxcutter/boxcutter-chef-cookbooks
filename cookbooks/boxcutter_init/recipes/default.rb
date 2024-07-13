@@ -85,9 +85,9 @@ include_recipe 'fb_limits'
 include_recipe 'fb_sysctl'
 # HERE: networking
 #
-onepassword_list = %w(
+onepassword_list = %w{
   hq0-rt01
-)
+}
 if onepassword_list.include?(node['hostname'])
   include_recipe 'boxcutter_users::root'
 end
