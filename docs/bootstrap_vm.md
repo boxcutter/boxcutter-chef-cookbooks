@@ -141,6 +141,17 @@ curl -L https://omnitruck.cinc.sh/install.sh | sudo bash
 # /opt/chef -> /opt/cinc
 sudo ln -snf /opt/cinc /opt/chef
 
+# prime onepassword secret /etc/cinc/op_service_account_token
+# Install 1Password cli
+sudo apt-get update
+sudo apt-get install unzip
+ARCH="<choose between 386/amd64/arm/arm64>"
+curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.29.0/op_linux_amd64_v2.29.0.zip
+unzip -qq /tmp/op.zip op -d /usr/local/bin/
+rm -f /tmp/op.zip
+ 
+# op user get --me 
+
 sudo tee /etc/cinc/client-prod.rb <<EOF
 local_mode true
 chef_repo_path '/var/chef/repos/boxcutter-chef-cookbooks'
