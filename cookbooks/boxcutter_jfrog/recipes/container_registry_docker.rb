@@ -120,3 +120,76 @@ node.default['boxcutter_docker']['containers']['artifactory'] = {
     'network' => 'artifactory_network',
   },
 }
+
+# curl -X GET -v http://localhost:8081/artifactory/api/v1/system/readiness
+# curl -X GET -v http://localhost:8081/artifactory/api/v1/system/liveness
+
+ruby_block 'wait until artifactory passes liveness check' do
+  block do
+    result = false
+    seconds_waited = 0
+    seconds_sleep_interval = 10
+    seconds_timeout = 300
+    uri = URI.parse('http://127.0.0.1:8081/artifactory/api/v1/system/liveness')
+    loop do
+      begin
+        response = ::Net::HTTP.get_response(uri)
+        puts "MISCHA: Got code #{response.code_type}"
+        if response.code_type == Net::HTTPOK
+          result = true
+          break
+        end
+      rescue Errno::ECONNRESET, EOFError => e
+        puts "MISCHA: Artifactory is not accepting requests - #{e.message}"
+        puts "MISCHA: Artifactory is not accepting requests - #{e.inspect}"
+        nil
+      end
+      break if seconds_waited > seconds_timeout
+      sleep(seconds_sleep_interval)
+      seconds_waited += seconds_sleep_interval
+    end
+
+    result
+  end
+  action :nothing
+end
+
+# curl -x GET -v -u admin:password http://localhost:8081/artifactpry/api/system/license
+# curl -XPOST -vu admin:password http://localhost:8081/artifactory/ui/jcr/eula/accept
+
+http_request 'accept_eula' do
+  url 'http://127.0.0.1:8081/artifactory/ui/jcr/eula/accept'
+  headers({
+            'Authorization' => "Basic #{Base64.encode64('admin:password').strip}",
+            'Content-Type' => 'application/json',
+          })
+  message({}.to_json)
+  action :nothing
+end
+
+payload = {
+  userName: 'admin',
+  oldPassword: 'password',
+  newPassword1: 'Superseekret63',
+  newPassword2: 'Superseekret63',
+}
+json_payload = payload.to_json
+
+http_request 'change default admin password' do
+  url 'http://127.0.0.1:8081/artifactory/api/security/users/authorization/changePassword'
+  message json_payload
+  headers({
+            'Content-Type' => 'application/json',
+            'Authorization' => "Basic #{Base64.encode64('admin:password').strip}",
+          })
+  action :nothing
+end
+
+file '/var/chef/.jfrog_container_registry_docker_configured' do
+  owner 'root'
+  group 'root'
+  mode '0644'
+  notifies :run, 'ruby_block[wait until artifactory passes liveness check]', :immediately
+  notifies :post, 'http_request[accept_eula]', :immediately
+  notifies :post, 'http_request[change default admin password]', :immediately
+end
