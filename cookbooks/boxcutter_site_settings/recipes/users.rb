@@ -17,8 +17,8 @@
 # limitations under the License.
 
 # Basic system groups
-%w(
+%w{
   root
-).each do |grp|
+}.each do |grp|
   FB::Users.initialize_group(node, grp)
 end
