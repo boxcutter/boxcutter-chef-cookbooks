@@ -12,6 +12,15 @@ provisioner:
   chef_binary: /opt/cinc/bin/cinc-client
   chef_license: accept-no-persist
   chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  client_rb:
+    file_staging_uses_destdir: false
+    client_fork: false
+    force_logger: true
+    log_location: /var/log/chef.log
+    ohai.optional_plugins:
+      - Passwd
+    ohai.critical_plugins:
+      - Passwd
 
 transport:
   name: dokken
