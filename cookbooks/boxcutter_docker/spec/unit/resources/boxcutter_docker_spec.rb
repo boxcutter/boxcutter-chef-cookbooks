@@ -1,4 +1,4 @@
-require 'spec_helper'
+require './spec/spec_helper'
 
 describe 'boxcutter_docker' do
   step_into :boxcutter_docker
