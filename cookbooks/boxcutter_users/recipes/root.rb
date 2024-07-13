@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-root_password = Boxcutter::OnePassword.op_read('op://Automation-Org/root/password')
+root_password = Boxcutter::OnePassword.op_read('op://Automation-Org/root/hash')
 
 user 'root' do
   password root_password
