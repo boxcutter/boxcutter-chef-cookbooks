@@ -33,6 +33,3 @@
 }.each do |key, val|
   node.default['fb_ssh']['sshd_config'][key] = val
 end
-
-node.default['fb_ssh']['authorized_keys']['root'] = root_keys
-node.default['fb_ssh']['authorized_keys_users'] << 'root'
