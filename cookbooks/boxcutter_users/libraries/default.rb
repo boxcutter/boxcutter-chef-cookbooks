@@ -15,6 +15,15 @@ module FB
       'boxcutter' => {
         'uid' => 2001,
       },
+      'shelia' => {
+        'uid' => 2002,
+      },
+      'taylor' => {
+        'uid' => 2003,
+      },
+      'craft' => {
+        'uid' => 2004,
+      },
     }.freeze
 
     GID_MAP = {
@@ -33,6 +42,15 @@ module FB
       },
       'boxcutter' => {
         'gid' => 2001,
+      },
+      'sheila' => {
+        'gid' => 2002,
+      },
+      'taylor' => {
+        'gid' => 2003,
+      },
+      'craft' => {
+        'gid' => 2004,
       },
     }.freeze
   end
