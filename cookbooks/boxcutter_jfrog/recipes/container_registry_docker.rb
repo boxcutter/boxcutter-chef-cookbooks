@@ -198,12 +198,15 @@ include_recipe 'boxcutter_acme::lego'
 include_recipe 'fb_nginx'
 
 node.default['fb_nginx']['enable_default_site'] = false
+node.default['fb_nginx']['config']['http']['ssl_protocols'] = 'TLSv1 TLSv1.1 TLSv1.2 TLSv1.3'
+node.default['fb_nginx']['config']['http']['ssl_certificate'] = '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.crt'
+node.default['fb_nginx']['config']['http']['ssl_certificate_key'] = '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.key'
+node.default['fb_nginx']['config']['http']['ssl_session_cache'] = 'shared:SSL:1m'
+node.default['fb_nginx']['config']['http']['ssl_prefer_server_ciphers'] = 'on'
 node.default['fb_nginx']['config']['http']['server_names_hash_bucket_size'] = '128'
 node.default['fb_nginx']['sites']['artifactory'] = {
   'listen 443' => 'ssl',
-  'ssl_certificate' => '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.crt',
-  'ssl_certificate_key' =>  '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.key',
-  'server_name' => 'server_name ~(?<repo>.+)\.crake-artifactory-playpen.sandbox.boxcutter.net' +
+  'server_name' => '~(?<repo>.+)\.crake-artifactory-playpen.sandbox.boxcutter.net' +
     ' crake-artifactory-playpen.sandbox.boxcutter.net',
   "if ($http_x_forwarded_proto = '')" => {
     'set $http_x_forwarded_proto' => '$scheme',
@@ -229,5 +232,8 @@ node.default['fb_nginx']['sites']['artifactory'] = {
     'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
     'add_header X-Content-Type-Options' => '"nosniff" always',
     'add_header Strict-Transport-Security' => 'always',
+    'location ~ ^/artifactory/' => {
+      'proxy_pass' => 'http://127.0.0.1:8081',
+    }
   },
 }
