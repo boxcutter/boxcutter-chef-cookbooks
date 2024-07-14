@@ -199,8 +199,10 @@ include_recipe 'fb_nginx'
 
 node.default['fb_nginx']['enable_default_site'] = false
 node.default['fb_nginx']['config']['http']['ssl_protocols'] = 'TLSv1 TLSv1.1 TLSv1.2 TLSv1.3'
-node.default['fb_nginx']['config']['http']['ssl_certificate'] = '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.crt'
-node.default['fb_nginx']['config']['http']['ssl_certificate_key'] = '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.key'
+node.default['fb_nginx']['config']['http']['ssl_certificate'] =
+  '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.crt'
+node.default['fb_nginx']['config']['http']['ssl_certificate_key'] =
+  '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.key'
 node.default['fb_nginx']['config']['http']['ssl_session_cache'] = 'shared:SSL:1m'
 node.default['fb_nginx']['config']['http']['ssl_prefer_server_ciphers'] = 'on'
 node.default['fb_nginx']['config']['http']['server_names_hash_bucket_size'] = '128'
@@ -234,6 +236,6 @@ node.default['fb_nginx']['sites']['artifactory'] = {
     'add_header Strict-Transport-Security' => 'always',
     'location ~ ^/artifactory/' => {
       'proxy_pass' => 'http://127.0.0.1:8081',
-    }
+    },
   },
 }
