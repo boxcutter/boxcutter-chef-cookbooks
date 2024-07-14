@@ -203,7 +203,8 @@ node.default['fb_nginx']['sites']['artifactory'] = {
   'listen 443' => 'ssl',
   'ssl_certificate' => '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.crt',
   'ssl_certificate_key' =>  '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.key',
-  'server_name' => 'server_name ~(?<repo>.+)\.crake-artifactory-playpen.sandbox.boxcutter.net crake-artifactory-playpen.sandbox.boxcutter.net',
+  'server_name' => 'server_name ~(?<repo>.+)\.crake-artifactory-playpen.sandbox.boxcutter.net' +
+    ' crake-artifactory-playpen.sandbox.boxcutter.net',
   "if ($http_x_forwarded_proto = '')" => {
     'set $http_x_forwarded_proto' => '$scheme',
   },
@@ -228,5 +229,5 @@ node.default['fb_nginx']['sites']['artifactory'] = {
     'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
     'add_header X-Content-Type-Options' => '"nosniff" always',
     'add_header Strict-Transport-Security' => 'always',
-  }
+  },
 }
