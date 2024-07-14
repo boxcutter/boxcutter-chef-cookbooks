@@ -195,3 +195,38 @@ file '/var/chef/.jfrog_container_registry_docker_configured' do
 end
 
 include_recipe 'boxcutter_acme::lego'
+include_recipe 'fb_nginx'
+
+node.default['fb_nginx']['enable_default_site'] = false
+node.default['fb_nginx']['config']['http']['server_names_hash_bucket_size'] = '128'
+node.default['fb_nginx']['sites']['artifactory'] = {
+  'listen 443' => 'ssl',
+  'ssl_certificate' => '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.crt',
+  'ssl_certificate_key' =>  '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.key',
+  'server_name' => 'server_name ~(?<repo>.+)\.crake-artifactory-playpen.sandbox.boxcutter.net crake-artifactory-playpen.sandbox.boxcutter.net',
+  "if ($http_x_forwarded_proto = '')" => {
+    'set $http_x_forwarded_proto' => '$scheme',
+  },
+  'rewrite ^/$' => '/ui/ redirect',
+  'rewrite ^/ui$' => '/ui/ redirect',
+  'rewrite ^/(v1|v2)/(.*)' => '/artifactory/api/docker/$repo/$1/$2',
+  'chunked_transfer_encoding' => 'on',
+  'client_max_body_size' => '0',
+  'location /' => {
+    'proxy_read_timeout' => '2400s',
+    'proxy_send_timeout' => '2400s',
+    'proxy_pass_header' => 'Server',
+    'proxy_cookie_path' => '~*^/.* /',
+    'proxy_buffer_size' => '128k',
+    'proxy_buffers' => '40 128k',
+    'proxy_busy_buffers_size' => '128k',
+    'proxy_pass' => 'http://127.0.0.1:8082',
+    'proxy_set_header X-JFrog-Override-Base-Url' => '$http_x_forwarded_proto://$host:$server_port',
+    'proxy_set_header X-Forwarded-Port' => '$server_port',
+    'proxy_set_header X-Forwarded-Proto' => '$http_x_forwarded_proto',
+    'proxy_set_header Host' => '$http_host',
+    'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
+    'add_header X-Content-Type-Options' => '"nosniff" always',
+    'add_header Strict-Transport-Security' => 'always',
+  }
+}
