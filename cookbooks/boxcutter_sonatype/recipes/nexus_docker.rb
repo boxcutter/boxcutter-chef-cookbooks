@@ -58,28 +58,36 @@ node.default['boxcutter_docker']['containers']['nexus3'] = {
   },
 }
 
-# ruby_block 'wait until nexus ready' do
-#   block do
-#     uri = URI.parse('http://127.0.0.1:8081/')
-#     Timeout.timeout(5 * 60, Timeout::Error) do
-#       begin
-#         response = ::Net::HTTP.get_response(uri)
-#         response.error! if response.code.start_with?('5')
-#       rescue SocketError,
-#         EOFError,
-#         Errno::ECONNREFUSED,
-#         Errno::ECONNRESET,
-#         Errno::ENETUNREACH,
-#         Errno::EADDRNOTAVAIL,
-#         Errno::EHOSTUNREACH,
-#         Net::HTTPError => e
-#         puts "MISCHA: Nexus is not accepting requests - #{e.message}"
-#         sleep 1
-#         retry
-#       end
-#     rescue Timeout::Error
-#       raise 'Nexus did not become ready - timeout'
-#     end
-#   end
-#   action :run
-# end
+file '' do
+  action :nothing
+end
+
+ruby_block 'wait until nexus is ready' do
+  block do
+    result = false
+    seconds_waited = 0
+    seconds_sleep_interval = 10
+    seconds_timeout = 300
+    uri = URI.parse('http://127.0.0.1:8081/')
+    loop do
+      begin
+        response = ::Net::HTTP.get_response(uri)
+        puts "MISCHA: Got code #{response.code_type}"
+        if response.code_type == Net::HTTPOK
+          result = true
+          break
+        end
+      rescue Errno::ECONNRESET, EOFError => e
+        puts "MISCHA: Nexus is not accepting requests - #{e.message}"
+        puts "MISCHA: Nexus is not accepting requests - #{e.inspect}"
+        nil
+      end
+      break if seconds_waited > seconds_timeout
+      sleep(seconds_sleep_interval)
+      seconds_waited += seconds_sleep_interval
+    end
+
+    result
+  end
+  action :nothing
+end
