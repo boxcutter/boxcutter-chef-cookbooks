@@ -58,9 +58,9 @@ node.default['boxcutter_docker']['containers']['nexus3'] = {
   },
 }
 
-file '' do
-  action :nothing
-end
+# file '' do
+#   action :nothing
+# end
 
 ruby_block 'wait until nexus is ready' do
   block do
@@ -89,5 +89,5 @@ ruby_block 'wait until nexus is ready' do
 
     result
   end
-  action :nothing
+  action :run
 end

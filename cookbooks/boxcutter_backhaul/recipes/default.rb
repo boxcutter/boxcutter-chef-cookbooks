@@ -54,5 +54,6 @@ artifactory_hosts = %w{
 }.include?(node['hostname'])
 
 if artifactory_hosts
-  include_recipe 'boxcutter_jfrog::container_registry_docker'
+  # include_recipe 'boxcutter_jfrog::container_registry_docker'
+  include_recipe 'boxcutter_sonatype::nexus_docker'
 end
