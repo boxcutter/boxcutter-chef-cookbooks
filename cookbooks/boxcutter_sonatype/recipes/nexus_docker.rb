@@ -134,7 +134,7 @@ http_request 'change admin password' do
   notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
   notifies :delete, "file[#{admin_password_path}]", :immediately
   notifies :put, 'http_request[enable_anonymous_user]', :immediately
-  notifies :put, 'http_request[disable_telemetry]', :immediately
+  # notifies :put, 'http_request[disable_telemetry]', :immediately
 end
 
 # verify:
