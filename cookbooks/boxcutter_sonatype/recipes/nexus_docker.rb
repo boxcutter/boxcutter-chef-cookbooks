@@ -175,3 +175,32 @@ end
 #   message '{"enabled":false}'
 #   action :nothing
 # end
+
+include_recipe 'boxcutter_acme::lego'
+include_recipe 'fb_nginx'
+
+node.default['fb_nginx']['enable_default_site'] = false
+node.default['fb_nginx']['config']['http']['proxy_send_timeout'] = '120'
+node.default['fb_nginx']['config']['http']['proxy_read_timeout'] = '300'
+node.default['fb_nginx']['config']['http']['proxy_buffering'] = 'off'
+node.default['fb_nginx']['config']['http']['proxy_request_buffering'] = 'off'
+node.default['fb_nginx']['config']['http']['keepalive_timeout'] = '5 5'
+node.default['fb_nginx']['config']['http']['tcp_nodelay'] = 'on'
+
+node.default['fb_nginx']['sites']['artifactory'] = {
+  'listen 443' => 'ssl',
+  'server_name' => 'crake-artifactory-playpen.sandbox.boxcutter.net',
+  'client_max_body_size' => '1G',
+  'ssl' => 'on',
+  'ssl_certificate' =>
+    '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.crt',
+  'ssl_certificate_key' =>
+  '/etc/lego/certificates/crake-artifactory-playpen.sandbox.boxcutter.net.key',
+  'location /' => {
+    'proxy_pass' => 'http://127.0.0.1:8081',
+    'proxy_set_header Host' => '$host',
+    'proxy_set_header X-Real-IP' => '$remote_addr',
+    'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
+    'proxy_set_header X-Forwarded-Proto' => 'https',
+  },
+}
