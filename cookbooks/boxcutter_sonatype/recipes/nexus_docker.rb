@@ -29,7 +29,6 @@ if node.run_state.key?('boxcutter_sonatype') \
   admin_password = node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password']
 end
 
-
 node.default['fb_iptables']['filter']['INPUT']['rules']['nexus'] = {
   'rules' => [
     '-p tcp --dport 8081 -j ACCEPT',
@@ -157,12 +156,11 @@ http_request 'enable_anonymous_user' do
   url lazy { "#{repository_url}/service/rest/v1/security/anonymous" }
   headers({
             'Content-Type' => 'application/json',
-            'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}"
+            'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}",
           })
   message '{ "enabled": true, "userId": "anonymous" }'
   action :nothing
 end
-
 
 # curl -u <username>:<password> \
 #   -X PUT -H "Content-Type: application/json" \
