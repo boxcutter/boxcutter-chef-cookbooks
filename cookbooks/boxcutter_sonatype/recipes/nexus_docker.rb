@@ -16,6 +16,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+repository_data_directory = '/opt/sonatype/sonatype-work/nexus-data'
+repository_url = 'http://127.0.0.1:8081'
+node.run_state['boxcutter_sonatype'] ||= {}
+node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
+node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
+
+admin_password = node['boxcutter_sonatype']['nexus_repository']['admin_password']
+if node.run_state.key?('boxcutter_sonatype') \
+  && node.run_state['boxcutter_sonatype'].key?('nexus_repository') \
+  && node.run_state['boxcutter_sonatype']['nexus_repository'].key?('admin_password')
+  admin_password = node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password']
+end
+
+
 node.default['fb_iptables']['filter']['INPUT']['rules']['nexus'] = {
   'rules' => [
     '-p tcp --dport 8081 -j ACCEPT',
@@ -58,17 +72,13 @@ node.default['boxcutter_docker']['containers']['nexus3'] = {
   },
 }
 
-# file '' do
-#   action :nothing
-# end
-
 ruby_block 'wait until nexus is ready' do
   block do
     result = false
     seconds_waited = 0
     seconds_sleep_interval = 10
     seconds_timeout = 300
-    uri = URI.parse('http://127.0.0.1:8081/')
+    uri = URI.parse(repository_url)
     loop do
       begin
         response = ::Net::HTTP.get_response(uri)
@@ -89,5 +99,81 @@ ruby_block 'wait until nexus is ready' do
 
     result
   end
-  action :run
+  action :nothing
 end
+
+template ::File.join(repository_data_directory, 'nexus.properties') do
+  source 'nexus.properties.erb'
+  owner 200
+  group 200
+  mode '0644'
+  notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
+end
+
+# OLD_PASSWORD=$(cat '/opt/sonatype/sonatype-work/nexus-data/admin.password')
+# curl -ifu admin:"${OLD_PASSWORD}" \
+#   -XPUT -H 'Content-Type: text/plain' \
+#   --data "${NEW_PASSWORD}" \
+#   http://127.0.0.1:8081/service/rest/v1/security/users/admin/change-password
+admin_password_path = ::File.join(repository_data_directory, 'admin.password')
+
+file admin_password_path do
+  action :nothing
+end
+
+http_request 'change admin password' do
+  url lazy { "#{repository_url}/service/rest/v1/security/users/admin/change-password" }
+  headers lazy {
+    {
+      'Content-Type' => 'text/plain',
+      'Authorization' => "Basic #{Base64.encode64("admin:#{::File.read(admin_password_path)}").strip}",
+    }
+  }
+  message lazy { admin_password }
+  action :put
+  only_if { ::File.exist?(admin_password_path) }
+  notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
+  notifies :delete, "file[#{admin_password_path}]", :immediately
+  notifies :put, 'http_request[enable_anonymous_user]', :immediately
+  notifies :put, 'http_request[disable_telemetry]', :immediately
+end
+
+# verify:
+# curl -u <username>:<password> http://<nexus-url>/service/rest/v1/security/anonymous
+#
+# curl -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} \
+#   -X PUT \
+#   -H 'Content-Type: application/json' \
+#   -d '{ "enabled": true, "userId": "anonymous" }' \
+#   http://127.0.0.1:8081/service/rest/v1/security/anonymous
+#
+# curl -u <username>:<password> \
+#   -X PUT \
+#   -H "Content-Type: application/json" \
+#   -d '{"enabled": false}' \
+#   http://<nexus-url>/service/rest/v1/security/anonymous
+
+http_request 'enable_anonymous_user' do
+  url lazy { "#{repository_url}/service/rest/v1/security/anonymous" }
+  headers({
+            'Content-Type' => 'application/json',
+            'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}"
+          })
+  message '{ "enabled": true, "userId": "anonymous" }'
+  action :nothing
+end
+
+
+# curl -u <username>:<password> \
+#   -X PUT -H "Content-Type: application/json" \
+#   -d '{"enabled":false}' http://<nexus-url>/service/rest/v1/telemetry/status
+
+# http_request 'disable_telemetry' do
+#   url lazy { "#{repository_url}/service/rest/v1/telemetry/status" }
+#   headers({
+#             'Content-Type' => 'application/json',
+#             'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}"
+#           })
+#   message '{"enabled":false}'
+#   action :nothing
+# end
