@@ -2,7 +2,7 @@
 
 ## Ubuntu x86_64
 
-## Spin up Ubuntu 22.04 x86_64 cloud image as a VM
+### Spin up Ubuntu 22.04 x86_64 cloud image as a VM
 
 Download and import the Ubuntu cloud image template into kvm:
 
@@ -42,10 +42,17 @@ EOF
 
 cat >user-data <<EOF
 #cloud-config
-password: superseekret
-chpasswd:
-  expire: False
-ssh_pwauth: True
+users:
+  - name: automat
+    plain_text_passwd: superseekret
+    uid: 63112
+    primary_group: users
+    groups: users
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+packages:
+  - qemu-guest-agent
 EOF
 
 sudo apt-get update
@@ -77,10 +84,9 @@ virt-install \
   --import \
   --debug
 
-# Login to the VM with ubuntu/superseekret
+# Login to the VM with automat/superseekret
 virsh console ubuntu-server-2204
-
-# login with ubuntu user
+# login with automat/superseekret
 
 # Verify that cloud-init is done (wait until it shows "done" status)
 $ cloud-init status
@@ -137,7 +143,7 @@ virsh destroy ubuntu-server-2404
 virsh undefine ubuntu-server-2404 --nvram --remove-all-storage
 ```
 
-## Install cinc-client and chefctl in the image
+### Install cinc-client and chefctl in the image
 
 ```
 # chefctl uses a shebang that points at /opt/chef, so make sure we have a link
