@@ -51,6 +51,8 @@ users:
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     lock_passwd: false
+package_update: false
+package_upgrade: false
 packages:
   - qemu-guest-agent
 EOF
