@@ -4,7 +4,11 @@
 
 ## Spin up Ubuntu 22.04 x86_64 cloud image as a VM
 
+Download and import the Ubuntu cloud image template into kvm:
+
 ```
+# Download and import the Ubuntu cloud image itself into kvm
+mkdir -p ubuntu-server-2204 && cd ubuntu-server-2204
 curl -LO https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
 
 $ qemu-img info jammy-server-cloudimg-amd64.img 
@@ -27,9 +31,8 @@ sudo qemu-img resize \
   -f qcow2 \
   /var/lib/libvirt/images/ubuntu-server-2204.qcow2 \
   32G
-```
 
-```
+# Create a cloud-init template to customize the Ubuntu image in kvm:
 touch network-config
 
 cat >meta-data <<EOF
@@ -44,12 +47,9 @@ chpasswd:
   expire: False
 ssh_pwauth: True
 EOF
-```
 
-```
 sudo apt-get update
 sudo apt-get install genisoimage
-#     -input-charset utf-8 \
 genisoimage \
     -input-charset utf-8 \
     -output ubuntu-server-2204-cloud-init.img \
@@ -58,7 +58,9 @@ genisoimage \
 sudo cp ubuntu-server-2204-cloud-init.img /var/lib/libvirt/boot/ubuntu-server-2204-cloud-init.iso
 ```
 
+Initialize the virtual machine:
 ```
+# Perform a customization run by loading the cloud-init image with the VM
 virt-install \
   --connect qemu:///system \
   --name ubuntu-server-2204 \
@@ -75,22 +77,41 @@ virt-install \
   --import \
   --debug
 
+# Login to the VM with ubuntu/superseekret
 virsh console ubuntu-server-2204
 
 # login with ubuntu user
+
+# Verify that cloud-init is done (wait until it shows "done" status)
 $ cloud-init status
 status: done
 
-# Disable cloud-init
+# Check networking - you may notice that the network interface is down and
+# the name of the interface generated in netplan doesn't match. If not 
+# correct, can regenerate with cloud-init
+$ ip --brief a
+
+# Check to make sure cloud-init is greater than 23.4
+$ cloud-init --version
+/usr/bin/cloud-init 24.1.3-0ubuntu1~22.04.1
+
+# Regenerate only the network config
+$ sudo cloud-init clean --configs network
+$ sudo cloud-init init --local
+$ sudo reboot
+
+# Now netplan should be configured to use the correct interface
+
+
+# Once everything looks good, disable cloud-init
 $ sudo touch /etc/cloud/cloud-init.disabled
 
 $ cloud-init status
 status: disabled
 
 $ sudo shutdown -h now
-```
 
-```
+# Detach the cloud-init image
 $ virsh domblklist ubuntu-server-2204
  Target   Source
 -------------------------------------------------------------------
@@ -101,18 +122,8 @@ $ virsh change-media ubuntu-server-2204 sda --eject
 Successfully ejected media.
 
 $ sudo rm /var/lib/libvirt/boot/ubuntu-server-2204-cloud-init.iso
-$ virsh edit ubuntu-server-2204
-# remove entry for the cloud-init.iso
-<!--
-    <disk type='file' device='cdrom'>
-      <driver name='qemu' type='raw'/>
-      <source file='/var/lib/libvirt/boot/ubuntu-server-2204-cloud-init.iso'/>
-      <target dev='sda' bus='sata'/>
-      <readonly/>
-      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
-    </disk>
--->
 
+# Make a snapshot of this clean config so you can revert in the future
 virsh snapshot-create-as --domain ubuntu-server-2204 --name clean --description "Initial install"
 
 # Nameless snapshot
@@ -121,11 +132,12 @@ virsh snapshot-list ubuntu-server-2204
 virsh snapshot-revert ubuntu-server-2204 clean
 virsh snapshot-delete ubuntu-server-2204 clean
 
+# If you need to destroy and recreate....
 virsh destroy ubuntu-server-2404
 virsh undefine ubuntu-server-2404 --nvram --remove-all-storage
 ```
 
-## Install cinc-client and chefctl
+## Install cinc-client and chefctl in the image
 
 ```
 # chefctl uses a shebang that points at /opt/chef, so make sure we have a link
@@ -147,7 +159,7 @@ sudo apt-get update
 sudo apt-get install unzip
 ARCH="<choose between 386/amd64/arm/arm64>"
 curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.29.0/op_linux_amd64_v2.29.0.zip
-unzip -qq /tmp/op.zip op -d /usr/local/bin/
+sudo unzip /tmp/op.zip op -d /usr/local/bin/
 rm -f /tmp/op.zip
  
 # op user get --me 
@@ -170,12 +182,11 @@ EOF
 sudo openssl genrsa -out /etc/cinc/client-prod.pem
 sudo openssl genrsa -out /etc/cinc/validation.pem
 
-sudo rm -f /etc/cinc/client.rb
 sudo ln -sf /etc/cinc/client-prod.rb /etc/chef/client.rb
 sudo ln -sf /etc/cinc/client-prod.pem /etc/chef/client.pem
 
-# sudo tee /etc/chef/chefctl_hooks.rb <<EOF
-# EOF
+sudo tee /etc/chef/chefctl_hooks.rb <<EOF
+EOF
 
 sudo tee /etc/chefctl-config.rb <<EOF
 chef_client '/opt/cinc/bin/cinc-client'
@@ -193,10 +204,11 @@ sudo tee /etc/chef/run-list.json <<EOF
 EOF
 
 sudo mkdir -p /var/chef /var/chef/repos /var/log/chef
-sudo su -
 cd /var/chef/repos
-sudo git clone https://github.com/boxcutter/chef-cookbooks.git
-sudo git clone https://github.com/boxcutter/boxcutter-chef-cookbooks.git
+sudo git clone https://github.com/boxcutter/chef-cookbooks.git \
+  /var/chef/repos/chef-cookbooks
+sudo git clone https://github.com/boxcutter/boxcutter-chef-cookbooks.git \
+  /var/chef/repos/boxcutter-chef-cookbooks
 
 sudo mkdir -p /usr/local/sbin
 sudo curl -o /usr/local/sbin/chefctl.rb https://raw.githubusercontent.com/facebook/chef-utils/main/chefctl/src/chefctl.rb
@@ -204,11 +216,12 @@ sudo chmod +x /usr/local/sbin/chefctl.rb
 sudo ln -sf /usr/local/sbin/chefctl.rb /usr/local/sbin/chefctl
 
 sudo touch /root/firstboot_os
-echo "{\"tier\": \"robot\"}" > /etc/boxcutter-config.json
+echo "{\"tier\": \"robot\"}" | sudo tee /etc/boxcutter-config.json > /dev/null
 sudo chefctl -iv
 
-/opt/cinc/bin/cinc-client -c /etc/cinc/client.rb -j /etc/chef/run-list.json
-/opt/cinc/bin/cinc-client --config /etc/cinc/client.rb --json-attributes /etc/chef/run-list.json
+# Behind the scenes, it'sdoing this:
+# /opt/cinc/bin/cinc-client -c /etc/cinc/client.rb -j /etc/chef/run-list.json
+# /opt/cinc/bin/cinc-client --config /etc/cinc/client.rb --json-attributes /etc/chef/run-list.json
 ```
 
 ## CentOS x86_64
@@ -566,8 +579,8 @@ virsh undefine ubuntu-server-2004 --nvram --remove-all-storage
 ```
 apt-get update
 apt-get install unzip
-ARCH="<choose between 386/amd64/arm/arm64>" && \
-wget "https://cache.agilebits.com/dist/1P/op2/pkg/v2.29.0/op_linux_${ARCH}_v2.29.0.zip" -O op.zip
+# ARCH="<choose between 386/amd64/arm/arm64>"
+wget "https://cache.agilebits.com/dist/1P/op2/pkg/v2.29.0/op_linux_amd64_v2.29.0.zip" -O op.zip
 unzip -d op op.zip
 sudo mv op/op /usr/local/bin/
 rm -r op.zip op
