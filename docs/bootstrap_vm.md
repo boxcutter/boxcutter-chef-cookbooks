@@ -1,5 +1,10 @@
 # Bootstrapping Chef
 
+## Table of Contents
+- [Ubuntu x86_64](#ubuntu-x86_64)
+- [CentOS x86_64](#centos-x86_64)
+- [Ubuntu NVIDIA Jetson](#ubuntu-nvidia-jetson)
+  
 ## Ubuntu x86_64
 
 ### Spin up Ubuntu 22.04 x86_64 cloud image as a VM
