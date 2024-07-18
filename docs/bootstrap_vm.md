@@ -258,7 +258,7 @@ $ sudo qemu-img convert \
 $ sudo qemu-img resize \
   -f qcow2 \
   /var/lib/libvirt/images/centos-stream-9.qcow2 \
-  32G
+  64G
 ```
 
 ```
@@ -285,9 +285,7 @@ package_upgrade: false
 packages:
   - qemu-guest-agent
 EOF
-```
 
-```
 sudo apt-get update
 sudo apt-get install genisoimage
 genisoimage \
@@ -298,7 +296,9 @@ genisoimage \
 sudo cp centos-stream-9-cloud-init.img /var/lib/libvirt/boot/centos-stream-9-cloud-init.iso
 ```
 
+Initialize the virtual machine:
 ```
+# Perform a customization run by loading the cloud-init image with the VM
 virt-install \
   --connect qemu:///system \
   --name centos-stream-9 \
@@ -315,20 +315,18 @@ virt-install \
   --import \
   --debug
 
-virsh console centos-stream-9
+# Login to the VM with automat/superseekret
+virsh console ubuntu-server-2204
+# login with automat/superseekret
 
-# cloud-user / superseekret
-ssh cloud-user@localhost -p 2222
-
-# login with cloud-user
+# Verify that cloud-init is done (wait until it shows "done" status)
+$ cloud-init status
+status: done
 
 # Check networking - you may notice that the network interface is down and
-# the name of the interface generated in netplan doesn't match. If not
+# the name of the interface generated in netplan doesn't match. If not 
 # correct, can regenerate with cloud-init
-# ip reports that enp1s0 is down
 $ ip --brief a
-lo               UNKNOWN        127.0.0.1/8 ::1/128 
-eth0             UP             10.63.44.89/22 fe80::ea9d:34f2:68cc:bc78/64
 
 # Check cloud-init version
 $ cloud-init --version
@@ -339,18 +337,12 @@ oud-init
 # Regenerate only the network config
 $ sudo cloud-init clean --configs network
 $ sudo cloud-init init --local
-
 $ sudo reboot
 
-$ ip --brief a
-lo               UNKNOWN        127.0.0.1/8 ::1/128 
-eth0             UP             10.63.44.89/22 fe80::5054:ff:fe12:a922/64
+# Now netplan should be configured to use the correct interface
 
-# Check cloud-init status
-$ sudo cloud-init status
-status: done
 
-# Disable cloud-init
+# Once everything looks good, disable cloud-init
 $ sudo touch /etc/cloud/cloud-init.disabled
 
 # Verify cloud-init is disabled
@@ -358,9 +350,8 @@ $ sudo cloud-init status
 status: disabled
 
 $ sudo shutdown -h now
-```
 
-```
+# Detach the cloud-init image
 $ virsh domblklist centos-stream-9
  Target   Source
 ----------------------------------------------------------------
@@ -371,22 +362,22 @@ $ virsh change-media centos-stream-9 sda --eject
 Successfully ejected media.
 
 $ sudo rm /var/lib/libvirt/boot/centos-stream-9-cloud-init.iso
-```
 
-```
-$ virsh shutdown centos-stream-9
-$ virsh undefine centos-stream-9 --nvram --remove-all-storage
-
-# Snapshots
-# Named snapshot
+# Make a snapshot of this clean config so you can revert in the future
 virsh snapshot-create-as --domain centos-stream-9 --name clean --description "Initial install"
+
 # Nameless snapshot
 virsh snapshot-create centos-stream-9
 virsh snapshot-list centos-stream-9
-virsh snapshot-revert centos-stream-9 <name>
-virsh snapshot-delete centos-stream-9 <name>
+virsh snapshot-revert centos-stream-9 clean
+virsh snapshot-delete centos-stream-9 clean
+
+# If you need to destroy and recreate....
+virsh destroy centos-stream-9
+virsh undefine centos-stream-9 --nvram --remove-all-storage
 ```
 
+Run syscheck
 ```
 docker container run --rm --interactive --tty \
   --mount type=bind,source="$(pwd)",target=/share \
@@ -395,6 +386,7 @@ docker container run --rm --interactive --tty \
     --target ssh://cloud-user@10.63.46.148
 ```
 
+### Install cinc-client and chefctl in the image
 ```
 # chefctl uses a shebang that points at /opt/chef, so make sure we have a link
 # in place for compatibility
@@ -408,6 +400,17 @@ curl -L https://omnitruck.cinc.sh/install.sh | sudo bash
 
 # /opt/chef -> /opt/cinc
 sudo ln -snf /opt/cinc /opt/chef
+
+# prime onepassword secret /etc/cinc/op_service_account_token
+# Install 1Password cli
+sudo apt-get update
+sudo apt-get install unzip
+ARCH="<choose between 386/amd64/arm/arm64>"
+curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.29.0/op_linux_amd64_v2.29.0.zip
+sudo unzip /tmp/op.zip op -d /usr/local/bin/
+rm -f /tmp/op.zip
+ 
+# op user get --me 
 
 sudo tee /etc/cinc/client-prod.rb <<EOF
 local_mode true
@@ -427,12 +430,11 @@ EOF
 sudo openssl genrsa -out /etc/cinc/client-prod.pem
 sudo openssl genrsa -out /etc/cinc/validation.pem
 
-sudo rm -f /etc/cinc/client.rb
 sudo ln -sf /etc/cinc/client-prod.rb /etc/chef/client.rb
 sudo ln -sf /etc/cinc/client-prod.pem /etc/chef/client.pem
 
-# sudo tee /etc/chef/chefctl_hooks.rb <<EOF
-# EOF
+sudo tee /etc/chef/chefctl_hooks.rb <<EOF
+EOF
 
 sudo tee /etc/chefctl-config.rb <<EOF
 chef_client '/opt/cinc/bin/cinc-client'
@@ -450,10 +452,11 @@ sudo tee /etc/chef/run-list.json <<EOF
 EOF
 
 sudo mkdir -p /var/chef /var/chef/repos /var/log/chef
-sudo su -
 cd /var/chef/repos
-sudo git clone https://github.com/boxcutter/chef-cookbooks.git
-sudo git clone https://github.com/boxcutter/boxcutter-chef-cookbooks.git
+sudo git clone https://github.com/boxcutter/chef-cookbooks.git \
+  /var/chef/repos/chef-cookbooks
+sudo git clone https://github.com/boxcutter/boxcutter-chef-cookbooks.git \
+  /var/chef/repos/boxcutter-chef-cookbooks
 
 sudo mkdir -p /usr/local/sbin
 sudo curl -o /usr/local/sbin/chefctl.rb https://raw.githubusercontent.com/facebook/chef-utils/main/chefctl/src/chefctl.rb
@@ -461,11 +464,12 @@ sudo chmod +x /usr/local/sbin/chefctl.rb
 sudo ln -sf /usr/local/sbin/chefctl.rb /usr/local/sbin/chefctl
 
 sudo touch /root/firstboot_os
-echo "{\"tier\": \"robot\"}" > /etc/boxcutter-config.json
+echo "{\"tier\": \"robot\"}" | sudo tee /etc/boxcutter-config.json > /dev/null
 sudo chefctl -iv
 
-/opt/cinc/bin/cinc-client -c /etc/cinc/client.rb -j /etc/chef/run-list.json
-/opt/cinc/bin/cinc-client --config /etc/cinc/client.rb --json-attributes /etc/chef/run-list.json
+# Behind the scenes, it'sdoing this:
+# /opt/cinc/bin/cinc-client -c /etc/cinc/client.rb -j /etc/chef/run-list.json
+# /opt/cinc/bin/cinc-client --config /etc/cinc/client.rb --json-attributes /etc/chef/run-list.json
 ```
 
 ## Ubuntu NVIDIA Jetson
