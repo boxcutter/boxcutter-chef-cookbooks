@@ -35,7 +35,7 @@ sudo qemu-img convert \
 sudo qemu-img resize \
   -f qcow2 \
   /var/lib/libvirt/images/ubuntu-server-2204.qcow2 \
-  32G
+  64G
 
 # Create a cloud-init template to customize the Ubuntu image in kvm:
 touch network-config
@@ -56,6 +56,8 @@ users:
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     lock_passwd: false
+chpasswd: { expire: False }
+ssh_pwauth: True
 package_update: false
 package_upgrade: false
 packages:
@@ -288,6 +290,8 @@ users:
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     lock_passwd: false
+chpasswd: { expire: False }
+ssh_pwauth: True
 package_update: false
 package_upgrade: false
 packages:
