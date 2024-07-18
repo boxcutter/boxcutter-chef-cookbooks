@@ -66,8 +66,8 @@ when 'centos'
     package_info = value_for_platform(
       'centos' => {
         '9' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/el/9/cinc-18.4.12-1.el9.x86_64.rpm',
-          'checksum' => '9f6e66e5fb6ce9834ed8bf147de39fb2290091311257777167c4dd107a28e37d',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/el/9/cinc-18.5.0-1.el9.x86_64.rpm',
+          'checksum' => '644a0bf1de601d886a6886bd099523704c948c1f49fccc4b97b3f074388db081',
         },
       },
     )
@@ -75,8 +75,8 @@ when 'centos'
     package_info = value_for_platform(
       'centos' => {
         '9' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/el/9/cinc-18.4.12-1.el9.aarch64.rpm',
-          'checksum' => 'c08d3e36ad706b1d5e80fb55f42548784760b3ccaf758860d005b4edbf8d6761',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/el/9/cinc-18.5.0-1.el9.aarch64.rpm',
+          'checksum' => '9cb55dcc3763a8669c1f701af94c1fda0e6ccfc76c41e4ee76f8de6534f9bca9',
         },
       },
     )
