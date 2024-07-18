@@ -235,6 +235,7 @@ sudo chefctl -iv
 ## CentOS x86_64
 
 ```
+$ mkdir -p centos-stream-9 && cd centos-stream-9
 $ curl -LO https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-x86_64-9-latest.x86_64.qcow2.SHA256SUM
 $ curl -LO https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-x86_64-9-latest.x86_64.qcow2
 
@@ -270,10 +271,19 @@ EOF
 
 cat >user-data <<EOF
 #cloud-config
-password: superseekret
-chpasswd:
-  expire: False
-ssh_pwauth: True
+users:
+  - name: automat
+    plain_text_passwd: superseekret
+    uid: 63112
+    primary_group: users
+    groups: users
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+package_update: false
+package_upgrade: false
+packages:
+  - qemu-guest-agent
 EOF
 ```
 
