@@ -268,9 +268,8 @@ $ sudo qemu-img resize \
   -f qcow2 \
   /var/lib/libvirt/images/centos-stream-9.qcow2 \
   64G
-```
 
-```
+# Create a cloud-init template to customize the Ubuntu image in kvm:
 touch network-config
 
 cat >meta-data <<EOF
@@ -325,7 +324,7 @@ virt-install \
   --debug
 
 # Login to the VM with automat/superseekret
-virsh console ubuntu-server-2204
+virsh console centos-stream-9
 # login with automat/superseekret
 
 # Verify that cloud-init is done (wait until it shows "done" status)
@@ -348,7 +347,7 @@ $ sudo cloud-init clean --configs network
 $ sudo cloud-init init --local
 $ sudo reboot
 
-# Now netplan should be configured to use the correct interface
+# Now networking should be configured to use the correct interface
 
 
 # Once everything looks good, disable cloud-init
@@ -397,8 +396,9 @@ docker container run --rm --interactive --tty \
 
 ### Install cinc-client and chefctl in the image
 ```
+virsh start centos-stream-9
 # Login to the VM with automat/superseekret
-virsh console ubuntu-server-2204
+virsh console centos-stream-9
 # login with automat/superseekret
 
 # chefctl uses a shebang that points at /opt/chef, so make sure we have a link
@@ -416,8 +416,7 @@ sudo ln -snf /opt/cinc /opt/chef
 
 # prime onepassword secret /etc/cinc/op_service_account_token
 # Install 1Password cli
-sudo apt-get update
-sudo apt-get install unzip
+sudo dnf install unzip
 ARCH="<choose between 386/amd64/arm/arm64>"
 curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.29.0/op_linux_amd64_v2.29.0.zip
 sudo unzip /tmp/op.zip op -d /usr/local/bin/
@@ -478,7 +477,7 @@ sudo ln -sf /usr/local/sbin/chefctl.rb /usr/local/sbin/chefctl
 
 sudo touch /root/firstboot_os
 echo "{\"tier\": \"robot\"}" | sudo tee /etc/boxcutter-config.json > /dev/null
-sudo chefctl -iv
+sudo /usr/local/sbin/chefctl -iv
 
 # Behind the scenes, it'sdoing this:
 # /opt/cinc/bin/cinc-client -c /etc/cinc/client.rb -j /etc/chef/run-list.json
