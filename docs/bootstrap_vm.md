@@ -148,6 +148,10 @@ virsh undefine ubuntu-server-2404 --nvram --remove-all-storage
 ### Install cinc-client and chefctl in the image
 
 ```
+# Login to the VM with automat/superseekret
+virsh console ubuntu-server-2204
+# login with automat/superseekret
+
 # chefctl uses a shebang that points at /opt/chef, so make sure we have a link
 # in place for compatibility
 sudo mkdir -p /etc/cinc
@@ -388,6 +392,10 @@ docker container run --rm --interactive --tty \
 
 ### Install cinc-client and chefctl in the image
 ```
+# Login to the VM with automat/superseekret
+virsh console ubuntu-server-2204
+# login with automat/superseekret
+
 # chefctl uses a shebang that points at /opt/chef, so make sure we have a link
 # in place for compatibility
 sudo mkdir -p /etc/cinc
