@@ -50,3 +50,7 @@ node.default['fb_ssh']['sshd_config']['X11Forwarding'] = true
 if node.linux?
   include_recipe '::users'
 end
+
+if node['boxcutter_info']['tier'] && node['boxcutter_info']['tier'] == 'workstation'
+  node.default['fb_systemd']['default_target'] = 'graphical.target'
+end
