@@ -51,6 +51,6 @@ if node.linux?
   include_recipe '::users'
 end
 
-if node['boxcutter_info']['tier'] && node['boxcutter_info']['tier'] == 'workstation'
+if node['boxcutter_config']['tier'] && node['boxcutter_config']['tier'] == 'workstation'
   node.default['fb_systemd']['default_target'] = 'graphical.target'
 end
