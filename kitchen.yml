@@ -67,8 +67,14 @@ suites:
     # run_list:
     #  - recipe[boxcutter_ohai]
     #  - recipe[boxcutter_init::default]
+    #  - recipe[tier_minimal]
     verifier:
       inspec_tests:
         - test/integration/default
     attributes:
-
+    lifecycle:
+      pre_converge:
+        - remote: |
+            bash -xc '
+              echo "{\"tier\":\"minimal\"}" > /etc/boxcutter-config.json
+            '
