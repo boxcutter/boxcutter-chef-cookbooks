@@ -34,6 +34,9 @@ module FB
         'gid' => 0,
         'system' => true,
       },
+      'users' => {
+        'gid' => 100,
+      },
       'docker' => {
         'gid' => 992,
       },
