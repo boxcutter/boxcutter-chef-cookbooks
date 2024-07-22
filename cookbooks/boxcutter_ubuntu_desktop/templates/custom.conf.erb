@@ -1,5 +1,5 @@
 # This file is configured by Chef. Local changes will be overwritten.
-<% node['boxcutter_gdm_custom']['gdm_custom'].each do |section, properties| %>
+<% node['boxcutter_ubuntu_desktop']['gdm_custom'].each do |section, properties| %>
   [<%= section %>]
   <%   properties.each do |key, value| %>
     <%=    key %>=<%= value %>
