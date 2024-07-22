@@ -17,3 +17,10 @@
 # limitations under the License.
 
 node.default['fb_systemd']['default_target'] = 'graphical.target'
+
+node.default['fb_users']['users']['boxcutter'] = {
+  'gid' => 'users',
+  'home' => '/home/boxcutter',
+  'shell' => '/bin/bash',
+  'action' => :add,
+}
