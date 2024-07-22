@@ -32,3 +32,17 @@ file '/home/boxcutter/.config/gnome-initial-setup-done' do
   group 'users'
   mode '0600'
 end
+
+node.default['boxcutter_ubuntu_desktop']['gdm_custom']['daemon']['AutomaticLoginEnable'] = 'true'
+node.default['boxcutter_ubuntu_desktop']['gdm_custom']['daemon']['AutomaticLogin'] = 'boxcutter'
+
+package 'gdm3' do
+  action :upgrade
+end
+
+# Does not notify gdm3 to restart on changes as it will logout the current user
+template '/etc/gdm3/custom.conf' do
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
