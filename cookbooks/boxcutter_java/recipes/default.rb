@@ -16,10 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w(
+%w{
   unzip
   zip
-).each do |pkg|
+}.each do |pkg|
   package pkg do
     action :upgrade
   end
