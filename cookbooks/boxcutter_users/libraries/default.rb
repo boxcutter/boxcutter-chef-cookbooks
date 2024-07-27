@@ -6,6 +6,9 @@ module FB
         'uid' => 0,
         'system' => true,
       },
+      'java' => {
+        'uid' => 991,
+      },
       'anaconda' => {
         'uid' => 993,
       },
@@ -36,6 +39,9 @@ module FB
       },
       'users' => {
         'gid' => 100,
+      },
+      'java' => {
+        'gid' => 991,
       },
       'docker' => {
         'gid' => 992,
