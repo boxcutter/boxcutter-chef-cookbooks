@@ -39,11 +39,15 @@ platforms:
     driver:
       image: boxcutter/dokken-ubuntu-22.04
       pid_one_command: /bin/systemd
+      ports:
+        - '2204:8081'
 
   - name: centos-stream-9
     driver:
       image: boxcutter/dokken-centos-stream-9
       pid_one_command: /usr/lib/systemd/systemd
+      ports:
+        - '9000:8081'
       intermediate_instructions:
         # stub out /etc/fstab for fb_fstab
         - RUN touch /etc/fstab

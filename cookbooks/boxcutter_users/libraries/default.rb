@@ -6,6 +6,9 @@ module FB
         'uid' => 0,
         'system' => true,
       },
+      'nexus' => {
+        'uid' => 990,
+      },
       'java' => {
         'uid' => 991,
       },
@@ -39,6 +42,9 @@ module FB
       },
       'users' => {
         'gid' => 100,
+      },
+      'nexus' => {
+        'gid' => 990,
       },
       'java' => {
         'gid' => 991,
