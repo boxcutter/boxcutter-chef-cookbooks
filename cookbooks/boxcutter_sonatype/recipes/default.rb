@@ -60,7 +60,7 @@ directory '/nexus-data' do
   mode '0755'
   recursive true
   action :create
- end
+end
 
 directory '/nexus-data/etc' do
   owner 'nexus'
@@ -68,7 +68,7 @@ directory '/nexus-data/etc' do
   mode '0755'
   recursive true
   action :create
- end
+end
 
 directory '/nexus-data/log' do
   owner 'nexus'
