@@ -24,3 +24,23 @@ node.default['boxcutter_java']['sdkman'] = {
   },
 }
 ```
+
+In addition, to defining the above, you will need to add the following line to
+the user's `~/.bashrc`:
+
+```
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+```
+
+To get a listing of available candidate SDKs:
+
+```
+sdk list
+```
+
+One you have a candidate SDK name, to get a list of available versions for a
+candidate SDK:
+
+```
+sdk list java
+```
