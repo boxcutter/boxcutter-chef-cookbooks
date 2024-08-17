@@ -60,6 +60,8 @@ jobs:
         working-directory: boxcutter-chef-cookbooks/${{ matrix.cookbook }}
         run: |
           kitchen test --concurrency=1
+          journalctl -xeu chronyd.service
+          systemctl status chronyd.service
         env:
           CHEF_LICENSE: accept-no-persist
           CHEF_VERSION: 18.4.12
