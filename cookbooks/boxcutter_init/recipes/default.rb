@@ -43,7 +43,8 @@ if node.centos?
   include_recipe 'fb_e2fsprogs'
   include_recipe 'fb_util_linux'
 end
-if node.systemd? && !node.container?
+# if node.systemd? && !node.container?
+if node.systemd?
   include_recipe 'fb_systemd'
   include_recipe 'fb_timers'
 end
