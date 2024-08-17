@@ -25,7 +25,7 @@ node.default['boxcutter_java']['sdkman'] = {
 }
 ```
 
-In addition, to defining the above, you will need to add the following line to
+In addition to defining the above, you will need to add the following line to
 the user's `~/.bashrc`:
 
 ```
@@ -38,7 +38,7 @@ To get a listing of available candidate SDKs:
 sdk list
 ```
 
-One you have a candidate SDK name, to get a list of available versions for a
+Once you have a candidate SDK name, to get a list of available versions for a
 candidate SDK:
 
 ```
