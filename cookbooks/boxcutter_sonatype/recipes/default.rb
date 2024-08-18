@@ -44,9 +44,10 @@ directory '/opt/sonatype' do
   action :create
 end
 
-version = 'nexus-3.70.1-02'
-url = 'https://download.sonatype.com/nexus/3/nexus-3.70.1-02-java11-unix.tar.gz'
-checksum = '38c6f81d78c2f6ae461f491d9321d36e98ff2e19eee365270d9bc92377d36588'
+# https://help.sonatype.com/en/download.html
+version = 'nexus-3.71.0-06'
+url = 'https://download.sonatype.com/nexus/3/nexus-3.71.0-06-unix.tar.gz'
+checksum = 'b025287558184677fc231035c9f5e5e6cc4bc1cafd76d13a06233a4ed09d08f6'
 
 tmp_path = ::File.join(Chef::Config[:file_cache_path], ::File.basename(url))
 
@@ -60,9 +61,9 @@ path = ::File.join('/opt/sonatype', version)
 execute 'extract nexus' do
   command <<-BASH
     tar --exclude='sonatype-work*' --extract --directory '/opt/sonatype' --file #{tmp_path}
-    chown -R nexus:nexus '/opt/sonatype/nexus-3.70.1-02'
+    chown -R nexus:nexus '/opt/sonatype/nexus-3.71.0-06'
   BASH
-  creates '/opt/sonatype/nexus-3.70.1-02/bin/nexus'
+  creates '/opt/sonatype/nexus-3.71.0-06/bin/nexus'
 end
 
 link '/opt/sonatype/nexus' do
@@ -125,7 +126,7 @@ node.default['boxcutter_java']['sdkman'] = {
     'user' => 'nexus',
     'group' => 'nexus',
     'candidates' => {
-      'java' => '11.0.24-tem',
+      'java' => '17.0.12-tem',
     },
   },
 }
