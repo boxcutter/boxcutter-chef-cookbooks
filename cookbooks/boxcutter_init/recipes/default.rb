@@ -126,7 +126,7 @@ include_recipe 'fb_tmpclean'
 include_recipe 'fb_sudo'
 # HERE: ntp
 if node.linux?
-  include_recipe 'fb_chrony'
+  include_recipe 'fb_chrony' unless node.ubuntu? && node['platform_version'].to_i == 22
 
   node.default['fb_ipset']['auto_cleanup'] = false
   include_recipe 'fb_ipset'
