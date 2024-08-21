@@ -288,41 +288,19 @@ node.default['fb_nginx']['config']['http']['keepalive_timeout'] = '5 5'
 node.default['fb_nginx']['config']['http']['tcp_nodelay'] = 'on'
 
 node.default['fb_nginx']['sites']['nexus'] = {
-  'listen 10443' => 'ssl',
-  # 'server_name' => 'hq0-nexus01.sandbox.polymathrobotics.dev',
-  'server_name' => node['ipaddress'],
+  'listen 443' => 'ssl',
+  'server_name' => 'hq0-nexus01.sandbox.polymathrobotics.dev',
   'client_max_body_size' => '1G',
-  'ssl_certificate' => '/etc/nginx/nexus.crt',
-  'ssl_certificate_key' => '/etc/nginx/nexus.key',
-  '_create_self_signed_cert' => true,
-  # 'ssl_certificate' =>
-  #   '/etc/lego/certificates/hq0-nexus01.sandbox.polymathrobotics.dev.crt',
-  # 'ssl_certificate_key' =>
-  #   '/etc/lego/certificates/hq0-nexus01.sandbox.polymathrobotics.dev.key',
+  'ssl_certificate' =>
+    '/etc/lego/certificates/hq0-nexus01.sandbox.polymathrobotics.dev.crt',
+  'ssl_certificate_key' =>
+    '/etc/lego/certificates/hq0-nexus01.sandbox.polymathrobotics.dev.key',
   'location /' => {
-    'proxy_pass' => 'http://127.0.0.1:8081',
-    'proxy_set_header Host' => '$host:10443',
+    'proxy_set_header Host' => '$host:$server_port',
     'proxy_set_header X-Real-IP' => '$remote_addr',
     'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
-    'proxy_set_header X-Forwarded-Proto' => 'https',
-  },
-}
-
-node.default['fb_nginx']['sites']['nexus_docker'] = {
-  'listen 5000' => 'default_server',
-  'ssl' => 'on',
-  'server_name' => node['ipaddress'],
-  'ssl_certificate' => '/etc/nginx/nexus.crt',
-  'ssl_certificate_key' => '/etc/nginx/nexus.key',
-  '_create_self_signed_cert' => true,
-  # optimize downloading files larger than 1G
-  'proxy_max_temp_file_size' => '2048m',
-  'location /' => {
-    'proxy_pass' => 'http://127.0.0.1:8082',
-    'proxy_set_header Host' => '$host:5000',
-    'proxy_set_header X-Forwarded-Proto' => 'https',
-    'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
-    'proxy_set_header X-Real-Ip' => '$remote_addr',
+    'proxy_set_header X-Forwarded-Proto' => '"https"',
+    'proxy_pass' => 'http://127.0.0.1:8081',
   },
 }
 
