@@ -7,7 +7,6 @@ node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = 'admin'
 node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
 
-
 node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
   'testy-hosted' => {
     'name' => 'testy-hosted',

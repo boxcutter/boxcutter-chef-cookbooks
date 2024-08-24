@@ -21,19 +21,19 @@ describe 'boxcutter_sonatype_nexus_repository' do
         to receive(:repositories_list).
         and_return(
           [{
-             'name' => 'nuget-hosted',
+            'name' => 'nuget-hosted',
              'format' => 'nuget',
              'type' => 'hosted',
              'url' => 'http://127.0.0.1:2204/repository/nuget-hosted',
              'attributes' => {},
-           }, {
-             'name' => 'maven-snapshots',
+          }, {
+            'name' => 'maven-snapshots',
              'format' => 'maven2',
              'type' => 'hosted',
              'url' => 'http://127.0.0.1:2204/repository/maven-snapshots',
              'attributes' => {},
-           }, {
-             'name' => 'nuget.org-proxy',
+          }, {
+            'name' => 'nuget.org-proxy',
              'format' => 'nuget',
              'type' => 'proxy',
              'url' => 'http://127.0.0.1:2204/repository/nuget.org-proxy',
@@ -42,8 +42,8 @@ describe 'boxcutter_sonatype_nexus_repository' do
                  'remoteUrl' => 'https://api.nuget.org/v3/index.json',
                },
              },
-           }, {
-             'name' => 'maven-central',
+          }, {
+            'name' => 'maven-central',
              'format' => 'maven2',
              'type' => 'proxy',
              'url' => 'http://127.0.0.1:2204/repository/maven-central',
@@ -52,20 +52,20 @@ describe 'boxcutter_sonatype_nexus_repository' do
                  'remoteUrl' => 'https://repo1.maven.org/maven2/',
                },
              },
-           }, {
-             'name' => 'nuget-group',
+          }, {
+            'name' => 'nuget-group',
              'format' => 'nuget',
              'type' => 'group',
              'url' => 'http://127.0.0.1:2204/repository/nuget-group',
              'attributes' => {},
-           }, {
-             'name' => 'maven-public',
+          }, {
+            'name' => 'maven-public',
              'format' => 'maven2',
              'type' => 'group',
              'url' => 'http://127.0.0.1:2204/repository/maven-public',
              'attributes' => {},
-           }, {
-             'name' => 'maven-releases',
+          }, {
+            'name' => 'maven-releases',
              'format' => 'maven2',
              'type' => 'hosted',
              'url' => 'http://127.0.0.1:2204/repository/maven-releases',
@@ -76,7 +76,7 @@ describe 'boxcutter_sonatype_nexus_repository' do
         to receive(:repositories_settings_list).
         and_return(
           [{
-             'name' => 'ros-proxy',
+            'name' => 'ros-proxy',
              'url' => 'http://127.0.0.1:8081/repository/ros-proxy',
              'online' => true,
              'storage' => {
@@ -85,17 +85,17 @@ describe 'boxcutter_sonatype_nexus_repository' do
                'writePolicy' => 'ALLOW',
              },
              'cleanup' => {
-               'policyNames' => [ ],
+               'policyNames' => [],
              },
              'apt' => {
                'distribution' => 'jammy',
                'flat' => false,
              },
                'proxy' => {
-               'remoteUrl' => 'http://packages.ros.org/ros2/ubuntu',
+                 'remoteUrl' => 'http://packages.ros.org/ros2/ubuntu',
                'contentMaxAge' => 1440,
                'metadataMaxAge' => 1440,
-             },
+               },
              'negativeCache' => {
                'enabled' => true,
                'timeToLive' => 1440,
@@ -116,8 +116,8 @@ describe 'boxcutter_sonatype_nexus_repository' do
              'routingRuleName' => null,
              'format' => 'apt',
              'type' => 'proxy',
-           }, {
-             'name' => 'testy-hosted',
+          }, {
+            'name' => 'testy-hosted',
              'url' => 'http://127.0.0.1:8081/repository/testy-hosted',
              'online' => true,
              'storage' => {
@@ -126,7 +126,7 @@ describe 'boxcutter_sonatype_nexus_repository' do
                'writePolicy' => 'allow',
              },
              'cleanup' => {
-               'policyNames' => [ ],
+               'policyNames' => [],
              },
              'component' => {
                'proprietaryComponents' => false,
@@ -136,8 +136,8 @@ describe 'boxcutter_sonatype_nexus_repository' do
              },
              'format' => 'raw',
              'type' => 'hosted',
-           }, {
-             'name' => 'docker-proxy',
+          }, {
+            'name' => 'docker-proxy',
              'url' => 'http://127.0.0.1:8081/repository/docker-proxy',
              'online' => true,
              'storage' => {
@@ -146,7 +146,7 @@ describe 'boxcutter_sonatype_nexus_repository' do
                'writePolicy' => 'ALLOW',
              },
              'cleanup' => {
-               'policyNames' => [ ],
+               'policyNames' => [],
              },
              'docker' => {
                'v1Enabled' => true,
@@ -159,7 +159,7 @@ describe 'boxcutter_sonatype_nexus_repository' do
                'indexType' => 'HUB',
                'indexUrl' => 'https://index.docker.io/',
                'cacheForeignLayers' => true,
-               'foreignLayerUrlWhitelist' : [ ],
+               'foreignLayerUrlWhitelist' => [],
              },
              'proxy' => {
                'remoteUrl' => 'https://registry-1.docker.io',
@@ -186,7 +186,7 @@ describe 'boxcutter_sonatype_nexus_repository' do
              'routingRuleName' => null,
              'format' => 'docker',
              'type' => 'proxy',
-           }]
+          }],
         )
       allow(Boxcutter::Sonatype::Helpers).to receive(:repository_create).and_return('')
       allow(Boxcutter::Sonatype::Helpers).to receive(:repository_delete).and_return('')
