@@ -7,12 +7,20 @@ java_user = 'java'
 java_group = 'java'
 java_home = '/home/java'
 
+# https://whichjdk.com/
+# https://medium.com/@javachampions/java-is-still-free-3-0-0-ocrt-2021-bca75c88d23b
 node.default['boxcutter_java']['sdkman'] = {
   ::File.join(java_home, '.sdkman') => {
     'user' => java_user,
     'group' => java_group,
     'candidates' => {
-      'java' => '11.0.24-tem',
+      'java' => {
+        '8.0.382-tem' => nil,
+        '17.0.12-tem' => nil,
+      },
+      'sbt' => {
+        '1.10.1' => nil,
+      },
     },
   },
 }

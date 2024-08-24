@@ -14,12 +14,18 @@ each JVM install to be managed by sdkman. By convention this is normally
 do its magic, so it requires a user context to run within.
 
 ```
-node.default['boxcutter_java']['sdkman'] = {
+node.default['boxutter_java']['sdkman'] = {
   '/home/java/.sdkman' => {
     'user' => 'java',
     'group' => 'java',
     'candidates' => {
-      'java' => '11.0.24-tem',
+      'java' => {
+        '8.0.382-tem' => nil,
+        '11.0.24-tem' => nil,
+      }, 
+      'sbt' => {
+        '1.10.1' => nil,
+      },
     },
   },
 }

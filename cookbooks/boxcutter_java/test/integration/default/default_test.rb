@@ -26,11 +26,18 @@ end
 sdk_current_java_command = \
   %{su --login #{java_user} --command "source \"#{sdkman_root}/bin/sdkman-init.sh\" && sdk current java"}
 describe command(sdk_current_java_command) do
-  its('stdout') { should match(/java version 11.0.24-tem/) }
+  its('stdout') { should match(/java version 17.0.12-tem/) }
 end
 
 sdk_list_java_command = \
   %{su --login #{java_user} --command "source \"#{sdkman_root}/bin/sdkman-init.sh\" && sdk list java"}
 describe command(sdk_list_java_command) do
-  its('stdout') { should match(/installed.*|.*11.0.24-tem/) }
+  its('stdout') { should match(/installed.*|.*11\.0\.24-tem/) }
+  its('stdout') { should match(/local only.*|.*8\.0\.382-tem/) }
+end
+
+sdk_list_sbt_command = \
+  %{su --login #{java_user} --command "source \"#{sdkman_root}/bin/sdkman-init.sh\" && sdk list sbt"}
+describe command(sdk_list_sbt_command) do
+  its('stdout') { should match(/> \* 1\.10\.1/) }
 end
