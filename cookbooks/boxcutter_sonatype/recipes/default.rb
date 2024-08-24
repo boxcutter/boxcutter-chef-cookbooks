@@ -16,10 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-node.run_state['boxcutter_sonatype'] ||= {}
-node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
-node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
-
 admin_password = node['boxcutter_sonatype']['nexus_repository']['admin_password']
 if node.run_state.key?('boxcutter_sonatype') \
   && node.run_state['boxcutter_sonatype'].key?('nexus_repository') \
@@ -36,7 +32,9 @@ node.default['fb_iptables']['filter']['INPUT']['rules']['nexus'] = {
   ],
 }
 
-directory '/opt/sonatype' do
+install_root = node['boxcutter_sonatype']['nexus_repository']['install_root']
+# Default: /opt/sonatype
+directory install_root do
   owner 'root'
   group 'root'
   mode '0755'
@@ -56,84 +54,101 @@ remote_file tmp_path do
   checksum checksum
 end
 
-path = ::File.join('/opt/sonatype', version)
+nexus_version_path = ::File.join(install_root, version)
 
+# The install tar.gz includes a skeleton `sonatype-work` directory to create
+# an empty data directory. Ignore this path, as we'll manage this in Chef.
+#
+# This sonatype-work tree doesn't have any content, it's just a skeleton:
+# ls -alR sonatype-work/nexus3/
+# sonatype-work/nexus3/:
+# total 16
+# drwxr-xr-x 4 root root 4096 Aug 21 20:09 .
+# drwxr-xr-x 3 root root 4096 Aug 21 20:09 ..
+# -rw-r--r-- 1 root root    0 Aug  8 16:52 clean_cache
+# drwxr-xr-x 2 root root 4096 Aug 21 20:09 log
+# drwxr-xr-x 2 root root 4096 Aug 21 20:09 tmp
+#
+# sonatype-work/nexus3/log:
+# total 8
+# drwxr-xr-x 2 root root 4096 Aug 21 20:09 .
+# drwxr-xr-x 4 root root 4096 Aug 21 20:09 ..
+# -rw-r--r-- 1 root root    0 Aug  8 16:52 .placeholder
+#
+# sonatype-work/nexus3/tmp:
+# total 8
+# drwxr-xr-x 2 root root 4096 Aug 21 20:09 .
+# drwxr-xr-x 4 root root 4096 Aug 21 20:09 ..
+# -rw-r--r-- 1 root root    0 Aug  8 16:52 .placeholder
 execute 'extract nexus' do
   command <<-BASH
-    tar --exclude='sonatype-work*' --extract --directory '/opt/sonatype' --file #{tmp_path}
-    chown -R nexus:nexus '/opt/sonatype/nexus-3.71.0-06'
+    tar --exclude='sonatype-work*' --extract --directory '#{install_root}' --file #{tmp_path}
+    chown -R nexus:nexus '#{nexus_version_path}'
   BASH
-  creates '/opt/sonatype/nexus-3.71.0-06/bin/nexus'
+  # Default: /opt/sonatype/nexus/bin/nexus
+  creates ::File.join(nexus_version_path, 'bin', 'nexus')
 end
 
-link '/opt/sonatype/nexus' do
-  to path.to_s
+# /opt/sonatype/nexus
+nexus_home = ::File.join(install_root, 'nexus')
+link nexus_home do
+  to nexus_version_path.to_s
 end
 
-directory '/opt/sonatype/nexus/nexus3' do
-  recursive true
-  action :delete
+# /opt/sonatype/sonatype-work/nexus3
+data_path = node['boxcutter_sonatype']['nexus_repository']['data_path']
+
+[
+  data_path,
+  ::File.join(data_path, 'etc'),
+  ::File.join(data_path, 'log'),
+  ::File.join(data_path, 'tmp'),
+].each do |dir|
+  directory dir do
+    owner 'nexus'
+    group 'nexus'
+    mode '0755'
+    recursive true
+    action :create
+  end
 end
 
-directory '/nexus-data' do
-  owner 'nexus'
-  group 'nexus'
-  mode '0755'
-  recursive true
-  action :create
-end
+# template ::File.join(nexus_home, 'bin', 'nexus.vmoptions') do
+#   source 'nexus.properties.erb'
+#   owner 200
+#   group 200
+#   mode '0644'
+#   variables(
+#     properties: node['boxcutter_sonatype']['nexus_repository']['runtime']['properties'],
+#   )
+# end
 
-directory '/nexus-data/etc' do
-  owner 'nexus'
-  group 'nexus'
-  mode '0755'
-  recursive true
-  action :create
-end
-
-directory '/nexus-data/log' do
-  owner 'nexus'
-  group 'nexus'
-  mode '0755'
-  recursive true
-  action :create
-end
-
-directory '/nexus-data/tmp' do
-  owner 'nexus'
-  group 'nexus'
-  mode '0755'
-  recursive true
-  action :create
-end
-
-directory '/opt/sonatype/sonatype-work' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  recursive true
-  action :create
-end
-
-link '/opt/sonatype/sonatype-work/nexus3' do
-  to '/nexus-data'
-  owner 'root'
-  group 'root'
+template ::File.join(data_path, 'etc', 'nexus.properties') do
+  source 'nexus.properties.erb'
+  owner 200
+  group 200
+  mode '0644'
+  variables(
+    properties: node['boxcutter_sonatype']['nexus_repository']['runtime']['properties'],
+  )
 end
 
 node.default['boxcutter_java']['sdkman'] = {
-  '/opt/sonatype/nexus/.sdkman' => {
+  ::File.join(nexus_home, '.sdkman') => {
     'user' => 'nexus',
     'group' => 'nexus',
     'candidates' => {
-      'java' => '17.0.12-tem',
+      'java' => {
+        '17.0.12-tem' => nil,
+      },
     },
   },
 }
 
 FB::Users.initialize_group(node, 'nexus')
 node.default['fb_users']['users']['nexus'] = {
-  'home' => '/opt/sonatype/nexus',
+  # /opt/sonatype/nexus
+  'home' => nexus_home,
   'gid' => 'nexus',
   'shell' => '/bin/bash',
   'manage_home' => false,
@@ -142,7 +157,8 @@ node.default['fb_users']['users']['nexus'] = {
 
 include_recipe 'boxcutter_java::default'
 
-template '/opt/sonatype/start-nexus-repository-manager.sh' do
+start_nexus_script = ::File.join(install_root, 'start-nexus-repository-manager.sh')
+template start_nexus_script do
   source 'start-nexus-repository-manager.sh.erb'
   owner 'root'
   group 'root'
@@ -157,7 +173,7 @@ systemd_unit 'nexus-repository-manager.service' do
   [Service]
   Type=simple
   LimitNOFILE=65536
-  ExecStart=/opt/sonatype/start-nexus-repository-manager.sh
+  ExecStart=#{start_nexus_script}
   User=nexus
   Restart=on-failure
   StartLimitInterval=30min
@@ -168,7 +184,7 @@ systemd_unit 'nexus-repository-manager.service' do
   action [:create, :enable, :start]
 end
 
-repository_data_directory = '/opt/sonatype/sonatype-work/nexus3'
+# repository_data_directory = '/opt/sonatype/sonatype-work/nexus3'
 repository_url = 'http://127.0.0.1:8081'
 
 ruby_block 'wait until nexus is ready' do
@@ -201,40 +217,44 @@ ruby_block 'wait until nexus is ready' do
   action :nothing
 end
 
-template ::File.join(repository_data_directory, 'nexus.properties') do
+template ::File.join(data_path, 'nexus.properties') do
   source 'nexus.properties.erb'
   owner 200
   group 200
   mode '0644'
+  variables(
+    properties: node['boxcutter_sonatype']['nexus_repository']['properties'],
+  )
   notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
 end
 
-# OLD_PASSWORD=$(cat '/opt/sonatype/sonatype-work/nexus-data/admin.password')
-# curl -ifu admin:"${OLD_PASSWORD}" \
-#   -XPUT -H 'Content-Type: text/plain' \
-#   --data "${NEW_PASSWORD}" \
-#   http://127.0.0.1:8081/service/rest/v1/security/users/admin/change-password
-admin_password_path = ::File.join(repository_data_directory, 'admin.password')
+if node['boxcutter_sonatype']['nexus_repository']['manage_admin']
+  # OLD_PASSWORD=$(cat '/opt/sonatype/sonatype-work/nexus-data/admin.password')
+  # curl -ifu admin:"${OLD_PASSWORD}" \
+  #   -XPUT -H 'Content-Type: text/plain' \
+  #   --data "${NEW_PASSWORD}" \
+  #   http://127.0.0.1:8081/service/rest/v1/security/users/admin/change-password
+  admin_password_path = ::File.join(data_path, 'admin.password')
 
-file admin_password_path do
-  action :nothing
-end
+  file admin_password_path do
+    action :nothing
+  end
 
-http_request 'change admin password' do
-  url lazy { "#{repository_url}/service/rest/v1/security/users/admin/change-password" }
-  headers lazy {
-    {
-      'Content-Type' => 'text/plain',
-      'Authorization' => "Basic #{Base64.encode64("admin:#{::File.read(admin_password_path)}").strip}",
+  http_request 'change admin password' do
+    url lazy { "#{repository_url}/service/rest/v1/security/users/admin/change-password" }
+    headers lazy {
+      {
+        'Content-Type' => 'text/plain',
+        'Authorization' => "Basic #{Base64.encode64("admin:#{::File.read(admin_password_path)}").strip}",
+      }
     }
-  }
-  message lazy { admin_password }
-  action :put
-  only_if { ::File.exist?(admin_password_path) }
-  notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
-  notifies :delete, "file[#{admin_password_path}]", :immediately
-  notifies :put, 'http_request[enable_anonymous_user]', :immediately
-  # notifies :put, 'http_request[disable_telemetry]', :immediately
+    message lazy { admin_password }
+    action :put
+    only_if { ::File.exist?(admin_password_path) }
+    notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
+    notifies :delete, "file[#{admin_password_path}]", :immediately
+    notifies :put, 'http_request[enable_anonymous_user]', :immediately
+  end
 end
 
 # verify:
@@ -261,47 +281,5 @@ http_request 'enable_anonymous_user' do
   message '{ "enabled": true, "userId": "anonymous" }'
   action :nothing
 end
-
-# curl -u <username>:<password> \
-#   -X PUT -H "Content-Type: application/json" \
-#   -d '{"enabled":false}' http://<nexus-url>/service/rest/v1/telemetry/status
-
-# http_request 'disable_telemetry' do
-#   url lazy { "#{repository_url}/service/rest/v1/telemetry/status" }
-#   headers({
-#             'Content-Type' => 'application/json',
-#             'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}"
-#           })
-#   message '{"enabled":false}'
-#   action :nothing
-# end
-
-include_recipe 'boxcutter_acme::lego'
-include_recipe 'fb_nginx'
-
-node.default['fb_nginx']['enable_default_site'] = false
-node.default['fb_nginx']['config']['http']['proxy_send_timeout'] = '120'
-node.default['fb_nginx']['config']['http']['proxy_read_timeout'] = '300'
-node.default['fb_nginx']['config']['http']['proxy_buffering'] = 'off'
-node.default['fb_nginx']['config']['http']['proxy_request_buffering'] = 'off'
-node.default['fb_nginx']['config']['http']['keepalive_timeout'] = '5 5'
-node.default['fb_nginx']['config']['http']['tcp_nodelay'] = 'on'
-
-node.default['fb_nginx']['sites']['nexus'] = {
-  'listen 443' => 'ssl',
-  'server_name' => 'hq0-nexus01.sandbox.polymathrobotics.dev',
-  'client_max_body_size' => '1G',
-  'ssl_certificate' =>
-    '/etc/lego/certificates/hq0-nexus01.sandbox.polymathrobotics.dev.crt',
-  'ssl_certificate_key' =>
-    '/etc/lego/certificates/hq0-nexus01.sandbox.polymathrobotics.dev.key',
-  'location /' => {
-    'proxy_set_header Host' => '$host:$server_port',
-    'proxy_set_header X-Real-IP' => '$remote_addr',
-    'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
-    'proxy_set_header X-Forwarded-Proto' => '"https"',
-    'proxy_pass' => 'http://127.0.0.1:8081',
-  },
-}
 
 boxcutter_sonatype_nexus_repository 'configure'

@@ -1,13 +1,29 @@
 module Boxcutter
   class Sonatype
     module Helpers
+      def self.run_state_or_attribute(node, attribute)
+        if node.run_state.key?('boxcutter_sonatype') && node.run_state['boxcutter_sonatype']['nexus_repository'] && node.run_state['boxcutter_sonatype']['nexus_repository'].key?(attribute)
+          node.run_state['boxcutter_sonatype']['nexus_repository'][attribute]
+        else
+          node['boxcutter_sonatype']['nexus_repository'][attribute]
+        end
+      end
+
+      def self.admin_username(node)
+        run_state_or_attribute(node, 'admin_username')
+      end
+
+      def self.admin_password(node)
+        run_state_or_attribute(node, 'admin_password')
+      end
+
       # curl -u admin:password \
       #   -H "accept: application/json" \
       #   -X GET 'http://127.0.0.1:8081/service/rest/v1/security/realms/active'
-      def self.get_realms_active
+      def self.get_realms_active(node)
         uri = URI.parse('http://localhost:8081/service/rest/v1/security/realms/active')
         request = Net::HTTP::Get.new(uri)
-        request.basic_auth('admin', 'Superseekret63')
+        request.basic_auth(admin_username(node), admin_password(node))
         request['Accept'] = 'application/json'
 
         response = Net::HTTP.start(uri.hostname, uri.port) do |http|
@@ -27,10 +43,10 @@ module Boxcutter
       #   -H "Content-Type: application/json" \
       #   -X PUT "http://127.0.0.1:8081/service/rest/v1/security/realms/active" \
       #   -d '["NexusAuthenticatingRealm", "DockerToken"]'
-      def self.set_realms_active(realms)
+      def self.set_realms_active(node, realms)
         uri = URI.parse('http://localhost:8081/service/rest/v1/security/realms/active')
         request = Net::HTTP::Put.new(uri)
-        request.basic_auth('admin', 'Superseekret63')
+        request.basic_auth(admin_username(node), admin_password(node))
         request['Content-Type'] = 'application/json'
         request.body = realms.to_json
 
@@ -49,10 +65,10 @@ module Boxcutter
       # curl -ifu admin:Superseekret63 \
       #   -X GET 'http://127.0.0.1:8081/service/rest/v1/repositories'
 
-      def self.repositories_list
+      def self.repositories_list(node)
         uri = URI.parse('http://localhost:8081/service/rest/v1/repositories')
         request = Net::HTTP::Get.new(uri)
-        request.basic_auth('admin', 'Superseekret63')
+        request.basic_auth(admin_username(node), admin_password(node))
         request['Accept'] = 'application/json'
 
         response = Net::HTTP.start(uri.hostname, uri.port) do |http|
@@ -67,6 +83,26 @@ module Boxcutter
           Chef::Log.error("Failed to get repositories: #{response.message}")
         end
         repositories
+      end
+
+      def self.repositories_settings_list(node)
+        uri = URI.parse('http://localhost:8081/service/rest/v1/repositorySettings')
+        request = Net::HTTP::Get.new(uri)
+        request.basic_auth(admin_username(node), admin_password(node))
+        request['Accept'] = 'application/json'
+
+        response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.request(request)
+        end
+
+        if response.code.to_i == 200
+          repositories_settings = JSON.parse(response.body)
+          Chef::Log.info("Repositories: #{repositories_settings}")
+          # You can process the repositories as needed here
+        else
+          Chef::Log.error("Failed to get repositories: #{response.message}")
+        end
+        repositories_settings
       end
 
       def self.repository_create_apt_payload(repository_name, repository_config)
@@ -182,7 +218,7 @@ module Boxcutter
       # curl -u admin:admin123 -X POST 'http://localhost:8081/service/rest/v1/repositories/raw/hosted' \
       #                                 -H 'Content-Type: application/json' \
       #  -d @repo_config.json
-      def self.repository_create(repository_name, repository_config)
+      def self.repository_create(node, repository_name, repository_config)
         repository_format = repository_config['format']
         repository_type = repository_config['type']
         uri = URI.parse("http://localhost:8081/service/rest/v1/repositories/#{repository_format}/#{repository_type}")
@@ -199,7 +235,7 @@ module Boxcutter
         http = Net::HTTP.new(uri.host, uri.port)
 
         request = Net::HTTP::Post.new(uri.request_uri, { 'Content-Type' => 'application/json' })
-        request.basic_auth('admin', 'Superseekret63')
+        request.basic_auth(admin_username(node), admin_password(node))
         request.body = payload
 
         response = http.request(request)
@@ -208,12 +244,12 @@ module Boxcutter
         puts "MISCHA: PUT response body: #{response.body}"
       end
 
-      def self.repository_delete(repository_name)
+      def self.repository_delete(node, repository_name)
         uri = URI.parse("http://localhost:8081/service/rest/v1/repositories/#{repository_name}")
         http = Net::HTTP.new(uri.hostname, uri.port)
 
         request = Net::HTTP::Delete.new(uri)
-        request.basic_auth('admin', 'Superseekret63')
+        request.basic_auth(admin_username(node), admin_password(node))
 
         response = http.request(request)
 
