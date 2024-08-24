@@ -1,0 +1,57 @@
+#!/bin/bash
+
+CERTIFICATE_NAME="<%= @certificate_name %>"
+SERVER="<%= @server %>"
+EMAIL="<%= @email %>"
+DOMAINS="<%= @domains %>"
+DATA_PATH="<%= @data_path %>"
+RENEW_DAYS="<%= @renew_days %>"
+<% @extra_environment.each do |key, value| -%>
+<%= key %>=<%= value %>
+<% end -%>
+
+# --path=/etc/lego \
+obtain_certificate() {
+   /opt/lego/latest/bin/lego \
+    --accept-tos \
+    --email="${EMAIL}" \
+    --server="${SERVER}" \
+    --path="${DATA_PATH}" \
+    <%= @extra_parameters %> \
+    ${DOMAIN_ARGS[@]} \
+    run
+}
+
+renew_certificate() {
+  /opt/lego/latest/bin/lego \
+    --accept-tos \
+    --email="${EMAIL}" \
+    --server="${SERVER}" \
+    --path="${DATA_PATH}" \
+    <%= @extra_parameters %> \
+    ${DOMAIN_ARGS[@]} \
+    renew --days "${RENEW_DAYS}"
+}
+
+list_certificates() {
+  /opt/lego/latest/bin/lego \
+    --path="${DATA_PATH}" \
+    list
+}
+
+DOMAIN_ARGS=()
+for DOMAIN in ${DOMAINS}; do
+  echo "${DOMAIN}"
+  DOMAIN_ARGS+=("--domains $DOMAIN")
+done
+
+if list_certificates | grep -q "${CERTIFICATE_NAME}"; then
+  echo "==> Certificate for ${CERTIFICATE_NAME} exists."
+else
+  echo "==> Certificate not found. Obtaining certificate."
+  obtain_certificate
+fi
+echo "==> Renewing certificate"
+renew_certificate
+echo "==> Dumping certificate"
+list_certificates

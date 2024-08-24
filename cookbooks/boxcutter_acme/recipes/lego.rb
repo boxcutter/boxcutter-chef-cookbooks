@@ -60,3 +60,30 @@ end
 link '/opt/lego/latest/bin' do
   to path.to_s
 end
+
+node.default['boxcutter_acme']['lego']['config'].each do |name, config|
+  template config['renew_script_path'] do
+    source 'lego_renew.sh.erb'
+    owner 'root'
+    group 'root'
+    mode '0700'
+    variables(
+      certificate_name: config['certificate_name'],
+      data_path: config['data_path'],
+      server: config['server'] || 'https://acme-v02.api.letsencrypt.org/directory',
+      email: config['email'],
+      domains: config['domains'].join(' '),
+      cloudflare_dns_api_token: config['cloudflare_dns_api_token'],
+      extra_parameters: config.key?('extra_parameters') ? config['extra_parameters'].join(' ') : '--http',
+      extra_environment: config['extra_environment'],
+      renew_days: config['renew_days'] || 30,
+    )
+  end
+
+  node.default['fb_timers']['jobs'][name] = {
+    'calendar' => FB::Systemd::Calendar.every.weekday,
+    'command' => config['renew_script_path'],
+    'accuracy' => '1h',
+    'splay' => '0.5h',
+  }
+end
