@@ -70,7 +70,7 @@ node.default['boxcutter_acme']['lego']['config'].each do |name, config|
     variables(
       certificate_name: config['certificate_name'],
       data_path: config['data_path'],
-      server: config['server'] || 'https://acme-v02.api.letsencrypt.org/directory',
+      server: config.key?('server') || 'https://acme-v02.api.letsencrypt.org/directory',
       email: config['email'],
       domains: config['domains'].join(' '),
       cloudflare_dns_api_token: config['cloudflare_dns_api_token'],

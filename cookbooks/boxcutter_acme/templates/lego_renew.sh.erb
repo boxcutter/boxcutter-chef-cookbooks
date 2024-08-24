@@ -10,7 +10,6 @@ RENEW_DAYS="<%= @renew_days %>"
 <%= key %>=<%= value %>
 <% end -%>
 
-# --path=/etc/lego \
 obtain_certificate() {
    /opt/lego/latest/bin/lego \
     --accept-tos \
