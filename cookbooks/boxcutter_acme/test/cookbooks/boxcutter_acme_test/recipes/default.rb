@@ -11,10 +11,10 @@ node.default['boxcutter_acme']['lego']['config'] = {
     'renew_days' => '30',
     'server' => 'https://acme-staging-v02.api.letsencrypt.org/directory',
     'email' => 'letsencrypt@polymathrobotics.com',
-    'domains' => %w(
+    'domains' => %w{
       hq0-nexus01.sandbox.polymathrobotics.dev
       *.hq0-nexus01.sandbox.polymathrobotics.dev
-    ),
+    },
     'extra_parameters' => [
       '--dns cloudflare',
       # There's are issues resolving apex domain servers over tailscale, so
@@ -23,7 +23,7 @@ node.default['boxcutter_acme']['lego']['config'] = {
     ],
     'extra_environment' => {
       'export CF_DNS_API_TOKEN' => '<token>',
-    }
+    },
   },
 }
 
