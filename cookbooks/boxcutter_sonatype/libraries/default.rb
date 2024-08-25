@@ -2,9 +2,9 @@ module Boxcutter
   class Sonatype
     module Helpers
       def self.run_state_or_attribute(node, attribute)
-        if node.run_state.key?('boxcutter_sonatype') &&
-           node.run_state['boxcutter_sonatype']['nexus_repository'] &&
-           node.run_state['boxcutter_sonatype']['nexus_repository'].key?(attribute)
+        if node.run_state.key?('boxcutter_sonatype') \
+          && node.run_state['boxcutter_sonatype']['nexus_repository'] \
+          && node.run_state['boxcutter_sonatype']['nexus_repository'].key?(attribute)
           node.run_state['boxcutter_sonatype']['nexus_repository'][attribute]
         else
           node['boxcutter_sonatype']['nexus_repository'][attribute]
