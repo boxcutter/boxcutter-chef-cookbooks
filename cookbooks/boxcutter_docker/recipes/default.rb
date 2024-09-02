@@ -18,23 +18,23 @@
 
 FB::Users.initialize_group(node, node['boxcutter_docker']['group'])
 
-# %w{DOCKER-USER DOCKER-ISOLATION-STAGE-1}.each do |chain|
-#   node.default['fb_iptables']['dynamic_chains']['filter'][chain] = [
-#     'FORWARD',
-#   ]
-# end
-# %w{DOCKER DOCKER-ISOLATION-STAGE-2}.each do |chain|
-#   node.default['fb_iptables']['dynamic_chains']['filter'][chain] = []
-# end
-#
-# node.default['fb_iptables']['filter']['FORWARD']['rules']['docker'] = {
-#   'rules' => [
-#     '-o docker0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT',
-#     '-o docker0 -j DOCKER',
-#     '-i docker0 ! -o docker0 -j ACCEPT',
-#     '-i docker0 -o docker0 -j ACCEPT',
-#   ],
-# }
+%w{DOCKER-USER DOCKER-ISOLATION-STAGE-1}.each do |chain|
+  node.default['fb_iptables']['dynamic_chains']['filter'][chain] = [
+    'FORWARD',
+  ]
+end
+%w{DOCKER DOCKER-ISOLATION-STAGE-2}.each do |chain|
+  node.default['fb_iptables']['dynamic_chains']['filter'][chain] = []
+end
+
+node.default['fb_iptables']['filter']['FORWARD']['rules']['docker'] = {
+  'rules' => [
+    '-o docker0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT',
+    '-o docker0 -j DOCKER',
+    '-i docker0 ! -o docker0 -j ACCEPT',
+    '-i docker0 -o docker0 -j ACCEPT',
+  ],
+}
 
 case node['platform']
 when 'ubuntu'
