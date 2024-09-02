@@ -79,10 +79,10 @@ if nexus_hosts
       'name' => 'docker',
       'type' => 'group',
       'format' => 'docker',
-      'member_names' => %w(
+      'member_names' => %w{
         docker-hosted
         docker-proxy
-      ),
+      },
       'writableMember' => 'docker-host',
       'docker_v1_enabled' => true,
       'docker_force_basic_auth' => true,
