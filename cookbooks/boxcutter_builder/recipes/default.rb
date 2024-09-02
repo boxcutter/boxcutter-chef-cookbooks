@@ -19,9 +19,9 @@
 include_recipe 'boxcutter_docker::default'
 FB::Users.initialize_group(node, 'docker')
 
-arm64_self_hosted_runner_list = %w{
-  agx01-builder-tegra
-}
+# arm64_self_hosted_runner_list = %w{
+#   agx01-builder-tegra
+# }
 
 # if arm64_self_hosted_runner_list.include?(node['hostname'])
 # end
