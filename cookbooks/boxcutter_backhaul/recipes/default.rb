@@ -55,7 +55,7 @@ nexus_hosts = %w{
 if nexus_hosts
   cloudflare_api_token = Polymath::OnePassword.op_read('op://Automation-Org/Cloudflare API token amazing-sheila/credential')
 
-  node.default['polymath_acme']['lego']['config'] = {
+  node.default['boxcutter_acme']['lego']['config'] = {
     'nexus' => {
       'certificate_name' => 'crake-nexus.org.boxcutter.net',
       'data_path' => '/etc/lego',
