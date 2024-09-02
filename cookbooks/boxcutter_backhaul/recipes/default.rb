@@ -48,12 +48,33 @@ if nfs_server_hosts
   include_recipe 'boxcutter_nfs::server'
 end
 
-artifactory_hosts = %w{
-  crake-artifactory-playpen
-  hq0-rt01
+nexus_hosts = %w{
+  crake-nexus
 }.include?(node['hostname'])
 
-if artifactory_hosts
-  # include_recipe 'boxcutter_jfrog::container_registry_docker'
-  include_recipe 'boxcutter_sonatype::nexus_docker'
+if nexus_hosts
+  cloudflare_api_token = Polymath::OnePassword.op_read('op://Automation-Org/Cloudflare API token amazing-sheila/credential')
+
+  node.default['polymath_acme']['lego']['config'] = {
+    'nexus' => {
+      'certificate_name' => 'crake-nexus.org.boxcutter.net',
+      'data_path' => '/etc/lego',
+      'renew_script_path' => '/opt/lego/lego_renew.sh',
+      'renew_days' => '30',
+      'email' => 'letsencrypt@boxcutter.dev',
+      'domains' => %w{
+        crake-nexus.org.boxcutter.net
+        *.crake-nexus.org.boxcutter.net
+      },
+      'extra_parameters' => [
+        '--dns cloudflare',
+        # There are issues resolving apex domain servers over tailscale, so
+        # override the DNS resolver lego uses, in case we're running tailscale
+        '--dns.resolvers 1.1.1.1',
+      ],
+      'extra_environment' => {
+        'export CF_DNS_API_TOKEN' => cloudflare_api_token,
+      },
+    },
+  }
 end
