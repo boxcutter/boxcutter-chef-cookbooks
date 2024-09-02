@@ -54,7 +54,7 @@ nexus_hosts = %w{
 
 if nexus_hosts
   cloudflare_api_token = Boxcutter::OnePassword.op_read(
-    'op://Automation-Org/Cloudflare API token amazing-sheila/credential'
+    'op://Automation-Org/Cloudflare API token amazing-sheila/credential',
   )
 
   node.default['boxcutter_acme']['lego']['config'] = {
