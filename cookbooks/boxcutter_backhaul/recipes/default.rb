@@ -79,4 +79,6 @@ if nexus_hosts
       },
     },
   }
+
+  include_recipe 'boxcutter_acme::lego'
 end
