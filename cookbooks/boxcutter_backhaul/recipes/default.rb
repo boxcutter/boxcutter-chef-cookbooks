@@ -53,7 +53,7 @@ nexus_hosts = %w{
 }.include?(node['hostname'])
 
 if nexus_hosts
-  cloudflare_api_token = Polymath::OnePassword.op_read('op://Automation-Org/Cloudflare API token amazing-sheila/credential')
+  cloudflare_api_token = Boxcutter::OnePassword.op_read('op://Automation-Org/Cloudflare API token amazing-sheila/credential')
 
   node.default['boxcutter_acme']['lego']['config'] = {
     'nexus' => {
