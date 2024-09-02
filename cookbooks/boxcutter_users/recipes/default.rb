@@ -45,6 +45,8 @@ node.default['fb_ssh']['authorized_keys']['taylor']['mahowald'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDBZjVID1mAqZyhD3p0VbJtidKAxMHUwLmEMaCAJX0UN mahowald'
 node.default['fb_ssh']['authorized_keys']['taylor']['sheila'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINy9cJcJl8oN6bRtcBc4RZq8f/T6P1AFR3YS1YRYi5YY sheila'
+node.default['fb_ssh']['authorized_keys']['taylor']['sheila_home'] =
+  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQs5gtlb+OtvTvdFu8ujoI+G4ElkJudZpxDtnwCZybA sheila-home'
 node.default['fb_ssh']['authorized_keys']['taylor']['crake_chef_workstation'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFgc04AMr0cqL3Il8l+jSuRtgHAjntGzDltnOCB2Uihz crakeChefWorkstation'
 node.default['fb_ssh']['authorized_keys']['sheila']['mahowald'] =
