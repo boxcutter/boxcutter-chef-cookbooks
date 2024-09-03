@@ -166,4 +166,17 @@ if nexus_hosts
   }
 
   include_recipe 'fb_nginx'
+
+  nexus_admin_username = Boxcutter::OnePassword.op_read(
+    'op://Automation-Org/nexus admin blue/username',
+    )
+  nexus_admin_password = Boxcutter::OnePassword.op_read(
+    'op://Automation-Org/nexus admin blue/password',
+    )
+  node.run_state['boxcutter_sonatype'] ||= {}
+  node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
+  node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = nexus_admin_username
+  node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = nexus_admin_password
+
+  include_recipe 'boxcutter_sonatype::default'
 end
