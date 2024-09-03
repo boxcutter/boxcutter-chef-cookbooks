@@ -81,7 +81,7 @@ node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
     'name' => 'onepassword-proxy',
     'type' => 'proxy',
     'format' => 'raw',
-    'remote_url' => 'https://cache.agilebits.com'
+    'remote_url' => 'https://cache.agilebits.com',
   },
   'docker-proxy' => {
     'name' => 'docker-proxy',
