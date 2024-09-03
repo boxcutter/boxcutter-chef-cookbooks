@@ -64,9 +64,29 @@ module Boxcutter
         end
       end
 
+      # curl -u admin:Superseekret63 \
+      #   -H "Content-Type: application/json" \
+      #   -X GET "http://localhost:8081/service/rest/v1/security/roles"
+      def self.list_roles
+      end
+
+      def self.create_role
+      end
+
+      # curl -u admin:password \
+      #   -H "Content-Type: application/json" \
+      #   -X GET "http://localhost:8081/service/rest/v1/security/users"
+      def self.list_users
+      end
+
+      def self.create_user
+      end
+
+      def self.change_user_password(user_id, new_password)
+      end
+
       # curl -ifu admin:Superseekret63 \
       #   -X GET 'http://127.0.0.1:8081/service/rest/v1/repositories'
-
       def self.repositories_list(node)
         uri = URI.parse('http://localhost:8081/service/rest/v1/repositories')
         request = Net::HTTP::Get.new(uri)
@@ -110,7 +130,7 @@ module Boxcutter
       def self.repository_create_apt_payload(repository_name, repository_config)
         case repository_config['type']
         when 'proxy'
-          {
+          payload = {
             'name' => repository_name,
             'online' => true,
             'storage' => {
@@ -145,12 +165,62 @@ module Boxcutter
               'distribution' => repository_config['distribution'],
               'flat' => repository_config['flat'],
             },
-          }.to_json
-        end
+          }
+
+          if repository_config.key?('authentication_username')
+            payload['httpClient']['authentication'] = {
+              'type' => 'username',
+              'username' => repository_config['authentication_username']
+            }
+            if repository_config.key('authentication_password')
+              payload['httpClient']['authentication']['password'] = repository_config['authentication_password']
+            end
+          end
+
+          payload.to_json
       end
 
       def self.repository_create_docker_payload(repository_name, repository_config)
         case repository_config['type']
+        when 'group'
+          {
+            'name' => repository_name,
+            'online' => true,
+            'storage' => {
+              'blobStoreName' => 'default',
+              'strictContentTypeValidation' => true,
+            },
+            'group' => {
+              'memberNames' => repository_config['member_names'],
+              'writableMember' => repository_config['writable_member'],
+            },
+            'docker' => {
+              'v1Enabled' => repository_config['docker_v1_enabled'],
+              'forceBasicAuth' => repository_config['docker_force_basic_auth'],
+              'httpPort' => repository_config['docker_http_port'],
+              'httpsPort' => repository_config['docker_https_port'],
+            },
+          }.to_json
+        when 'hosted'
+          {
+            'name' => repository_name,
+            'online' => true,
+            'storage' => {
+              'blobStoreName' => 'default',
+              'strictContentTypeValidation' => true,
+              'writePolicy' => 'allow',
+              'latestPolicy' => true,
+            },
+            'cleanup' => {
+              'policyNames' => [],
+            },
+            'docker' => {
+              'v1Enabled' => repository_config['docker_v1_enabled'],
+              'forceBasicAuth' => repository_config['docker_force_basic_auth'],
+              'httpPort' => repository_config['docker_http_port'],
+              'httpsPort' => repository_config['docker_https_port'],
+            },
+          }.to_json
         when 'proxy'
           {
             'name' => repository_name,
@@ -212,6 +282,36 @@ module Boxcutter
             },
             'cleanup' => {
               'policyNames' => [],
+            },
+          }.to_json
+        when 'proxy'
+          {
+            'name' => repository_name,
+            'online' => true,
+            'storage' => {
+              'blobStoreName' => 'default',
+              'strictContentTypeValidation' => true,
+            },
+            'proxy' => {
+              'remoteUrl' => repository_config['remote_url'],
+              'contentMaxAge' => 1440,
+              'metadataMaxAge' => 1440,
+            },
+            'negativeCache' => {
+              'enabled' => true,
+              'timeToLive' => 1440,
+            },
+            'httpClient' => {
+              'blocked' => false,
+              'autoBlock' => true,
+              'connection' => {
+                'retries' => 0,
+                # 'userAgentSuffix' => 'string',
+                'timeout' => 60,
+                'enableCircularRedirects' => false,
+                'enableCookies' => false,
+                'useTrustStore' => false,
+              },
             },
           }.to_json
         end

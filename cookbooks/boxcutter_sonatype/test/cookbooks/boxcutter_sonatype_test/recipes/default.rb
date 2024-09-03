@@ -4,8 +4,10 @@
 #
 node.run_state['boxcutter_sonatype'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
-node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = 'admin'
-node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
+# node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = 'admin'
+# node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
+node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = 'chef'
+node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'sucre-canonize-ROADSTER-bashful'
 
 node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
   'testy-hosted' => {
@@ -20,6 +22,66 @@ node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
     'remote_url' => 'http://packages.ros.org/ros2/ubuntu',
     'distribution' => 'jammy',
     'flat' => false,
+  },
+  'ubuntu-archive-proxy' => {
+    'name' => 'ubuntu-archive-proxy',
+    'type' => 'proxy',
+    'format' => 'apt',
+    'remote_url' => 'http://archive.ubuntu.com/ubuntu/',
+    'distribution' => 'jammy',
+    'flat' => false,
+  },
+  'ubuntu-security-proxy' => {
+    'name' => 'ubuntu-security-proxy',
+    'type' => 'proxy',
+    'format' => 'apt',
+    'remote_url' => 'http://security.ubuntu.com/ubuntu/',
+    'distribution' => 'jammy',
+    'flat' => false,
+  },
+  'ubuntu-ports-proxy' => {
+    'name' => 'ubuntu-ports-proxy',
+    'type' => 'proxy',
+    'format' => 'apt',
+    'remote_url' => 'http://ports.ubuntu.com/ubuntu-ports',
+    'distribution' => 'jammy',
+    'flat' => false,
+  },
+  'ubuntu-releases-proxy' => {
+    'name' => 'ubuntu-releases-proxy',
+    'type' => 'proxy',
+    'format' => 'raw',
+    'remote_url' => 'https://releases.ubuntu.com',
+  },
+  'ubuntu-cdimage-proxy' => {
+    'name' => 'ubuntu-cdimage-proxy',
+    'type' => 'proxy',
+    'format' => 'raw',
+    'remote_url' => 'https://cdimage.ubuntu.com',
+  },
+  'ubuntu-cloud-images-proxy' => {
+    'name' => 'ubuntu-cloud-images-proxy',
+    'type' => 'proxy',
+    'format' => 'raw',
+    'remote_url' => 'https://cloud-images.ubuntu.com',
+  },
+  'cinc-proxy' => {
+    'name' => 'cinc-proxy',
+    'type' => 'proxy',
+    'format' => 'raw',
+    'remote_url' => 'https://ftp.osuosl.org/pub/cinc',
+  },
+  'cinc-omnitruck-proxy' => {
+    'name' => 'cinc-omnitruck-proxy',
+    'type' => 'proxy',
+    'format' => 'raw',
+    'remote_url' => 'https://omnitruck.cinc.sh',
+  },
+  'onepassword-proxy' => {
+    'name' => 'onepassword-proxy',
+    'type' => 'proxy',
+    'format' => 'raw',
+    'remote_url' => 'https://cache.agilebits.com'
   },
   'docker-proxy' => {
     'name' => 'docker-proxy',
