@@ -67,23 +67,18 @@ module Boxcutter
       # curl -u admin:Superseekret63 \
       #   -H "Content-Type: application/json" \
       #   -X GET "http://localhost:8081/service/rest/v1/security/roles"
-      def self.list_roles
-      end
+      def self.list_roles; end
 
-      def self.create_role
-      end
+      def self.create_role; end
 
       # curl -u admin:password \
       #   -H "Content-Type: application/json" \
       #   -X GET "http://localhost:8081/service/rest/v1/security/users"
-      def self.list_users
-      end
+      def self.list_users; end
 
-      def self.create_user
-      end
+      def self.create_user; end
 
-      def self.change_user_password(user_id, new_password)
-      end
+      def self.change_user_password(user_id, new_password); end
 
       # curl -ifu admin:Superseekret63 \
       #   -X GET 'http://127.0.0.1:8081/service/rest/v1/repositories'
@@ -170,7 +165,7 @@ module Boxcutter
           if repository_config.key?('authentication_username')
             payload['httpClient']['authentication'] = {
               'type' => 'username',
-              'username' => repository_config['authentication_username']
+              'username' => repository_config['authentication_username'],
             }
             if repository_config.key('authentication_password')
               payload['httpClient']['authentication']['password'] = repository_config['authentication_password']
