@@ -178,6 +178,7 @@ module Boxcutter
           end
 
           payload.to_json
+        end
       end
 
       def self.repository_create_docker_payload(repository_name, repository_config)
