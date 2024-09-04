@@ -54,6 +54,54 @@ nexus_hosts = %w{
 
 if nexus_hosts
   node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
+    'ubuntu-archive-apt-proxy' => {
+      'name' => 'ubuntu-archive-proxy',
+      'type' => 'proxy',
+      'format' => 'apt',
+      'remote_url' => 'http://archive.ubuntu.com/ubuntu',
+      'distribution' => 'jammy',
+      'flat' => false,
+    },
+    'ubuntu-security-apt-proxy' => {
+      'name' => 'ubuntu-security-apt-proxy',
+      'type' => 'proxy',
+      'format' => 'apt',
+      'remote_url' => 'http://security.ubuntu.com/ubuntu/',
+      'distribution' => 'jammy',
+      'flat' => false,
+    },
+    'ubuntu-ports-apt-proxy' => {
+      'name' => 'ubuntu-ports-proxy',
+      'type' => 'proxy',
+      'format' => 'apt',
+      'remote_url' => 'http://ports.ubuntu.com/ubuntu-ports',
+      'distribution' => 'jammy',
+      'flat' => false,
+    },
+    'ubuntu-releases-proxy' => {
+      'name' => 'ubuntu-releases-proxy',
+      'type' => 'proxy',
+      'format' => 'raw',
+      'remote_url' => 'https://releases.ubuntu.com',
+    },
+    'ubuntu-cdimage-proxy' => {
+      'name' => 'ubuntu-cdimage-proxy',
+      'type' => 'proxy',
+      'format' => 'raw',
+      'remote_url' => 'https://cdimage.ubuntu.com',
+    },
+    'ubuntu-cloud-images-proxy' => {
+      'name' => 'ubuntu-cloud-images-proxy',
+      'type' => 'proxy',
+      'format' => 'raw',
+      'remote_url' => 'https://cloud-images.ubuntu.com',
+    },
+    'cinc-proxy' => {
+      'name' => 'cinc-proxy',
+      'type' => 'proxy',
+      'format' => 'raw',
+      'remote_url' => 'https://ftp.osuosl.org/pub/cinc',
+    },
     'boxcutter-images-hosted' => {
       'name' => 'boxcutter-images-hosted',
       'type' => 'hosted',
