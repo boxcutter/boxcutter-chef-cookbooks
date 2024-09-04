@@ -130,7 +130,7 @@ module Boxcutter
             'online' => true,
             'storage' => {
               'blobStoreName' => 'default',
-              'strictContentTypeValidation' => true,
+              'strictContentTypeValidation' => false,
             },
             'cleanup' => {
               'policyNames' => [],
@@ -286,7 +286,7 @@ module Boxcutter
             'online' => true,
             'storage' => {
               'blobStoreName' => 'default',
-              'strictContentTypeValidation' => true,
+              'strictContentTypeValidation' => false,
             },
             'proxy' => {
               'remoteUrl' => repository_config['remote_url'],
