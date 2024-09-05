@@ -54,6 +54,14 @@ nexus_hosts = %w{
 
 if nexus_hosts
   node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
+    'ros-apt-proxy' => {
+      'name' => 'ros-apt-proxy',
+      'type' => 'proxy',
+      'format' => 'apt',
+      'remote_url' => 'http://packages.ros.org/ros2/ubuntu',
+      'distribution' => 'jammy',
+      'flat' => false,
+    },
     'ubuntu-archive-apt-proxy' => {
       'name' => 'ubuntu-archive-apt-proxy',
       'type' => 'proxy',
@@ -101,6 +109,24 @@ if nexus_hosts
       'type' => 'proxy',
       'format' => 'raw',
       'remote_url' => 'https://ftp.osuosl.org/pub/cinc',
+    },
+    'github-releases-proxy' => {
+      'name' => 'github-releases-proxy',
+      'type' => 'proxy',
+      'format' => 'raw',
+      'remote_url' => 'https://github.com',
+    },
+    'githubusercontent-proxy' => {
+      'name' => 'githubusercontent-proxy',
+      'type' => 'proxy',
+      'format' => 'raw',
+      'remote_url' => 'https://raw.githubusercontent.com',
+    },
+    'onepassword-proxy' => {
+      'name' => 'onepassword-proxy',
+      'type' => 'proxy',
+      'format' => 'raw',
+      'remote_url' => 'https://cache.agilebits.com',
     },
     'boxcutter-images-hosted' => {
       'name' => 'boxcutter-images-hosted',
@@ -167,7 +193,7 @@ if nexus_hosts
   node.default['fb_nginx']['sites']['nexus_http'] = {
     'listen' => '80',
     'server_name' => 'crake-nexus.org.boxcutter.net',
-    'location ~ ^/repository/(ubuntu-archive-apt-proxy|ubuntu-security-apt-proxy|ubuntu-ports-apt-proxy)/' => {
+    'location ~ ^/repository/(ros-apt-proxy|ubuntu-archive-apt-proxy|ubuntu-security-apt-proxy|ubuntu-ports-apt-proxy)/' => {
       'proxy_pass' => 'http://127.0.0.1:8081',
       'proxy_set_header Host' => '$host:80',
       'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
