@@ -204,7 +204,7 @@ if nexus_hosts
 
   node.default['fb_nginx']['sites']['nexus_docker'] = {
     'listen 443' => 'ssl',
-    'server_name' => 'crake-nexus.org.boxcutter.net',
+    'server_name' => 'docker.crake-nexus.org.boxcutter.net',
     'client_max_body_size' => '1G',
     'ssl_certificate' =>
       '/etc/lego/certificates/crake-nexus.org.boxcutter.net.crt',
