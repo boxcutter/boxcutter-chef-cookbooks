@@ -71,7 +71,7 @@ if nexus_hosts
       'flat' => false,
     },
     'ubuntu-ports-apt-proxy' => {
-      'name' => 'ubuntu-ports-proxy',
+      'name' => 'ubuntu-ports-apt-proxy',
       'type' => 'proxy',
       'format' => 'apt',
       'remote_url' => 'http://ports.ubuntu.com/ubuntu-ports',
