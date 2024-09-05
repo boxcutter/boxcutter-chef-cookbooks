@@ -55,7 +55,7 @@ nexus_hosts = %w{
 if nexus_hosts
   node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
     'ubuntu-archive-apt-proxy' => {
-      'name' => 'ubuntu-archive-proxy',
+      'name' => 'ubuntu-archive-apt-proxy',
       'type' => 'proxy',
       'format' => 'apt',
       'remote_url' => 'http://archive.ubuntu.com/ubuntu',
@@ -131,10 +131,30 @@ if nexus_hosts
         docker-hosted
         docker-proxy
       },
-      'writableMember' => 'docker-host',
+      'writableMember' => 'docker-hosted',
       'docker_v1_enabled' => true,
       'docker_force_basic_auth' => true,
       'docker_http_port' => 8082,
+    },
+    'docker-cache-hosted' => {
+      'name' => 'docker-cache-hosted',
+      'type' => 'hosted',
+      'format' => 'docker',
+      'docker_v1_enabled' => true,
+      'docker_force_basic_auth' => true,
+    },
+    'docker-cache' => {
+      'name' => 'docker-cache',
+      'type' => 'group',
+      'format' => 'docker',
+      'member_names' => %w{
+        docker-cache-hosted
+        docker-proxy
+      },
+      'writableMember' => 'docker-cache-hosted',
+      'docker_v1_enabled' => true,
+      'docker_force_basic_auth' => true,
+      'docker_http_port' => 8083,
     },
   }
 
