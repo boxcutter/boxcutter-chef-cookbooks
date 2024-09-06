@@ -255,7 +255,7 @@ if nexus_hosts
   node.default['fb_nginx']['sites']['nexus_docker'] = {
     'listen 443' => 'ssl',
     'server_name' => 'docker.crake-nexus.org.boxcutter.net',
-    'client_max_body_size' => '1G',
+    'client_max_body_size' => '0',
     'ssl_certificate' =>
       '/etc/lego/certificates/crake-nexus.org.boxcutter.net.crt',
     'ssl_certificate_key' =>
@@ -271,6 +271,35 @@ if nexus_hosts
         'rewrite ^/(.*)$ /repository/docker-hosted/$1' => 'last',
       },
       'rewrite ^/(.*)$ /repository/docker/$1' => 'last',
+    },
+    'location /' => {
+      'proxy_set_header Host' => '$host:$server_port',
+      'proxy_set_header X-Real-IP' => '$remote_addr',
+      'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
+      'proxy_set_header X-Forwarded-Proto' => '"https"',
+      'proxy_pass' => 'http://127.0.0.1:8081',
+    },
+  }
+
+  node.default['fb_nginx']['sites']['nexus_docker_cache'] = {
+    'listen 443' => 'ssl',
+    'server_name' => 'docker-cache.crake-nexus.org.boxcutter.net',
+    'client_max_body_size' => '0',
+    'ssl_certificate' =>
+      '/etc/lego/certificates/crake-nexus.org.boxcutter.net.crt',
+    'ssl_certificate_key' =>
+      '/etc/lego/certificates/crake-nexus.org.boxcutter.net.key',
+    'location ~ ^/(v1|v2)/[^/]+/?[^/]+/blobs/' => {
+      'if ($request_method ~* (POST|PUT|DELETE|PATCH|HEAD) )' => {
+        'rewrite ^/(.*)$ /repository/docker-cache-hosted/$1' => 'last',
+      },
+      'rewrite ^/(.*)$ /repository/docker-cache/$1' => 'last',
+    },
+    'location ~ ^/(v1|v2)/' => {
+      'if ($request_method ~* (POST|PUT|DELETE|PATCH) )' => {
+        'rewrite ^/(.*)$ /repository/docker-cache-hosted/$1' => 'last',
+      },
+      'rewrite ^/(.*)$ /repository/docker-cache/$1' => 'last',
     },
     'location /' => {
       'proxy_set_header Host' => '$host:$server_port',
