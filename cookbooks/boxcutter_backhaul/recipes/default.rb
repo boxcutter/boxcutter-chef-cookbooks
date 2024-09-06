@@ -193,7 +193,11 @@ if nexus_hosts
   node.default['fb_nginx']['sites']['nexus_http'] = {
     'listen' => '80',
     'server_name' => 'crake-nexus.org.boxcutter.net',
-    'location ~ ^/repository/(ros-apt-proxy|ubuntu-archive-apt-proxy|ubuntu-security-apt-proxy|ubuntu-ports-apt-proxy)/' => {
+    'location ~ ^/repository/' \
+      '(ros-apt-proxy|' \
+        ubuntu-archive-apt-proxy|' \
+        ubuntu-security-apt-proxy|' \
+        ubuntu-ports-apt-proxy)/' => {
       'proxy_pass' => 'http://127.0.0.1:8081',
       'proxy_set_header Host' => '$host:80',
       'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
