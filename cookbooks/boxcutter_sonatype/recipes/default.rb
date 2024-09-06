@@ -297,6 +297,6 @@ end
 #           })
 #   message '{ "enabled": true, "userId": "anonymous" }'
 #   action :nothing
-end
+# end
 
 boxcutter_sonatype_nexus_repository 'configure'
