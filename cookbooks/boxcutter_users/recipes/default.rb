@@ -37,7 +37,7 @@ group 'sudo' do
   gid 2001
 end
 
-node.default['fb_sudo']['users']['%sudo']['dont prompt for password'] = 'ALL=NOPASSWD: ALL'
+node.default['fb_sudo']['users']['%sudo']['dont prompt for password'] = 'ALL=(ALL:ALL) NOPASSWD:ALL'
 
 node.default['fb_ssh']['enable_central_authorized_keys'] = true
 

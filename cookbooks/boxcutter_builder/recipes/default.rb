@@ -21,22 +21,6 @@ amd64_self_hosted_runner_list = %w{
 }
 
 if amd64_self_hosted_runner_list.include?(node['hostname'])
-  caretakers.each do |user, uid|
-    user user do
-      uid uid
-      group 'users'
-      home "/home/#{user}"
-      manage_home true
-      shell '/bin/bash'
-    end
-  end
-
-  group 'sudo' do
-    members caretakers.keys
-    system true
-    gid 2001
-  end
-
   include_recipe 'boxcutter_docker::default'
   FB::Users.initialize_group(node, 'docker')
 
