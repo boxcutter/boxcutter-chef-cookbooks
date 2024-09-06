@@ -16,8 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe 'boxcutter_docker::default'
-FB::Users.initialize_group(node, 'docker')
+amd64_self_hosted_runner_list = %w{
+  crake-amd64-builder
+}
+
+if amd64_self_hosted_runner_list.include?(node['hostname'])
+  include_recipe 'boxcutter_docker::default'
+  FB::Users.initialize_group(node, 'docker')
+
+  include_recipe 'boxcutter_builder::user'
+end
 
 # arm64_self_hosted_runner_list = %w{
 #   agx01-builder-tegra
