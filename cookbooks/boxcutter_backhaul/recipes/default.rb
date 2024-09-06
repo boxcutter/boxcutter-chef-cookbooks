@@ -195,15 +195,15 @@ if nexus_hosts
     'server_name' => 'crake-nexus.org.boxcutter.net',
     'location ~ ^/repository/' \
       '(ros-apt-proxy|' \
-        'ubuntu-archive-apt-proxy|' \
-        'ubuntu-security-apt-proxy|' \
-        'ubuntu-ports-apt-proxy)/' => {
-      'proxy_pass' => 'http://127.0.0.1:8081',
-      'proxy_set_header Host' => '$host:80',
-      'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
-      'proxy_set_header X-Real-Ip' => '$remote_addr',
-      'proxy_set_header X-Forwarded-Proto' => '$scheme',
-    },
+      'ubuntu-archive-apt-proxy|' \
+      'ubuntu-security-apt-proxy|' \
+      'ubuntu-ports-apt-proxy)/' => {
+        'proxy_pass' => 'http://127.0.0.1:8081',
+        'proxy_set_header Host' => '$host:80',
+        'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
+        'proxy_set_header X-Real-Ip' => '$remote_addr',
+        'proxy_set_header X-Forwarded-Proto' => '$scheme',
+      },
     # Redirect all other HTTP requests to HTTPS
     'location /' => {
       'return 301' => 'https://$host$request_uri',
