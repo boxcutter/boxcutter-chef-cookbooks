@@ -249,9 +249,26 @@ if node['boxcutter_sonatype']['nexus_repository']['manage_admin']
       }
     }
     message lazy { admin_password }
-    action :put
-    only_if { ::File.exist?(admin_password_path) }
+    action :nothing
+    # only_if { ::File.exist?(admin_password_path) }
+  end
+
+  http_request 'enable_anonymous_user' do
+    url lazy { "#{repository_url}/service/rest/v1/security/anonymous" }
+    headers({
+              'Content-Type' => 'application/json',
+              'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}",
+            })
+    message '{ "enabled": true, "userId": "anonymous" }'
+    action :nothing
+  end
+
+  file '/var/chef/.sonatype_nexus_configured' do
+    owner 'root'
+    group 'root'
+    mode '0644'
     notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
+    notifies :put, 'http_request[change admin password]', :immediately
     notifies :delete, "file[#{admin_password_path}]", :immediately
     notifies :put, 'http_request[enable_anonymous_user]', :immediately
   end
@@ -272,14 +289,14 @@ end
 #   -d '{"enabled": false}' \
 #   http://<nexus-url>/service/rest/v1/security/anonymous
 
-http_request 'enable_anonymous_user' do
-  url lazy { "#{repository_url}/service/rest/v1/security/anonymous" }
-  headers({
-            'Content-Type' => 'application/json',
-            'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}",
-          })
-  message '{ "enabled": true, "userId": "anonymous" }'
-  action :nothing
+# http_request 'enable_anonymous_user' do
+#   url lazy { "#{repository_url}/service/rest/v1/security/anonymous" }
+#   headers({
+#             'Content-Type' => 'application/json',
+#             'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}",
+#           })
+#   message '{ "enabled": true, "userId": "anonymous" }'
+#   action :nothing
 end
 
 boxcutter_sonatype_nexus_repository 'configure'
