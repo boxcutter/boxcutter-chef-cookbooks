@@ -324,4 +324,13 @@ if nexus_hosts
   node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = nexus_admin_password
 
   include_recipe 'boxcutter_sonatype::default'
+
+  # node['boxcutter_docker']['buildkits']['x86_64_builder'] = {
+  #   'name' => 'x86-64-builder',
+  #   'use' => true,
+  # }
+  node['boxcutter_docker']['contexts']['nvidia_jetson_agx_orin'] = {
+    'name' => 'nvidia-jetson-agx-orin',
+    'docker' => 'host=ssh://craft@10.63.34.15',
+  }
 end
