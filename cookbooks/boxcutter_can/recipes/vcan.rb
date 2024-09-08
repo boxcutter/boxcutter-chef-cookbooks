@@ -22,6 +22,8 @@ fb_modprobe_module 'vcan' do
   action :load
 end
 
+node.default['fb_networkd']['primary_interface'] = nil
+node.default['fb_networkd']['networks'].delete('eth0')
 node.default['fb_networkd']['networks']['vcan0'] = {
   'config' => {
     'Match' => {
@@ -30,6 +32,8 @@ node.default['fb_networkd']['networks']['vcan0'] = {
     'NetDev' => {
       'Name' => 'vcan0',
       'Kind' => 'vcan',
+      'MTUBytes' => '16',
+      'Description' => 'Virtual CAN0 network interface',
     },
   },
 }
