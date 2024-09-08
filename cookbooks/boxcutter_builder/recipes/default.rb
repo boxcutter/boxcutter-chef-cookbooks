@@ -28,6 +28,7 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
   node.default['fb_users']['groups']['docker']['members'] << 'craft'
 
   include_recipe 'boxcutter_can::vcan'
+  include_recipe 'fb_networkd'
 end
 
 # arm64_self_hosted_runner_list = %w{
