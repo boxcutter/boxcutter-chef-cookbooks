@@ -44,3 +44,5 @@ node.default['fb_networkd']['devices']['vcan0']['config'] = {
 service 'systemd-networkd' do
   action [:enable, :start]
 end
+
+package 'can-utils'
