@@ -21,3 +21,24 @@ node.default['fb_modprobe']['modules_to_load_on_boot'] << 'vcan'
 fb_modprobe_module 'vcan' do
   action :load
 end
+
+node.default['fb_networkd']['netdevs']['vcan0'] = {
+  'NetDev' => {
+    'Name' => 'vcan0',
+    'Kind' => 'vcan',
+  },
+}
+
+node.default['fb_networkd']['networks']['vcan0'] = {
+  'Match' => {
+    'Name' => 'vcan0',
+  },
+  'Network' => {
+    # You can define additional network configuration if needed.
+  },
+}
+
+# Ensure that systemd-networkd is enabled and started
+service 'systemd-networkd' do
+  action [:enable, :start]
+end
