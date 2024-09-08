@@ -29,12 +29,14 @@ node.default['fb_networkd']['networks']['vcan0'] = {
     'Match' => {
       'Name' => 'vcan0',
     },
-    'NetDev' => {
-      'Name' => 'vcan0',
-      'Kind' => 'vcan',
-      'MTUBytes' => '16',
-      'Description' => 'Virtual CAN0 network interface',
-    },
+  },
+}
+node.default['fb_networkd']['devices']['vcan0']['config'] = {
+  'NetDev' => {
+    'Name' => 'vcan0',
+    'Kind' => 'vcan',
+    'MTUBytes' => '16',
+    'Description' => 'Virtual CAN0 network interface',
   },
 }
 
