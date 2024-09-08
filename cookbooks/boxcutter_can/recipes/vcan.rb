@@ -31,7 +31,7 @@ node.default['fb_networkd']['networks']['vcan0'] = {
       'Name' => 'vcan0',
       'Kind' => 'vcan',
     },
-  }
+  },
 }
 
 # Ensure that systemd-networkd is enabled and started
