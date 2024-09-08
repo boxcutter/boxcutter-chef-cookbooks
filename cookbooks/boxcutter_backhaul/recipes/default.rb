@@ -333,6 +333,4 @@ if nexus_hosts
     'name' => 'nvidia-jetson-agx-orin',
     'docker' => 'host=ssh://craft@10.63.34.15',
   }
-
-  include_recipe 'boxcutter_can::vcan'
 end
