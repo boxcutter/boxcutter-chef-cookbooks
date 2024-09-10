@@ -24,7 +24,7 @@ action :configure do
 
     contexts_data['config'].each do |context_name, context_data|
       unless current_contexts_names.include?(context_name)
-        create_context(context_name, context_data, context_user, context_group)
+        context_create(context_name, context_data, context_user, context_group)
       end
     end
   end
