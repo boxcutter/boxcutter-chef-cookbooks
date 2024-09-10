@@ -127,8 +127,8 @@ action_class do
 
   def context_create_command(name, data)
     cmd = ['docker context create']
-    cmd << "--description '#{data['description']}'" unless data.key?('description')
-    cmd << "--docker '#{data['endpoint']}'" unless data.key?('endpoint')
+    cmd << "--description '#{data['description']}'" if data.key?('description')
+    cmd << "--docker '#{data['endpoint']}'" if data.key?('endpoint')
     cmd << name
     puts "MISCHA: context_create_command(#{name}, #{data}) = #{cmd.join(' ')}"
     cmd.join(' ')
