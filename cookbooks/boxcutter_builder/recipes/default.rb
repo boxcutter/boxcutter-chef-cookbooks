@@ -31,10 +31,10 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
     'user' => 'craft',
     'group' => 'craft',
     'config' => {
-      # 'nvidia_jetson_agx_orin' => {
-      #   'name' => 'nvidia-jetson-agx-orin',
-      #   'endpoint' => 'host=ssh://craft@10.63.34.15',
-      # },
+      'nvidia_jetson_agx_orin' => {
+        'name' => 'nvidia-jetson-agx-orin',
+        'endpoint' => 'host=ssh://craft@10.63.34.15',
+      },
     },
   }
 
