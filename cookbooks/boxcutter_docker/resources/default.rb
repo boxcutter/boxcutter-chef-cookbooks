@@ -2,7 +2,7 @@ unified_mode true
 
 action :configure do
   # contexts
-  node['boxcutter_docker']['contexts'].each do |contexts_name, contexts_data|
+  node['boxcutter_docker']['contexts'].each do |_contexts_name, contexts_data|
     context_user = contexts_data['user']
     context_group = contexts_data['group']
     puts "MISCHA: context_user=#{context_user}, context_group=#{context_group}"
@@ -11,7 +11,7 @@ action :configure do
     puts "MISCHA current_contexts=#{current_contexts}"
     # Ignore 'default' and 'desktop-linux' contexts
     filtered_current_contexts = current_contexts.reject do |context|
-      context["Name"] == "default" || context["Name"] == "desktop-linux"
+      context['Name'] == 'default' || context['Name'] == 'desktop-linux'
     end
     puts "MISCHA: filtered_current_contexts #{filtered_current_contexts}"
     current_contexts_names = filtered_current_contexts.map { |hash| hash['Name'] }
@@ -112,7 +112,7 @@ action_class do
       'docker context ls --format json',
       login: true,
       user: user,
-      group: group
+      group: group,
     ).run_command
     cmd.error!
     contexts = []
@@ -138,7 +138,7 @@ action_class do
       context_create_command(name, data),
       login: true,
       user: user,
-      group: group
+      group: group,
     ).run_command
     cmd.error!
   end

@@ -34,8 +34,8 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
       'nvidia_jetson_agx_orin' => {
         'name' => 'nvidia-jetson-agx-orin',
         'endpoint' => 'host=ssh://craft@10.63.34.15',
-      }
-    }
+      },
+    },
   }
 
   include_recipe 'boxcutter_can::vcan'
