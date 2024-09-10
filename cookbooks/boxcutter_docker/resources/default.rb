@@ -23,7 +23,7 @@ action :configure do
     puts "MISCHA: contexts_names_to_delete: #{contexts_names_to_delete}"
 
     contexts_names_to_delete.each do |context_name|
-      context_delete(context_name, context_user, context_group)
+      context_rm(context_name, context_user, context_group)
     end
 
     contexts_data['config'].each do |context_name, context_data|
@@ -155,7 +155,7 @@ action_class do
     cmd.join(' ')
   end
 
-  def context_rm(name, _data, user, group)
+  def context_rm(name, user, group)
     cmd = Mixlib::ShellOut.new(
       context_rm_command(name),
       login: true,
