@@ -130,6 +130,7 @@ action_class do
     cmd << "--description '#{data['description']}'" unless data.key?('description')
     cmd << "--docker '#{data['endpoint']}'" unless data.key?('endpoint')
     cmd << name
+    puts "MISCHA: context_create_command(#{name}, #{data}) = #{cmd.join(' ')}"
     cmd.join(' ')
   end
 
