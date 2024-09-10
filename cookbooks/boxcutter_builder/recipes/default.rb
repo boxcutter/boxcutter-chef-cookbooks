@@ -27,6 +27,17 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
   include_recipe 'boxcutter_builder::user'
   node.default['fb_users']['groups']['docker']['members'] << 'craft'
 
+  node.default['boxcutter_docker']['contexts']['/home/craft'] = {
+    'owner' => 'craft',
+    'group' => 'craft',
+    'config' => {
+      'nvidia_jetson_agx_orin' => {
+        'name' => 'nvidia-jetson-agx-orin',
+        'endpoint' => 'host=ssh://craft@10.63.34.15',
+      }
+    }
+  }
+
   include_recipe 'boxcutter_can::vcan'
   include_recipe 'fb_networkd'
 end

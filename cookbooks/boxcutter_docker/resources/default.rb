@@ -2,11 +2,30 @@ unified_mode true
 
 action :configure do
   # contexts
-  all_contexts = context_ls
+  node['boxcutter_docker']['contexts'].each do |contexts_name, contexts_data|
+    context_user = contexts_data['user']
+    context_group = contexts_data['group']
+    puts "MISCHA: context_user=#{context_user}, context_group=#{context_group}"
 
-  node['boxcutter_docker']['contexts'].each do |name, data|
-    if !all_contexts[name]
-      context_create(name, data)
+    current_contexts = context_ls(context_user, context_group)
+    puts "MISCHA current_contexts=#{current_contexts}"
+    # Ignore 'default' and 'desktop-linux' contexts
+    filtered_current_contexts = current_contexts.reject do |context|
+      context["Name"] == "default" || context["Name"] == "desktop-linux"
+    end
+    puts "MISCHA: filtered_current_contexts #{filtered_current_contexts}"
+    current_contexts_names = filtered_current_contexts.map { |hash| hash['Name'] }
+    desired_contexts_names = contexts_data['config'].keys
+    contexts_names_to_delete = current_contexts_names - desired_contexts_names
+
+    puts "MISCHA: current_contexts_names: #{current_contexts_names}"
+    puts "MISCHA: desired_contexts_names: #{desired_contexts_names}"
+    puts "MISCHA: context_names_to_delete: #{contexts_names_to_delete}"
+
+    contexts_data['config'].each do |context_name, context_data|
+      unless current_contexts_names.include?(context_name)
+        create_context(context_name, context_data, context_user, context_group)
+      end
     end
   end
 
@@ -88,32 +107,40 @@ end
 
 action_class do
   # contexts
-  def context_ls
-    result = shell_out!('docker context ls --format "{{json .}}"')
-    contexts = {}
-    result.stdout.each_line do |line|
-      data = JSON.parse(line.strip)
-      contexts[data['Name']] = {
-        'docker_endpoint' => data['DockerEndpoint'],
-        'context_type' => data['ContextType'],
-        'current' => data['Current'],
-      }
+  def context_ls(user, group)
+    cmd = Mixlib::ShellOut.new(
+      'docker context ls --format json',
+      login: true,
+      user: user,
+      group: group
+    ).run_command
+    cmd.error!
+    contexts = []
+    # `docker context ls` outputs multiple JSON objects, each on a new line.
+    # So we need to parse the output line by line and store each in an array
+    cmd.stdout.each_line do |line|
+      context = JSON.parse(line)
+      contexts.push(context)
     end
     contexts
   end
 
   def context_create_command(name, data)
-    cmd = ["docker context create #{name}"]
-    cmd << data['docker_endpoint']
-    cmd << '--use' if data.fetch('use', false)
+    cmd = ['docker context create']
+    cmd << "--description '#{data['description']}'" unless data.key?('description')
+    cmd << "--docker '#{data['endpoint']}'" unless data.key?('endpoint')
+    cmd << name
     cmd.join(' ')
   end
 
-  def context_create(name, data)
-    command = context_create_command(name, data)
-    execute "docker context create #{name}" do
-      command command
-    end
+  def context_create(name, data, user, group)
+    cmd = Mixlib::ShellOut.new(
+      context_create_command(name, data),
+      login: true,
+      user: user,
+      group: group
+    ).run_command
+    cmd.error!
   end
 
   # buildkits

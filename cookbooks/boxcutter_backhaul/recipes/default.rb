@@ -329,8 +329,8 @@ if nexus_hosts
   #   'name' => 'x86-64-builder',
   #   'use' => true,
   # }
-  node['boxcutter_docker']['contexts']['nvidia_jetson_agx_orin'] = {
-    'name' => 'nvidia-jetson-agx-orin',
-    'docker' => 'host=ssh://craft@10.63.34.15',
-  }
+  # node['boxcutter_docker']['contexts']['nvidia_jetson_agx_orin'] = {
+  #   'name' => 'nvidia-jetson-agx-orin',
+  #   'docker' => 'host=ssh://craft@10.63.34.15',
+  # }
 end
