@@ -28,7 +28,7 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
   node.default['fb_users']['groups']['docker']['members'] << 'craft'
 
   node.default['boxcutter_docker']['contexts']['/home/craft'] = {
-    'owner' => 'craft',
+    'user' => 'craft',
     'group' => 'craft',
     'config' => {
       'nvidia_jetson_agx_orin' => {
