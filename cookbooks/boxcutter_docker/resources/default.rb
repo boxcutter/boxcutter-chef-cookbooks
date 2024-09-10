@@ -23,7 +23,7 @@ action :configure do
     puts "MISCHA: contexts_names_to_delete: #{contexts_names_to_delete}"
 
     contexts_names_to_delete.each do |context_name|
-      context_delete(context_name, context_data, context_user, context_group)
+      context_delete(context_name, context_user, context_group)
     end
 
     contexts_data['config'].each do |context_name, context_data|
