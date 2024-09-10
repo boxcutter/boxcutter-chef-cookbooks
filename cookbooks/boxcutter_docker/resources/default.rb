@@ -20,7 +20,11 @@ action :configure do
 
     puts "MISCHA: current_contexts_names: #{current_contexts_names}"
     puts "MISCHA: desired_contexts_names: #{desired_contexts_names}"
-    puts "MISCHA: context_names_to_delete: #{contexts_names_to_delete}"
+    puts "MISCHA: contexts_names_to_delete: #{contexts_names_to_delete}"
+
+    contexts_names_to_delete.each do |context_name|
+      context_delete(context_name, context_data, context_user, context_group)
+    end
 
     contexts_data['config'].each do |context_name, context_data|
       unless current_contexts_names.include?(context_name)
@@ -141,6 +145,23 @@ action_class do
       user: user,
       group: group,
     ).run_command
+    cmd.error!
+  end
+
+  def context_rm_command(name)
+    cmd = ['docker context rm']
+    cmd << name
+    puts "MISCHA: context_rm_command(#{name}) = #{cmd.join(' ')}"
+    cmd.join(' ')
+  end
+
+  def context_rm(name, _data, user, group)
+    cmd = Mixlib::ShellOut.new(
+      context_rm_command(name),
+      login: true,
+      user: user,
+      group: group,
+      ).run_command
     cmd.error!
   end
 
