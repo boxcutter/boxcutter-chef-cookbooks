@@ -43,7 +43,7 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
           },
         },
       },
-    }
+    },
   }
 
   include_recipe 'boxcutter_can::vcan'

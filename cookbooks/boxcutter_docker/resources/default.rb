@@ -2,7 +2,7 @@ unified_mode true
 
 action :configure do
   # buildx
-  node['boxcutter_docker']['buildx'].each do |user, config|
+  node['boxcutter_docker']['buildx'].each do |_user, config|
     current_builders = buildx_ls(config['home'])
     puts "MISCHA: current_builders=#{current_builders}"
     current_builder_names = current_builders.values.map { |builder| builder['Name'] }.compact
@@ -10,8 +10,7 @@ action :configure do
     desired_builder_names = config['builders'].values.map { |builder| builder['name'] }.compact
     puts "MISCHA: desired_builder_names=#{desired_builder_names}"
   end
-
-
+  
   # node['boxcutter_docker']['contexts'].each do |_contexts_name, contexts_data|
   #   contexts_user = contexts_data['user']
   #   contexts_group = contexts_data['group']
