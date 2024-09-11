@@ -176,15 +176,15 @@ action_class do
     # doesn't seem like it will land anytime soon, so instead look where the
     # config files are stored in ~/.docker/buildx
     # https://github.com/docker/buildx/pull/830
-    buildx_instances_path = File.join(data['home'], '.docker/buildx/instances')
+    buildx_instances_path = ::File.join(data['home'], '.docker/buildx/instances')
     config_map = {}
     Dir.foreach(buildx_instances_path) do |filename|
       next if ['.', '..'].include?(filename)
 
-      file_path = File.join(buildx_instances_path, filename)
-      if File.file?(file_path)
+      file_path = ::File.join(buildx_instances_path, filename)
+      if ::File.file?(file_path)
         begin
-          json_content = File.read(file_path)
+          json_content = ::File.read(file_path)
           config_map[filename] = JSON.parse(json_content)
         rescue JSON::ParserError => e
           puts "Error parsing JSON in file #{filename}: #{e.message}"
