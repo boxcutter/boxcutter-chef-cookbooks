@@ -44,11 +44,8 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
     'user' => 'craft',
     'group' => 'craft',
     'driver' => 'docker-container',
-    'nodes' => {
-      'x86-64-builder0' => {
-        'name' => 'x86-64-builder0',
-        'endpoint' => 'unix:///var/run/docker.sock',
-      },
+    'use' => true,
+    'append' => {
       'x86-64-builder1' => {
         'name' => 'x86-64-builder1',
         'endpoint' => 'nvidia_jetson_agx_orin',

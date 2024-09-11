@@ -37,14 +37,16 @@ action :configure do
   node['boxcutter_docker']['buildkits'].each do |buildkits_name, buildkits_data|
     current_buildkits = buildx_ls(buildkits_name, buildkits_data)
     puts "MISCHA current_buildkits=#{current_buildkits}"
+
+    builder_name = buildkits_data['name']
+    if !current_buildkits[builder_name]
+      puts "MISCHA: creating #{builder_name}"
+      buildx_create(builder_name, buildkits_data)
+      buildkits_data['append'].each do |append_name, append_data|
+        buildx_create_append(builder_name, append_name, append_data)
+      end
+    end
   end
-  # all_buildkits = buildx_ls
-  #
-  # node['boxcutter_docker']['buildkits'].each do |name, data|
-  #   if !all_buildkits[name]
-  #     buildx_create(name, data)
-  #   end
-  # end
 
   # networks
   current_networks = network_ls
@@ -207,6 +209,22 @@ action_class do
     puts "MISCHA: buildx_create_command=#{command}"
     Chef::Log.debug("boxcutter_docker: buildx_create_command=#{command}")
     execute "docker buildx create #{name}" do
+      command command
+    end
+  end
+
+  def buildx_create_append_command(parent_name, _name, data)
+    cmd = ["docker buildx create --append --name #{parent_name}"]
+    cmd << data['endpoint'] if data['endpoint']
+    cmd.join(' ')
+  end
+
+  # buildx_create_append(append_name, append_data)
+  def buildx_create_append(parent_name, name, data)
+    command = buildx_create_append_command(parent_name, name, data)
+    puts "MISCHA: buildx_create_append_command=#{command}"
+    Chef::Log.debug("boxcutter_docker: buildx_create_append_command=#{command}")
+    execute "docker buildx create append #{name}" do
       command command
     end
   end
