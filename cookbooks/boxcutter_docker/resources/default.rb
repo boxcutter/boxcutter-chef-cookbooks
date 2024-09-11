@@ -37,6 +37,13 @@ action :configure do
   node['boxcutter_docker']['buildkits'].each do |buildkits_name, buildkits_data|
     current_buildkits = buildx_ls(buildkits_name, buildkits_data)
     puts "MISCHA current_buildkits=#{current_buildkits}"
+    current_buildkits_names = current_buildkits.map { |hash| hash['Name'] }
+    desired_buildkits_names = buildkits_data.map { |hash| hash['name'] }
+    buildkits_names_to_delete = current_buildkits_names - desired_buildkits_names
+
+    puts "MISCHA: current_buildkits_names: #{current_buildkits_names}"
+    puts "MISCHA: desired_buildkits_names: #{desired_buildkits_names}"
+    puts "MISCHA: buildkits_names_to_delete: #{buildkits_names_to_delete}"
 
     builder_name = buildkits_data['name']
     if !current_buildkits[builder_name]
