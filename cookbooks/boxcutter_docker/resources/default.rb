@@ -35,7 +35,7 @@ action :configure do
 
   # buildkits
   node['boxcutter_docker']['buildkits'].each do |buildkits_name, buildkits_data|
-    current_buildkits = buildkit_ls(buildkits_name, buildkits_data)
+    current_buildkits = buildx_ls(buildkits_name, buildkits_data)
     puts "MISCHA current_buildkits=#{current_buildkits}"
   end
   # all_buildkits = buildx_ls
