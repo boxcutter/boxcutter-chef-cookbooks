@@ -38,7 +38,7 @@ action :configure do
     current_buildkits = buildx_ls(buildkits_name, buildkits_data)
     puts "MISCHA current_buildkits=#{current_buildkits}"
     current_buildkits_names = current_buildkits.values.map { |builder| builder['Name'] }.compact
-    desired_buildkits_names = buildkits_data.map { |hash| hash['name'] }
+    desired_buildkits_names = buildkits_data.values.map { |hash| hash['name'] }.compact
     buildkits_names_to_delete = current_buildkits_names - desired_buildkits_names
 
     puts "MISCHA: current_buildkits_names: #{current_buildkits_names}"
