@@ -3,11 +3,11 @@ unified_mode true
 action :configure do
   # contexts
   node['boxcutter_docker']['contexts'].each do |_contexts_name, contexts_data|
-    context_user = contexts_data['user']
-    context_group = contexts_data['group']
-    puts "MISCHA: context_user=#{context_user}, context_group=#{context_group}"
+    contexts_user = contexts_data['user']
+    contexts_group = contexts_data['group']
+    puts "MISCHA: context_user=#{contexts_user}, context_group=#{contexts_group}"
 
-    current_contexts = context_ls(context_user, context_group)
+    current_contexts = context_ls(contexts_user, contexts_group)
     puts "MISCHA current_contexts=#{current_contexts}"
     # Ignore 'default' and 'desktop-linux' contexts
     filtered_current_contexts = current_contexts.reject do |context|
@@ -23,24 +23,28 @@ action :configure do
     puts "MISCHA: contexts_names_to_delete: #{contexts_names_to_delete}"
 
     contexts_names_to_delete.each do |context_name|
-      context_rm(context_name, context_user, context_group)
+      context_rm(context_name, contexts_user, contexts_group)
     end
 
     contexts_data['config'].each do |context_name, context_data|
       unless current_contexts_names.include?(context_name)
-        context_create(context_name, context_data, context_user, context_group)
+        context_create(context_name, context_data, contexts_user, contexts_group)
       end
     end
   end
 
   # buildkits
-  all_buildkits = buildx_ls
-
-  node['boxcutter_docker']['buildkits'].each do |name, data|
-    if !all_buildkits[name]
-      buildx_create(name, data)
-    end
+  node['boxcutter_docker']['buildkits'].each do |buildkits_name, buildkits_data|
+    current_buildkits = buildkit_ls(buildkits_name, buildkits_data)
+    puts "MISCHA current_buildkits=#{current_buildkits}"
   end
+  # all_buildkits = buildx_ls
+  #
+  # node['boxcutter_docker']['buildkits'].each do |name, data|
+  #   if !all_buildkits[name]
+  #     buildx_create(name, data)
+  #   end
+  # end
 
   # networks
   current_networks = network_ls
@@ -166,17 +170,30 @@ action_class do
   end
 
   # buildkits
-  def buildx_ls
-    result = shell_out!('docker buildx ls --format "{{json .}}"')
-    buildkits = {}
-    result.stdout.each_line do |line|
-      data = JSON.parse(line.strip)
-      buildkits[data['Name']] = {
-        'driver' => data['Driver'],
-        'labels' => data['Labels'],
-      }
+  def buildx_ls(_name, data)
+    # Currently the output of `docker buildx ls --format ls` is essentially
+    # unparseable in an automated way. Work is being done to remedy this but
+    # doesn't seem like it will land anytime soon, so instead look where the
+    # config files are stored in ~/.docker/buildx
+    # https://github.com/docker/buildx/pull/830
+    buildx_instances_path = File.join(data['home'], '.docker/buildx/instances')
+    config_map = {}
+    Dir.foreach(buildx_instances_path) do |filename|
+      next if filename == '.' || filename == '..'
+
+      file_path = File.join(buildx_instances_path, filename)
+      if File.file?(file_path)
+        begin
+          json_content = File.read(file_path)
+          config_map|filename| = JSON.parse(json_content)
+        rescue JSON::ParserError => e
+          puts "Error parsing JSON in file #{filename}: #{e.message}"
+        rescue => e
+          puts "Error reading file #{filename}: #{e.message}"
+        end
+      end
     end
-    buildkits
+    config_map
   end
 
   def buildx_create_command(name, data)

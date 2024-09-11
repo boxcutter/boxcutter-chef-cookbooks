@@ -27,7 +27,8 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
   include_recipe 'boxcutter_builder::user'
   node.default['fb_users']['groups']['docker']['members'] << 'craft'
 
-  node.default['boxcutter_docker']['contexts']['/home/craft'] = {
+  node.default['boxcutter_docker']['contexts']['x86-64-builder'] = {
+    'home' => '/home/craft',
     'user' => 'craft',
     'group' => 'craft',
     'config' => {
@@ -36,6 +37,23 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
         'endpoint' => 'host=ssh://craft@10.63.34.15',
       },
     },
+  }
+  node.default['boxcutter_docker']['buildkits']['x86-64-builder'] = {
+    'name' => 'x86-64-builder',
+    'home' => '/home/craft',
+    'user' => 'craft',
+    'group' => 'craft',
+    'driver' => 'docker-container',
+    'nodes' => {
+      'x86-64-builder0' => {
+        'name' => 'x86-64-builder0',
+        'endpoint' => 'unix:///var/run/docker.sock',
+      },
+      'x86-64-builder1' => {
+        'name' => 'x86-64-builder1',
+        'endpoint' => 'nvidia_jetson_agx_orin',
+      }
+    }
   }
 
   include_recipe 'boxcutter_can::vcan'
