@@ -12,7 +12,7 @@ action :configure do
 
     node['boxcutter_docker']['buildx'][user]['builders'].each do |_builder, builder_config|
       desired_builder_name = builder_config['name']
-      if !current_builders_names[desired_builder_name]
+      if !current_builder_names[desired_builder_name]
         buildx_create_command(desired_builder_name, builder_config)
         current_contexts = context_ls(user_config['user'], user_config['group'])
         puts "MISCHA: current_contextes=#{current_contexts}"
