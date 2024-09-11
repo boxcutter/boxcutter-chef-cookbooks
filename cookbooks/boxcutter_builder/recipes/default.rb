@@ -52,8 +52,8 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
       'x86-64-builder1' => {
         'name' => 'x86-64-builder1',
         'endpoint' => 'nvidia_jetson_agx_orin',
-      }
-    }
+      },
+    },
   }
 
   include_recipe 'boxcutter_can::vcan'
