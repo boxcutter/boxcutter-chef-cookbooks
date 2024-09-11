@@ -1,59 +1,75 @@
 unified_mode true
 
 action :configure do
-  # contexts
-  node['boxcutter_docker']['contexts'].each do |_contexts_name, contexts_data|
-    contexts_user = contexts_data['user']
-    contexts_group = contexts_data['group']
-    puts "MISCHA: context_user=#{contexts_user}, context_group=#{contexts_group}"
-
-    current_contexts = context_ls(contexts_user, contexts_group)
-    puts "MISCHA current_contexts=#{current_contexts}"
-    # Ignore 'default' and 'desktop-linux' contexts
-    filtered_current_contexts = current_contexts.reject do |context|
-      context['Name'] == 'default' || context['Name'] == 'desktop-linux'
-    end
-    puts "MISCHA: filtered_current_contexts #{filtered_current_contexts}"
-    current_contexts_names = filtered_current_contexts.map { |hash| hash['Name'] }
-    desired_contexts_names = contexts_data['config'].keys
-    contexts_names_to_delete = current_contexts_names - desired_contexts_names
-
-    puts "MISCHA: current_contexts_names: #{current_contexts_names}"
-    puts "MISCHA: desired_contexts_names: #{desired_contexts_names}"
-    puts "MISCHA: contexts_names_to_delete: #{contexts_names_to_delete}"
-
-    contexts_names_to_delete.each do |context_name|
-      context_rm(context_name, contexts_user, contexts_group)
-    end
-
-    contexts_data['config'].each do |context_name, context_data|
-      unless current_contexts_names.include?(context_name)
-        context_create(context_name, context_data, contexts_user, contexts_group)
-      end
-    end
+  # buildx
+  node['boxcutter_docker']['buildx'].each do |user, config|
+    current_builders = buildx_ls(config['home'])
+    puts "MISCHA: current_builders=#{current_builders}"
+    current_builder_names = current_builders.values.map { |builder| builder['Name'] }.compact
+    puts "MISCHA: current_builder_names=#{current_builder_names}"
+    desired_builder_names = config['builders'].values.map { |builder| builder['name'] }.compact
+    puts "MISCHA: desired_builder_names=#{desired_builder_names}"
   end
+
+
+  # node['boxcutter_docker']['contexts'].each do |_contexts_name, contexts_data|
+  #   contexts_user = contexts_data['user']
+  #   contexts_group = contexts_data['group']
+  #   puts "MISCHA: context_user=#{contexts_user}, context_group=#{contexts_group}"
+  #
+  #   current_contexts = context_ls(contexts_user, contexts_group)
+  #   puts "MISCHA current_contexts=#{current_contexts}"
+  #   # Ignore 'default' and 'desktop-linux' contexts
+  #   filtered_current_contexts = current_contexts.reject do |context|
+  #     context['Name'] == 'default' || context['Name'] == 'desktop-linux'
+  #   end
+  #   puts "MISCHA: filtered_current_contexts #{filtered_current_contexts}"
+  #   current_contexts_names = filtered_current_contexts.map { |hash| hash['Name'] }
+  #   desired_contexts_names = contexts_data['config'].keys
+  #   contexts_names_to_delete = current_contexts_names - desired_contexts_names
+  #
+  #   puts "MISCHA: current_contexts_names: #{current_contexts_names}"
+  #   puts "MISCHA: desired_contexts_names: #{desired_contexts_names}"
+  #   puts "MISCHA: contexts_names_to_delete: #{contexts_names_to_delete}"
+  #
+  #   contexts_names_to_delete.each do |context_name|
+  #     context_rm(context_name, contexts_user, contexts_group)
+  #   end
+  #
+  #   contexts_data['config'].each do |context_name, context_data|
+  #     unless current_contexts_names.include?(context_name)
+  #       context_create(context_name, context_data, contexts_user, contexts_group)
+  #     end
+  #   end
+  # end
 
   # buildkits
-  node['boxcutter_docker']['buildkits'].each do |buildkits_name, buildkits_data|
-    current_buildkits = buildx_ls(buildkits_name, buildkits_data)
-    puts "MISCHA current_buildkits=#{current_buildkits}"
-    current_buildkits_names = current_buildkits.values.map { |builder| builder['Name'] }.compact
-    desired_buildkits_names = buildkits_data.values.map { |hash| hash['name'] }.compact
-    buildkits_names_to_delete = current_buildkits_names - desired_buildkits_names
+  # current_buildkits = buildx_ls(data['home'])
+  # current_buildkits_names = current_buildkits.values.map { |builder| builder['Name'] }.compact
+  # puts "MISCHA current_buildkits=#{current_buildkits}"
+  # desired_buildkits_names = node['boxcutter_docker']['buildkits'].keys
+  # puts "MISCHA desired_buildkits=#{current_buildkits}"
 
-    puts "MISCHA: current_buildkits_names: #{current_buildkits_names}"
-    puts "MISCHA: desired_buildkits_names: #{desired_buildkits_names}"
-    puts "MISCHA: buildkits_names_to_delete: #{buildkits_names_to_delete}"
-
-    builder_name = buildkits_data['name']
-    if !current_buildkits[builder_name]
-      puts "MISCHA: creating #{builder_name}"
-      buildx_create(builder_name, buildkits_data)
-      buildkits_data['append'].each do |append_name, append_data|
-        buildx_create_append(builder_name, append_name, append_data)
-      end
-    end
-  end
+  # node['boxcutter_docker']['buildkits'].each do |buildkits_name, buildkits_data|
+  #   current_buildkits = buildx_ls(buildkits_name, buildkits_data)
+  #   puts "MISCHA current_buildkits=#{current_buildkits}"
+  #   current_buildkits_names = current_buildkits.values.map { |builder| builder['Name'] }.compact
+  #   desired_buildkits_names = buildkits_data.values.map { |hash| hash['name'] }.compact
+  #   buildkits_names_to_delete = current_buildkits_names - desired_buildkits_names
+  #
+  #   puts "MISCHA: current_buildkits_names: #{current_buildkits_names}"
+  #   puts "MISCHA: desired_buildkits_names: #{desired_buildkits_names}"
+  #   puts "MISCHA: buildkits_names_to_delete: #{buildkits_names_to_delete}"
+  #
+  #   builder_name = buildkits_data['name']
+  #   if !current_buildkits[builder_name]
+  #     puts "MISCHA: creating #{builder_name}"
+  #     buildx_create(builder_name, buildkits_data)
+  #     buildkits_data['append'].each do |append_name, append_data|
+  #       buildx_create_append(builder_name, append_name, append_data)
+  #     end
+  #   end
+  # end
 
   # networks
   current_networks = network_ls
@@ -179,13 +195,13 @@ action_class do
   end
 
   # buildkits
-  def buildx_ls(_name, data)
+  def buildx_ls(home)
     # Currently the output of `docker buildx ls --format ls` is essentially
     # unparseable in an automated way. Work is being done to remedy this but
     # doesn't seem like it will land anytime soon, so instead look where the
     # config files are stored in ~/.docker/buildx
     # https://github.com/docker/buildx/pull/830
-    buildx_instances_path = ::File.join(data['home'], '.docker/buildx/instances')
+    buildx_instances_path = ::File.join(home, '.docker/buildx/instances')
     config_map = {}
     Dir.foreach(buildx_instances_path) do |filename|
       next if ['.', '..'].include?(filename)

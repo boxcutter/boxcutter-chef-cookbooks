@@ -27,30 +27,23 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
   include_recipe 'boxcutter_builder::user'
   node.default['fb_users']['groups']['docker']['members'] << 'craft'
 
-  node.default['boxcutter_docker']['contexts']['x86-64-builder'] = {
+  node.default['boxcutter_docker']['buildx']['craft'] = {
     'home' => '/home/craft',
     'user' => 'craft',
     'group' => 'craft',
-    'config' => {
-      'nvidia_jetson_agx_orin' => {
-        'name' => 'nvidia-jetson-agx-orin',
-        'endpoint' => 'host=ssh://craft@10.63.34.15',
+    'builders' => {
+      'x86_64_builder' => {
+        'name' => 'x86-64-builder',
+        'driver' => 'docker-container',
+        'use' => true,
+        'append' => {
+          'nvidia_jetson_agx_orin' => {
+            'name' => 'nvidia-jetson-agx-orin',
+            'endpoint' => 'host=ssh://craft@10.63.34.15',
+          },
+        },
       },
-    },
-  }
-  node.default['boxcutter_docker']['buildkits']['x86-64-builder'] = {
-    'name' => 'x86-64-builder',
-    'home' => '/home/craft',
-    'user' => 'craft',
-    'group' => 'craft',
-    'driver' => 'docker-container',
-    'use' => true,
-    'append' => {
-      'x86-64-builder1' => {
-        'name' => 'x86-64-builder1',
-        'endpoint' => 'nvidia_jetson_agx_orin',
-      },
-    },
+    }
   }
 
   include_recipe 'boxcutter_can::vcan'
