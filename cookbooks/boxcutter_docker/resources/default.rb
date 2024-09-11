@@ -179,16 +179,16 @@ action_class do
     buildx_instances_path = File.join(data['home'], '.docker/buildx/instances')
     config_map = {}
     Dir.foreach(buildx_instances_path) do |filename|
-      next if filename == '.' || filename == '..'
+      next if ['.', '..'].include?(filename)
 
       file_path = File.join(buildx_instances_path, filename)
       if File.file?(file_path)
         begin
           json_content = File.read(file_path)
-          config_map|filename| = JSON.parse(json_content)
+          config_map[filename] = JSON.parse(json_content)
         rescue JSON::ParserError => e
           puts "Error parsing JSON in file #{filename}: #{e.message}"
-        rescue => e
+        rescue StandardError => e
           puts "Error reading file #{filename}: #{e.message}"
         end
       end
