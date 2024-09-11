@@ -2,13 +2,22 @@ unified_mode true
 
 action :configure do
   # buildx
-  node['boxcutter_docker']['buildx'].each do |_user, config|
-    current_builders = buildx_ls(config['home'])
+  node['boxcutter_docker']['buildx'].each do |user, user_config|
+    current_builders = buildx_ls(user_config['home'])
     puts "MISCHA: current_builders=#{current_builders}"
     current_builder_names = current_builders.values.map { |builder| builder['Name'] }.compact
     puts "MISCHA: current_builder_names=#{current_builder_names}"
-    desired_builder_names = config['builders'].values.map { |builder| builder['name'] }.compact
+    desired_builder_names = user_config['builders'].values.map { |builder| builder['name'] }.compact
     puts "MISCHA: desired_builder_names=#{desired_builder_names}"
+
+    node['boxcutter_docker']['buildx'][user]['builders'].each do |_builder, builder_config|
+      desired_builder_name = builder_config['name']
+      if !current_builders_names[desired_builder_name]
+        buildx_create_command(desired_builder_name, builder_config)
+        current_contexts = context_ls(user_config['user'], user_config['group'])
+        puts "MISCHA: current_contextes=#{current_contexts}"
+      end
+    end
   end
 
   # node['boxcutter_docker']['contexts'].each do |_contexts_name, contexts_data|
