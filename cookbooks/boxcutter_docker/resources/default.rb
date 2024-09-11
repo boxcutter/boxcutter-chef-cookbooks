@@ -10,7 +10,7 @@ action :configure do
     desired_builder_names = config['builders'].values.map { |builder| builder['name'] }.compact
     puts "MISCHA: desired_builder_names=#{desired_builder_names}"
   end
-  
+
   # node['boxcutter_docker']['contexts'].each do |_contexts_name, contexts_data|
   #   contexts_user = contexts_data['user']
   #   contexts_group = contexts_data['group']
