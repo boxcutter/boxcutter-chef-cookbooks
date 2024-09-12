@@ -163,6 +163,7 @@ action_class do
     # https://github.com/docker/buildx/pull/830
     buildx_instances_path = ::File.join(home, '.docker/buildx/instances')
     config_map = {}
+    return config_map unless Dir.exist?(buildx_instances_path)
     Dir.foreach(buildx_instances_path) do |filename|
       next if ['.', '..'].include?(filename)
 
