@@ -268,7 +268,7 @@ action_class do
 
   def buildx_create_append_command(parent_name, data)
     cmd = ["docker buildx create --append --name #{parent_name}"]
-    cmd << data['endpoint'] if data['name']
+    cmd << data['name'] if data['name']
     cmd.join(' ')
   end
 
