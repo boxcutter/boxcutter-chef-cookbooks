@@ -57,20 +57,20 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
   craft_ssh_private_key = Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/private key')
   craft_ssh_public_key = Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/public key')
 
-  directory "/home/github-runner/.ssh" do
+  directory '/home/github-runner/.ssh' do
     owner 'github-runner'
     group 'github-runner'
     mode '0700'
   end
 
-  file "/home/github-runner/.ssh/id_rsa" do
+  file '/home/github-runner/.ssh/id_rsa' do
     content craft_ssh_private_key
     owner 'github-runner'
     group 'github-runner'
     mode '0600'
   end
 
-  file "/home/github-runner/.ssh/id_rsa.pub" do
+  file '/home/github-runner/.ssh/id_rsa.pub' do
     content craft_ssh_public_key
     owner 'github-runner'
     group 'github-runner'
