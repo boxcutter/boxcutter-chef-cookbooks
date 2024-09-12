@@ -26,24 +26,24 @@ end
 
 action :register do
   if platform?('ubuntu') && node['platform_version'].start_with?('22')
-    %w(
+    %w{
       liblttng-ust1
       libkrb5-3
       zlib1g
       libicu70
-    ).each do |pkg|
+    }.each do |pkg|
       package pkg do
         action :upgrade
       end
     end
   elsif platform?('ubuntu') && node['platform_version'].start_with?('20')
-    %w(
-    liblttng-ust0
-    libkrb5-3
-    zlib1g
-    libssl1.1
-    libicu66
-  ).each do |pkg|
+    %w{
+      liblttng-ust0
+      libkrb5-3
+      zlib1g
+      libssl1.1
+      libicu66
+    }.each do |pkg|
       package pkg do
         action :upgrade
       end
@@ -91,7 +91,7 @@ action :register do
   end
 
   link "#{new_resource.install_directory}/latest" do
-    to "#{path}"
+    to path.to_s
     owner new_resource.owner
     group new_resource.group
   end
@@ -196,7 +196,7 @@ action_class do
     match_data[2]
   end
 
-  def is_repository_runner?
+  def repository_runner?
     !github_repo.nil?
   end
 
@@ -204,7 +204,9 @@ action_class do
     # op item get 'GitHub self-hosted runner access token automation-org blue' --vault Automation-Org
     # op item get  tp2uhbjdoiv3crtwh7ytglxpcm --format json
     # op read 'op://Automation-Org/GitHub self-hosted runner access token automation-org blue/credential'
-    return Boxcutter::OnePassword.op_read('op://Automation-Org/GitHub self-hosted runner access token automation-org blue/credential')
+    return Boxcutter::OnePassword.op_read(
+      'op://Automation-Org/GitHub self-hosted runner access token automation-org blue/credential',
+    )
   end
 
   def repository_create_registration_token(owner, repo)
@@ -246,7 +248,8 @@ action_class do
       command_to_execute,
       login: true,
       user: cli_user,
-      group: cli_group)
+      group: cli_group,
+)
     shell_out.error!
     parsed_stdout = JSON.parse(shell_out.stdout)
     parsed_stdout['token']
@@ -265,13 +268,14 @@ action_class do
       command_to_execute,
       login: true,
       user: new_resource.owner,
-      group: new_resource.group)
+      group: new_resource.group,
+)
     shell_out.error!
     JSON.parse(shell_out.stdout)
   end
 
   def runner_name_registered?(name)
-    if is_repository_runner?
+    if repository_runner?
       runner_json = repository_list_runners(github_owner, github_repo)
       return false unless runner_json.key?('runners')
       runner_json['runners'].each do |runner|
@@ -289,14 +293,15 @@ action_class do
     command_to_execute = "#{runner_root}/svc.sh status"
     shell_out = Mixlib::ShellOut.new(
       command_to_execute,
-      cwd: "#{new_resource.install_directory}/latest").run_command
+      cwd: "#{new_resource.install_directory}/latest",
+).run_command
     shell_out.exitstatus == 0
   end
 
   def service_running?
     # Must run the svc.sh script as root and in the runner root
     unless ::File.exist?("#{runner_root}/svc.sh")
-      raise "boxcutter_github: #{runner_root}/svc.h not found"
+      fail "boxcutter_github: #{runner_root}/svc.h not found"
     end
     ::File.open("#{runner_root}/svc.sh", 'r') do |file|
       file.each_line do |line|
@@ -326,7 +331,7 @@ action_class do
       'gh auth status',
       login: true,
       user: cli_user,
-      group: cli_group
+      group: cli_group,
     ).run_command
     gh_auth_status.exitstatus != 0
   end
@@ -345,7 +350,7 @@ action_class do
       "echo #{boxcutter_self_hosted_runner_access_token} | gh auth login --with-token",
       login: true,
       user: cli_user,
-      group: cli_group
+      group: cli_group,
     ).run_command
     gh_auth_login.error!
   end

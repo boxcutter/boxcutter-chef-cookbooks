@@ -20,7 +20,7 @@ node.default['fb_users']['users']['github-runner'] = {
   'action' => :add,
   'home' => '/home/github-runner',
   'shell' => '/bin/bash',
-  'gid' => 'github-runner'
+  'gid' => 'github-runner',
 }
 
 node.default['fb_users']['groups']['github-runner'] = {

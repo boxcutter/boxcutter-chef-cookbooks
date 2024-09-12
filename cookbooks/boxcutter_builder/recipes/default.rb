@@ -48,6 +48,22 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
 
   include_recipe 'boxcutter_can::vcan'
   include_recipe 'fb_networkd'
+
+  # include_recipe 'boxcutter_github::runner_user'
+  # include_recipe 'boxcutter_github::cli'
+  #
+  # node.default['boxcutter_github']['github_runner'] = {
+  #   'runners' => {
+  #     '/home/github-runner/actions-runner' => {
+  #       'runner_name' => node['hostname'],
+  #       'url' => 'https://github.com/boxcutter/oci',
+  #       'owner' => 'github-runner',
+  #       'group' => 'github-runner',
+  #     },
+  #   },
+  # }
+  #
+  # include_recipe 'boxcutter_github::runner'
 end
 
 # arm64_self_hosted_runner_list = %w{

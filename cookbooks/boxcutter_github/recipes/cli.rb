@@ -53,7 +53,7 @@ when 'ubuntu'
   # remains the same:
   # -----BEGIN PGP PUBLIC KEY BLOCK-----
   # -----END PGP PUBLIC KEY BLOCK-----
-  node.default['fb_apt']['keys']['23F3D4EA75716059'] = <<-eos
+  node.default['fb_apt']['keys']['23F3D4EA75716059'] = <<-EOS
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQINBGMXLooBEADPmB8Gfd9kLqkIKnAnOktQqRwjjOWLTRV9fhGPlkuVQCffhu1b
@@ -106,7 +106,7 @@ Im1Pr+oBFDEOTrWydVu0x3SAtGx4J3Bnbe8NktjawoKaaG1Ob4l3TBJ1H2GHOJ6w
 ADUE8jV+eCAWuR9uIl4=
 =qpKU
 -----END PGP PUBLIC KEY BLOCK-----
-  eos
+EOS
 
   # Omit signed-by and use apt-key to import the key
   case node['kernel']['machine']
