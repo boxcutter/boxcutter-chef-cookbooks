@@ -14,7 +14,7 @@ action :configure do
       desired_builder_name = builder_config['name']
       puts "MISCHA: desired_builder_name=#{desired_builder_name}, builder_config=#{builder_config}"
       if !current_builder_names.include?(desired_builder_name)
-        buildx_create(desired_builder_name, builder_config)
+        buildx_create(desired_builder_name, builder_config, user_config['user'], user_config['group'])
         current_contexts = context_ls(user_config['user'], user_config['group'])
         puts "MISCHA: current_contexts=#{current_contexts}"
         current_context_names = current_contexts.map { |item| item['Name'] }
@@ -25,7 +25,7 @@ action :configure do
           if !current_context_names.include?(desired_context_name)
             context_create(desired_context_name, append_builder_config, user_config['user'], user_config['group'])
           end
-          buildx_create_append_command(desired_builder_name, append_builder_config)
+          buildx_create_append_command(desired_builder_name, append_builder_config, user_config['user'], user_config['group'])
         end
 
         # if !current_contexts.include?(desired_context_name)
@@ -250,29 +250,43 @@ action_class do
     cmd.join(' ')
   end
 
-  def buildx_create(name, data)
+  def buildx_create(name, data, user, group)
     command = buildx_create_command(name, data)
     puts "MISCHA: buildx_create_command=#{command}"
     Chef::Log.debug("boxcutter_docker: buildx_create_command=#{command}")
-    execute "docker buildx create #{name}" do
-      command command
-    end
+    # execute "docker buildx create #{name}" do
+    #   command command
+    # end
+    shellout = Mixlib::ShellOut.new(
+      command,
+      login: true,
+      user: user,
+      group: group,
+      ).run_command
+    shellout.error!
   end
 
-  def buildx_create_append_command(parent_name, data)
+  def buildx_create_append_command(parent_name, data, user, group)
     cmd = ["docker buildx create --append --name #{parent_name}"]
     cmd << data['endpoint'] if data['endpoint']
     cmd.join(' ')
   end
 
   # buildx_create_append(append_name, append_data)
-  def buildx_create_append(parent_name, name, data)
+  def buildx_create_append(parent_name, name, data, user, group)
     command = buildx_create_append_command(parent_name, name, data)
     puts "MISCHA: buildx_create_append_command=#{command}"
     Chef::Log.debug("boxcutter_docker: buildx_create_append_command=#{command}")
-    execute "docker buildx create append #{name}" do
-      command command
-    end
+    # execute "docker buildx create append #{name}" do
+    #   command command
+    # end
+    shellout = Mixlib::ShellOut.new(
+      command,
+      login: true,
+      user: user,
+      group: group,
+      ).run_command
+    shellout.error!
   end
 
   # networks
