@@ -7,7 +7,7 @@ default['boxcutter_docker'] = {
       'max-file' => '10',
     },
   },
-  'buildkits' => {},
+  'buildx' => {},
   'contexts' => {},
   'containers' => {},
   'bind_mounts' => {},
