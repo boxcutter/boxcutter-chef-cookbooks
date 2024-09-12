@@ -266,7 +266,7 @@ action_class do
     shellout.error!
   end
 
-  def buildx_create_append_command(parent_name, data, _user, _group)
+  def buildx_create_append_command(parent_name, data)
     cmd = ["docker buildx create --append --name #{parent_name}"]
     cmd << data['endpoint'] if data['endpoint']
     cmd.join(' ')
@@ -274,7 +274,7 @@ action_class do
 
   # buildx_create_append(append_name, append_data)
   def buildx_create_append(parent_name, name, data, user, group)
-    command = buildx_create_append_command(parent_name, name, data)
+    command = buildx_create_append_command(parent_name, data)
     puts "MISCHA: buildx_create_append_command=#{command}"
     Chef::Log.debug("boxcutter_docker: buildx_create_append_command=#{command}")
     # execute "docker buildx create append #{name}" do
