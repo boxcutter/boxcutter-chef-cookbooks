@@ -72,7 +72,7 @@ file "/home/#{build_user}/.ssh/id_rsa.pub" do
 end
 
 # ssh-keyscan -H 10.63.34.15
-ssh_known_hosts '10.63.34.15' do
+ssh_known_hosts_entry '10.63.34.15' do
   file_location "/home/#{build_user}/.ssh/known_hosts"
   owner build_user
   group build_group
