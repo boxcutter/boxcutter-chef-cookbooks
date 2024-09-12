@@ -1,0 +1,106 @@
+---
+driver:
+  name: dokken
+  privileged: true  # allows systemd services to start
+  docker_registry: docker.io
+  chef_image: boxcutter/cinc
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+
+provisioner:
+  name: dokken
+  product_name: cinc
+  chef_binary: /opt/cinc/bin/cinc-client
+  chef_license: accept-no-persist
+  chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  data_bags_path: "../../data_bags"
+  client_rb:
+    # Needed to avoid apply2file error on intel for mac
+    file_backup_path: nil
+    # Passwd plugin is needed to use the fb_users cookbook
+    ohai.optional_plugins:
+      - Passwd
+    ohai.critical_plugins:
+      - Passwd
+
+transport:
+  name: dokken
+
+lifecycle:
+  post_create:
+    - remote: |
+        bash -c -x '
+          mkdir -p /var/chef /var/log/chef
+          # Force firstboot
+          touch /root/firstboot_os
+        
+          if [ -f /etc/debian_version ]; then
+            if ! command -v unzip >/dev/null 2>&1; then
+              apt-get update &>/dev/null
+              apt-get install -y unzip &>/dev/null
+            fi
+          fi
+          if test -f "/etc/redhat-release"; then
+            dnf install -y unzip &>/dev/null
+          fi
+          if [ ! -f /usr/local/bin/op ]; then
+            arch=$(uname -m)
+              case "${arch##*-}" in \
+                x86_64) \
+                  OP_CLI_URL=https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.0/op_linux_amd64_v2.30.0.zip \
+                  ;; \
+                arm64|aarch64) \
+                  OP_CLI_URL=https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.0/op_linux_arm64_v2.30.0.zip \
+                  ;; \
+                *) echo "unsupported architecture"; exit 1 ;; \
+            esac
+            curl -s -o /tmp/op.zip ${OP_CLI_URL}
+            unzip -n -qq /tmp/op.zip op -d /usr/local/bin/
+            rm -f /tmp/op.zip
+          fi
+        '
+
+verifier:
+  name: inspec
+
+platforms:
+  # @see https://github.com/chef-cookbooks/testing_examples/blob/main/kitchen.dokken.yml
+  # @see https://hub.docker.com/u/dokken
+  - name: ubuntu-20.04
+    driver:
+      image: boxcutter/dokken-ubuntu-20.04
+      pid_one_command: /bin/systemd
+
+  - name: ubuntu-22.04
+    driver:
+      image: boxcutter/dokken-ubuntu-22.04
+      pid_one_command: /bin/systemd
+
+  - name: centos-stream-9
+    driver:
+      image: boxcutter/dokken-centos-stream-9
+      pid_one_command: /usr/lib/systemd/systemd
+      intermediate_instructions:
+        # stub out /etc/fstab for fb_fstab
+        - RUN touch /etc/fstab
+        # enable EPEL (for stuff like hddtemp)
+        - RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+
+suites:
+  - name: default
+    # run_list set in Policyfile.rb, this does nothing
+    # run_list:
+    #   - recipe[boxcutter_ohai]
+    #   - recipe[boxcutter_init]
+    #   - recipe[boxcutter_github::default]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+    lifecycle:
+      pre_converge:
+        - remote: |
+            bash -xc '
+              set +x
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /opt/kitchen/op_service_account_token
+              set -x
+            '

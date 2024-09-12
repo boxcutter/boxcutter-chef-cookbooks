@@ -12,7 +12,7 @@ module Boxcutter
                                                                op_service_account_token_path),
         }
       else
-        fail 'polymath_onepassword[op_read]: 1Password token not found'
+        fail 'boxcutter_onepassword[op_read]: 1Password token not found'
       end
       command = '/usr/local/bin/op user get --me'
       shellout = Mixlib::ShellOut.new(command, env: environment)

@@ -27,11 +27,18 @@ module FB
       'taylor' => {
         'uid' => 2003,
       },
-      'craft' => {
-        'uid' => 2004,
-      },
       'david' => {
         'uid' => 2005,
+      },
+      'craft' => {
+        'uid' => 8011,
+      },
+      'github-runner' => {
+        'uid' => 8012,
+      },
+      'gitlab-runner' => {
+        'comment' => 'GitLab Runner',
+        'uid' => 8013,
       },
     }.freeze
 
@@ -67,11 +74,17 @@ module FB
       'taylor' => {
         'gid' => 2003,
       },
-      'craft' => {
-        'gid' => 2004,
-      },
       'david' => {
         'gid' => 2005,
+      },
+      'craft' => {
+        'gid' => 8011,
+      },
+      'github-runner' => {
+        'gid' => 8012,
+      },
+      'gitlab-runner' => {
+        'gid' => 8013,
       },
     }.freeze
   end
