@@ -54,6 +54,29 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
 
   node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
 
+  craft_ssh_private_key = Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/private key')
+  craft_ssh_public_key = Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/public key')
+
+  directory "/home/github-runner/.ssh" do
+    owner 'github-runner'
+    group 'github-runner'
+    mode '0700'
+  end
+
+  file "/home/github-runner/.ssh/id_rsa" do
+    content craft_ssh_private_key
+    owner 'github-runner'
+    group 'github-runner'
+    mode '0600'
+  end
+
+  file "/home/github-runner/.ssh/id_rsa.pub" do
+    content craft_ssh_public_key
+    owner 'github-runner'
+    group 'github-runner'
+    mode '0655'
+  end
+
   ssh_known_hosts_entry '10.63.34.15' do
     file_location '/home/github-runner/.ssh/known_hosts'
     owner 'github-runner'
