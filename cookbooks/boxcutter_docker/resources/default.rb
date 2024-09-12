@@ -25,7 +25,8 @@ action :configure do
           if !current_context_names.include?(desired_context_name)
             context_create(desired_context_name, append_builder_config, user_config['user'], user_config['group'])
           end
-          buildx_create_append_command(desired_builder_name, append_builder_config, user_config['user'], user_config['group'])
+          buildx_create_append_command(desired_builder_name, append_builder_config, user_config['user'],
+                                       user_config['group'])
         end
 
         # if !current_contexts.include?(desired_context_name)
@@ -266,7 +267,7 @@ action_class do
     shellout.error!
   end
 
-  def buildx_create_append_command(parent_name, data, user, group)
+  def buildx_create_append_command(parent_name, data, _user, _group)
     cmd = ["docker buildx create --append --name #{parent_name}"]
     cmd << data['endpoint'] if data['endpoint']
     cmd.join(' ')
