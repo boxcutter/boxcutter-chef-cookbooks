@@ -25,8 +25,7 @@ action :configure do
           if !current_context_names.include?(desired_context_name)
             context_create(desired_context_name, append_builder_config, user_config['user'], user_config['group'])
           end
-          buildx_create_append(desired_builder_name, append_builder_config, user_config['user'],
-                                       user_config['group'])
+          buildx_create_append(desired_builder_name, append_builder_config, user_config['user'], user_config['group'])
         end
 
         # if !current_contexts.include?(desired_context_name)
