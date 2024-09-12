@@ -126,7 +126,6 @@ when 'centos'
       },
     },
   }
-  # puts "MISCHA: gh-cli #{node['fb_yum_repos']['repos']}"
 end
 
 package 'gh' do
