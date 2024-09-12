@@ -21,6 +21,8 @@ amd64_self_hosted_runner_list = %w{
 }
 
 if amd64_self_hosted_runner_list.include?(node['hostname'])
+  package 'jq'
+
   include_recipe 'boxcutter_docker::default'
   FB::Users.initialize_group(node, 'docker')
 
