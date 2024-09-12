@@ -14,9 +14,23 @@ action :configure do
       desired_builder_name = builder_config['name']
       puts "MISCHA: desired_builder_name=#{desired_builder_name}, builder_config=#{builder_config}"
       if !current_builder_names.include?(desired_builder_name)
-        buildx_create_command(desired_builder_name, builder_config)
+        buildx_create(desired_builder_name, builder_config)
         current_contexts = context_ls(user_config['user'], user_config['group'])
         puts "MISCHA: current_contexts=#{current_contexts}"
+        current_context_names = current_contexts.map { |item| item['Name']}
+        builder_config['append'].each do |append_builder, append_builder_config|
+          puts "MISCHA: append_builder_config=#{append_builder_config}"
+          desired_context_name = append_builder_config['name']
+          puts "MISCHA: desired_context_name=#{desired_context_name}"
+          if !current_context_names.include?(desired_context_name)
+            context_create(desired_context_name, append_builder_config, user_config['user'], user_config['group'])
+          end
+          buildx_create_append_command(desired_builder_name, append_builder_config)
+        end
+
+        # if !current_contexts.include?(desired_context_name)
+
+        # end
       end
     end
   end
@@ -245,7 +259,7 @@ action_class do
     end
   end
 
-  def buildx_create_append_command(parent_name, _name, data)
+  def buildx_create_append_command(parent_name, data)
     cmd = ["docker buildx create --append --name #{parent_name}"]
     cmd << data['endpoint'] if data['endpoint']
     cmd.join(' ')
