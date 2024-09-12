@@ -17,8 +17,8 @@ action :configure do
         buildx_create(desired_builder_name, builder_config)
         current_contexts = context_ls(user_config['user'], user_config['group'])
         puts "MISCHA: current_contexts=#{current_contexts}"
-        current_context_names = current_contexts.map { |item| item['Name']}
-        builder_config['append'].each do |append_builder, append_builder_config|
+        current_context_names = current_contexts.map { |item| item['Name'] }
+        builder_config['append'].each do |_append_builder, append_builder_config|
           puts "MISCHA: append_builder_config=#{append_builder_config}"
           desired_context_name = append_builder_config['name']
           puts "MISCHA: desired_context_name=#{desired_context_name}"
