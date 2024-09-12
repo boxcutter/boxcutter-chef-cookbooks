@@ -273,7 +273,7 @@ action_class do
   end
 
   # buildx_create_append(append_name, append_data)
-  def buildx_create_append(parent_name, name, data, user, group)
+  def buildx_create_append(parent_name, data, user, group)
     command = buildx_create_append_command(parent_name, data)
     puts "MISCHA: buildx_create_append_command=#{command}"
     Chef::Log.debug("boxcutter_docker: buildx_create_append_command=#{command}")
