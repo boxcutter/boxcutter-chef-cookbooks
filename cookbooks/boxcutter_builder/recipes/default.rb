@@ -54,6 +54,12 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
 
   node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
 
+  ssh_known_hosts_entry '10.63.34.15' do
+    file_location "/home/github-runner/.ssh/known_hosts"
+    owner 'github-runner'
+    group 'github-runner'
+  end
+
   node.default['boxcutter_docker']['buildx']['github-runner'] = {
     'home' => '/home/github-runner',
     'user' => 'github-runner',
