@@ -162,7 +162,9 @@ module Boxcutter
 
       # volumes
       def self.volume_ls
-        result = Mixlib::ShellOut.new('docker volume ls --format "{{json .}}"')
+        result = Mixlib::ShellOut.new(
+          'docker volume ls --format "{{json .}}"'
+        ).run_command
         result.error!
         volumes = {}
         result.stdout.each_line do |line|
