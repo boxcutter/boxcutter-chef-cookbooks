@@ -20,7 +20,8 @@ action :configure do
       desired_builder_name = builder_config['name']
       puts "MISCHA: desired_builder_name=#{desired_builder_name}, builder_config=#{builder_config}"
       if !current_builder_names.include?(desired_builder_name)
-        Boxcutter::Docker::Helpers.buildx_create(desired_builder_name, builder_config, user_config['user'], user_config['group'])
+        Boxcutter::Docker::Helpers.buildx_create(desired_builder_name, builder_config, user_config['user'],
+                                                 user_config['group'])
         # log 'Goodbye world'
         current_contexts = Boxcutter::Docker::Helpers.context_ls(user_config['user'], user_config['group'])
         puts "MISCHA: current_contexts=#{current_contexts}"
@@ -30,9 +31,11 @@ action :configure do
           desired_context_name = append_builder_config['name']
           puts "MISCHA: desired_context_name=#{desired_context_name}"
           if !current_context_names.include?(desired_context_name)
-            Boxcutter::Docker::Helpers.context_create(desired_context_name, append_builder_config, user_config['user'], user_config['group'])
+            Boxcutter::Docker::Helpers.context_create(desired_context_name, append_builder_config, user_config['user'],
+                                                      user_config['group'])
           end
-          Boxcutter::Docker::Helpers.buildx_create_append(desired_builder_name, append_builder_config, user_config['user'], user_config['group'])
+          Boxcutter::Docker::Helpers.buildx_create_append(desired_builder_name, append_builder_config,
+                                                          user_config['user'], user_config['group'])
         end
       end
     end

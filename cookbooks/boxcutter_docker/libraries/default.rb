@@ -209,7 +209,8 @@ module Boxcutter
           "-p #{host_port}:#{container_port}"
         end&.join(' ')
         mounts = data['mounts']&.map do |_name, options|
-          "--mount #{options['type'] == 'bind' ? 'type=bind,' : ''}source=#{options['source']},target=#{options['target']}"
+          "--mount #{options['type'] == 'bind' ? 'type=bind,' : ''}" \
+          "source=#{options['source']},target=#{options['target']}"
         end&.join(' ')
         ulimits = data['ulimits']&.map do |key, value|
           "--ulimit #{key}#{value ? "=#{value}" : ''}"

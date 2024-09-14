@@ -26,13 +26,13 @@ describe 'boxcutter_docker' do
     # contexts
     allow(Boxcutter::Docker::Helpers).
       to receive(:context_ls).
-        and_return(
-          [{"Name"=>"default",
-            "Description"=>"Current DOCKER_HOST based configuration",
-            "DockerEndpoint"=>"unix:///var/run/docker.sock",
-            "Current"=>true,
-            "Error"=>"",
-            "ContextType"=>"moby"}]
+      and_return(
+        [{ 'Name'=>'default',
+          'Description'=>'Current DOCKER_HOST based configuration',
+          'DockerEndpoint'=>'unix:///var/run/docker.sock',
+          'Current'=>true,
+          'Error'=>'',
+          'ContextType'=>'moby' }],
         )
     allow(Boxcutter::Docker::Helpers).
       to receive(:context_create).with(any_args)
@@ -50,10 +50,10 @@ describe 'boxcutter_docker' do
     # networks
     allow(Boxcutter::Docker::Helpers).
       to receive(:network_ls).
-        and_return(
-          {"bridge"=>{"driver"=>"bridge", "labels"=>""},
-           "host"=>{"driver"=>"host", "labels"=>""},
-           "none"=>{"driver"=>"null", "labels"=>""}}
+      and_return(
+        { 'bridge'=>{ 'driver'=>'bridge', 'labels'=>'' },
+         'host'=>{ 'driver'=>'host', 'labels'=>'' },
+         'none'=>{ 'driver'=>'null', 'labels'=>'' } },
         )
     allow(Boxcutter::Docker::Helpers).
       to receive(:network_create).with(any_args)
@@ -93,40 +93,40 @@ describe 'boxcutter_docker' do
       allow(Boxcutter::Docker::Helpers).
         to receive(:buildx_ls).with('/home/github-runner').
         and_return(
-          {"x86-64-builder"=>
-             {"Name"=>"x86-64-builder",
-              "Driver"=>"docker-container",
-              "Nodes"=>
-                [{"Name"=>"x86-64-builder0",
-                  "Endpoint"=>"unix:///var/run/docker.sock",
-                  "Platforms"=>[],
-                  "DriverOpts"=>nil,
-                  "Flags"=>["--allow-insecure-entitlement=network.host"],
-                  "Files"=>nil},
-                 {"Name"=>"x86-64-builder1",
-                  "Endpoint"=>"nvidia-jetson-agx-orin",
-                  "Platforms"=>nil,
-                  "DriverOpts"=>nil,
-                  "Flags"=>["--allow-insecure-entitlement=network.host"],
-                  "Files"=>nil}],
-              "Dynamic"=>false}}
+          { 'x86-64-builder'=>
+             { 'Name'=>'x86-64-builder',
+              'Driver'=>'docker-container',
+              'Nodes'=>
+                [{ 'Name'=>'x86-64-builder0',
+                  'Endpoint'=>'unix:///var/run/docker.sock',
+                  'Platforms'=>[],
+                  'DriverOpts'=>nil,
+                  'Flags'=>['--allow-insecure-entitlement=network.host'],
+                  'Files'=>nil },
+                 { 'Name'=>'x86-64-builder1',
+                  'Endpoint'=>'nvidia-jetson-agx-orin',
+                  'Platforms'=>nil,
+                  'DriverOpts'=>nil,
+                  'Flags'=>['--allow-insecure-entitlement=network.host'],
+                  'Files'=>nil }],
+              'Dynamic'=>false } },
         )
 
       allow(Boxcutter::Docker::Helpers).
         to receive(:context_ls).with(any_args).
         and_return(
-          [{"Name"=>"default",
-            "Description"=>"Current DOCKER_HOST based configuration",
-            "DockerEndpoint"=>"unix:///var/run/docker.sock",
-            "Current"=>true,
-            "Error"=>"",
-            "ContextType"=>"moby"},
-           {"Name"=>"nvidia-jetson-agx-orin",
-            "Description"=>"",
-            "DockerEndpoint"=>"ssh://craft@10.63.34.15",
-            "Current"=>false,
-            "Error"=>"",
-            "ContextType"=>"moby"}]
+          [{ 'Name'=>'default',
+            'Description'=>'Current DOCKER_HOST based configuration',
+            'DockerEndpoint'=>'unix:///var/run/docker.sock',
+            'Current'=>true,
+            'Error'=>'',
+            'ContextType'=>'moby' },
+           { 'Name'=>'nvidia-jetson-agx-orin',
+            'Description'=>'',
+            'DockerEndpoint'=>'ssh://craft@10.63.34.15',
+            'Current'=>false,
+            'Error'=>'',
+            'ContextType'=>'moby' }],
           )
 
       allow(Boxcutter::Docker::Helpers).
