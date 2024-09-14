@@ -132,7 +132,7 @@ module Boxcutter
 
       # networks
       def self.network_ls
-        result = shell_out!('docker network ls --no-trunc --format "{{json .}}"')
+        result = Mixlib::ShellOut.shell_out!('docker network ls --no-trunc --format "{{json .}}"')
         networks = {}
         result.stdout.each_line do |line|
           data = JSON.parse(line.strip)
@@ -159,7 +159,7 @@ module Boxcutter
 
       # volumes
       def self.volume_ls
-        result = shell_out!('docker volume ls --format "{{json .}}"')
+        result = Mixlib::ShellOut.shell_out!('docker volume ls --format "{{json .}}"')
         volumes = {}
         result.stdout.each_line do |line|
           data = JSON.parse(line.strip)
@@ -188,7 +188,7 @@ module Boxcutter
 
       # containers
       def self.container_ls
-        result = shell_out!('docker container ls --all --no-trunc --format "{{json .}}"')
+        result = Mixlib::ShellOut.shell_out!('docker container ls --all --no-trunc --format "{{json .}}"')
         containers = {}
         result.stdout.each_line do |line|
           data = JSON.parse(line.strip)
