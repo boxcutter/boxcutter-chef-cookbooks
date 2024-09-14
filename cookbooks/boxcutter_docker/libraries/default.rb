@@ -22,7 +22,7 @@ module Boxcutter
         contexts
       end
 
-      def context_create_command(name, data)
+      def self.context_create_command(name, data)
         cmd = ['docker context create']
         cmd << "--description '#{data['description']}'" if data.key?('description')
         cmd << "--docker '#{data['endpoint']}'" if data.key?('endpoint')
@@ -31,7 +31,7 @@ module Boxcutter
         cmd.join(' ')
       end
 
-      def context_create(name, data, user, group)
+      def self.context_create(name, data, user, group)
         cmd = Mixlib::ShellOut.new(
           context_create_command(name, data),
           login: true,
@@ -41,14 +41,14 @@ module Boxcutter
         cmd.error!
       end
 
-      def context_rm_command(name)
+      def self.context_rm_command(name)
         cmd = ['docker context rm']
         cmd << name
         puts "MISCHA: context_rm_command(#{name}) = #{cmd.join(' ')}"
         cmd.join(' ')
       end
 
-      def context_rm(name, user, group)
+      def self.context_rm(name, user, group)
         cmd = Mixlib::ShellOut.new(
           context_rm_command(name),
           login: true,
