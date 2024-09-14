@@ -133,7 +133,7 @@ module Boxcutter
       # networks
       def self.network_ls
         result = Mixlib::ShellOut.new(
-          'docker network ls --no-trunc --format "{{json .}}"'
+          'docker network ls --no-trunc --format "{{json .}}"',
         ).run_command
         result.error!
         networks = {}
@@ -163,7 +163,7 @@ module Boxcutter
       # volumes
       def self.volume_ls
         result = Mixlib::ShellOut.new(
-          'docker volume ls --format "{{json .}}"'
+          'docker volume ls --format "{{json .}}"',
         ).run_command
         result.error!
         volumes = {}
@@ -195,7 +195,7 @@ module Boxcutter
       # containers
       def self.container_ls
         result = Mixlib::ShellOut.new(
-          'docker container ls --all --no-trunc --format "{{json .}}"'
+          'docker container ls --all --no-trunc --format "{{json .}}"',
         ).run_command
         result.error!
         containers = {}
