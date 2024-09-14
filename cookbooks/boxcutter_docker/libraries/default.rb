@@ -89,6 +89,7 @@ module Boxcutter
       def self.buildx_create_command(name, data)
         cmd = ["docker buildx create --name #{name}"]
         cmd << '--use' if data.fetch('use', false)
+        cmd << "--platform #{data['platform']}" if data['platform']
         cmd.join(' ')
       end
 
@@ -111,6 +112,7 @@ module Boxcutter
       def self.buildx_create_append_command(parent_name, data)
         cmd = ["docker buildx create --append --name #{parent_name}"]
         cmd << data['name'] if data['name']
+        cmd << "--platform #{data['platform']}" if data['platform']
         cmd.join(' ')
       end
 

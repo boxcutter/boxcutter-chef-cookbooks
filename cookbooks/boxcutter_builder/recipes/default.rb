@@ -93,11 +93,13 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
       'x86_64_builder' => {
         'name' => 'github-runner-x86-64-builder',
         'driver' => 'docker-container',
+        'platform' => 'linux/amd64,linux/386',
         'use' => true,
         'append' => {
           'github_runner_nvidia_jetson_agx_orin' => {
             'name' => 'github-runner-nvidia-jetson-agx-orin',
             'endpoint' => 'host=ssh://craft@10.63.34.15',
+            'platform' => 'linux/arm64',
           },
         },
       },
