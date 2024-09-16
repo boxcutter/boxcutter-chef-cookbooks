@@ -22,14 +22,14 @@ when 'x86_64', 'amd64'
     'version' => '1.23.1',
     'source' => 'https://go.dev/dl/go1.23.1.linux-amd64.tar.gz',
     'checksum' => '49bbb517cfa9eee677e1e7897f7cf9cfdbcf49e05f61984a2789136de359f9bd',
-    'creates' => 'bin/go'
+    'creates' => 'bin/go',
   }
 when 'aarch64', 'arm64'
   node.default['boxcutter_golang']['binary'] = {
     'version' => '1.23.1',
     'source' => 'https://go.dev/dl/go1.23.1.linux-arm64.tar.gz',
     'checksum' => 'faec7f7f8ae53fda0f3d408f52182d942cc89ef5b7d3d9f23ff117437d4b2d2f',
-    'creates' => 'bin/go'
+    'creates' => 'bin/go',
   }
 end
 
