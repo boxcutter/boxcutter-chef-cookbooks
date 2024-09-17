@@ -25,6 +25,11 @@ node.default['fb_users']['users']['boxcutter'] = {
   'action' => :add,
 }
 
+directory '/home/boxcutter/.config' do
+  owner 'boxcutter'
+  group 'users'
+end
+
 # Disable Gnome initial setup
 file '/home/boxcutter/.config/gnome-initial-setup-done' do
   content 'yes'
