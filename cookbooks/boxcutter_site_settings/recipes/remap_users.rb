@@ -18,17 +18,24 @@
 
 FB::Users::UID_MAP.each do |user_name, desired_user_data|
   current_user_data = node['etc']['passwd'][user_name]
+  next unless current_user_data
+
   desired_user_data = FB::Users::UID_MAP[user_name]
 
   if current_user_data['uid'].to_i != desired_user_data['uid'].to_i
-    puts "MISCHA remap_users: user=#{user_name}: current_uid=#{current_user_data['uid']}, desired_uid=#{desired_user_data['uid']}"
+    puts "MISCHA remap_users: user=#{user_name}: " \
+      "current_uid=#{current_user_data['uid']}, " \
+      "desired_uid=#{desired_user_data['uid']}"
   end
 end
 
 FB::Users::GID_MAP.each do |group_name, desired_group_data|
   current_group_data = node['etc']['group'][group_name]
+  next unless current_group_data
 
   if current_group_data['gid'].to_i != desired_group_data['gid'].to_i
-    puts "MISCHA remap_users: group=#{group_name}: current_gid=#{current_group_data['gid']}, desired_gid=#{desired_group_data['gid']}"
+    puts "MISCHA remap_users: group=#{group_name}: " \
+      "current_gid=#{current_group_data['gid']}, " \
+      "desired_gid=#{desired_group_data['gid']}"
   end
 end
