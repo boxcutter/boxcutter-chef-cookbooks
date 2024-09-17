@@ -17,7 +17,8 @@
 # limitations under the License.
 
 workstation_hosts = %w{
-  crakeStuntUbuntu2204Desktop
+  crake-stunt-ubuntu2204
+  crake-stunt-ubuntu2404
 }.include?(node['hostname'])
 
 if workstation_hosts
