@@ -235,6 +235,15 @@ if nexus_hosts
 
   include_recipe 'boxcutter_acme::lego'
 
+  node.default['fb_nginx']['enable_default_site'] = false
+  node.default['fb_nginx']['config']['http']['proxy_send_timeout'] = '120'
+  node.default['fb_nginx']['config']['http']['proxy_read_timeout'] = '300'
+  node.default['fb_nginx']['config']['http']['proxy_buffering'] = 'off'
+  node.default['fb_nginx']['config']['http']['proxy_request_buffering'] = 'off'
+  node.default['fb_nginx']['config']['http']['keepalive_timeout'] = '5 5'
+  node.default['fb_nginx']['config']['http']['tcp_nodelay'] = 'on'
+  node.default['fb_nginx']['config']['http']['server_names_hash_bucket_size'] = '128'
+
   node.default['fb_nginx']['sites']['nexus'] = {
     'listen 443' => 'ssl',
     'server_name' => 'crake-nexus.org.boxcutter.net',
