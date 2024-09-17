@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FB::User::UID_MAP.each do |user_name, desired_user_data|
+FB::Users::UID_MAP.each do |user_name, desired_user_data|
   current_user_data = node['etc']['passwd'][user_name]
   desired_user_data = FB::Users::UID_MAP[user_name]
 
