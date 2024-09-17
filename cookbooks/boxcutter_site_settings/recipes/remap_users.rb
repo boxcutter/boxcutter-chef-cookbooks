@@ -20,8 +20,6 @@ FB::Users::UID_MAP.each do |user_name, desired_user_data|
   current_user_data = node['etc']['passwd'][user_name]
   next unless current_user_data
 
-  desired_user_data = FB::Users::UID_MAP[user_name]
-
   if current_user_data['uid'].to_i != desired_user_data['uid'].to_i
     puts "MISCHA remap_users: user=#{user_name}: " \
       "current_uid=#{current_user_data['uid']}, " \
