@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include_recipe '::remap_users'
+
 puts "MISCHA: node['boxcutter_config']['tier] = #{node['boxcutter_config']['tier']}"
 node.default['fb_users']['user_defaults']['gid'] = 'boxcutter'
 include_recipe 'boxcutter_users'
