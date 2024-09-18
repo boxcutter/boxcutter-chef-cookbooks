@@ -139,5 +139,5 @@ s3OX4MPOcLa3wXJGMpkt3PPqzGNpegV74xe0Q+TlFDK/qcX8b7wqcIkYHElvncmL
   EOS
 
   # Omit signed-by and use apt-key to import the key
-  node.default['fb_apt']['repos'] << "deb https://repo.download.nvidia.com/jetson/common r36.3 main"
+  node.default['fb_apt']['repos'] << 'deb https://repo.download.nvidia.com/jetson/common r36.3 main'
 end
