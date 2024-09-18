@@ -125,6 +125,7 @@ tegra_self_hosted_runner_list = %w{
 }
 
 if tegra_self_hosted_runner_list.include?(node['hostname'])
+  include_recipe 'boxcutter_nvidia::l4t'
   include_recipe 'boxcutter_ubuntu_desktop'
 
   include_recipe 'boxcutter_docker::default'
