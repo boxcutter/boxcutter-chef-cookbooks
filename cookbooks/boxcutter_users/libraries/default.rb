@@ -21,7 +21,7 @@ module FB
       'boxcutter' => {
         'uid' => 2001,
       },
-      'shelia' => {
+      'sheila' => {
         'uid' => 2002,
       },
       'taylor' => {
