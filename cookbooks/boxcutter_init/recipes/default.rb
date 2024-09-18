@@ -130,7 +130,10 @@ if node.linux?
 
   node.default['fb_ipset']['auto_cleanup'] = false
   include_recipe 'fb_ipset'
-  include_recipe 'fb_iptables'
+  unless node['kernel']['machine'] == 'aarch64'
+    # tegras don't include the iptable_raw module by default
+    include_recipe 'fb_iptables'
+  end
 end
 # if node.linux? && !node.container?
 #   include_recipe 'fb_chrony'
