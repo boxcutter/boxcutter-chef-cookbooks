@@ -25,9 +25,13 @@ node.default['fb_users']['users']['boxcutter'] = {
   'action' => :add,
 }
 
+node.default['fb_sudo']['users']['boxcutter']['admin'] =
+  'ALL=(ALL:ALL) NOPASSWD: ALL'
+
 directory '/home/boxcutter/.config' do
   owner 'boxcutter'
   group 'users'
+  mode '0755'
 end
 
 # Disable Gnome initial setup
@@ -47,7 +51,49 @@ end
 
 # Does not notify gdm3 to restart on changes as it will logout the current user
 template '/etc/gdm3/custom.conf' do
-  owner 'root'
-  group 'root'
+  owner node['root_user']
+  group node['root_group']
   mode '0644'
+end
+
+%w{
+  /etc/dconf
+  /etc/dconf/db
+  /etc/dconf/db/chef.d
+  /etc/dconf/db/chef.d/locks
+  /etc/dconf/profile
+}.each do |dir|
+  directory dir do
+    owner node['root_user']
+    group node['root_group']
+    mode '0755'
+  end
+end
+
+# Settings for all users
+cookbook_file '/etc/dconf/profile/user' do
+  owner node['root_user']
+  group node['root_group']
+  mode '0644'
+  source 'dconf.profile.user'
+end
+
+execute 'dconf update' do
+  action :nothing
+end
+
+cookbook_file '/etc/dconf/db/chef.d/00_default' do
+  owner node['root_user']
+  group node['root_group']
+  mode '0644'
+  source '00_default'
+  notifies :run, 'execute[dconf update]'
+end
+
+cookbook_file '/etc/dconf/db/chef.d/locks/00_default' do
+  owner node['root_user']
+  group node['root_group']
+  mode '0644'
+  source '00_default_locks'
+  notifies :run, 'execute[dconf update]'
 end
