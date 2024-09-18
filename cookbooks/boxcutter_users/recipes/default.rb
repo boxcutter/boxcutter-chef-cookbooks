@@ -22,6 +22,12 @@ caretakers = {
 }
 
 caretakers.each do |user, uid|
+  node.default['fb_users']['users'][user] = {
+    'gid' => 'users',
+    'shell' => '/bin/bash',
+    'action' => :add,
+  }
+
   user user do
     uid uid
     group 'users'
@@ -30,6 +36,7 @@ caretakers.each do |user, uid|
     shell '/bin/bash'
   end
 end
+
 
 group 'sudo' do
   members caretakers.keys
