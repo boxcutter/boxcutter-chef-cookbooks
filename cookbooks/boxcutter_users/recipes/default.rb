@@ -37,7 +37,6 @@ caretakers.each do |user, uid|
   end
 end
 
-
 group 'sudo' do
   members caretakers.keys
   system true
