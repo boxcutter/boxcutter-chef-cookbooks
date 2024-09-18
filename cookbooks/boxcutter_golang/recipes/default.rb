@@ -50,8 +50,8 @@ end
   "/opt/go/#{version}",
 ].each do |dir|
   directory dir do
-    owner node['root_user']
-    group node['root_group']
+    owner node.root_user
+    group node.root_group
     mode '0755'
   end
 end
