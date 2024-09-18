@@ -19,7 +19,7 @@
 FB::Users::UID_MAP.each do |user_name, desired_user_data|
   # root is never explicitly added via Chef, though it has an entry in
   # FB::Users, so ignore it
-  next if user_name == node['root_user']
+  next if user_name == node.root_user
 
   # If the user doesn't exist, then there can't be a conflict
   current_user_data = node['etc']['passwd'][user_name]
@@ -45,7 +45,7 @@ end
 FB::Users::GID_MAP.each do |group_name, desired_group_data|
   # root is never explicitly added via Chef, though it has an entry in
   # FB::Users, so ignore it
-  next if group_name == node['root_group']
+  next if group_name == node.root_group
 
   # If the group doesn't exist, then there can't be a conflict
   current_group_data = node['etc']['group'][group_name]
