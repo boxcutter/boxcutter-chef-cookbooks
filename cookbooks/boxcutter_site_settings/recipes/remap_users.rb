@@ -17,6 +17,7 @@
 # limitations under the License.
 
 FB::Users::UID_MAP.each do |user_name, desired_user_data|
+  puts "MISCHA: node['root_user']=#{node['root_user']}, node.root_user=#{node.root_user}"
   # root is never explicitly added via Chef, though it has an entry in
   # FB::Users, so ignore it
   next if user_name == node.root_user
