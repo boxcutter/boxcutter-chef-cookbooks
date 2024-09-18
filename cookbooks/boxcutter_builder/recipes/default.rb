@@ -120,9 +120,13 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
   include_recipe 'boxcutter_github::runner'
 end
 
-# arm64_self_hosted_runner_list = %w{
-#   agx01-builder-tegra
-# }
+tegra_self_hosted_runner_list = %w{
+  agx01
+}
 
-# if arm64_self_hosted_runner_list.include?(node['hostname'])
-# end
+if tegra_self_hosted_runner_list.include?(node['hostname'])
+  include_recipe 'boxcutter_ubuntu_desktop'
+
+  include_recipe 'boxcutter_docker::default'
+  FB::Users.initialize_group(node, 'docker')
+end

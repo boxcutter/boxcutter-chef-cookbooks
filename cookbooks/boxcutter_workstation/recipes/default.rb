@@ -17,7 +17,6 @@
 # limitations under the License.
 
 workstation_hosts = %w{
-  agx01
   crake-stunt-ubuntu-desktop-2204
   crake-stunt-ubuntu-desktop-2404
 }.include?(node['hostname'])
