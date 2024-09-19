@@ -125,6 +125,8 @@ tegra_self_hosted_runner_list = %w{
 }
 
 if tegra_self_hosted_runner_list.include?(node['hostname'])
+  package 'jq'
+
   include_recipe 'boxcutter_nvidia::l4t'
   include_recipe 'boxcutter_ubuntu_desktop'
 
@@ -134,4 +136,7 @@ if tegra_self_hosted_runner_list.include?(node['hostname'])
   }
   include_recipe 'boxcutter_docker::default'
   FB::Users.initialize_group(node, 'docker')
+
+  include_recipe 'boxcutter_builder::user'
+  node.default['fb_users']['groups']['docker']['members'] << 'craft'
 end
