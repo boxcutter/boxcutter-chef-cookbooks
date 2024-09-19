@@ -130,7 +130,7 @@ if node.linux?
 
   node.default['fb_ipset']['auto_cleanup'] = false
   include_recipe 'fb_ipset'
-  
+
   if node['kernel']['machine'] == 'aarch64'
     # tegras don't include the iptable_raw module by default
     ruby_block 'remove iptables raw dynamic chain' do
