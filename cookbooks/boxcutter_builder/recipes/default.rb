@@ -79,7 +79,7 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
     mode '0655'
   end
 
-  ssh_known_hosts_entry '10.63.34.15' do
+  ssh_known_hosts_entry '10.63.33.102' do
     file_location '/home/github-runner/.ssh/known_hosts'
     owner 'github-runner'
     group 'github-runner'
