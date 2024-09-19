@@ -128,6 +128,10 @@ if tegra_self_hosted_runner_list.include?(node['hostname'])
   include_recipe 'boxcutter_nvidia::l4t'
   include_recipe 'boxcutter_ubuntu_desktop'
 
+  node.default['boxcutter_docker']['config']['runtimes']['nvidia'] = {
+    'path' => 'nvidia-container-runtime',
+    'args' => [],
+  }
   include_recipe 'boxcutter_docker::default'
   FB::Users.initialize_group(node, 'docker')
 end

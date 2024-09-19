@@ -53,6 +53,7 @@ if node.linux?
   include_recipe '::users'
 end
 
-if node['boxcutter_config']['tier'] && node['boxcutter_config']['tier'] == 'workstation'
+if node['boxcutter_config']['tier'] && node['boxcutter_config']['tier'] == 'workstation' ||
+  node['boxcutter_config']['tier'] && node['boxcutter_config']['tier'] == 'builder' && node['kernel']['machine'] == 'aarch64'
   node.default['fb_systemd']['default_target'] = 'graphical.target'
 end

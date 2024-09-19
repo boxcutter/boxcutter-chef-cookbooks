@@ -140,4 +140,20 @@ s3OX4MPOcLa3wXJGMpkt3PPqzGNpegV74xe0Q+TlFDK/qcX8b7wqcIkYHElvncmL
 
   # Omit signed-by and use apt-key to import the key
   node.default['fb_apt']['repos'] << 'deb https://repo.download.nvidia.com/jetson/common r36.3 main'
+  node.default['fb_apt']['repos'] << 'deb https://repo.download.nvidia.com/jetson/t234 r36.3 main'
+  node.default['fb_apt']['repos'] << 'deb https://repo.download.nvidia.com/jetson/ffmpeg r36.3 main'
+
+  # /etc/modules-load.d/chef.conf
+  node.default['fb_modprobe']['modules_to_load_on_boot'] += [
+    'nvmap',
+    'nvgpu',
+    'pwm-fan',
+    'ina3221',
+    'nvidia-p2p',
+  ]
+
+  # /etc/modprobe.d/fb_modprobe.conf
+  node.default['fb_modprobe']['extra_entries'] += [
+    ''
+  ]
 end
