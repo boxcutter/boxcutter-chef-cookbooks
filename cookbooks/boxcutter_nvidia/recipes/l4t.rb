@@ -153,7 +153,7 @@ s3OX4MPOcLa3wXJGMpkt3PPqzGNpegV74xe0Q+TlFDK/qcX8b7wqcIkYHElvncmL
   ]
 
   # /etc/modprobe.d/fb_modprobe.conf
-  node.default['fb_modprobe']['extra_entries'] += [
-    '',
-  ]
+  # node.default['fb_modprobe']['extra_entries'] += [
+  #   '',
+  # ]
 end
