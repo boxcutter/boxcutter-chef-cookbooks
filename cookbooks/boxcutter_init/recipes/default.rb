@@ -133,11 +133,7 @@ if node.linux?
 
   if node['kernel']['machine'] == 'aarch64'
     # tegras don't include the iptable_raw module by default
-    ruby_block 'remove iptables raw dynamic chain' do
-      block do
-        node.rm('iptables', 'dynamic_chains', 'raw')
-      end
-    end
+    FB::Iptables::TABLES_AND_CHAINS.delete('raw')
   end
 
   include_recipe 'fb_iptables'
