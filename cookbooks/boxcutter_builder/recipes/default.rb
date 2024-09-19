@@ -98,7 +98,7 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
         'append' => {
           'github_runner_nvidia_jetson_agx_orin' => {
             'name' => 'github-runner-nvidia-jetson-agx-orin',
-            'endpoint' => 'host=ssh://craft@10.63.34.15',
+            'endpoint' => 'host=ssh://craft@10.63.33.102',
             'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
           },
         },
