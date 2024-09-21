@@ -65,6 +65,8 @@ node.default['fb_ssh']['authorized_keys']['taylor']['joan_home'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICV7K2rMcsUmT1v1VChPu552ux/GXe/CWWmAkj7ryo9N joan-home'
 node.default['fb_ssh']['authorized_keys']['taylor']['joan_boxcutter'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPxZsm6W83hWKZ+T0RLGtx6E8scnjq2o3GMjkXx+P1Bi joan-boxcutter'
+node.default['fb_ssh']['authorized_keys']['taylor']['emily'] =
+  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMWwrOVfOWfax6HR4Y+Mg01jT9No2zXHqkATnqwHuFKU emily'
 node.default['fb_ssh']['authorized_keys']['sheila']['mahowald'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMC7b+X2a0mRV8A7W5zolbrkALqFizKtuhmM+xZWKohl sheila@mahowald'
 node.default['fb_ssh']['authorized_keys']['david']['primary'] =
