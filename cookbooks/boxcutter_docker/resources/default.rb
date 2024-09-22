@@ -37,8 +37,8 @@ action :configure do
             desired_context_name = append_builder_config['name']
             puts "MISCHA: desired_context_name=#{desired_context_name}"
             if !current_context_names.include?(desired_context_name)
-              Boxcutter::Docker::Helpers.context_create(desired_context_name, append_builder_config, user_config['user'],
-                                                        user_config['group'])
+              Boxcutter::Docker::Helpers.context_create(desired_context_name, append_builder_config,
+                                                        user_config['user'], user_config['group'])
             end
             Boxcutter::Docker::Helpers.buildx_create_append(desired_builder_name, append_builder_config,
                                                             user_config['user'], user_config['group'])
