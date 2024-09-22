@@ -48,8 +48,8 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
   #   },
   # }
 
-  include_recipe 'boxcutter_can::vcan'
-  include_recipe 'fb_networkd'
+  # include_recipe 'boxcutter_can::vcan'
+  # include_recipe 'fb_networkd'
 
   include_recipe 'boxcutter_github::runner_user'
   include_recipe 'boxcutter_github::cli'
@@ -79,43 +79,43 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
     mode '0655'
   end
 
-  ssh_known_hosts_entry '10.63.33.102' do
+  ssh_known_hosts_entry 'emily-arm64-builder.org.boxcutter.net' do
     file_location '/home/github-runner/.ssh/known_hosts'
     owner 'github-runner'
     group 'github-runner'
   end
 
-  node.default['boxcutter_docker']['buildx']['github-runner'] = {
-    'home' => '/home/github-runner',
-    'user' => 'github-runner',
-    'group' => 'github-runner',
-    'builders' => {
-      'x86_64_builder' => {
-        'name' => 'github-runner-x86-64-builder',
-        'driver' => 'docker-container',
-        'platform' => 'linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/386',
-        'use' => true,
-        'append' => {
-          'github_runner_nvidia_jetson_agx_orin' => {
-            'name' => 'github-runner-nvidia-jetson-agx-orin',
-            'endpoint' => 'host=ssh://craft@10.63.33.102',
-            'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
-          },
-        },
-      },
-    },
-  }
+  # node.default['boxcutter_docker']['buildx']['github-runner'] = {
+  #   'home' => '/home/github-runner',
+  #   'user' => 'github-runner',
+  #   'group' => 'github-runner',
+  #   'builders' => {
+  #     'x86_64_builder' => {
+  #       'name' => 'github-runner-x86-64-builder',
+  #       'driver' => 'docker-container',
+  #       'platform' => 'linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/386',
+  #       'use' => true,
+  #       'append' => {
+  #         'github_runner_nvidia_jetson_agx_orin' => {
+  #           'name' => 'github-runner-nvidia-jetson-agx-orin',
+  #           'endpoint' => 'host=ssh://craft@10.63.33.102',
+  #           'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
+  #         },
+  #       },
+  #     },
+  #   },
+  # }
 
-  node.default['boxcutter_github']['github_runner'] = {
-    'runners' => {
-      '/home/github-runner/actions-runner' => {
-        'runner_name' => node['hostname'],
-        'url' => 'https://github.com/boxcutter/oci',
-        'owner' => 'github-runner',
-        'group' => 'github-runner',
-      },
-    },
-  }
+  # node.default['boxcutter_github']['github_runner'] = {
+  #   'runners' => {
+  #     '/home/github-runner/actions-runner' => {
+  #       'runner_name' => node['hostname'],
+  #       'url' => 'https://github.com/boxcutter/oci',
+  #       'owner' => 'github-runner',
+  #       'group' => 'github-runner',
+  #     },
+  #   },
+  # }
 
   include_recipe 'boxcutter_github::runner'
 end
