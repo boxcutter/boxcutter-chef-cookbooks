@@ -124,9 +124,7 @@ module Boxcutter
         command = buildx_create_append_command(parent_name, data)
         puts "MISCHA: buildx_create_append_command=#{command}"
         Chef::Log.debug("boxcutter_docker: buildx_create_append_command=#{command}")
-        # execute "docker buildx create append #{name}" do
-        #   command command
-        # end
+
         shellout = Mixlib::ShellOut.new(
           command,
           login: true,
