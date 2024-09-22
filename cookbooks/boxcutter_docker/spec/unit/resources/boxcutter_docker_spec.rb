@@ -46,6 +46,8 @@ describe 'boxcutter_docker' do
       to receive(:buildx_create).with(any_args)
     allow(Boxcutter::Docker::Helpers).
       to receive(:buildx_create_append).with(any_args)
+    allow(Boxcutter::Docker::Helpers).
+      to receive(:buildx_rm).with(any_args)
 
     # networks
     allow(Boxcutter::Docker::Helpers).
