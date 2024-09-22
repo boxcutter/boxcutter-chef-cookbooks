@@ -25,6 +25,7 @@ action :manage do
       owner runner_config['owner']
       group runner_config['group']
       disable_update runner_config['disable_update']
+      labels runner_config['labels']
       action [:register]
     end
   end

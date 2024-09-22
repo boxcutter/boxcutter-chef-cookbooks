@@ -7,6 +7,7 @@ property :url, String
 property :owner, String
 property :group, String
 property :work_directory, String
+property :labels, Array
 property :disable_update, [true, false], default: true
 
 load_current_value do |new_resource|
@@ -105,6 +106,7 @@ action :register do
     register_cmd << "--url #{new_resource.url}"
     register_cmd << "--token #{repository_create_registration_token(github_owner, github_repo)}"
     register_cmd << "--name #{new_resource.runner_name}"
+    register_cmd << "--labels #{new_resource.labels.join(',')}" if new_resource.labels
     # --runnergroup
     # --labels
     # --no-default-labels
