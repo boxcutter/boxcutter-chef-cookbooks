@@ -39,7 +39,6 @@ action :configure do
         end
       end
     end
-    # log 'Goodbye world'
   end
 
   # networks

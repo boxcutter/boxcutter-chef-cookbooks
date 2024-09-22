@@ -151,4 +151,17 @@ if arm64_self_hosted_runner_list.include?(node['hostname'])
 
   include_recipe 'boxcutter_builder::user'
   node.default['fb_users']['groups']['docker']['members'] << 'craft'
+
+  node.default['boxcutter_docker']['buildx']['mybuilder'] = {
+    'home' => '/home/craft',
+    'user' => 'craft',
+    'group' => 'craft',
+    'builders' => {
+      'mybuilder' => {
+        'name' => 'mybuilder',
+        'driver' => 'docker',
+        'use' => true,
+      }
+    }
+  }
 end
