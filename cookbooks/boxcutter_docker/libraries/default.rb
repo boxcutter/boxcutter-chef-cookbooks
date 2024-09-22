@@ -86,10 +86,12 @@ module Boxcutter
         config_map
       end
 
-      def self.buildx_create_command(name, data)
+      def self.buildx_create_command(name, config)
         cmd = ["docker buildx create --name #{name}"]
+        cmd << "--driver #{config['driver']}" if config['driver']
         cmd << '--use' if data.fetch('use', false)
-        cmd << "--platform #{data['platform']}" if data['platform']
+        cmd << "--platform #{data['platform']}" if config['platform']
+        cmd << '--bootstrap'
         cmd.join(' ')
       end
 
@@ -97,9 +99,7 @@ module Boxcutter
         command = buildx_create_command(name, data)
         puts "MISCHA: buildx_create_command=#{command}"
         Chef::Log.debug("boxcutter_docker: buildx_create_command=#{command}")
-        # execute "docker buildx create #{name}" do
-        #   command command
-        # end
+
         shellout = Mixlib::ShellOut.new(
           command,
           login: true,
