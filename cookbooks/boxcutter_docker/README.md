@@ -69,8 +69,8 @@ node['boxcutter_docker']['buildx']['craft'] = {
   'user' => 'craft',
   'group' => 'craft',
   'builders' => {
-    'mybuilder' => {
-      'name' => 'mybuilder',
+    'multi-arch-builder' => {
+      'name' => 'multi-arch-builder',
       'use' => true,
     }
   }

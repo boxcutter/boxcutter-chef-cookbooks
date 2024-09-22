@@ -85,26 +85,26 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
     group 'github-runner'
   end
 
-  # node.default['boxcutter_docker']['buildx']['github-runner'] = {
-  #   'home' => '/home/github-runner',
-  #   'user' => 'github-runner',
-  #   'group' => 'github-runner',
-  #   'builders' => {
-  #     'x86_64_builder' => {
-  #       'name' => 'github-runner-x86-64-builder',
-  #       'driver' => 'docker-container',
-  #       'platform' => 'linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/386',
-  #       'use' => true,
-  #       'append' => {
-  #         'github_runner_nvidia_jetson_agx_orin' => {
-  #           'name' => 'github-runner-nvidia-jetson-agx-orin',
-  #           'endpoint' => 'host=ssh://craft@10.63.33.102',
-  #           'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
-  #         },
-  #       },
-  #     },
-  #   },
-  # }
+  node.default['boxcutter_docker']['buildx']['github-runner'] = {
+    'home' => '/home/github-runner',
+    'user' => 'github-runner',
+    'group' => 'github-runner',
+    'builders' => {
+      'github-runner-multi-arch-builder' => {
+        'name' => 'github-runner-multi-arch-builder',
+        'driver' => 'docker-container',
+        'platform' => 'linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/386',
+        'use' => true,
+        'append' => {
+          'emily-arm64-runner' => {
+            'name' => 'emily-arm64-runner',
+            'endpoint' => 'host=ssh://craft@emily-arm64-builder.org.boxcutter.net',
+            'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
+          },
+        },
+      },
+    },
+  }
 
   # node.default['boxcutter_github']['github_runner'] = {
   #   'runners' => {
