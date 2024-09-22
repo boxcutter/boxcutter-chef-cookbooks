@@ -30,7 +30,6 @@ node['boxcutter_docker']['buildx']['mybuilder'] = {
   'builders' => {
     'mybuilder' => {
       'name' => 'mybuilder',
-      'driver' => 'docker',
       'use' => true,
     }
   }
