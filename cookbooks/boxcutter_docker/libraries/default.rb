@@ -89,8 +89,8 @@ module Boxcutter
       def self.buildx_create_command(name, config)
         cmd = ["docker buildx create --name #{name}"]
         cmd << "--driver #{config['driver']}" if config['driver']
-        cmd << '--use' if data.fetch('use', false)
-        cmd << "--platform #{data['platform']}" if config['platform']
+        cmd << '--use' if config.fetch('use', false)
+        cmd << "--platform #{config['platform']}" if config['platform']
         cmd << '--bootstrap'
         cmd.join(' ')
       end
