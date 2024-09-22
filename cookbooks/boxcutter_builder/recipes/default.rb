@@ -79,6 +79,17 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
     mode '0655'
   end
 
+  node.default['fb_ssh']['authorized_keys']['craft']['boxcutter_craft'] = craft_ssh_public_key
+  node.default['fb_ssh']['authorized_keys']['craft']['bettyanne_build_rsa_ssh_key_private'] = \
+    'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDIxMXLhDmYHv7llUu00Xa+092jJwg0TncimyGpSP56UYtZKIZKuvm' +
+    'dnxgLwcS5HxShJ7p/Ilw67mUPqGGiA+8mCM4UC3WTetPrNYwYAQlJ96+l023DE8fQ7eNkpBFKDixlNphWlsvMFdFGqJ' +
+    'xIdk7U3wRJY6a9NKUB3UupUrSz+oBxCaU7jzMmH1wgUSoCa++F9A3ekUY4kDcVMJAZT4lS63FDHoTRhdgAnFA+MeYc6' +
+    'tQ14YFvj+8O6qp8Aqt/ppqsKJjNGTC2K1iOC1M2mq9W0cmPLT3O3+uD7YSlhFYKXYEKUdTVtyooDICOUVagH7tkXKed' +
+    'bv2nKKIw3/gbFBaYvVOq/kckqouZQC6L/m+z7A4zpBvd7dyIeufJAJQwb1E/uHmy+mesz8+e5viTIXwnCDSkRvW4l9F' +
+    'sGkXweydWPmscvdcBdbGXUWI7OEOGAYOWVgQpAJ0RJ5WtLhXAnfZ/HBojq+c014eq7O/oL2ZyxpUp74w9WrhsFV/mzV' +
+    'cJA+JWO9+0W9qU1MYhyPWXar9QUfJl1ny0zYQD5O7yZEHEhV5LCkXSapCG3B80ofIBs4yr18WBGxUCyDmXW+6Budtm9' +
+    'U2CaBfBdsEESj2kuYOCEMo9IJB+k5b0BCycPqBFoRPTYzISCGrpE0ro6BPSv3YNsv+cR/LT7njM1onXiOe/vw=='
+
   ssh_known_hosts_entry 'emily-arm64-builder.org.boxcutter.net' do
     file_location '/home/github-runner/.ssh/known_hosts'
     owner 'github-runner'
