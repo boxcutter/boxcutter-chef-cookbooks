@@ -21,10 +21,13 @@ action :configure do
       context_names_to_delete = current_builders.values.
                                 map do |builder|
         builder['Nodes'].map { |node| node['Endpoint'] }.
-          reject { |endpoint| endpoint == 'unix:///var/run/docker.sock' }
+          reject { |endpoint| endpoint == 'unix:///var/run/docker.sock' }.compact
       end
       puts "MISCHA: context_names_to_delete=#{context_names_to_delete}"
       Boxcutter::Docker::Helpers.buildx_rm(builder_name, user_config['user'], user_config['group'])
+      context_names_to_delete.each do |context_name|
+        Boxcutter::Docker::Helpers.context_rm(context_name, user_config['user'], user_config['group'])
+      end
     end
 
     node['boxcutter_docker']['buildx'][user]['builders'].each do |_builder, builder_config|
