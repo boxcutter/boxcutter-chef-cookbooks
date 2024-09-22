@@ -34,16 +34,16 @@ if amd64_self_hosted_runner_list.include?(node['hostname'])
   #   'user' => 'craft',
   #   'group' => 'craft',
   #   'builders' => {
-  #     'x86_64_builder' => {
-  #       'name' => 'x86-64-builder',
+  #     'multi-arch-builder' => {
+  #       'name' => 'multi-arch-builder',
   #       'driver' => 'docker-container',
   #       'use' => true,
   #       'append' => {
-  #         'nvidia_jetson_agx_orin' => {
-  #           'name' => 'nvidia-jetson-agx-orin',
-  #           'endpoint' => 'host=ssh://craft@10.63.34.15',
-  #         },
-  #       },
+  #         'emily-arm64-builder' => {
+  #           'name' => 'emily-arm64-builder',
+  #           'endpoint' => 'host=ssh://craft@emily-arm64-builder.org.boxcutter.net'
+  #         }
+  #       }
   #     },
   #   },
   # }
@@ -152,16 +152,22 @@ if arm64_self_hosted_runner_list.include?(node['hostname'])
   include_recipe 'boxcutter_builder::user'
   node.default['fb_users']['groups']['docker']['members'] << 'craft'
 
-  node.default['boxcutter_docker']['buildx']['craft'] = {
-    'home' => '/home/craft',
-    'user' => 'craft',
-    'group' => 'craft',
-    'builders' => {
-      'mybuilder' => {
-        'name' => 'mybuilder',
-        'driver' => 'docker-container',
-        'use' => true,
-      },
-    },
-  }
+  # node.default['boxcutter_docker']['buildx']['craft'] = {
+  #   'home' => '/home/craft',
+  #   'user' => 'craft',
+  #   'group' => 'craft',
+  #   'builders' => {
+  #     'multi-arch-builder' => {
+  #       'name' => 'multi-arch-builder',
+  #       'driver' => 'docker-container',
+  #       'use' => true,
+  #       'append' => {
+  #         'emily-arm64-builder' => {
+  #           'name' => 'emily-arm64-builder',
+  #           'endpoint' => 'host=ssh://craft@emily-arm64-builder.org.boxcutter.net'
+  #         }
+  #       }
+  #     },
+  #   },
+  # }
 end

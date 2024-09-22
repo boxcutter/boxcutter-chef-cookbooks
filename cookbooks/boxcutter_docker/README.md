@@ -23,7 +23,7 @@ Builder instances are isolated container environments where builds can be
 invoked.
 
 ```
-node['boxcutter_docker']['buildx']['mybuilder'] = {
+node['boxcutter_docker']['buildx']['craft'] = {
   'home' => '/home/craft',
   'user' => 'craft',
   'group' => 'craft',
@@ -61,4 +61,18 @@ target "default" {
 EOF
 
 $ docker buildx bake
+```
+
+```
+node['boxcutter_docker']['buildx']['craft'] = {
+  'home' => '/home/craft',
+  'user' => 'craft',
+  'group' => 'craft',
+  'builders' => {
+    'mybuilder' => {
+      'name' => 'mybuilder',
+      'use' => true,
+    }
+  }
+}
 ```
