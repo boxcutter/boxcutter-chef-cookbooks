@@ -140,3 +140,15 @@ if tegra_self_hosted_runner_list.include?(node['hostname'])
   include_recipe 'boxcutter_builder::user'
   node.default['fb_users']['groups']['docker']['members'] << 'craft'
 end
+
+arm64_self_hosted_runner_list = %w{
+  emily-arm64-builder
+}
+
+if arm64_self_hosted_runner_list.include?(node['hostname'])
+  include_recipe 'boxcutter_docker::default'
+  FB::Users.initialize_group(node, 'docker')
+
+  include_recipe 'boxcutter_builder::user'
+  node.default['fb_users']['groups']['docker']['members'] << 'craft'
+end
