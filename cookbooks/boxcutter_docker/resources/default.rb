@@ -15,6 +15,11 @@ action :configure do
     puts "MISCHA: current_builder_names=#{current_builder_names}"
     desired_builder_names = user_config['builders'].values.map { |builder| builder['name'] }.compact
     puts "MISCHA: desired_builder_names=#{desired_builder_names}"
+    builder_names_to_delete = current_builder_names - desired_builder_names
+
+    builder_names_to_delete.each do |builder_name|
+      Boxcutter::Docker::Helpers.buildx_rm(builder_name, user_config['user'], user_config['group'])
+    end
 
     node['boxcutter_docker']['buildx'][user]['builders'].each do |_builder, builder_config|
       desired_builder_name = builder_config['name']

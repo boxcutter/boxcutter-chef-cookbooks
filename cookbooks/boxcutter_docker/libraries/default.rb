@@ -132,6 +132,24 @@ module Boxcutter
         shellout.error!
       end
 
+      def self.buildx_rm_command(name)
+        cmd = ["docker buildx rm --force #{name}"]
+        cmd.join(' ')
+      end
+
+      def self.buildx_rm(name, user, group)
+        command = buildx_rm_command(name)
+        puts "MISCHA: buildx_rm_command=#{command}"
+        Chef::Log.debug("boxcutter_docker: buildx_rm_command=#{command}")
+        shellout = Mixlib::ShellOut.new(
+          command,
+          login: true,
+          user: user,
+          group: group,
+          ).run_command
+        shellout.error!
+      end
+
       # networks
       def self.network_ls
         result = Mixlib::ShellOut.new(
