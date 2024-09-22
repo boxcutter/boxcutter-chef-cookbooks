@@ -161,7 +161,6 @@ if arm64_self_hosted_runner_list.include?(node['hostname'])
         'name' => 'mybuilder',
         'driver' => 'docker-container',
         'use' => true,
-        'append' => {},
       },
     },
   }
