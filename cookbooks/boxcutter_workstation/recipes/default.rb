@@ -39,4 +39,6 @@ if golang_dev_hosts
 
   node.default['fb_sudo']['users']['boxcutter']['admin'] =
     'ALL=(ALL:ALL) NOPASSWD: ALL'
+
+  include_recipe 'boxcutter_golang'
 end
