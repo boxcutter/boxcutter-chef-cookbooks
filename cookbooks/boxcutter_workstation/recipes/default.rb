@@ -24,3 +24,19 @@ workstation_hosts = %w{
 if workstation_hosts
   include_recipe 'boxcutter_ubuntu_desktop'
 end
+
+golang_dev_hosts = %w{
+  crake-golang-dev
+}.include?(node['hostname'])
+
+if golang_dev_hosts
+  node.default['fb_users']['users']['boxcutter'] = {
+    'gid' => 'users',
+    'home' => '/home/boxcutter',
+    'shell' => '/bin/bash',
+    'action' => :add,
+  }
+
+  node.default['fb_sudo']['users']['boxcutter']['admin'] =
+    'ALL=(ALL:ALL) NOPASSWD: ALL'
+end
