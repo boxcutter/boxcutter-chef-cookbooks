@@ -42,27 +42,27 @@ if golang_dev_hosts
 
   directory '/home/boxcutter/.bashrc.d' do
     owner 'boxcutter'
-    group 'boxcutter'
+    group 'users'
     mode '0700'
   end
 
   file '/home/boxcutter/.bashrc.d/000.keep.bashrc' do
     owner 'boxcutter'
-    group 'boxcutter'
+    group 'users'
     mode '0644'
   end
 
   template '/home/boxcutter/.bashrc' do
     source 'bashrc.erb'
     owner 'boxcutter'
-    group 'boxcutter'
+    group 'users'
     mode '0644'
   end
 
   template '/home/boxcutter/.bashrc.d/100.golang.bashrc' do
     source 'golang.bashrc.erb'
     owner 'boxcutter'
-    group 'boxcutter'
+    group 'users'
     mode '0700'
   end
 
