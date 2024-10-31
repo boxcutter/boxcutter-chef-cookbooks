@@ -55,7 +55,8 @@ if node.ubuntu?
     node.default['fb_apt']['mirror'] = 'http://mirrors.digitalocean.com/ubuntu/'
     node.default['fb_apt']['security_mirror'] = 'http://security.ubuntu.com/ubuntu'
     node.default['fb_apt']['repos'] <<
-      "deb http://mirrors.digitalocean.com/ubuntu/ #{node['lsb']['codename']}-backports main restricted universe multiverse"
+      'deb http://mirrors.digitalocean.com/ubuntu/ ' + \
+      "#{node['lsb']['codename']}-backports main restricted universe multiverse"
 
     node.default['fb_apt']['preferences']['DigitalOcean droplet-agent.pref'] = {
       'Package': '*',

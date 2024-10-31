@@ -75,7 +75,7 @@ node.default['fb_ssh']['authorized_keys']['sheila']['mahowald'] =
 # If we're running in test kitchen on digitalocean, make sure ssh keys for
 # root aren't nuked so that "kitchen login" works after the first
 # "kitchen converge"
-if ENV['TEST_KITCHEN'] == "1" && digital_ocean?
+if kitchen? && digital_ocean?
   node.default['fb_ssh']['sshd_config']['PermitRootLogin'] = 'without-password'
   node.default['fb_ssh']['sshd_config']['X11Forwarding'] = true
   node.default['fb_sudo']['users']['root']['sudo'] = 'ALL=(ALL:ALL) NOPASSWD:ALL'
