@@ -46,7 +46,7 @@ if node.ubuntu?
 
   # DigitalOcean
   if digital_ocean?
-    puts "MISCHA on DigitalOcean"
+    puts 'MISCHA on DigitalOcean'
 
     # Digital Ocean has digitalocean-agent.list and droplet-agent.list
     # in /etc/apt/soruces.list.d
