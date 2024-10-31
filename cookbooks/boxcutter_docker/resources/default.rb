@@ -5,8 +5,6 @@ class Helpers
 end
 
 action :configure do
-  # log 'Goodbye world'
-
   # buildx
   node['boxcutter_docker']['buildx'].each do |user, user_config|
     current_builders = Boxcutter::Docker::Helpers.buildx_ls(user_config['home'])
@@ -58,26 +56,45 @@ action :configure do
   end
 
   # networks
+  # List of network names to ignore
+  ignored_default_network_names = ['bridge', 'host', 'none']
   current_networks = Boxcutter::Docker::Helpers.network_ls
-
+  current_network_names = current_networks.keys - ignored_default_network_names
+  puts "MISCHA: current_network_names=#{current_network_names}"
+  desired_network_names = node['boxcutter_docker']['networks'].map do |name, data|
+    # Allow for 'Name' attribute to override section name, if present
+    data.fetch('name', name)
+  end
+  puts "MISCHA: desired_network_names=#{desired_network_names}"
   node['boxcutter_docker']['networks'].each do |name, data|
-    if !current_networks[name]
-      Boxcutter::Docker::Helpers.network_create(name, data)
+    # Allow for 'Name' attribute to override section name, if present
+    network_name = data.fetch('name', name)
+
+    if !current_network_names.include?(network_name)
+      Boxcutter::Docker::Helpers.network_create(network_name, data)
     end
   end
 
   # volumes
   current_volumes = Boxcutter::Docker::Helpers.volume_ls
-
+  current_volume_names = current_volumes.keys
+  puts "MISCHA: current_volume_names=#{current_volume_names}"
+  desired_volume_names = node['boxcutter_docker']['volumes'].map do |name, data|
+    # Allow for 'Name' attribute to override section name, if present
+    data.fetch('name', name)
+  end
+  puts "MISCHA: desired_volume_names=#{desired_volume_names}"
   node['boxcutter_docker']['volumes'].each do |name, data|
-    if !current_volumes[name]
-      Boxcutter::Docker::Helpers.volume_create(name, data)
+    # Allow for 'Name' attribute to override section name, if present
+    volume_name = data.fetch('name', name)
+    puts "MISCHA: volume name #{volume_name}"
+    if !current_volume_names.include?(volume_name)
+      Boxcutter::Docker::Helpers.volume_create(volume_name, data)
     end
   end
 
   # bind_mounts
   node['boxcutter_docker']['bind_mounts'].each do |resource_name, data|
-    # log 'hi'
     name = data['path'] || resource_name
 
     directory name do
@@ -89,26 +106,44 @@ action :configure do
 
   # containers
   current_containers = Boxcutter::Docker::Helpers.container_ls
+  current_container_names = current_containers.keys
+  puts "MISCHA: current_container_names=#{current_container_names}"
+  desired_container_names = node['boxcutter_docker']['containers'].map do |name, data|
+    # Allow for 'Name' attribute to override section name, if present
+    data.fetch('name', name)
+  end
+  puts "MISCHA: desired_container_names=#{desired_container_names}"
 
   node['boxcutter_docker']['containers'].each do |name, data|
-    desired_state = 'running'
+    container_name = data.fetch('name', name)
+    next if container_name.start_with?('__')
 
-    if !current_containers[name]
+    # "created", "running", "exited"
+    desired_state = data['state'] || 'running'
+
+    service_action = :nothing
+    if !current_containers[container_name]
       if desired_state == 'running'
-        Boxcutter::Docker::Helpers.container_run(name, data)
+        Boxcutter::Docker::Helpers.container_run(container_name, data)
         service_action = :start
+      else
+        puts "MISCHA: desired state=#{desired_state} container_name=#{container_name}"
       end
     elsif desired_state == 'running'
       service_action = :start
+      puts "MISCHA: container_name=#{container_name} is started"
     elsif desired_state == 'stopped'
       service_action = :stop
+      puts "MISCHA: container_name=#{container_name} is stopped"
+    else
+      fail "polymath_docker: container_name=#{container_name} unknown desired state=#{desired_state}"
     end
 
     with_run_context :root do
-      service "boxcutter_docker container #{name}" do
+      service "boxcutter_docker container #{container_name}" do
         provider Chef::Provider::Service::Simple
-        start_command "docker container start #{name}"
-        stop_command "docker container stop #{name}"
+        start_command "docker container start #{container_name}"
+        stop_command "docker container stop #{container_name}"
         status_command(
           "[ $(docker container ls --quiet --filter 'name=${name}' | wc -l) -gt 0 ]",
           )
@@ -123,4 +158,36 @@ action :configure do
     end
   end
 
+  current_containers.each do |name, data|
+    container_name = data.fetch('name', name)
+    if !node['boxcutter_docker']['containers'][container_name]
+      Boxcutter::Docker::Helpers.container_stop(container_name)
+      Boxcutter::Docker::Helpers.container_rm(container_name)
+      next
+    end
+
+    desired_state = node['boxcutter_docker']['containers'][container_name]['state'] || 'running'
+    if desired_state == 'stopped' && data['status'] == 'running'
+      Boxcutter::Docker::Helpers.container_stop(container_name)
+    elsif desired_state == 'running' && data['status'] != 'running'
+      Boxcutter::Docker::Helpers.container_start(container_name)
+    end
+  end
+
+  current_volumes.each do |name, data|
+    # Allow for 'Name' attribute to override section name, if present
+    volume_name = data.fetch('name', name)
+
+    next if node['boxcutter_docker']['volumes'][volume_name]
+    Boxcutter::Docker::Helpers.volume_rm(volume_name)
+  end
+
+  current_networks.each do |name, data|
+    # Allow for 'Name' attribute to override section name, if present
+    network_name = data.fetch('name', name)
+
+    next if ignored_default_network_names.include?(network_name)
+    next if node['boxcutter_docker']['networks'][network_name]
+    Boxcutter::Docker::Helpers.network_rm(network_name)
+  end
 end

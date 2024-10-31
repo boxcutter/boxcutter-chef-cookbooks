@@ -43,6 +43,39 @@ if node.ubuntu?
   if node.systemd?
     node.default['fb_systemd']['timesyncd']['enable'] = false
   end
+
+  # DigitalOcean
+  if digital_ocean?
+    puts "MISCHA on DigitalOcean"
+
+    # Digital Ocean has digitalocean-agent.list and droplet-agent.list
+    # in /etc/apt/soruces.list.d
+    node.default['fb_apt']['preserve_sources_list_d'] = true
+    node.default['fb_apt']['want_non_free'] = true
+    node.default['fb_apt']['mirror'] = 'http://mirrors.digitalocean.com/ubuntu/'
+    node.default['fb_apt']['security_mirror'] = 'http://security.ubuntu.com/ubuntu'
+    node.default['fb_apt']['repos'] <<
+      "deb http://mirrors.digitalocean.com/ubuntu/ #{node['lsb']['codename']}-backports main restricted universe multiverse"
+
+    node.default['fb_apt']['preferences']['DigitalOcean droplet-agent.pref'] = {
+      'Package': '*',
+      'Pin': 'origin repos-droplet.digitalocean.com',
+      'Pin-Priority': '100',
+    }
+
+    {
+      'APT::Periodic::Update-Package-Lists' => '0',
+      'APT::Periodic::Download-Upgradeable-Packages' => '0',
+      'APT::Periodic::AutocleanInterval' => '0',
+      'APT::Periodic::Unattended-Upgrade' => '0',
+    }.each do |key, value|
+      node.default['fb_apt']['config'][key] = value
+    end
+
+    package 'ubuntu-pro-client' do
+      action :remove
+    end
+  end
 end
 
 include_recipe '::dnf'

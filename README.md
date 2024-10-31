@@ -23,3 +23,21 @@ and this `boxcutter-chef-cookbooks` are in the cookbook path:
 cookbook_path [ 'ssh://git@github.com:facebook/chef-cookbooks.git',
                 'ssh://git@github.com:boxcutter/boxcutter-chef-cookbooks.git' ]
 ```
+
+For the most part we use the `kitchen-dokken` driver, as it is by far the
+fastest Test kitchen driver. In some instances, we also use the
+`kitchen-digitalocean` and `kitchen-aws` drivers to test automation that
+can't run inside Docker, like the Docker automation itself or automation
+involving running Docker containers.
+
+For [kitchen-digitalocean](https://kitchen.ci/docs/drivers/digitalocean/):
+```aiignore
+export DIGITALOCEAN_ACCESS_TOKEN=<do_access_token>
+
+curl \
+  -X GET https://api.digitalocean.com/v2/account/keys \
+  -H "Authorization: Bearer $DIGITALOCEAN_ACCESS_TOKEN"
+
+export KITCHEN_YAML=kitchen_digitalocean.yml
+export DIGITALOCEAN_SSH_KEY_IDS=41887654,41887653
+```

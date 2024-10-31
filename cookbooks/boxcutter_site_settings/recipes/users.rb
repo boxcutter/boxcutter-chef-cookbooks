@@ -18,6 +18,7 @@
 
 %w{
   root
+  sudo
   users
 }.each do |grp|
   FB::Users.initialize_group(node, grp)

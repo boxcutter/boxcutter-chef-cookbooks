@@ -151,7 +151,10 @@ end
 
 ruby_block 'reload_client_config' do
   block do
-    Chef::Config.from_file("#{config_dir}/client.rb")
+    client_rb_path = "#{config_dir}/client.rb"
+    if ::File.exist?(client_rb_path)
+      Chef::Config.from_file("#{config_dir}/client.rb")
+    end
   end
   action :nothing
 end

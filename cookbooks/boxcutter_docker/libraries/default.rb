@@ -177,9 +177,22 @@ module Boxcutter
         command = network_create_command(name, data)
         puts "MISCHA: network_create_command=#{command}"
         Chef::Log.debug("boxcutter_docker: network_create_command=#{command}")
-        execute "docker network create #{name}" do
-          command command
-        end
+        cmd = Mixlib::ShellOut.new(command).run_command
+        cmd.error!
+      end
+
+      def self.network_rm_command(name)
+        cmd = ['docker network rm']
+        cmd << name
+        puts "MISCHA: network_rm_command(#{name}) = #{cmd.join(' ')}"
+        cmd.join(' ')
+      end
+
+      def self.network_rm(name)
+        cmd = Mixlib::ShellOut.new(
+          network_rm_command(name),
+          ).run_command
+        cmd.error!
       end
 
       # volumes
@@ -209,9 +222,22 @@ module Boxcutter
         command = volume_create_command(name, data)
         puts "MISCHA: volume_create_command=#{command}"
         Chef::Log.debug("boxcutter_docker: volume_create_command=#{command}")
-        execute "volume create #{name}" do
-          command command
-        end
+        cmd = Mixlib::ShellOut.new(command).run_command
+        cmd.error!
+      end
+
+      def self.volume_rm_command(name)
+        cmd = ['docker volume rm']
+        cmd << name
+        puts "MISCHA: volume_rm_command(#{name}) = #{cmd.join(' ')}"
+        cmd.join(' ')
+      end
+
+      def self.volume_rm(name)
+        cmd = Mixlib::ShellOut.new(
+          volume_rm_command(name),
+        ).run_command
+        cmd.error!
       end
 
       # containers
@@ -268,9 +294,36 @@ module Boxcutter
         command = container_run_command(name, data)
         # puts "MISCHA: container_run_command=#{command}"
         # Chef::Log.debug("boxcutter_docker: container_run_command=#{command}")
-        execute "container run #{name}" do
-          command command
-        end
+        cmd = Mixlib::ShellOut.new(command).run_command
+        cmd.error!
+      end
+
+      def self.container_stop_command(name)
+        cmd = ['docker container stop']
+        cmd << name
+        puts "MISCHA: container_stop_command(#{name}) = #{cmd.join(' ')}"
+        cmd.join(' ')
+      end
+
+      def self.container_stop(name)
+        cmd = Mixlib::ShellOut.new(
+          container_stop_command(name),
+          ).run_command
+        cmd.error!
+      end
+
+      def self.container_rm_command(name)
+        cmd = ['docker container rm']
+        cmd << name
+        puts "MISCHA: container_rm_command(#{name}) = #{cmd.join(' ')}"
+        cmd.join(' ')
+      end
+
+      def self.container_rm(name)
+        cmd = Mixlib::ShellOut.new(
+          container_rm_command(name),
+          ).run_command
+        cmd.error!
       end
     end
   end

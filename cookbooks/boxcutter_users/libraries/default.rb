@@ -47,6 +47,9 @@ module FB
         'gid' => 0,
         'system' => true,
       },
+      'sudo' => {
+        'gid' => 27,
+      },
       'users' => {
         'gid' => 100,
       },
