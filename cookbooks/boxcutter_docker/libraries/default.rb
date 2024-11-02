@@ -272,7 +272,7 @@ module Boxcutter
         ulimits = data['ulimits']&.map do |key, value|
           "--ulimit #{key}#{value ? "=#{value}" : ''}"
         end&.join(' ')
-        logging_options = data['logging_options']&.map do |key, value|
+        log_opts = data['log_opts']&.map do |key, value|
           "--log-opt #{key}#{value ? "=#{value}" : ''}"
         end&.join(' ')
         extra_options = data['extra_options']&.map do |key, value|
@@ -286,7 +286,7 @@ module Boxcutter
           data['command'], data['command_args']
         ].compact.join(' ')
         "docker container run --detach #{env} #{ports} #{mounts} " +
-          "#{ulimits} #{logging_options} #{extra_options} " +
+          "#{ulimits} #{log_opts} #{extra_options} " +
           "--name #{name} #{data['image']} #{command}"
       end
 
@@ -308,6 +308,20 @@ module Boxcutter
       def self.container_stop(name)
         cmd = Mixlib::ShellOut.new(
           container_stop_command(name),
+          ).run_command
+        cmd.error!
+      end
+
+      def self.container_start_command(name)
+        cmd = ['docker container start']
+        cmd << name
+        puts "MISCHA: container_start_command(#{name}) = #{cmd.join(' ')}"
+        cmd.join(' ')
+      end
+
+      def self.container_start(name)
+        cmd = Mixlib::ShellOut.new(
+          container_start_command(name),
           ).run_command
         cmd.error!
       end

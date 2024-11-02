@@ -108,8 +108,65 @@ node['boxcutter_docker']['buildx']['craft'] = {
 
 ### containers
 
-Configures all the containers on the system. Any unknown containers will be
-stopped and removed.
+Runs containers in detached mode. Any unlisted containers will be stopped and
+removed. The following options are supported as keys in the hash:
+
+- `image` - docker image name to use in order to create the running container
+- `name` - specify a custom identifier for a container. If the name is not
+  specified, the key value name of the container hash is used.
+- `environment` - set simple (non-array) environment variables in the
+  container with the `--env` flag.
+- `ports` - ports to publish/expose with the `--expose` flag.
+- `mounts` - mount volumes, host-directories or tmpfs volumes in a container
+  using the `--mount` flag.
+- `ulimits` - set ulumit settings using the `--ulimit` flag.
+- `log_opts` - specify log driver options using the `log-opt` flag.
+- `extra_options` - specify additional options supported by the
+  `docker container run` command not supported with predefined keys.
+- `action` action to perform on the container, defaults to `run`:
+  - `run` - the default action, creates and starts the container
+  - `stop` - stops the container
+  - `start` - starts the container
+
+```aiignore
+node.default['boxcutter_docker']['volumes']['postgres_data'] = {}
+
+node.default['boxcutter_docker']['containers']['postgresql'] = {
+  'image' => 'releases-docker.jfrog.io/postgres:15.6-alpine',
+  'environment' => {
+    'POSTGRES_DB' => 'artifactory',
+    'POSTGRES_USER' => 'artifactory',
+    'POSTGRES_PASSWORD' => 'superseekret',
+  },
+  'ports' => {
+    '5432' => '5432',
+  },
+  'mounts' => {
+    'postgres_data' => {
+      'source' => 'postgres_data',
+      'target' => '/var/lib/postgresql/data',
+    },
+    'localtime' => {
+      'type' => 'bind',
+      'source' => '/etc/localtime',
+      'target' => '/etc/localtime:ro',
+    },
+  },
+  'ulimits' => {
+    'nproc' => '65535',
+    'nofile' => '32000:40000',
+  },
+  'logging_options' => {
+    'max-size' => '50m',
+    'max-file' => '10',
+  },
+  'extra_options' => {
+    'restart' => 'always',
+    'log-driver' => 'json-file',
+    'network' => 'artifactory_network',
+  },
+}
+```
 
 ### bind_mounts
 
