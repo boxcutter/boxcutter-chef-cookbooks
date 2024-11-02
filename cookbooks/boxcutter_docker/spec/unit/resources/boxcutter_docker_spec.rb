@@ -14,11 +14,9 @@ describe 'boxcutter_docker' do
       },
     },
     'buildx' => {},
-    'contexts' => {},
     'containers' => {},
     'bind_mounts' => {},
     'volumes' => {},
-    'devices' => {},
     'networks' => {},
   }
 
@@ -59,16 +57,26 @@ describe 'boxcutter_docker' do
         )
     allow(Boxcutter::Docker::Helpers).
       to receive(:network_create).with(any_args)
+    allow(Boxcutter::Docker::Helpers).
+      to receive(:network_rm).with(any_args)
 
     # volumes
     allow(Boxcutter::Docker::Helpers).
       to receive(:volume_ls).and_return({})
     allow(Boxcutter::Docker::Helpers).
       to receive(:volume_create).with(any_args)
+    allow(Boxcutter::Docker::Helpers).
+      to receive(:volume_rm).with(any_args)
 
     # containers
     allow(Boxcutter::Docker::Helpers).
       to receive(:container_ls).and_return({})
+    allow(Boxcutter::Docker::Helpers).
+      to receive(:container_run).with(any_args)
+    allow(Boxcutter::Docker::Helpers).
+      to receive(:container_stop).with(any_args)
+    allow(Boxcutter::Docker::Helpers).
+      to receive(:container_rm).with(any_args)
   end
 
   context 'with default' do

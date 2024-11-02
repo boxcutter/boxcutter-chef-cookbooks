@@ -8,7 +8,6 @@ default['boxcutter_docker'] = {
     },
   },
   'buildx' => {},
-  # 'contexts' => {},
   'containers' => {},
   'bind_mounts' => {},
   'volumes' => {},
