@@ -118,24 +118,18 @@ action :configure do
     container_name = data.fetch('name', name)
     next if container_name.start_with?('__')
 
-    # "created", "running", "exited"
     action = data['action'] || 'run'
-    # desired_state = data['state'] || 'running'
-
     service_action = :nothing
     if !current_containers[container_name]
-      # if desired_state == 'running'
       if action == 'run'
         Boxcutter::Docker::Helpers.container_run(container_name, data)
         service_action = :start
       else
         puts "MISCHA: container_name=#{container_name} action=#{action}"
       end
-    # elsif desired_state == 'running'
     elsif action == 'run'
       service_action = :start
       puts "MISCHA: container_name=#{container_name} action=#{action}"
-    # elsif desired_state == 'stopped'
     elsif action == 'stop'
       service_action = :stop
       puts "MISCHA: container_name=#{container_name} action=#{action}"
@@ -171,12 +165,8 @@ action :configure do
     end
 
     action = data['action'] || 'run'
-
-    # desired_state = node['boxcutter_docker']['containers'][container_name]['state'] || 'running'
-    # if desired_state == 'stopped' && data['status'] == 'running'
     if action == 'stop' && data['status'] == 'running'
       Boxcutter::Docker::Helpers.container_stop(container_name)
-    # elsif desired_state == 'running' && data['status'] != 'running'
     elsif action == 'run' && data['status'] != 'running'
       Boxcutter::Docker::Helpers.container_start(container_name)
     end
