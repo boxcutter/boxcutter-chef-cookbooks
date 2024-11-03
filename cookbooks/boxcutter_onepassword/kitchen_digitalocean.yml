@@ -1,0 +1,91 @@
+---
+driver:
+  name: digitalocean
+
+provisioner:
+  name: chef_infra
+  product_name: cinc
+  require_chef_omnibus: true
+  chef_omnibus_url: https://omnitruck.cinc.sh/install.sh
+  chef_omnibus_root: /opt/cinc
+  chef_license: accept-no-persist
+  chef_client_path: /opt/cinc/bin/cinc-client
+  product_version: 18.4.12
+  #  product_name: cinc
+  #  chef_binary: /opt/cinc/bin/cinc-client
+  #  chef_license: accept-no-persist
+  #  chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  data_bags_path: "../../data_bags"
+  client_rb:
+    file_backup_path: null
+    file_staging_uses_destdir: false
+    client_fork: false
+    force_logger: true
+    log_location: /var/log/chef.log
+    ohai.optional_plugins:
+      - Passwd
+    ohai.critical_plugins:
+      - Passwd
+
+verifier:
+  name: inspec
+
+lifecycle:
+  post_create:
+    - remote: |
+        bash -c -x '
+          cloud-init status --wait
+          mkdir -p /var/chef /var/log/chef
+          # Force firstboot
+          touch /root/firstboot_os
+        '
+
+platforms:
+  - name: ubuntu-22.04
+    driver:
+      region: nyc3
+      size: s-1vcpu-2gb
+      image: ubuntu-22-04-x64
+
+suites:
+  - name: default
+    # run_list set in Policyfile.rb, this does nothing
+    # run_list:
+    #   - role[polymath_base]
+    #   - role[tier_spare]
+    #   - role[customer_corp]
+    #   - recipe[polymath_docker::default]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+    lifecycle:
+      pre_converge:
+        - remote: |
+            bash -xc '
+              echo "{\"tier\":\"minimal\"}" > /etc/boxcutter-config.json
+              set +x
+              mkdir -p /etc/cinc
+              ln -s /etc/cinc /etc/chef
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token_green
+              set -x
+            '
+
+  - name: connect_server
+    provisioner:
+      policyfile_path: policyfiles/Policyfile.connect_server.rb
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+    lifecycle:
+      pre_converge:
+        - remote: |
+            bash -xc '
+              echo "{\"tier\":\"minimal\"}" > /etc/boxcutter-config.json
+              set +x
+              mkdir -p /etc/cinc
+              ln -s /etc/cinc /etc/chef
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token
+              set -x
+            '

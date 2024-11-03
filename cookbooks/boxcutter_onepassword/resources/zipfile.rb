@@ -1,5 +1,6 @@
 unified_mode true
 
+resource_name :boxcutter_onepassword_zipfile
 property :package_name, String, name_property: true
 property :bin_links, Array, default: []
 
