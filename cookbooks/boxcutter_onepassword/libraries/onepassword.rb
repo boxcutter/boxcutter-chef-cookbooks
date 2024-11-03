@@ -45,23 +45,28 @@ module Boxcutter
       puts "MISCHA: architecture #{architecture}"
 
       url = 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.0/op_linux_amd64_v2.30.0.zip'
-      if architecture == 'aarch64' || architecture == 'arm64'
+      if ['aarch64', 'arm64'].include?(architecture)
         url = 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.0/op_linux_arm64_v2.30.0.zip'
       end
       tmp_path = ::File.join(Chef::Config[:file_cache_path], ::File.basename(url))
 
-      uri = URI(url)
-
-      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
-        request = Net::HTTP::Get.new(uri)
-        http.request(request) do |response|
-          open(tmp_path, 'wb') do |file|
-            response.read_body do |chunk|
-              file.write(chunk)
-            end
-          end
+      URI.parse(url).open.read do |download|
+        ::File.open(tmp_path, 'wb') do |file|
+          file.write(download.read)
         end
       end
+
+      # Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      #   request = Net::HTTP::Get.new(uri)
+      #
+      #   # http.request(request) do |response|
+      #   #   URI.open(tmp_path, 'wb') do |file|
+      #   #     response.read_body do |chunk|
+      #   #       file.write(chunk)
+      #   #     end
+      #   #   end
+      #   # end
+      # end
 
       unzip_file(tmp_path, 'op', '/usr/local/bin')
       ::File.chmod(0o755, '/usr/local/bin/op')
@@ -73,12 +78,12 @@ module Boxcutter
         if entry
           target_path = ::File.join(destination, entry.name)
           # Skip extraction if file already exists
-          unless ::File.exist?(target_path)
+          if ::File.exist?(target_path)
+            puts "#{target_path} already exists. Skipping extraction."
+          else
             ::FileUtils.mkdir_p(File.dirname(target_path))
             entry.extract(target_path)
             puts "Extracted #{filename} to #{destination}" # Mimic quiet mode by reducing output
-          else
-            puts "#{target_path} already exists. Skipping extraction."
           end
         else
           puts "File #{filename} not found in the archive."
