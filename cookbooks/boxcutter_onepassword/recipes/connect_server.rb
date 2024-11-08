@@ -18,52 +18,19 @@
 
 connect_server_username = 'opuser'
 
-# directory ::File.join('/home', connect_server_username, '.op') do
-#   owner connect_server_username
-#   group connect_server_username
-#   mode '0700'
-# end
-
 include_recipe 'boxcutter_docker'
 
 node.default['fb_users']['groups']['docker']['members'] << 'opuser'
 
-# docker-compose.yaml
-#
-# version: "3.4"
-#
-# services:
-#   op-connect-api:
-#   image: 1password/connect-api:latest
-# ports:
-#   - "8080:8080"
-# volumes:
-#   - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
-# - "data:/home/opuser/.op/data"
-# op-connect-sync:
-#   image: 1password/connect-sync:latest
-# ports:
-#   - "8081:8080"
-# volumes:
-#   - "./1password-credentials.json:/home/opuser/.op/1password-credentials.json"
-# - "data:/home/opuser/.op/data"
-#
-# volumes:
-#   data:
+if node['boxcutter_onepassword'] &&
+  node['boxcutter_onepassword']['connect_server'] &&
+  node['boxcutter_onepassword']['connect_server']['onepassword_credentials'] &&
+  !node['boxcutter_onepassword']['connect_server']['onepassword_credentials']['item'].nil?
 
-# op item get 'sandbox-connect-server Credentials File' --vault Automation-Org
-json_content = Boxcutter::OnePassword.op_document_get('drt7bqrarkzgw5gswm2xtcfag4', 'Automation-Org')
-puts "MISCHA: json_content=#{json_content}"
-
-# file '/home/opuser/.op/1password-credentials.json' do
-#   owner connect_server_username
-#   group connect_server_username
-#   content json_content
-# end
-
-# op item get 'sandbox-connect-server Access Token: sandbox-connect-server-access-token' --vault Automation-Org
-# op item get 7etjvtlft4u4wlbkxvprahvmzq --vault Automation-Org --format json
-# op read 'op://Automation-Org/7etjvtlft4u4wlbkxvprahvmzq/credential'
+  item = node['boxcutter_onepassword']['connect_server']['onepassword_credentials']['item']
+  vault = node['boxcutter_onepassword']['connect_server']['onepassword_credentials']['vault']
+  json_content = Boxcutter::OnePassword.op_document_get(item, vault, 'service_account')
+end
 
 node.default['boxcutter_docker']['bind_mounts']['onepassword_user'] = {
   'path' => '/home/opuser/.op',

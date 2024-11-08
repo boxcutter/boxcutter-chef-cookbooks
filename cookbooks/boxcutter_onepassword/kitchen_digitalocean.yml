@@ -73,7 +73,7 @@ suites:
 
   - name: connect_server
     provisioner:
-      policyfile_path: policyfiles/Policyfile.connect_server.rb
+      policyfile_path: policyfiles/connect_server.rb
     verifier:
       inspec_tests:
         - test/integration/default
@@ -87,5 +87,7 @@ suites:
               mkdir -p /etc/cinc
               ln -s /etc/cinc /etc/chef
               echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token
+              echo "http://localhost:8080" > /etc/chef/op_connect_host
+              echo "eyJhbGciOiJFUzI1NiIsImtpZCI6ImZtMmY0enZwcm9tcHo3Ymo0bDQ2aG0yd2E0IiwidHlwIjoiSldUIn0.eyIxcGFzc3dvcmQuY29tL2F1dWlkIjoiRVpGSk02VFZKRkg2QkJCWDJPWTNGSlNYV0UiLCIxcGFzc3dvcmQuY29tL3Rva2VuIjoiUmZ5TVJta2NMTXFwTGMtMkc2Z3BHUklZX0hDUFAyWmUiLCIxcGFzc3dvcmQuY29tL2Z0cyI6WyJ2YXVsdGFjY2VzcyJdLCIxcGFzc3dvcmQuY29tL3Z0cyI6W3sidSI6Im01dWxrZXN1ejJtZmt4NWxudDY1eDdzZWNpIiwiYSI6NDh9XSwiYXVkIjpbImNvbS4xcGFzc3dvcmQuY29ubmVjdCJdLCJzdWIiOiJSTUFVS1ZEWlk1Q0hMTEk1U0ZDVTRQUE1TUSIsImlhdCI6MTczMDY2MDIwNywiaXNzIjoiY29tLjFwYXNzd29yZC5iNSIsImp0aSI6ImxzamhmcWFpNHl6cW1naHZpbmlscnZzaGxlIn0.NtEuXXMZtwk2LJUPAie392SqEJDMyZGdG_oPMVxJ1bGzwozMt7ySxQeUOXW6_kZ9k7ESiFrECEuD-WFjneGE6w" > /etc/chef/op_connect_token
               set -x
             '

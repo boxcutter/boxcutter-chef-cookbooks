@@ -100,6 +100,7 @@ Gemfile.lock
 ##############
 Policyfile.rb
 Policyfile.lock.json
+policyfiles/*
 
 # Documentation #
 #############

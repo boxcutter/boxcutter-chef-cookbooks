@@ -1,12 +1,13 @@
 module Boxcutter
   class OnePassword
-    def self.op_read(reference)
-      if op_connect_server_token_found?
+    def self.op_read(reference, type = 'auto')
+      puts "MISCHA op_read type=#{type}"
+      if op_connect_server_token_found? && ['auto', 'connect_server'].include?(type)
         environment = {
           'OP_CONNECT_HOST' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_host_path),
           'OP_CONNECT_TOKEN' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_token_path),
         }
-      elsif op_service_account_token_found?
+      elsif op_service_account_token_found? && ['auto', 'service_account'].include?(type)
         environment = {
           'OP_SERVICE_ACCOUNT_TOKEN' => token_from_env_or_file('OP_SERVICE_ACCOUNT_TOKEN',
                                                                op_service_account_token_path),
@@ -19,11 +20,13 @@ module Boxcutter
         install_op_cli
       end
 
-      command = '/usr/local/bin/op user get --me'
-      shellout = Mixlib::ShellOut.new(command, env: environment)
-      shellout.run_command
-      shellout.error!
-      Chef::Log.debug("boxcutter_onepassword[op_read]: op user get --me\n#{shellout.stdout}")
+      if ['auto', 'service_account'].include?(type)
+        command = '/usr/local/bin/op user get --me'
+        shellout = Mixlib::ShellOut.new(command, env: environment)
+        shellout.run_command
+        shellout.error!
+        Chef::Log.debug("boxcutter_onepassword[op_read]: op user get --me\n#{shellout.stdout}")
+      end
 
       command = "/usr/local/bin/op read '#{reference}'"
       shellout = Mixlib::ShellOut.new(command, env: environment)
@@ -32,13 +35,13 @@ module Boxcutter
       shellout.stdout.strip
     end
 
-    def self.op_document_get(item, vault)
-      if op_connect_server_token_found?
+    def self.op_document_get(item, vault, type = 'auto')
+      if op_connect_server_token_found? && ['auto', 'connect_server'].include?(type)
         environment = {
           'OP_CONNECT_HOST' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_host_path),
           'OP_CONNECT_TOKEN' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_token_path),
         }
-      elsif op_service_account_token_found?
+      elsif op_service_account_token_found? && ['auto', 'service_account'].include?(type)
         environment = {
           'OP_SERVICE_ACCOUNT_TOKEN' => token_from_env_or_file('OP_SERVICE_ACCOUNT_TOKEN',
                                                                op_service_account_token_path),
