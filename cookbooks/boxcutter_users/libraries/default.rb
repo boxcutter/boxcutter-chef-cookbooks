@@ -30,6 +30,9 @@ module FB
       'david' => {
         'uid' => 2005,
       },
+      'opuser' => {
+        'uid' => 8010,
+      },
       'craft' => {
         'uid' => 8011,
       },
@@ -79,6 +82,9 @@ module FB
       },
       'david' => {
         'gid' => 2005,
+      },
+      'opuser' => {
+        'gid' => 8010,
       },
       'craft' => {
         'gid' => 8011,

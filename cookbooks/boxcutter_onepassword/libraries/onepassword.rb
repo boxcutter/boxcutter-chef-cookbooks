@@ -32,6 +32,41 @@ module Boxcutter
       shellout.stdout.strip
     end
 
+    def self.op_document_get(item, vault)
+      if op_connect_server_token_found?
+        environment = {
+          'OP_CONNECT_HOST' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_host_path),
+          'OP_CONNECT_TOKEN' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_token_path),
+        }
+      elsif op_service_account_token_found?
+        environment = {
+          'OP_SERVICE_ACCOUNT_TOKEN' => token_from_env_or_file('OP_SERVICE_ACCOUNT_TOKEN',
+                                                               op_service_account_token_path),
+        }
+      else
+        fail 'boxcutter_onepassword[op_read]: 1Password token not found'
+      end
+
+      if !::File.exist?('/usr/local/bin/op')
+        install_op_cli
+      end
+
+      op_document_cmd = ['/usr/local/bin/op', 'document', 'get', "'#{item}'"]
+      op_document_cmd << "--vault '#{vault}'" unless vault.nil?
+
+      command = op_document_cmd.join(' ')
+      puts "MISCHA op_document_get: #{command}"
+      puts "MISCHA environment: #{environment}"
+      shellout = Mixlib::ShellOut.new(command, env: environment)
+      shellout.run_command
+      shellout.error!
+      shellout.stdout.strip
+      # puts "MISCHA: error stderr=#{shellout.stderr}, stdout=#{shellout.stdout}"
+      # next if shellout.error?
+      #
+      # return shellout.stdout.strip
+    end
+
     # If "op_read" is called during compile time, this might happen before
     # the main default recipe runs to install the cli. Bootstrap the 1Password
     # cli at compile time to ensure things don't fail at this point.
@@ -50,23 +85,20 @@ module Boxcutter
       end
       tmp_path = ::File.join(Chef::Config[:file_cache_path], ::File.basename(url))
 
-      URI.parse(url).open.read do |download|
-        ::File.open(tmp_path, 'wb') do |file|
-          file.write(download.read)
+      uri = URI.parse(url)
+
+      # Open a connection and download the file
+      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+        request = Net::HTTP::Get.new(uri)
+        http.request(request) do |response|
+          # Write the file to disk
+          ::File.open(tmp_path, 'wb') do |file|
+            response.read_body do |chunk|
+              file.write(chunk)
+            end
+          end
         end
       end
-
-      # Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
-      #   request = Net::HTTP::Get.new(uri)
-      #
-      #   # http.request(request) do |response|
-      #   #   URI.open(tmp_path, 'wb') do |file|
-      #   #     response.read_body do |chunk|
-      #   #       file.write(chunk)
-      #   #     end
-      #   #   end
-      #   # end
-      # end
 
       unzip_file(tmp_path, 'op', '/usr/local/bin')
       ::File.chmod(0o755, '/usr/local/bin/op')

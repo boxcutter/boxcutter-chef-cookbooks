@@ -39,6 +39,8 @@ caretakers.each do |user, uid|
   node.default['fb_sudo']['users'][user]['caretaker'] = 'ALL=(ALL:ALL) NOPASSWD: ALL'
 end
 
+FB::Users.initialize_group(node, 'boxcutter')
+
 # group 'sudo' do
 #   members caretakers.keys
 #   system true

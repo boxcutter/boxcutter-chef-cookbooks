@@ -1,5 +1,5 @@
 {
-  "revision_id": "38cdbc04a17ae7c441fdb44410d16635d0b4f3a4bfbb5d49423ca22713dbb462",
+  "revision_id": "c4614bab41616a8ebfdea87f931de93c2ef534954d76e55810a3ddcb31fd6491",
   "name": "boxcutter_onepassword",
   "run_list": [
     "recipe[boxcutter_ohai::default]",
@@ -19,7 +19,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "51dc07c8855ad0307d9e3fe3c5e88528d74e94aa",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -31,6 +31,27 @@
         "path": "../../boxcutter_chef"
       }
     },
+    "boxcutter_docker": {
+      "version": "0.1.0",
+      "identifier": "53e1210ba79b7b598e8a77d3bb7ee5f343d1fa02",
+      "dotted_decimal_identifier": "23609955112688507.25207998294244222.252832977648130",
+      "source": "../../boxcutter_docker",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/main",
+          "origin/main"
+        ]
+      },
+      "source_options": {
+        "path": "../../boxcutter_docker"
+      }
+    },
     "boxcutter_init": {
       "version": "0.0.1",
       "identifier": "2d5c812e553dde33d3610540037c1053a75bc6fd",
@@ -40,7 +61,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "51dc07c8855ad0307d9e3fe3c5e88528d74e94aa",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -61,7 +82,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "51dc07c8855ad0307d9e3fe3c5e88528d74e94aa",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -82,7 +103,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "51dc07c8855ad0307d9e3fe3c5e88528d74e94aa",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -96,14 +117,14 @@
     },
     "boxcutter_onepassword": {
       "version": "0.1.0",
-      "identifier": "1a522a4137eadff5519e8636cd3d776cef8402fb",
-      "dotted_decimal_identifier": "7408690830764767.69051110592531773.131309758579451",
+      "identifier": "e4d3d37a6d27b8b1d85d689169bacd1cb8345510",
+      "dotted_decimal_identifier": "64409199935563704.50058966575704506.225523233215760",
       "source": "..",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "51dc07c8855ad0307d9e3fe3c5e88528d74e94aa",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -117,14 +138,14 @@
     },
     "boxcutter_onepassword_test": {
       "version": "0.1.0",
-      "identifier": "3397ff381f77837c1568997e7cf3d1c45d2b668e",
-      "dotted_decimal_identifier": "14522346226284419.34926436108106995.230641306920590",
+      "identifier": "6e6e07ef5b90683be4cf4dae54c83eb5e57f15f1",
+      "dotted_decimal_identifier": "31083227797753960.16858602638562504.68950960313841",
       "source": "../test/cookbooks/boxcutter_onepassword_test",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "51dc07c8855ad0307d9e3fe3c5e88528d74e94aa",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -145,7 +166,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "51dc07c8855ad0307d9e3fe3c5e88528d74e94aa",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -159,14 +180,14 @@
     },
     "boxcutter_users": {
       "version": "0.1.0",
-      "identifier": "68a7b6391f7748401a9d28a547fa1adcd8f52012",
-      "dotted_decimal_identifier": "29457798662158152.18043660803590138.29535835070482",
+      "identifier": "0f4f7af9b65dfece9a967b353f6a27fd5ede9312",
+      "dotted_decimal_identifier": "4309514244742654.58153816305254250.43969171854098",
       "source": "../../boxcutter_users",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "51dc07c8855ad0307d9e3fe3c5e88528d74e94aa",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -187,8 +208,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -208,8 +229,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -222,15 +243,15 @@
     },
     "fb_chrony": {
       "version": "0.1.0",
-      "identifier": "40b6db97892f18f739864178c122cd028648c61c",
-      "dotted_decimal_identifier": "18215452765925144.69587568034365730.225410726544924",
+      "identifier": "e687a5c5970dea873aae181cfa908962295921e9",
+      "dotted_decimal_identifier": "64888390697815530.38063641259211408.151054693507561",
       "source": "../../../../chef-cookbooks/cookbooks/fb_chrony",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -250,8 +271,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -271,8 +292,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -292,8 +313,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -313,8 +334,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -334,8 +355,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -355,8 +376,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -376,8 +397,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -397,8 +418,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -418,8 +439,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -439,8 +460,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -460,8 +481,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -481,8 +502,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -502,8 +523,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -523,8 +544,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -544,8 +565,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -565,8 +586,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -586,8 +607,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -607,8 +628,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -628,8 +649,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -649,8 +670,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -670,8 +691,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -691,8 +712,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -712,8 +733,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -733,8 +754,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -754,8 +775,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -775,8 +796,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -796,8 +817,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -817,8 +838,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -838,8 +859,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -859,8 +880,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -880,8 +901,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -901,8 +922,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -922,8 +943,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -943,8 +964,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -964,8 +985,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -985,8 +1006,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1006,8 +1027,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1027,8 +1048,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1048,8 +1069,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1069,7 +1090,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "51dc07c8855ad0307d9e3fe3c5e88528d74e94aa",
+        "revision": "682d10c9b48d7042fdc535371eab92e1ce855e78",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -1090,8 +1111,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1111,8 +1132,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1132,8 +1153,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1153,8 +1174,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1174,8 +1195,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1195,8 +1216,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1216,8 +1237,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1237,8 +1258,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1258,8 +1279,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1279,8 +1300,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1300,8 +1321,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1321,8 +1342,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1342,8 +1363,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1363,8 +1384,8 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
-        "working_tree_clean": true,
+        "revision": "78efef78ce314a54d0ec08ff3431666f4c7ebac5",
+        "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
           "origin/HEAD -> origin/main",
@@ -1386,6 +1407,10 @@
     "Policyfile": [
       [
         "boxcutter_chef",
+        "= 0.1.0"
+      ],
+      [
+        "boxcutter_docker",
         "= 0.1.0"
       ],
       [
@@ -1649,6 +1674,9 @@
       "boxcutter_chef (0.1.0)": [
 
       ],
+      "boxcutter_docker (0.1.0)": [
+
+      ],
       "boxcutter_init (0.0.1)": [
         [
           "fb_apt",
@@ -1894,7 +1922,10 @@
 
       ],
       "boxcutter_onepassword (0.1.0)": [
-
+        [
+          "boxcutter_docker",
+          ">= 0.0.0"
+        ]
       ],
       "boxcutter_onepassword_test (0.1.0)": [
         [
@@ -1933,10 +1964,6 @@
       "fb_chrony (0.1.0)": [
         [
           "fb_helpers",
-          ">= 0.0.0"
-        ],
-        [
-          "fb_systemd",
           ">= 0.0.0"
         ]
       ],

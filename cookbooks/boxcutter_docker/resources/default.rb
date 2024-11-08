@@ -96,11 +96,21 @@ action :configure do
   # bind_mounts
   node['boxcutter_docker']['bind_mounts'].each do |resource_name, data|
     name = data['path'] || resource_name
+    type = data['type'] || 'directory'
 
-    directory name do
-      group data['group']
-      mode data['mode']
-      owner data['owner']
+    if type == 'directory'
+      directory name do
+        group data['group']
+        owner data['owner']
+        mode data['mode']
+      end
+    elsif type =='file'
+      file name do
+        content data['content']
+        owner data['owner']
+        group data['group']
+        mode data['mode']
+      end
     end
   end
 
