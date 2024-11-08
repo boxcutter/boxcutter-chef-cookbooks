@@ -170,13 +170,13 @@ node.default['boxcutter_docker']['containers']['postgresql'] = {
 
 ### bind_mounts
 
-If you want to bind mount a directory that is configured with Chef, doing that
-configuration with a `directory` resource a user cookbook is too late in the
-run list. Likely the `docker` cookbook will have started the container before
-the directory is create. The `bind_mounts` attribute contains of list of
-directories to configure. Entries in the hash are the same as the `directory`
-resource. `owner`, `group` and `mode` keys are required. If the `path` isn't
-specified the name of the hash is used.
+If you want to bind mount a directory or file that is configured with Chef,
+doing that configuration with a `directory` or `file` resource a user cookbook
+is too late in the run list. Likely the `docker` cookbook will have started
+the container before the directory/file is created. The `bind_mounts` attribute
+contains of list of directories/files to configure. Entries in the hash are the
+same as the `directory` or `file` resource. `owner`, `group` and `mode` keys
+are required. If the `path` isn't specified the name of the hash is used.
 
 ```aiignore
 node.default['boxcutter_docker']['bind_mounts']['nexus_data'] = {
@@ -184,6 +184,15 @@ node.default['boxcutter_docker']['bind_mounts']['nexus_data'] = {
   'owner' => 200,
   'group' => 200,
   'mode' => '0755',
+}
+
+node.default['boxcutter_docker']['bind_mounts']['onepassword_credentials'] = {
+  'type' => 'file',
+  'path' => '/home/opuser/.op/1password-credentials.json',
+  'owner' => 999,
+  'group' => 999,
+  'content' => json_content,
+  'mode' => '0600',
 }
 ```
 
