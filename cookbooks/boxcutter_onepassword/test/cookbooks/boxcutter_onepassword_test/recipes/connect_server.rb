@@ -16,7 +16,7 @@ include_recipe 'boxcutter_onepassword::connect_server'
 
 # stuff = Boxcutter::OnePassword.op_read('op://Automation-Org/nexus admin blue/password', 'connect_server')
 # puts "MISCHA: stuff=#{stuff}"
-#
+
 # op item get 'sandbox-connect-server Access Token: sandbox-connect-server-access-token' --vault Automation-Org
 # op item get 7etjvtlft4u4wlbkxvprahvmzq --vault Automation-Org --format json
 # op read 'op://Automation-Org/7etjvtlft4u4wlbkxvprahvmzq/credential'

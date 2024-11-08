@@ -1,25 +1,13 @@
 module Boxcutter
   class OnePassword
     def self.op_read(reference, type = 'auto')
-      puts "MISCHA op_read type=#{type}"
-      if op_connect_server_token_found? && ['auto', 'connect_server'].include?(type)
-        environment = {
-          'OP_CONNECT_HOST' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_host_path),
-          'OP_CONNECT_TOKEN' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_token_path),
-        }
-      elsif op_service_account_token_found? && ['auto', 'service_account'].include?(type)
-        environment = {
-          'OP_SERVICE_ACCOUNT_TOKEN' => token_from_env_or_file('OP_SERVICE_ACCOUNT_TOKEN',
-                                                               op_service_account_token_path),
-        }
-      else
-        fail 'boxcutter_onepassword[op_read]: 1Password token not found'
-      end
+      environment = op_environment(type)
 
       if !::File.exist?('/usr/local/bin/op')
         install_op_cli
       end
 
+      # 1Password Connect Server does not support op user get --me
       if ['auto', 'service_account'].include?(type)
         command = '/usr/local/bin/op user get --me'
         shellout = Mixlib::ShellOut.new(command, env: environment)
@@ -36,19 +24,7 @@ module Boxcutter
     end
 
     def self.op_document_get(item, vault, type = 'auto')
-      if op_connect_server_token_found? && ['auto', 'connect_server'].include?(type)
-        environment = {
-          'OP_CONNECT_HOST' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_host_path),
-          'OP_CONNECT_TOKEN' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_token_path),
-        }
-      elsif op_service_account_token_found? && ['auto', 'service_account'].include?(type)
-        environment = {
-          'OP_SERVICE_ACCOUNT_TOKEN' => token_from_env_or_file('OP_SERVICE_ACCOUNT_TOKEN',
-                                                               op_service_account_token_path),
-        }
-      else
-        fail 'boxcutter_onepassword[op_read]: 1Password token not found'
-      end
+      environment = op_environment(type)
 
       if !::File.exist?('/usr/local/bin/op')
         install_op_cli
@@ -64,10 +40,25 @@ module Boxcutter
       shellout.run_command
       shellout.error!
       shellout.stdout.strip
-      # puts "MISCHA: error stderr=#{shellout.stderr}, stdout=#{shellout.stdout}"
-      # next if shellout.error?
-      #
-      # return shellout.stdout.strip
+    end
+
+    def self.op_environment(type)
+      puts "MISCHA op_read type=#{type}"
+      if op_connect_server_token_found? && ['auto', 'connect_server'].include?(type)
+        environment = {
+          'OP_CONNECT_HOST' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_host_path),
+          'OP_CONNECT_TOKEN' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_token_path),
+        }
+      elsif op_service_account_token_found? && ['auto', 'service_account'].include?(type)
+        environment = {
+          'OP_SERVICE_ACCOUNT_TOKEN' => token_from_env_or_file('OP_SERVICE_ACCOUNT_TOKEN',
+                                                               op_service_account_token_path),
+        }
+      else
+        fail 'boxcutter_onepassword[op_read]: 1Password token not found'
+      end
+
+      environment
     end
 
     # If "op_read" is called during compile time, this might happen before
