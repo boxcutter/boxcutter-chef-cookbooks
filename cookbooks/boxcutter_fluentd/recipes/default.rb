@@ -57,7 +57,7 @@ when 'ubuntu'
   case node['kernel']['machine']
   when 'aarch64', 'arm64'
     node.default['fb_apt']['repos'] <<
-      "deb [arch=arm64] https://packages.treasuredata.com/lts/5/ubuntu/#{node['lsb']['codename']}/ " + 
+      "deb [arch=arm64] https://packages.treasuredata.com/lts/5/ubuntu/#{node['lsb']['codename']}/ " +
       "#{node['lsb']['codename']} contrib"
   when 'x86_64', 'amd64'
     node.default['fb_apt']['repos'] <<
