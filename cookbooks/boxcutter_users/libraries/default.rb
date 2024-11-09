@@ -6,6 +6,9 @@ module FB
         'uid' => 0,
         'system' => true,
       },
+      '_fluentd' => {
+        'uid' => 110,
+      },
       'nexus' => {
         'uid' => 990,
       },
@@ -55,6 +58,9 @@ module FB
       },
       'users' => {
         'gid' => 100,
+      },
+      '_fluentd' => {
+        'gid' => 114,
       },
       'nexus' => {
         'gid' => 990,
