@@ -222,10 +222,10 @@ if nexus_hosts
         *.crake-nexus.org.boxcutter.net
       },
       'extra_parameters' => [
-        '--dns cloudflare',
+        '--dns=cloudflare',
         # There are issues resolving apex domain servers over tailscale, so
         # override the DNS resolver lego uses, in case we're running tailscale
-        '--dns.resolvers 1.1.1.1',
+        '--dns.resolvers=newt.ns.cloudflare.com:53',
       ],
       'extra_environment' => {
         'export CF_DNS_API_TOKEN' => cloudflare_api_token,

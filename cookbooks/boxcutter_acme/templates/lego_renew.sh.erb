@@ -29,7 +29,7 @@ renew_certificate() {
     --path="${DATA_PATH}" \
     <%= @extra_parameters %> \
     ${DOMAIN_ARGS[@]} \
-    renew --days "${RENEW_DAYS}"
+    renew --days ${RENEW_DAYS}
 }
 
 list_certificates() {
