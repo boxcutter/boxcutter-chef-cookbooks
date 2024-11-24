@@ -191,6 +191,7 @@ if node.aws?
   ]
 
   if aws_arm64_github_self_hosted_runner_list.include?(node['hostname'])
+    include_recipe 'boxcutter_users::default'
     include_recipe 'boxcutter_docker::default'
 
     include_recipe 'boxcutter_github::runner_user'
