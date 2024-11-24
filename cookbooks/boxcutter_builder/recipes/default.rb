@@ -184,3 +184,27 @@ if arm64_self_hosted_runner_list.include?(node['hostname'])
   #   },
   # }
 end
+
+if node.aws?
+  aws_arm64_github_self_hosted_runner_list = [
+    'ip-10-0-1-143', # arm64 builder
+  ]
+
+  if aws_arm64_github_self_hosted_runner_list.include?(node['hostname'])
+    include_recipe 'boxcutter_github::runner_user'
+    node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
+    node.default['fb_ssh']['authorized_keys_users'] << 'github-runner'
+
+    directory '/home/github-runner/.ssh' do
+      owner 'github-runner'
+      group 'github-runner'
+      mode '0700'
+    end
+
+    ssh_known_hosts_entry 'github.com' do
+      file_location '/home/github-runner/.ssh/known_hosts'
+      owner 'github-runner'
+      group 'github-runner'
+    end
+  end  
+end
