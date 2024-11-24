@@ -62,6 +62,9 @@ module FB
       '_fluentd' => {
         'gid' => 114,
       },
+      'docker' => {
+        'gid' => 128,
+      },
       'nexus' => {
         'gid' => 990,
       },
