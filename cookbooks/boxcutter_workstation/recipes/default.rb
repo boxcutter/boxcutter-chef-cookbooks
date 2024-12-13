@@ -19,6 +19,8 @@
 workstation_hosts = %w{
   crake-stunt-ubuntu-desktop-2204
   crake-stunt-ubuntu-desktop-2404
+  sfo2-ubuntu-desktop-2204
+  sfo2-ubuntu-desktop-2404
 }.include?(node['hostname'])
 
 if workstation_hosts
