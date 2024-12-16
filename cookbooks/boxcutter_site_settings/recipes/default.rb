@@ -35,12 +35,12 @@ if node.ubuntu?
   # Do "apt-get autoclean" every n-days (0=disable)
   node.default['fb_apt']['config']['APT::Periodic::AutocleanInterval'] = '0'
 
-  %w(
+  %w{
     apt-daily.timer
     apt-daily.service
     apt-daily-upgrade.timer
     apt-daily-upgrade.service
-  ).each do |unit|
+  }.each do |unit|
     service unit do
       action [:stop, :disable]
     end
