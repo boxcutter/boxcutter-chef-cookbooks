@@ -34,6 +34,27 @@ if node.ubuntu?
   node.default['fb_apt']['config']['APT::Periodic::Unattended-Upgrade'] = '0'
   # Do "apt-get autoclean" every n-days (0=disable)
   node.default['fb_apt']['config']['APT::Periodic::AutocleanInterval'] = '0'
+
+  %w(
+    apt-daily.timer
+    apt-daily.service
+    apt-daily-upgrade.timer
+    apt-daily-upgrade.service
+  ).each do |unit|
+    service unit do
+      action [:stop, :disable]
+    end
+  end
+
+  # Some snap applications will refuse to start if the snap daemon is disabled
+  # so instead put auto-updates on pause
+  # https://snapcraft.io/docs/managing-updates
+  execute 'disable snap auto-updates' do
+    command 'snap refresh --hold'
+    not_if 'snap get system refresh.hold | grep -w forever'
+    only_if { ::File.exist?('/usr/bin/snap') }
+    action :run
+  end
 end
 
 include_recipe 'boxcutter_users'
