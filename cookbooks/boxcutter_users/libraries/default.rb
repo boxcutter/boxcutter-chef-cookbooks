@@ -6,20 +6,26 @@ module FB
         'uid' => 0,
         'system' => true,
       },
+      'couchdb' => {
+        'uid' => 694,
+        'comment' => 'CouchDB Administrator',
+        'home' => '/opt/couchdb',
+        'shell' => '/bin/bash',
+      },
       '_fluentd' => {
-        'uid' => 110,
+        'uid' => 695,
       },
       'nexus' => {
-        'uid' => 990,
+        'uid' => 696
       },
       'java' => {
-        'uid' => 991,
+        'uid' => 697,
       },
       'anaconda' => {
-        'uid' => 993,
+        'uid' => 698,
       },
       'python' => {
-        'uid' => 994,
+        'uid' => 699,
       },
       'boxcutter' => {
         'uid' => 2001,
@@ -59,23 +65,26 @@ module FB
       'users' => {
         'gid' => 100,
       },
+      'docker' => {
+        'gid' => 693,
+      },
+      'couchdb' => {
+        'gid' => 694,
+      },
       '_fluentd' => {
-        'gid' => 114,
+        'gid' => 695,
       },
       'nexus' => {
-        'gid' => 990,
+        'gid' => 696
       },
       'java' => {
-        'gid' => 991,
-      },
-      'docker' => {
-        'gid' => 992,
+        'gid' => 697,
       },
       'anaconda' => {
-        'gid' => 993,
+        'gid' => 698,
       },
       'python' => {
-        'gid' => 994,
+        'gid' => 699,
       },
       'boxcutter' => {
         'gid' => 2001,

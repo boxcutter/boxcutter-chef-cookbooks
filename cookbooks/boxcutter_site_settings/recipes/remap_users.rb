@@ -16,6 +16,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+SERVICE_CONFIG = {
+  # /opt/couchdb owned by root
+  'couchdb' => {
+    'directories' => [
+      '/opt/couchdb/etc',
+      '/var/log/couchdb',
+      '/var/lib/couchdb',
+    ],
+    'services' => [
+      'couchdb',
+    ],
+  },
+}
+
 FB::Users::UID_MAP.each do |user_name, desired_user_data|
   # root is never explicitly added via Chef, though it has an entry in
   # FB::Users, so ignore it
