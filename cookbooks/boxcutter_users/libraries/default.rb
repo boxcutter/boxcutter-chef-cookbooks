@@ -16,7 +16,7 @@ module FB
         'uid' => 695,
       },
       'nexus' => {
-        'uid' => 696
+        'uid' => 696,
       },
       'java' => {
         'uid' => 697,
@@ -75,7 +75,7 @@ module FB
         'gid' => 695,
       },
       'nexus' => {
-        'gid' => 696
+        'gid' => 696,
       },
       'java' => {
         'gid' => 697,

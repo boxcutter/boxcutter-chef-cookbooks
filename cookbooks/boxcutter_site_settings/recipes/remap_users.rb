@@ -28,7 +28,7 @@ SERVICE_CONFIG = {
       'couchdb',
     ],
   },
-}
+}.freeze
 
 FB::Users::UID_MAP.each do |user_name, desired_user_data|
   # root is never explicitly added via Chef, though it has an entry in
