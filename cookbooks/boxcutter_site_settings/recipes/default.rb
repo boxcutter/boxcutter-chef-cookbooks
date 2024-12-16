@@ -20,6 +20,22 @@ include_recipe '::remap_users'
 
 puts "MISCHA: node['boxcutter_config']['tier] = #{node['boxcutter_config']['tier']}"
 node.default['fb_users']['user_defaults']['gid'] = 'boxcutter'
+
+if node.ubuntu?
+  # https://wiki.debian.org/UnattendedUpgrades
+  # Enable the update/upgrade script (0=disable)
+  node.default['fb_apt']['config']['APT::Periodic::Enable'] => '0'
+  # Do "apt-get update" automatically every n-days (0=disable)
+  node.default['fb_apt']['config']['APT::Periodic::Update-Package-Lists'] => '0'
+  # Do "apt-get upgrade --download-only" every n-days (0=disable)
+  node.default['fb_apt']['config']['APT::Periodic::Download-Upgradeable-Packages'] => '0'
+  # Run the "unattended-upgrade" security upgrade script every n-days (0=disabled)
+  # Requires the package "unattended-upgrades" and will write a log in /var/log/unattended-upgrades
+  node.default['fb_apt']['config']['APT::Periodic::Unattended-Upgrade'] => '0'
+  # Do "apt-get autoclean" every n-days (0=disable)
+  node.default['fb_apt']['config']['APT::Periodic::AutocleanInterval'] => '0'
+end
+
 include_recipe 'boxcutter_users'
 
 include_recipe '::ssh'
