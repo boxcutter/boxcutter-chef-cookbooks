@@ -10,17 +10,17 @@ sudo apt-get install cmake
 # linked against the system openssl and won't work properly
 export OPENSSL_ROOT_DIR=/opt/cinc-workstation/embedded
 
-$ eval "$(cinc shell-init bash)
+$ eval "$(cinc shell-init bash)"
 $ which cinc
 /opt/cinc-workstation/bin/cinc
 
 cinc gem install taste_tester
 
 sudo mkdir -p /usr/local/etc/taste-tester
-sudo cp ~/github/boxcutter/boxcutter-chef-cookbooks/cookbooks/boxcutter_chef/files/taste-tester/taste-tester-plugin.rb /usr/local/etc/taste-tester
-sudo cp ~/github/boxcutter/boxcutter-chef-cookbooks/cookbooks/boxcutter_chef/files/taste-tester/taste-tester.conf /usr/local/etc/taste-tester
+# sudo cp ~/github/boxcutter/boxcutter-chef-cookbooks/cookbooks/boxcutter_chef/files/taste-tester/taste-tester-plugin.rb /usr/local/etc/taste-tester
+# sudo cp ~/github/boxcutter/boxcutter-chef-cookbooks/cookbooks/boxcutter_chef/files/taste-tester/taste-tester.conf /usr/local/etc/taste-tester
 
-sudo tee /usr/local/etc/taste-tester/taste-tester-plugin.rb <<EOF
+sudo tee /usr/local/etc/taste-tester/taste-tester-plugin.rb <<'EOF'
 def self.test_remote_client_rb_extra_code(_hostname)
   <<~EOF
 
@@ -31,6 +31,10 @@ def self.test_remote_client_rb_extra_code(_hostname)
     json_attribs '/etc/cinc/run-list.json'
     ohai.critical_plugins ||= []
     ohai.critical_plugins += [:Passwd]
+    ohai.critical_plugins += [:ShardSeed]
+    ohai.optional_plugins ||= []
+    ohai.optional_plugins += [:Passwd]
+    ohai.optional_plugins += [:ShardSeed]
   EOF
 end
 EOF

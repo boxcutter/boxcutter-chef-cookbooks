@@ -168,18 +168,20 @@ sudo mkdir -p /etc/cinc
 sudo ln -snf /etc/cinc /etc/chef
 
 curl -L https://omnitruck.cinc.sh/install.sh | sudo bash
+curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -v 18.4.12
+
 
 # /opt/chef -> /opt/cinc
 sudo ln -snf /opt/cinc /opt/chef
 
-# prime onepassword secret /etc/cinc/op_service_account_token
-# Install 1Password cli
-sudo apt-get update
-sudo apt-get install unzip
-ARCH="<choose between 386/amd64/arm/arm64>"
-curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.29.0/op_linux_amd64_v2.29.0.zip
-sudo unzip /tmp/op.zip op -d /usr/local/bin/
-rm -f /tmp/op.zip
+## prime onepassword secret /etc/cinc/op_service_account_token
+## Install 1Password cli
+# sudo apt-get update
+# sudo apt-get install unzip
+# ARCH="<choose between 386/amd64/arm/arm64>"
+# curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.3/op_linux_amd64_v2.30.3.zip
+# sudo unzip /tmp/op.zip op -d /usr/local/bin/
+# rm -f /tmp/op.zip
  
 # op user get --me 
 
@@ -222,6 +224,7 @@ sudo tee /etc/chef/run-list.json <<EOF
 }
 EOF
 
+sudo apt-get install git
 sudo mkdir -p /var/chef /var/chef/repos /var/log/chef
 cd /var/chef/repos
 sudo git clone https://github.com/boxcutter/chef-cookbooks.git \
@@ -413,7 +416,7 @@ sudo mkdir -p /etc/cinc
 # /etc/chef -> /etc/cinc
 sudo ln -snf /etc/cinc /etc/chef
 
-curl -L https://omnitruck.cinc.sh/install.sh | sudo bash
+curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -v 18.4.12
 
 # /opt/chef -> /opt/cinc
 sudo ln -snf /opt/cinc /opt/chef
@@ -422,7 +425,7 @@ sudo ln -snf /opt/cinc /opt/chef
 # Install 1Password cli
 sudo dnf install unzip
 ARCH="<choose between 386/amd64/arm/arm64>"
-curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.29.0/op_linux_amd64_v2.29.0.zip
+curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.3/op_linux_amd64_v2.30.3.zip
 sudo unzip /tmp/op.zip op -d /usr/local/bin/
 rm -f /tmp/op.zip
  
