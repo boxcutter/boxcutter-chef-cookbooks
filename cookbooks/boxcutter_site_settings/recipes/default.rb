@@ -68,7 +68,7 @@ if node.ubuntu?
     owner node.root_user
     group node.root_group
     mode '0644'
-    only_if { Dir.exist?('/etc/update-manager')}
+    only_if { Dir.exist?('/etc/update-manager') }
   end
 end
 
