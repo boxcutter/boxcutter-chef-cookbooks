@@ -51,7 +51,7 @@ if node.ubuntu?
   end
 
   service 'snapd' do
-    action [:eanble, :start]
+    action [:enable, :start]
   end
 
   # Some snap applications will refuse to start if the snap daemon is disabled
