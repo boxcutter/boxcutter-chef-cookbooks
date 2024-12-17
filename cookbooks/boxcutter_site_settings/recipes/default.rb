@@ -64,7 +64,7 @@ if node.ubuntu?
     action :run
   end
 
-  file '/etc/update-manager/release-upgrades' do
+  cookbook_file '/etc/update-manager/release-upgrades' do
     owner node.root_user
     group node.root_group
     mode '0644'
