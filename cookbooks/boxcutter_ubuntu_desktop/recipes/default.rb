@@ -56,6 +56,7 @@ template '/etc/gdm3/custom.conf' do
   mode '0644'
 end
 
+# gdm settings are stored in dconf
 %w{
   /etc/dconf
   /etc/dconf/db

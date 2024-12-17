@@ -46,6 +46,14 @@ if node.ubuntu?
     end
   end
 
+  package 'snapd' do
+    action :upgrade
+  end
+
+  service 'snapd' do
+    action [:eanble, :start]
+  end
+
   # Some snap applications will refuse to start if the snap daemon is disabled
   # so instead put auto-updates on pause
   # https://snapcraft.io/docs/managing-updates
@@ -54,6 +62,12 @@ if node.ubuntu?
     not_if 'snap get system refresh.hold | grep -w forever'
     only_if { ::File.exist?('/usr/bin/snap') }
     action :run
+  end
+
+  file '/etc/update-manager/release-upgrades' do
+    owner node.root_user
+    group node.root_group
+    mode '0644'
   end
 end
 
