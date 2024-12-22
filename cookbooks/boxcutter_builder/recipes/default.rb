@@ -232,9 +232,9 @@ if node.aws?
     # op item get 'tailscale oauth automation-sandbox-write-blue' --vault Automation-Sandbox
     # op item get v5zvz2gomyzhgow46esj7txneu --format json
     tailscale_oauth_client_id_write_blue =\
-      Boxcutter::OnePassword.op_read('op://Automation-Sandbox/tailscale oauth write blue/username')
+      Boxcutter::OnePassword.op_read('op://Automation-Org/tailscale oauth write blue/username')
     tailscale_oauth_client_secret_write_blue = \
-      Boxcutter::OnePassword.op_read('op://Automation-Sandbox/tailscale oauth write blue/credential')
+      Boxcutter::OnePassword.op_read('op://Automation-Org/tailscale oauth write blue/credential')
     node.run_state['boxcutter_tailscale'] ||= {}
     node.run_state['boxcutter_tailscale']['oauth_client_id'] = tailscale_oauth_client_id_write_blue
     node.run_state['boxcutter_tailscale']['oauth_client_secret'] = tailscale_oauth_client_secret_write_blue
