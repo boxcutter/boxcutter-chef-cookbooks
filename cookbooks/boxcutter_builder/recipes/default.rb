@@ -187,7 +187,7 @@ end
 
 if node.aws?
   aws_arm64_github_self_hosted_runner_list = [
-    'ip-10-0-1-143', # arm64 builder
+    'ip-10-0-1-70', # arm64 builder
   ]
 
   if aws_arm64_github_self_hosted_runner_list.include?(node['hostname'])
@@ -210,4 +210,6 @@ if node.aws?
       group 'github-runner'
     end
   end
+
+  # 'ip-10-0-1-237', # x86-64 builder
 end
