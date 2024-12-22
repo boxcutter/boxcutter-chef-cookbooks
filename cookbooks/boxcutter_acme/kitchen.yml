@@ -48,6 +48,11 @@ platforms:
       image: boxcutter/dokken-ubuntu-22.04
       pid_one_command: /bin/systemd
 
+  - name: ubuntu-24.04
+    driver:
+      image: boxcutter/dokken-ubuntu-24.04
+      pid_one_command: /bin/systemd
+
   - name: centos-stream-9
     driver:
       image: boxcutter/dokken-centos-stream-9
@@ -59,12 +64,17 @@ platforms:
         - RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
 suites:
-  - name: default
-    # run_list set in Policyfile.rb, this does nothing
-    # run_list:
-    #   - recipe[boxcutter_ohai]
-    #   - recipe[boxcutter_init]
-    #   - recipe[boxcutter_acme::default]
+  - name: certbot
+    provisioner:
+      policyfile_path: policyfiles/Policyfile.certbot.rb
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+
+  - name: lego
+    provisioner:
+      policyfile_path: policyfiles/Policyfile.lego.rb
     verifier:
       inspec_tests:
         - test/integration/default
