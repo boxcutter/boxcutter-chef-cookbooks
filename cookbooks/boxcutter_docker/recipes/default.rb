@@ -175,8 +175,8 @@ end
 case node['platform']
 when 'ubuntu'
   %w{
-    docker-ce
-    docker-ce-cli
+    docker-ce=5:27.3.1-1~ubuntu.22.04~jammy
+    docker-ce-cli= 5:27.3.1-1~ubuntu.22.04~jammy
     containerd.io
     docker-buildx-plugin
     docker-compose-plugin
