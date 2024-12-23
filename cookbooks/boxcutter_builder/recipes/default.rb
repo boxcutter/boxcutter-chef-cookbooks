@@ -117,65 +117,65 @@ if node.aws?
       content craft_rsa_ssh_key_private
     end
 
-    ssh_known_hosts_entry 'github.com' do
-      file_location '/home/github-runner/.ssh/known_hosts'
-      owner 'github-runner'
-      group 'github-runner'
-    end
-
-    # arm64 builder
-    ssh_known_hosts_entry '10.0.1.70' do
-      file_location '/home/github-runner/.ssh/known_hosts'
-      owner 'github-runner'
-      group 'github-runner'
-    end
-
-    node.default['polymath_docker']['buildx']['github-runner'] = {
-      'home' => '/home/github-runner',
-      'user' => 'github-runner',
-      'group' => 'github-runner',
-      'builders' => {
-        'github-runner-multi-arch-builder' => {
-          'name' => 'github-runner-multi-arch-builder',
-          'driver' => 'docker-container',
-          'platform' => 'linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/386',
-          'use' => true,
-          'append' => {
-            '10.0.1.175' => {
-              'name' => '10.0.1.175',
-              'endpoint' => 'host=ssh://github-runner@10.0.1.175',
-              'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
-            },
-          },
-        },
-      },
-    }
-
-    directory '/home/github-runner/actions-runner' do
-      owner 'github-runner'
-      group 'github-runner'
-      mode '0700'
-    end
-
-    %w{
-      oci
-    }.each do |dir|
-      directory "/home/github-runner/actions-runner/#{dir}" do
-        owner 'github-runner'
-        group 'github-runner'
-        mode '0700'
-      end
-
-      node.default['boxcutter_github']['github_runner']['runners']["/home/github-runner/actions-runner/#{dir}"] = {
-        'runner_name' => node['hostname'],
-        'labels' => ['self-hosted', 'multi-arch'],
-        'url' => "https://github.com/boxcutter/#{dir}",
-        'owner' => 'github-runner',
-        'group' => 'github-runner',
-      }
-    end
-
-    include_recipe 'boxcutter_github::cli'
-    include_recipe 'boxcutter_github::runner'
+    # ssh_known_hosts_entry 'github.com' do
+    #   file_location '/home/github-runner/.ssh/known_hosts'
+    #   owner 'github-runner'
+    #   group 'github-runner'
+    # end
+    #
+    # # arm64 builder
+    # ssh_known_hosts_entry '10.0.1.70' do
+    #   file_location '/home/github-runner/.ssh/known_hosts'
+    #   owner 'github-runner'
+    #   group 'github-runner'
+    # end
+    #
+    # node.default['polymath_docker']['buildx']['github-runner'] = {
+    #   'home' => '/home/github-runner',
+    #   'user' => 'github-runner',
+    #   'group' => 'github-runner',
+    #   'builders' => {
+    #     'github-runner-multi-arch-builder' => {
+    #       'name' => 'github-runner-multi-arch-builder',
+    #       'driver' => 'docker-container',
+    #       'platform' => 'linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/386',
+    #       'use' => true,
+    #       'append' => {
+    #         '10.0.1.175' => {
+    #           'name' => '10.0.1.175',
+    #           'endpoint' => 'host=ssh://github-runner@10.0.1.175',
+    #           'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
+    #         },
+    #       },
+    #     },
+    #   },
+    # }
+    #
+    # directory '/home/github-runner/actions-runner' do
+    #   owner 'github-runner'
+    #   group 'github-runner'
+    #   mode '0700'
+    # end
+    #
+    # %w{
+    #   oci
+    # }.each do |dir|
+    #   directory "/home/github-runner/actions-runner/#{dir}" do
+    #     owner 'github-runner'
+    #     group 'github-runner'
+    #     mode '0700'
+    #   end
+    #
+    #   node.default['boxcutter_github']['github_runner']['runners']["/home/github-runner/actions-runner/#{dir}"] = {
+    #     'runner_name' => node['hostname'],
+    #     'labels' => ['self-hosted', 'multi-arch'],
+    #     'url' => "https://github.com/boxcutter/#{dir}",
+    #     'owner' => 'github-runner',
+    #     'group' => 'github-runner',
+    #   }
+    # end
+    #
+    # include_recipe 'boxcutter_github::cli'
+    # include_recipe 'boxcutter_github::runner'
   end
 end
