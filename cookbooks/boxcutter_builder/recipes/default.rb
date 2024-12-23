@@ -42,14 +42,14 @@ if node.aws?
     include_recipe 'boxcutter_tailscale::default'
 
     # include_recipe 'boxcutter_users::default'
-    include_recipe 'boxcutter_docker::default'
+    # include_recipe 'boxcutter_docker::default'
 
-    include_recipe 'boxcutter_github::runner_user'
-    node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
-    node.default['fb_ssh']['authorized_keys_users'] << 'github-runner'
+    # include_recipe 'boxcutter_github::runner_user'
+    # node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
+    # node.default['fb_ssh']['authorized_keys_users'] << 'github-runner'
 
-    node.default['fb_ssh']['authorized_keys']['github-runner']['aws-arm64-github-runner'] = \
-      Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/public key')
+    # node.default['fb_ssh']['authorized_keys']['github-runner']['aws-arm64-github-runner'] = \
+    #   Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/public key')
 
     # directory '/home/github-runner/.ssh' do
     #   owner 'github-runner'
