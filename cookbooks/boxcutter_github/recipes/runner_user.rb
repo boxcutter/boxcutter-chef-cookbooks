@@ -16,14 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+FB::Users.initialize_group(node, 'github-runner')
+
 node.default['fb_users']['users']['github-runner'] = {
-  'action' => :add,
   'home' => '/home/github-runner',
   'shell' => '/bin/bash',
   'gid' => 'github-runner',
-}
-
-node.default['fb_users']['groups']['github-runner'] = {
-  'members' => ['github-runner'],
   'action' => :add,
 }
+
+# node.default['fb_users']['groups']['github-runner'] = {
+#   'members' => ['github-runner'],
+#   'action' => :add,
+# }
