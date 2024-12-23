@@ -174,20 +174,10 @@ end
 
 case node['platform']
 when 'ubuntu'
-
-  package 'docker-ce' do
-    version '5:27.3.1-1~ubuntu.22.04~jammy'
-  end
-
-  package 'docker-ce-cli' do
-    version '5:27.3.1-1~ubuntu.22.04~jammy'
-  end
-
-  package 'containerd.io' do
-    version '1.7.23-1'
-  end
-
   %w{
+    docker-ce
+    docker-ce-cli
+    containerd.io
     docker-buildx-plugin
     docker-compose-plugin
   }.each do |package|
