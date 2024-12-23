@@ -183,8 +183,11 @@ when 'ubuntu'
     version '5:27.3.1-1~ubuntu.22.04~jammy'
   end
 
+  package 'containerd.io' do
+    version '1.7.23-1'
+  end
+
   %w{
-    containerd.io
     docker-buildx-plugin
     docker-compose-plugin
   }.each do |package|
