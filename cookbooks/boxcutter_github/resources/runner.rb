@@ -78,7 +78,7 @@ action :register do
     directory dir do
       owner new_resource.owner
       group new_resource.group
-      mode '0755'
+      mode '0700'
     end
   end
 
