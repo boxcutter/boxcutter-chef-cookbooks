@@ -74,7 +74,7 @@ if node.aws?
   end
 
   aws_amd64_github_self_host_runner_list = [
-    'ip-10-0-1-237', # x86-64 builder
+    'ip-10-0-1-71', # x86-64 builder
   ]
 
   if aws_amd64_github_self_host_runner_list.include?(node['hostname'])
@@ -95,12 +95,11 @@ if node.aws?
     node.default['boxcutter_tailscale']['tags'] = ['chef']
     include_recipe 'boxcutter_tailscale::default'
 
-    include_recipe 'boxcutter_users::default'
+    # include_recipe 'boxcutter_users::default'
     include_recipe 'boxcutter_docker::default'
 
     include_recipe 'boxcutter_github::runner_user'
     node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
-    node.default['fb_ssh']['authorized_keys_users'] << 'github-runner'
 
     directory '/home/github-runner/.ssh' do
       owner 'github-runner'
@@ -142,9 +141,9 @@ if node.aws?
           'platform' => 'linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/386',
           'use' => true,
           'append' => {
-            '10.0.1.70' => {
-              'name' => '10.0.1.70',
-              'endpoint' => 'host=ssh://github-runner@10.0.1.70',
+            '10.0.1.175' => {
+              'name' => '10.0.1.175',
+              'endpoint' => 'host=ssh://github-runner@10.0.1.175',
               'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
             },
           },
