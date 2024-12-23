@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+package 'jq'
+
 amd64_self_hosted_runner_list = %w{
   crake-amd64-builder
 }
