@@ -20,41 +20,58 @@ package 'jq'
 
 if node.aws?
   aws_arm64_github_self_hosted_runner_list = [
-    'ip-10-0-1-70', # arm64 builder
+    'ip-10-0-1-147', # arm64 builder
   ]
 
   if aws_arm64_github_self_hosted_runner_list.include?(node['hostname'])
-    include_recipe 'boxcutter_users::default'
-    include_recipe 'boxcutter_docker::default'
+    # op item get 'tailscale oauth automation-sandbox-write-blue' --vault Automation-Sandbox
+    # op item get v5zvz2gomyzhgow46esj7txneu --format json
+    tailscale_oauth_client_id_write_blue =\
+      Boxcutter::OnePassword.op_read('op://Automation-Org/tailscale oauth write blue/username')
+    tailscale_oauth_client_secret_write_blue = \
+      Boxcutter::OnePassword.op_read('op://Automation-Org/tailscale oauth write blue/credential')
+    node.run_state['boxcutter_tailscale'] ||= {}
+    node.run_state['boxcutter_tailscale']['oauth_client_id'] = tailscale_oauth_client_id_write_blue
+    node.run_state['boxcutter_tailscale']['oauth_client_secret'] = tailscale_oauth_client_secret_write_blue
+    node.default['boxcutter_tailscale']['enable'] = true
+    node.default['boxcutter_tailscale']['ephemeral'] = false
+    node.default['boxcutter_tailscale']['use_tailscale_dns'] = false
+    node.default['boxcutter_tailscale']['shields_up'] = false
+    node.default['boxcutter_tailscale']['hostname'] = 'aws-boxcutter-arm64-github-runner'
+    node.default['boxcutter_tailscale']['tags'] = ['chef']
+    include_recipe 'boxcutter_tailscale::default'
 
-    include_recipe 'boxcutter_github::runner_user'
-    node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
-    node.default['fb_ssh']['authorized_keys_users'] << 'github-runner'
-
-    node.default['fb_ssh']['authorized_keys']['github-runner']['aws-arm64-github-runner'] = \
-      Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/public key')
-
-    directory '/home/github-runner/.ssh' do
-      owner 'github-runner'
-      group 'github-runner'
-      mode '0700'
-    end
-
-    ssh_known_hosts_entry 'github.com' do
-      file_location '/home/github-runner/.ssh/known_hosts'
-      owner 'github-runner'
-      group 'github-runner'
-    end
-
-    craft_rsa_ssh_key_private = \
-      Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/private key')
-
-    file '/home/github-runner/.ssh/id_rsa' do
-      owner 'github-runner'
-      group 'github-runner'
-      mode '0600'
-      content craft_rsa_ssh_key_private
-    end
+    # include_recipe 'boxcutter_users::default'
+    # include_recipe 'boxcutter_docker::default'
+    #
+    # include_recipe 'boxcutter_github::runner_user'
+    # node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
+    # node.default['fb_ssh']['authorized_keys_users'] << 'github-runner'
+    #
+    # node.default['fb_ssh']['authorized_keys']['github-runner']['aws-arm64-github-runner'] = \
+    #   Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/public key')
+    #
+    # directory '/home/github-runner/.ssh' do
+    #   owner 'github-runner'
+    #   group 'github-runner'
+    #   mode '0700'
+    # end
+    #
+    # ssh_known_hosts_entry 'github.com' do
+    #   file_location '/home/github-runner/.ssh/known_hosts'
+    #   owner 'github-runner'
+    #   group 'github-runner'
+    # end
+    #
+    # craft_rsa_ssh_key_private = \
+    #   Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/private key')
+    #
+    # file '/home/github-runner/.ssh/id_rsa' do
+    #   owner 'github-runner'
+    #   group 'github-runner'
+    #   mode '0600'
+    #   content craft_rsa_ssh_key_private
+    # end
   end
 
   aws_amd64_github_self_host_runner_list = [
