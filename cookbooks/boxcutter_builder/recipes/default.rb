@@ -42,7 +42,7 @@ if node.aws?
     include_recipe 'boxcutter_tailscale::default'
 
     # include_recipe 'boxcutter_users::default'
-    # include_recipe 'boxcutter_docker::default'
+    include_recipe 'boxcutter_docker::default'
 
     # include_recipe 'boxcutter_github::runner_user'
     # node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
