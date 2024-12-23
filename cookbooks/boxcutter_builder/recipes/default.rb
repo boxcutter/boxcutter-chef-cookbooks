@@ -130,7 +130,7 @@ if node.aws?
       group 'github-runner'
     end
 
-    node.default['polymath_docker']['buildx']['github-runner'] = {
+    node.default['boxcutter_docker']['buildx']['github-runner'] = {
       'home' => '/home/github-runner',
       'user' => 'github-runner',
       'group' => 'github-runner',
