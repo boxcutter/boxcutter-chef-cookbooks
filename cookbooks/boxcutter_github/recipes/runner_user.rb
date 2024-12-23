@@ -25,13 +25,13 @@ node.default['fb_users']['users']['github-runner'] = {
   'action' => :add,
 }
 
-user 'github-runner' do
-  uid 'github-runner'
-  group 'github-runner'
-  home '/home/github-runner'
-  manage_home true
-  shell '/bin/bash'
-end
+# user 'github-runner' do
+#   uid 'github-runner'
+#   group 'github-runner'
+#   home '/home/github-runner'
+#   manage_home true
+#   shell '/bin/bash'
+# end
 
 # node.default['fb_users']['groups']['github-runner'] = {
 #   'members' => ['github-runner'],
