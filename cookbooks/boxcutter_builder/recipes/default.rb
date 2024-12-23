@@ -60,6 +60,7 @@ if node.aws?
       file_location '/home/github-runner/.ssh/known_hosts'
       owner 'github-runner'
       group 'github-runner'
+      mode '0600'
     end
 
     craft_rsa_ssh_key_private = \
@@ -121,6 +122,7 @@ if node.aws?
       file_location '/home/github-runner/.ssh/known_hosts'
       owner 'github-runner'
       group 'github-runner'
+      mode '0600'
     end
 
     # arm64 builder
@@ -128,6 +130,7 @@ if node.aws?
       file_location '/home/github-runner/.ssh/known_hosts'
       owner 'github-runner'
       group 'github-runner'
+      mode '0600'
     end
 
     node.default['boxcutter_docker']['buildx']['github-runner'] = {
