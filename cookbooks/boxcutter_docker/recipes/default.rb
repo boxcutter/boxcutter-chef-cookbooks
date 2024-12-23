@@ -174,9 +174,16 @@ end
 
 case node['platform']
 when 'ubuntu'
+
+  package 'docker-ce' do
+    version '5:27.3.1-1~ubuntu.22.04~jammy'
+  end
+
+  package 'docker-ce-cli' do
+    version '5:27.3.1-1~ubuntu.22.04~jammy'
+  end
+
   %w{
-    docker-ce=5:27.3.1-1~ubuntu.22.04~jammy
-    docker-ce-cli= 5:27.3.1-1~ubuntu.22.04~jammy
     containerd.io
     docker-buildx-plugin
     docker-compose-plugin
