@@ -117,19 +117,19 @@ if node.aws?
       content craft_rsa_ssh_key_private
     end
 
-    # ssh_known_hosts_entry 'github.com' do
-    #   file_location '/home/github-runner/.ssh/known_hosts'
-    #   owner 'github-runner'
-    #   group 'github-runner'
-    # end
-    #
-    # # arm64 builder
-    # ssh_known_hosts_entry '10.0.1.70' do
-    #   file_location '/home/github-runner/.ssh/known_hosts'
-    #   owner 'github-runner'
-    #   group 'github-runner'
-    # end
-    #
+    ssh_known_hosts_entry 'github.com' do
+      file_location '/home/github-runner/.ssh/known_hosts'
+      owner 'github-runner'
+      group 'github-runner'
+    end
+
+    # arm64 builder
+    ssh_known_hosts_entry '10.0.1.175' do
+      file_location '/home/github-runner/.ssh/known_hosts'
+      owner 'github-runner'
+      group 'github-runner'
+    end
+
     # node.default['polymath_docker']['buildx']['github-runner'] = {
     #   'home' => '/home/github-runner',
     #   'user' => 'github-runner',
