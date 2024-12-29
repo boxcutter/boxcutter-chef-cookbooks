@@ -6,6 +6,22 @@ module FB
         'uid' => 0,
         'system' => true,
       },
+      'alloy' => {
+        'uid' => 691,
+        'comment' => 'alloy user',
+        'home' => '/var/lib/alloy',
+        'shell' => '/sbin/nologin',
+      },
+      'loki' => {
+        'uid' => 692,
+        'home' => '/home/loki',
+        'shell' => '/bin/false',
+      },
+      'grafana' => {
+        'uid' => 693,
+        'home' => '/usr/share/grafana',
+        'shell' => '/bin/false',
+      },
       'couchdb' => {
         'uid' => 694,
         'comment' => 'CouchDB Administrator',
@@ -14,6 +30,8 @@ module FB
       },
       '_fluentd' => {
         'uid' => 695,
+        'home' => '/var/lib/fluent',
+        'shell' => '/usr/sbin/nologin',
       },
       'nexus' => {
         'uid' => 696,
@@ -66,6 +84,12 @@ module FB
         'gid' => 100,
       },
       'docker' => {
+        'gid' => 690,
+      },
+      'alloy' => {
+        'gid' => 691,
+      },
+      'grafana' => {
         'gid' => 693,
       },
       'couchdb' => {
@@ -109,6 +133,9 @@ module FB
       },
       'gitlab-runner' => {
         'gid' => 8013,
+      },
+      'nogroup' => {
+        'gid' => 65534,
       },
     }.freeze
   end

@@ -1,6 +1,6 @@
 #
-# Cookbook:: boxcutter_site_settings
-# Recipe:: users
+# Cookbook:: boxcutter_fluent
+# Recipe:: default
 #
 # Copyright:: 2024, Boxcutter
 #
@@ -15,12 +15,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-%w{
-  nogroup
-  root
-  sudo
-  users
-}.each do |grp|
-  FB::Users.initialize_group(node, grp)
-end

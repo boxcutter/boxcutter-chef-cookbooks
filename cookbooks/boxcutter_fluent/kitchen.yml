@@ -69,7 +69,7 @@ suites:
     # run_list:
     #   - recipe[boxcutter_ohai]
     #   - recipe[boxcutter_init]
-    #   - recipe[boxcutter_fluentd::default]
+    #   - recipe[boxcutter_fluent::default]
     verifier:
       inspec_tests:
         - test/integration/default
