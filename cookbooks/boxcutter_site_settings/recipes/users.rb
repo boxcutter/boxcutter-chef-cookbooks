@@ -17,10 +17,18 @@
 # limitations under the License.
 
 %w{
-  nogroup
   root
   sudo
   users
 }.each do |grp|
   FB::Users.initialize_group(node, grp)
+end
+
+# Ubuntu:
+# /etc/group
+# nobody:x:65534:
+# /etc/passwd
+# nobody:x:65534:65534:Kernel Overflow User:/:/sbin/nologin
+if node.ubuntu?
+  FB::Users.initialize_group(node, 'nogroup')
 end
