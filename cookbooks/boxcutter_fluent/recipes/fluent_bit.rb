@@ -154,17 +154,12 @@ fb_systemd_override 'fluent-bit' do
   )
 end
 
-execute 'check fluent-bit config' do
-  command '/opt/fluent-bit/bin/fluent-bit --dry-run --config=/etc/fluent-bit/fluent-bit.yaml'
-  action :nothing
-end
-
 template '/etc/fluent-bit/fluent-bit.yaml' do
   owner node.root_user
   group node.root_group
   mode '0644'
+  verify '/opt/fluent-bit/bin/fluent-bit --dry-run %{path}'
   notifies :restart, 'service[fluent-bit]'
-  notifies :run, 'execute[check fluent-bit config]', :immediately
 end
 
 service 'fluent-bit' do

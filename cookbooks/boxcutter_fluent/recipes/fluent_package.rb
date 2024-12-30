@@ -154,16 +154,11 @@ file '/etc/default/fluentd' do
   notifies :restart, 'service[fluentd]'
 end
 
-execute 'check fluentd config' do
-  command '/opt/fluent/bin/fluentd --dry-run -c /etc/fluent/fluentd.yaml'
-  action :nothing
-end
-
 template '/etc/fluent/fluentd.yaml' do
   owner node.root_user
   group node.root_group
   mode '0644'
-  notifies :run, 'execute[check fluentd config]', :immediately
+  verify '/opt/fluent/bin/fluentd --dry-run -c %{path}'
   notifies :restart, 'service[fluentd]'
 end
 
