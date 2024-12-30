@@ -1,5 +1,6 @@
 default['boxcutter_docker'] = {
   'enable' => true,
+  'enable_cleanup' => true,
   'group' => 'docker',
   'config' => {
     'log-opts' => {

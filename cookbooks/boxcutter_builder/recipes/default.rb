@@ -41,6 +41,7 @@ if node.aws?
     node.default['boxcutter_tailscale']['tags'] = ['chef']
     include_recipe 'boxcutter_tailscale::default'
 
+    node.default['polymath_docker']['enable_cleanup'] = false
     # include_recipe 'boxcutter_users::default'
     include_recipe 'boxcutter_docker::default'
 
@@ -96,6 +97,8 @@ if node.aws?
     node.default['boxcutter_tailscale']['hostname'] = 'aws-boxcutter-amd64-github-runner'
     node.default['boxcutter_tailscale']['tags'] = ['chef']
     include_recipe 'boxcutter_tailscale::default'
+
+    node.default['polymath_docker']['enable_cleanup'] = false
 
     # include_recipe 'boxcutter_users::default'
     include_recipe 'boxcutter_docker::default'
