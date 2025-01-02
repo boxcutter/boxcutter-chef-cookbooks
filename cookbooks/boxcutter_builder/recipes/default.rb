@@ -127,7 +127,7 @@ if node.aws?
       group 'github-runner'
       mode '0600'
     end
-   
+
     # arm64 builder
     ssh_known_hosts_entry '10.0.1.175' do
       file_location '/home/github-runner/.ssh/known_hosts'
