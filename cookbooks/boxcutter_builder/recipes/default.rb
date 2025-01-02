@@ -57,13 +57,12 @@ if node.aws?
       mode '0700'
     end
 
-    # MT: Interrupts ssh connections
-    # ssh_known_hosts_entry 'github.com' do
-    #   file_location '/home/github-runner/.ssh/known_hosts'
-    #   owner 'github-runner'
-    #   group 'github-runner'
-    #   mode '0600'
-    # end
+    ssh_known_hosts_entry 'github.com' do
+      file_location '/home/github-runner/.ssh/known_hosts'
+      owner 'github-runner'
+      group 'github-runner'
+      mode '0600'
+    end
 
     craft_rsa_ssh_key_private = \
       Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/private key')
@@ -122,21 +121,20 @@ if node.aws?
       content craft_rsa_ssh_key_private
     end
 
-    # MT: Interrupts ssh connections
-    # ssh_known_hosts_entry 'github.com' do
-    #   file_location '/home/github-runner/.ssh/known_hosts'
-    #   owner 'github-runner'
-    #   group 'github-runner'
-    #   mode '0600'
-    # end
-    #
-    # # arm64 builder
-    # ssh_known_hosts_entry '10.0.1.175' do
-    #   file_location '/home/github-runner/.ssh/known_hosts'
-    #   owner 'github-runner'
-    #   group 'github-runner'
-    #   mode '0600'
-    # end
+    ssh_known_hosts_entry 'github.com' do
+      file_location '/home/github-runner/.ssh/known_hosts'
+      owner 'github-runner'
+      group 'github-runner'
+      mode '0600'
+    end
+   
+    # arm64 builder
+    ssh_known_hosts_entry '10.0.1.175' do
+      file_location '/home/github-runner/.ssh/known_hosts'
+      owner 'github-runner'
+      group 'github-runner'
+      mode '0600'
+    end
 
     node.default['boxcutter_docker']['buildx']['github-runner'] = {
       'home' => '/home/github-runner',
