@@ -69,20 +69,20 @@ systemd_unit 'nvidia_gpu_exporter.service' do
   [Unit]
   Description=Nvidia GPU Exporter
   After=network-online.target
-  
+
   [Service]
   Type=simple
-  
+
   User=#{nvidia_gpu_exporter_user}
   Group=#{nvidia_gpu_exporter_group}
-  
+
   ExecStart=/opt/node_exporter/latest/nvidia_gpu_exporter
-  
+
   SyslogIdentifier=nvidia_gpu_exporter
-  
+
   Restart=always
   RestartSec=1
-  
+
   [Install]
   WantedBy=multi-user.target
   EOU

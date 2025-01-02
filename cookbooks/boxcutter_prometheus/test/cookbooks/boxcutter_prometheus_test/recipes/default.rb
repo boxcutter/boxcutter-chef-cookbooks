@@ -54,9 +54,9 @@ node.default['boxcutter_prometheus']['prometheus']['config'] = {
       {
         'static_configs' => [
           'targets' => ['localhost:9093'],
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
   'scrape_configs' => [
     {
@@ -64,18 +64,18 @@ node.default['boxcutter_prometheus']['prometheus']['config'] = {
       'static_configs' => [
         {
           'targets' => ['localhost:9090'],
-        }
-      ]
+        },
+      ],
     },
     {
       'job_name' => 'node',
       'static_configs' => [
         {
           'targets' => ['localhost:9100'],
-        }
-      ]
-    }
-  ]
+        },
+      ],
+    },
+  ],
 }
 
 include_recipe 'boxcutter_prometheus::prometheus'
