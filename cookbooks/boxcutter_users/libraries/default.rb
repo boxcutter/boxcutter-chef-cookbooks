@@ -6,6 +6,24 @@ module FB
         'uid' => 0,
         'system' => true,
       },
+      'nvidia_gpu_exporter' => {
+        'uid' => 684,
+      },
+      'blackbox_exporter' => {
+        'uid' => 685,
+      },
+      'node_exporter' => {
+        'uid' => 686,
+      },
+      'pushgateway' => {
+        'uid' => 687,
+      },
+      'alertmanager' => {
+        'uid' => 688,
+      },
+      'prometheus' => {
+        'uid' => 689,
+      },
       'alloy' => {
         'uid' => 691,
         'comment' => 'alloy user',
@@ -82,6 +100,24 @@ module FB
       },
       'users' => {
         'gid' => 100,
+      },
+      'nvidia_gpu_exporter' => {
+        'gid' => 684,
+      },
+      'blackbox_exporter' => {
+        'gid' => 685,
+      },
+      'node_exporter' => {
+        'gid' => 686,
+      },
+      'pushgateway' => {
+        'gid' => 687,
+      },
+      'alertmanager' => {
+        'gid' => 688,
+      },
+      'prometheus' => {
+        'gid' => 689,
       },
       'docker' => {
         'gid' => 690,

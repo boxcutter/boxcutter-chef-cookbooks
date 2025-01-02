@@ -14,6 +14,11 @@ $ eval "$(cinc shell-init bash)"
 $ which cinc
 /opt/cinc-workstation/bin/cinc
 
+# macos:
+# install xcode
+# brew install pkg-config
+# brew install cmake
+
 cinc gem install taste_tester
 
 sudo mkdir -p /usr/local/etc/taste-tester

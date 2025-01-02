@@ -1,0 +1,13 @@
+rule_files:
+  - inline_rules: |
+      groups:
+      - name: example-alert-rules
+        rules:
+        - alert: HighCPUUsage
+          expr: process_cpu_seconds_total > 0.8
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "High CPU usage detected"
+            description: "The CPU usage is above 80% for more than 2 minutes."
