@@ -1,8 +1,30 @@
 # boxcutter_python
 
-Manage multiple side-by-side Python environments with pyenv.
+Configure Python, Python packages and virtual environments using the
+system Python and/or multiple side-by-side Python environments with
+pyenv.
 
-## Description
+## Configuring system Python
+
+Some basic primitive resources are provided for working with the system python:
+- `boxcutter_python_virtualenv`
+- `boxcutter_python_package`
+
+To use these resources, include the `boxcutter_python::system` recipe.
+
+Here's an example that creates a virtualenv and installs a python package:
+
+```ruby
+include_recipe 'boxcutter_python::system'
+
+boxcutter_python_virtualenv '/opt/certbot/venv'
+
+boxcutter_python_package 'certbot' do
+  version '3.0'
+end
+```
+
+## Configuring pyenv
 
 This cookbook uses [pyenv](https://github.com/pyenv/pyenv) to install and
 manage multiple versions of Python side-by-side on a single host. This allows
@@ -101,3 +123,72 @@ node.default['boxcutter_python']['python_build'] = {
   },
 }
 ```
+
+## Recipes
+
+### `pyenv`
+
+The `pyenv` recipe installs pyenv so that you can easily switch between multiple
+versions of Python.
+
+### `system`
+
+The `system` recipe installs the system Python - the default version of Python
+for a particular operating system.
+
+## Resources
+
+### `boxcutter_python_virtualenv` 
+
+The `boxcutter_python_virtualenv` resource creates a Python virtual environment.
+
+```ruby
+boxcutter_python_virtualenv `/opt/certbot/venv`
+```
+
+#### Actions
+
+- `:create` - Create a Python virtual environment. *(default)*
+- `:delete` - Delete a Python virtual environment.
+
+#### Properties
+
+- `path` - The path to create the virtual environment.
+- `interpreter` - The Python interpreter used to run commands to configure the virtualenv.
+- `user` - The user name or user ID used to run commands in the Python interpreter.
+- `group` - The group name or group ID used to run commands in the Python interpreter.
+- `system_site_packages` - Install globally available packages to the system site-packages directory.
+- `copies` - Use copies rather than symlinks.
+- `clear` - Delete the contents of the virtual environment directory if it already exists, before creating.
+- `upgrade_deps` - Upgrade pip + setuptools to the latest on PyPI.
+- `without_pip` - Do not install pip in the virtualenv.
+- `prompt` - Set the prompt inside the virtualenv.
+
+### `boxcutter_python_pip`
+
+The `boxcutter_python_pip` resource installs Python packages using `pip`.
+
+```ruby
+boxcutter_python_pip `certbot` do
+  version '3.0'
+end
+```
+
+#### Actions
+
+- `:install` - Install a Python package. *(default)*
+- `:upgrade` - Install a Python package using the `--upgrade` flag.
+- `:remove` - Remove a Python package.
+
+#### Properties
+
+- `package_name` - 'The name of the Python package to install.'
+- `version` - 'The version of the Python package to install/upgrade.'
+- `pip_binary` - 'Path to the pip binary. Mutually exclusive with `virtualenv`.'
+- `virtualenv` - 'Path to a virtual environment in which to install the Python package.'
+- `user` - 'The user name or user ID used to run pip commands.'
+- `group` - 'The group name or group ID used to pip commands.'
+- `extra_options` - 'Extra options to pass to the pip command.'
+- `timeout` - 'The number of seconds to wait for the pip command to complete.'
+- `environment` - 'Hash containing environment varibles to set before the pip command is run.'
+
