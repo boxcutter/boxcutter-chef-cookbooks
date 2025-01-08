@@ -1,5 +1,5 @@
 {
-  "revision_id": "da9ea15f824a8f9d73b32ea09772df00c7948d8aa377b89f99ad9f83e1ad50fd",
+  "revision_id": "5cfde23d7f460d419d1bf181714c19bbfd30167b9e8f89ee66427a210ef1d851",
   "name": "boxcutter_tailscale",
   "run_list": [
     "recipe[boxcutter_ohai::default]",
@@ -10,16 +10,58 @@
 
   ],
   "cookbook_locks": {
+    "boxcutter_chef": {
+      "version": "0.1.0",
+      "identifier": "66190f364e6fa91a3f2e1f6e4122e31696ca653b",
+      "dotted_decimal_identifier": "28738000750800809.7387816722841890.249686158632251",
+      "source": "../../boxcutter_chef",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/main",
+          "origin/main"
+        ]
+      },
+      "source_options": {
+        "path": "../../boxcutter_chef"
+      }
+    },
+    "boxcutter_docker": {
+      "version": "0.1.0",
+      "identifier": "4e3f307825ee9ee2dfc20b3cda38ac83e5c50177",
+      "dotted_decimal_identifier": "22024525590163102.63859369241795128.189682495586679",
+      "source": "../../boxcutter_docker",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/main",
+          "origin/main"
+        ]
+      },
+      "source_options": {
+        "path": "../../boxcutter_docker"
+      }
+    },
     "boxcutter_init": {
       "version": "0.0.1",
-      "identifier": "aa89eac96dcc5575cdaa496a40b6dfb1932396fd",
-      "dotted_decimal_identifier": "48002387535580245.33158703534981302.245953770788605",
+      "identifier": "11e431cdfd7c926d77abc50148270046e84d6851",
+      "dotted_decimal_identifier": "5035977164553362.30812352089770023.304545097809",
       "source": "../../boxcutter_init",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "eac7eb60d87e063c3c85955a0bc2b35d10eeeeac",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -31,16 +73,37 @@
         "path": "../../boxcutter_init"
       }
     },
+    "boxcutter_nfs": {
+      "version": "0.1.0",
+      "identifier": "e9c8843a68e06e6a835ca894f39202404041c3a4",
+      "dotted_decimal_identifier": "65804139814772846.29980781519893394.2474979214244",
+      "source": "../../boxcutter_nfs",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/main",
+          "origin/main"
+        ]
+      },
+      "source_options": {
+        "path": "../../boxcutter_nfs"
+      }
+    },
     "boxcutter_ohai": {
       "version": "0.1.0",
-      "identifier": "ff3066e882d0a09169cf041c103fb0a415647068",
-      "dotted_decimal_identifier": "71829337606901920.40930209471139903.194218780029032",
+      "identifier": "879beaeeb881170d8f0046f0b1032fce26435aac",
+      "dotted_decimal_identifier": "38170555185660183.3816406050189571.52562451716780",
       "source": "../../boxcutter_ohai",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "eac7eb60d87e063c3c85955a0bc2b35d10eeeeac",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -52,16 +115,37 @@
         "path": "../../boxcutter_ohai"
       }
     },
+    "boxcutter_onepassword": {
+      "version": "0.1.0",
+      "identifier": "105d54aa136ff20cceeb796160c3c4cb1254ee0c",
+      "dotted_decimal_identifier": "4606217839407090.3605210469589187.216376464961036",
+      "source": "../../boxcutter_onepassword",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/main",
+          "origin/main"
+        ]
+      },
+      "source_options": {
+        "path": "../../boxcutter_onepassword"
+      }
+    },
     "boxcutter_site_settings": {
       "version": "0.1.0",
-      "identifier": "314f8b998286508fad02b1ed048fa519041e4e84",
-      "dotted_decimal_identifier": "13879734853338704.40441148756264079.181526861860484",
+      "identifier": "b993711da4b04a8a9475cbfe687c978d3bac37ca",
+      "dotted_decimal_identifier": "52234984729391178.39006780440602748.166632847325130",
       "source": "../../boxcutter_site_settings",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "eac7eb60d87e063c3c85955a0bc2b35d10eeeeac",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -75,14 +159,14 @@
     },
     "boxcutter_tailscale": {
       "version": "0.1.0",
-      "identifier": "a1d9dc79501a0f4d813384b1f814345ed5e532b3",
-      "dotted_decimal_identifier": "45557012201740815.21815631476291604.57581920137907",
+      "identifier": "2c24ad6a75e7d98bea58032628845505926ce1ab",
+      "dotted_decimal_identifier": "12425226209322969.39382685493635204.93482419806635",
       "source": "..",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "eac7eb60d87e063c3c85955a0bc2b35d10eeeeac",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -96,14 +180,14 @@
     },
     "boxcutter_tailscale_test": {
       "version": "0.1.0",
-      "identifier": "77ce21ad73364d9210a54965b038c69443f90f84",
-      "dotted_decimal_identifier": "33722166267819597.41113648686805048.218340097855364",
+      "identifier": "4aa9b4c42f384319b393ca2ba37ca50cef8cc7b8",
+      "dotted_decimal_identifier": "21015742127224899.7234321751188348.181474977171384",
       "source": "../test/cookbooks/boxcutter_tailscale_test",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "eac7eb60d87e063c3c85955a0bc2b35d10eeeeac",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -117,14 +201,14 @@
     },
     "boxcutter_users": {
       "version": "0.1.0",
-      "identifier": "f57a7bd6a2349c4c2e13cfbd325c3e13e330d545",
-      "dotted_decimal_identifier": "69096041594631324.21442760854549084.68255136929093",
+      "identifier": "6205cf3b4b55ce071a28db412bb1ac55fc972227",
+      "dotted_decimal_identifier": "27590935328806350.1999087616469937.189485309960743",
       "source": "../../boxcutter_users",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
-        "revision": "eac7eb60d87e063c3c85955a0bc2b35d10eeeeac",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
@@ -138,14 +222,14 @@
     },
     "fb_apcupsd": {
       "version": "0.1.0",
-      "identifier": "8b9fbfda86e33f990f434133a18590a84dfe7a51",
-      "dotted_decimal_identifier": "39300668116624191.43082452967858565.159052537428561",
+      "identifier": "8918fb487876d822c21d531eb57c397b5f1b25bc",
+      "dotted_decimal_identifier": "38589539341072088.9783580412523900.63202039375292",
       "source": "../../../../chef-cookbooks/cookbooks/fb_apcupsd",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -159,14 +243,14 @@
     },
     "fb_apt": {
       "version": "0.1.0",
-      "identifier": "d3304b7c1eaf106f17bbb1a05e4b9c5624a9fa09",
-      "dotted_decimal_identifier": "59444320849014544.31269817321283147.171893796239881",
+      "identifier": "58fc9a32ba0671ea288fec78c9a3c16ee2cdd657",
+      "dotted_decimal_identifier": "25047537156753009.65909743163066787.212681995703895",
       "source": "../../../../chef-cookbooks/cookbooks/fb_apt",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -180,14 +264,14 @@
     },
     "fb_chrony": {
       "version": "0.1.0",
-      "identifier": "5887c281c8aa129c834fd8e17f415b39e3a4e525",
-      "dotted_decimal_identifier": "24919067421354514.44054475331174209.100304190498085",
+      "identifier": "40b6db97892f18f739864178c122cd028648c61c",
+      "dotted_decimal_identifier": "18215452765925144.69587568034365730.225410726544924",
       "source": "../../../../chef-cookbooks/cookbooks/fb_chrony",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -201,14 +285,14 @@
     },
     "fb_collectd": {
       "version": "0.1.0",
-      "identifier": "422f27fbf4ea25dfba52a3f29e6bf34356053594",
-      "dotted_decimal_identifier": "18629197240265253.62973783907147371.267470531540372",
+      "identifier": "79fb85d8fbdb3c872bc8725dbaa28933e2a8239b",
+      "dotted_decimal_identifier": "34335024471595836.38047261768137378.150855939007387",
       "source": "../../../../chef-cookbooks/cookbooks/fb_collectd",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -222,14 +306,14 @@
     },
     "fb_cron": {
       "version": "0.0.1",
-      "identifier": "f1408fab6275d15777a1a73f180b2bc804f25a12",
-      "dotted_decimal_identifier": "67906455187125713.24619859153197067.48138076445202",
+      "identifier": "f586b234a00524c5e12eb618e8a5554b7a3bae6e",
+      "dotted_decimal_identifier": "69109469239313700.55698161151830181.93782661639790",
       "source": "../../../../chef-cookbooks/cookbooks/fb_cron",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -243,14 +327,14 @@
     },
     "fb_dnf": {
       "version": "0.0.1",
-      "identifier": "a0e5fafe64606af015d2ae85e75c1a6b9efe8e94",
-      "dotted_decimal_identifier": "45288862446280810.67577989025883996.29049531305620",
+      "identifier": "64843813a9d09e990931327ddb070892f83b72f7",
+      "dotted_decimal_identifier": "28292874053996702.43075778341886727.9427322893047",
       "source": "../../../../chef-cookbooks/cookbooks/fb_dnf",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -264,14 +348,14 @@
     },
     "fb_dnsmasq": {
       "version": "0.1.0",
-      "identifier": "276aad31f4edc7b7aa57c05a56dffbf12f7a4420",
-      "dotted_decimal_identifier": "11094816191737287.51697214604072671.277013302232096",
+      "identifier": "8762e9a642a13f2d0ebd207c4937a3018be3ac2a",
+      "dotted_decimal_identifier": "38107877512225087.12682579408603447.179227037248554",
       "source": "../../../../chef-cookbooks/cookbooks/fb_dnsmasq",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -285,14 +369,14 @@
     },
     "fb_dracut": {
       "version": "0.1.0",
-      "identifier": "2f16c5e4da34077047afbb4530230f9a0a1c3d1c",
-      "dotted_decimal_identifier": "13254363109274631.31604017478316067.17154269003036",
+      "identifier": "1a02211a146f4581414cd4f9f4321f7dae2db2cf",
+      "dotted_decimal_identifier": "7320690589200197.36382070242145330.34624653603535",
       "source": "../../../../chef-cookbooks/cookbooks/fb_dracut",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -306,14 +390,14 @@
     },
     "fb_e2fsprogs": {
       "version": "0.1.0",
-      "identifier": "512b213036d8cd89703bd97a4bf7e5ac56888286",
-      "dotted_decimal_identifier": "22846894656379085.38685474163411959.252528348922502",
+      "identifier": "080bd8d333901cd94895d7635e81b78a610100f5",
+      "dotted_decimal_identifier": "2264825697898524.61159878347153025.201804960825589",
       "source": "../../../../chef-cookbooks/cookbooks/fb_e2fsprogs",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -327,14 +411,14 @@
     },
     "fb_ebtables": {
       "version": "0.1.0",
-      "identifier": "f1c7ca9d95c811f85471bdca6da062bf4db6d9b9",
-      "dotted_decimal_identifier": "68055142428428305.69898641716440480.108573782104505",
+      "identifier": "277397ec3dafd5d43a6613ee9412c867afc9f2d3",
+      "dotted_decimal_identifier": "11104620432437205.59736905158136850.220347656434387",
       "source": "../../../../chef-cookbooks/cookbooks/fb_ebtables",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -355,7 +439,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -376,7 +460,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -390,14 +474,14 @@
     },
     "fb_fstab": {
       "version": "0.0.1",
-      "identifier": "16026707eb06a8230fca4a5fc9eed49b9ddb24db",
-      "dotted_decimal_identifier": "6195091025364648.9868985690474990.233764833404123",
+      "identifier": "62e794f37d322a7b534aa1789756be040c46e107",
+      "dotted_decimal_identifier": "27839174643888682.34713002137130838.208924595118343",
       "source": "../../../../chef-cookbooks/cookbooks/fb_fstab",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -411,14 +495,14 @@
     },
     "fb_grub": {
       "version": "0.1.0",
-      "identifier": "aa4250d708e7d30f3ac94b066c85437f3aadafc5",
-      "dotted_decimal_identifier": "47923661013313491.4286760872209541.74213724368837",
+      "identifier": "7049e23753e810df04096654cd02cbf46c7dc74c",
+      "dotted_decimal_identifier": "31606433331275792.62773358224526594.224250652641100",
       "source": "../../../../chef-cookbooks/cookbooks/fb_grub",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -439,7 +523,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -453,14 +537,14 @@
     },
     "fb_hddtemp": {
       "version": "0.1.0",
-      "identifier": "29302fe675ea677c311cf4bd6ea56d3dbbe22a82",
-      "dotted_decimal_identifier": "11593456333220455.34956897547021989.120111912594050",
+      "identifier": "58d6840e5f2e573b663d52d03ad7f4cacd86837d",
+      "dotted_decimal_identifier": "25005660615683671.16719437194345175.269151868715901",
       "source": "../../../../chef-cookbooks/cookbooks/fb_hddtemp",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -481,7 +565,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -495,14 +579,14 @@
     },
     "fb_helpers": {
       "version": "0.1.0",
-      "identifier": "7900a517125714d6ec4ae4538aa23352f6dbc553",
-      "dotted_decimal_identifier": "34059181238671124.60495451418495650.56431421932883",
+      "identifier": "91ec08c1feb839a2c9313dff16d5fa0a645155dd",
+      "dotted_decimal_identifier": "41073393981634617.45820159557834453.274922539668957",
       "source": "../../../../chef-cookbooks/cookbooks/fb_helpers",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -516,14 +600,14 @@
     },
     "fb_hostconf": {
       "version": "0.0.1",
-      "identifier": "e0828de7966e4b19be5b93e37afed9244fd4cfa0",
-      "dotted_decimal_identifier": "63193940770582091.7246174950226686.238749981396896",
+      "identifier": "5aa55b79bfa0873fe37ec2652cbf30b1b025b166",
+      "dotted_decimal_identifier": "25514560207167623.17983057099566271.53539722604902",
       "source": "../../../../chef-cookbooks/cookbooks/fb_hostconf",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -537,14 +621,14 @@
     },
     "fb_hostname": {
       "version": "0.1.0",
-      "identifier": "88aefd81bb3f93a8b8c09ba3f0fe2c38a707b030",
-      "dotted_decimal_identifier": "38473000659140499.47490933471834366.48621832089648",
+      "identifier": "f36c337c28fd605c3070dbf608435d77ca73d362",
+      "dotted_decimal_identifier": "68517387722882400.25948959142185027.102769079079778",
       "source": "../../../../chef-cookbooks/cookbooks/fb_hostname",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -565,7 +649,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -586,7 +670,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -600,14 +684,14 @@
     },
     "fb_iproute": {
       "version": "0.1.0",
-      "identifier": "94da74a5d6f217223a983c76c6ae3d5e3c15d7ea",
-      "dotted_decimal_identifier": "41898491086565911.9634574732019374.67474944284650",
+      "identifier": "a9b9604ccc8c4a49691d6844bc054bffc26d66ee",
+      "dotted_decimal_identifier": "47773094320573514.20663248324180997.83561850693358",
       "source": "../../../../chef-cookbooks/cookbooks/fb_iproute",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -621,14 +705,14 @@
     },
     "fb_ipset": {
       "version": "0.1.0",
-      "identifier": "964c49705864a1b7dcc84b6cf22ba1cbb9f84269",
-      "dotted_decimal_identifier": "42305124807763105.51752673555051051.177896370487913",
+      "identifier": "9ad84adec4e3a25f7809f6899b83faccce3b485d",
+      "dotted_decimal_identifier": "43584962490065826.26872106973764483.275757540264029",
       "source": "../../../../chef-cookbooks/cookbooks/fb_ipset",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -642,14 +726,14 @@
     },
     "fb_iptables": {
       "version": "0.1.0",
-      "identifier": "1f7a86b5479f3895b40b681487a0007ad9a22dcc",
-      "dotted_decimal_identifier": "8860443263606584.42137732613703584.527637294540",
+      "identifier": "a62f8ab47d51882e6b19535c6cfe0d2fdae11bd9",
+      "dotted_decimal_identifier": "46777118914072968.13065605445610750.14499186809817",
       "source": "../../../../chef-cookbooks/cookbooks/fb_iptables",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -670,7 +754,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -684,14 +768,14 @@
     },
     "fb_ldconfig": {
       "version": "0.0.1",
-      "identifier": "da761dd011e7570a0255468edd8ddf1338b5fe7b",
-      "dotted_decimal_identifier": "61491415339886423.2817315046350221.245273648823931",
+      "identifier": "258cf9936ec1b68b483716635b430326f586e91a",
+      "dotted_decimal_identifier": "10569577686548918.39204423198792515.3465862899994",
       "source": "../../../../chef-cookbooks/cookbooks/fb_ldconfig",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -712,7 +796,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -733,7 +817,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -747,14 +831,14 @@
     },
     "fb_logrotate": {
       "version": "0.0.1",
-      "identifier": "f279907fdbc13c977f96ee70d7f737dee572f8d2",
-      "dotted_decimal_identifier": "68250605891338556.42643007705503735.61430471784658",
+      "identifier": "2e1e47d0596c0003a2108499123491dd82245fb7",
+      "dotted_decimal_identifier": "12981142715722752.1022616757932596.160380557221815",
       "source": "../../../../chef-cookbooks/cookbooks/fb_logrotate",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -768,14 +852,14 @@
     },
     "fb_mlocate": {
       "version": "0.0.1",
-      "identifier": "1e0738326d6f2f0e74c1cd819c6de617736e6d7b",
-      "dotted_decimal_identifier": "8452187246915375.4069025399282797.252988395253115",
+      "identifier": "475f152a12470e64a6d4a0f40718edf44c9a2ba5",
+      "dotted_decimal_identifier": "20089267851249422.28330929834690328.261633512975269",
       "source": "../../../../chef-cookbooks/cookbooks/fb_mlocate",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -789,14 +873,14 @@
     },
     "fb_modprobe": {
       "version": "0.0.1",
-      "identifier": "b308d7cdc9ca17af25c03ce648e5d21826ccfe6e",
-      "dotted_decimal_identifier": "50393743794752023.49299628510038245.231001172016750",
+      "identifier": "c05ffd7b222b0fac99e590789b4508a703d9994b",
+      "dotted_decimal_identifier": "54148737825647375.48582907244616517.9513417152843",
       "source": "../../../../chef-cookbooks/cookbooks/fb_modprobe",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -810,14 +894,14 @@
     },
     "fb_motd": {
       "version": "0.0.1",
-      "identifier": "9ad4c0b6ebab651ee1ae81376001f57c16fbf363",
-      "dotted_decimal_identifier": "43581070581148517.8692388909768705.269913310360419",
+      "identifier": "79bfeb92d3fb15d6aec9bb4674e187f40d12f943",
+      "dotted_decimal_identifier": "34269490683575061.60427826469696737.149482261117251",
       "source": "../../../../chef-cookbooks/cookbooks/fb_motd",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -831,14 +915,14 @@
     },
     "fb_nscd": {
       "version": "0.0.1",
-      "identifier": "dd607443c8518d3ba446cac72758847803502883",
-      "dotted_decimal_identifier": "62312022322729357.16787647582644056.145650986526851",
+      "identifier": "eac6152058c1b3cdf9b56303569be350f0d00cc3",
+      "dotted_decimal_identifier": "66082938589594035.57976927671244443.249936777055427",
       "source": "../../../../chef-cookbooks/cookbooks/fb_nscd",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -852,14 +936,14 @@
     },
     "fb_nsswitch": {
       "version": "0.0.1",
-      "identifier": "a51d98781f405ab6bd639d03e27cc8eb36bf195a",
-      "dotted_decimal_identifier": "46475911844806746.51436681295028860.220912561363290",
+      "identifier": "419eecf0f5fc03ea8a013a2eef22c7b33eea7a24",
+      "dotted_decimal_identifier": "18470613978315779.66016882426048290.219572668627492",
       "source": "../../../../chef-cookbooks/cookbooks/fb_nsswitch",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -873,14 +957,14 @@
     },
     "fb_postfix": {
       "version": "0.0.1",
-      "identifier": "7040f4d05a45260de582b7d5e83d80d52c2bc9ed",
-      "dotted_decimal_identifier": "31596617603368230.3911524289996861.141653057456621",
+      "identifier": "5cdd78322edfbd291b2bf996247e9ca5ca380a94",
+      "dotted_decimal_identifier": "26139206165127101.11570349730047102.172235876207252",
       "source": "../../../../chef-cookbooks/cookbooks/fb_postfix",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -894,14 +978,14 @@
     },
     "fb_profile": {
       "version": "0.1.0",
-      "identifier": "e7619954c9194d1898ccf125464d2d55068ce751",
-      "dotted_decimal_identifier": "65128030800517453.6923405427557965.49843205367633",
+      "identifier": "c8993ece6c364d60cb5f49cfb4e037803e9c150f",
+      "dotted_decimal_identifier": "56463490372351565.27245207884903648.61023945757967",
       "source": "../../../../chef-cookbooks/cookbooks/fb_profile",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -915,14 +999,14 @@
     },
     "fb_rpm": {
       "version": "0.0.1",
-      "identifier": "523d4a854e063dda870acc2f2d9456eddc679fc7",
-      "dotted_decimal_identifier": "23148338363631165.61510025367989652.95579605016519",
+      "identifier": "84bf80ff1c253e225cf39c036f07d3b71a350f54",
+      "dotted_decimal_identifier": "37365257682560318.9672350572441351.232783372160852",
       "source": "../../../../chef-cookbooks/cookbooks/fb_rpm",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -936,14 +1020,14 @@
     },
     "fb_rsync": {
       "version": "0.0.1",
-      "identifier": "469d66f8572e3704a8a4cfde17ccbb602b95b78f",
-      "dotted_decimal_identifier": "19876313948433975.1311325722384332.206021722486671",
+      "identifier": "41b17d3c64dd572a6828b4789bbc7236ce6e6def",
+      "dotted_decimal_identifier": "18491024928464215.11936473057631164.125579717144047",
       "source": "../../../../chef-cookbooks/cookbooks/fb_rsync",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -964,7 +1048,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -985,7 +1069,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -999,14 +1083,14 @@
     },
     "fb_securetty": {
       "version": "0.0.1",
-      "identifier": "af8175577522389abf180c15529ee8dbfcf705f4",
-      "dotted_decimal_identifier": "49400461902815800.43557256416285342.256031539529204",
+      "identifier": "8088f062b913a04c738ef884587efb3e16374754",
+      "dotted_decimal_identifier": "36179363048788896.21519156121983102.276244079265620",
       "source": "../../../../chef-cookbooks/cookbooks/fb_securetty",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1018,16 +1102,37 @@
         "path": "../../../../chef-cookbooks/cookbooks/fb_securetty"
       }
     },
+    "fb_ssh": {
+      "version": "0.1.0",
+      "identifier": "4118a2bd22bba8ce1416c663b5bd05842905eaf5",
+      "dotted_decimal_identifier": "18322960723131304.58005933252654525.6065182075637",
+      "source": "../../fb_ssh",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "git@github.com:boxcutter/boxcutter-chef-cookbooks.git",
+        "revision": "7210aeae0b678224aa1ad8251cfd9a6891cf3fb1",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/main",
+          "origin/main"
+        ]
+      },
+      "source_options": {
+        "path": "../../fb_ssh"
+      }
+    },
     "fb_storage": {
       "version": "0.0.1",
-      "identifier": "c97decc25b458f991c6218c3a97fd614c09bcaae",
-      "dotted_decimal_identifier": "56714926145357199.43096879084579199.235384619125422",
+      "identifier": "77cabed5fbfdfb4aef229bdb8dc15b27f325e416",
+      "dotted_decimal_identifier": "33718443211226619.21092080199372225.100227141198870",
       "source": "../../../../chef-cookbooks/cookbooks/fb_storage",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1041,14 +1146,14 @@
     },
     "fb_stunnel": {
       "version": "0.1.0",
-      "identifier": "d3657d41dbe02ab4be43460bf1d1eb42bb5b56de",
-      "dotted_decimal_identifier": "59502808736194602.50874691955192273.258671843694302",
+      "identifier": "2b3c5a21b038c3378b8e2f79f032735210a26f10",
+      "dotted_decimal_identifier": "12169781808478403.15634566517223474.126796303593232",
       "source": "../../../../chef-cookbooks/cookbooks/fb_stunnel",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1069,7 +1174,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1083,14 +1188,14 @@
     },
     "fb_swap": {
       "version": "0.1.0",
-      "identifier": "3e65afa9953d31ae10a99cb1a430236b8551b171",
-      "dotted_decimal_identifier": "17563253694872881.48994966612059184.38944705196401",
+      "identifier": "f2d6e0a4621a3a1fe27d6802d80ed35fee48f9e0",
+      "dotted_decimal_identifier": "68353204682889786.8974752521836558.232408973113824",
       "source": "../../../../chef-cookbooks/cookbooks/fb_swap",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1111,7 +1216,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1125,14 +1230,14 @@
     },
     "fb_sysfs": {
       "version": "0.1.0",
-      "identifier": "4fef9d693b5b25d4aa16721b309595a4849d1869",
-      "dotted_decimal_identifier": "22499982514543397.59859708443046037.164533832063081",
+      "identifier": "4e89556543238f7ada57e76122b9840108129280",
+      "dotted_decimal_identifier": "22106048047555471.34580018237612729.145139965268608",
       "source": "../../../../chef-cookbooks/cookbooks/fb_sysfs",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1153,7 +1258,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1167,14 +1272,14 @@
     },
     "fb_sysstat": {
       "version": "0.1.0",
-      "identifier": "434091b979674866291471127f59e71ebde055e2",
-      "dotted_decimal_identifier": "18929818065790792.28755615397609305.254119220631010",
+      "identifier": "abe44d8eb9dcb2f97161ef2c7fd26f9cf8ebbc85",
+      "dotted_decimal_identifier": "48383242775682226.70211934639390674.122719981780101",
       "source": "../../../../chef-cookbooks/cookbooks/fb_sysstat",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1188,14 +1293,14 @@
     },
     "fb_systemd": {
       "version": "0.0.1",
-      "identifier": "2d1800e9fe089e41d9ee1b0f7b4fdd9ded9feb17",
-      "dotted_decimal_identifier": "12692766156785822.18535490165635919.243670366284567",
+      "identifier": "3385c12ae5d6d0d444ce12663db643f5dde52a23",
+      "dotted_decimal_identifier": "14502288507131600.59748346925301174.74723268831779",
       "source": "../../../../chef-cookbooks/cookbooks/fb_systemd",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1209,14 +1314,14 @@
     },
     "fb_timers": {
       "version": "0.1.0",
-      "identifier": "da1e7de8f505dfc4172470c5d15e504e212ba035",
-      "dotted_decimal_identifier": "61395071051040223.55194540713562462.88296494178357",
+      "identifier": "7486ebdcf7f1ac371e0f1d3e4b7c49b4a56f6439",
+      "dotted_decimal_identifier": "32799444881109420.15514173983050620.81040218481721",
       "source": "../../../../chef-cookbooks/cookbooks/fb_timers",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1237,7 +1342,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1258,7 +1363,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1279,7 +1384,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1293,14 +1398,14 @@
     },
     "fb_yum_repos": {
       "version": "0.0.1",
-      "identifier": "5da5d758eebdf3d3c4583a2b68b63b8c0dfca28b",
-      "dotted_decimal_identifier": "26359517162683891.59607103298037942.65472716120715",
+      "identifier": "597047e94fda06e372d6b8acfee99d286d710855",
+      "dotted_decimal_identifier": "25174727086561798.64021086260231913.172796960376917",
       "source": "../../../../chef-cookbooks/cookbooks/fb_yum_repos",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "git@github.com:boxcutter/chef-cookbooks.git",
-        "revision": "3dfdb9f24c8920d9ad2aaa469e9098bdbbe6ca04",
+        "revision": "b672666feb9dd27a4adbbdf83a885c321a7ecb66",
         "working_tree_clean": true,
         "published": true,
         "synchronized_remote_branches": [
@@ -1322,11 +1427,27 @@
   "solution_dependencies": {
     "Policyfile": [
       [
+        "boxcutter_chef",
+        "= 0.1.0"
+      ],
+      [
+        "boxcutter_docker",
+        "= 0.1.0"
+      ],
+      [
         "boxcutter_init",
         "= 0.0.1"
       ],
       [
+        "boxcutter_nfs",
+        "= 0.1.0"
+      ],
+      [
         "boxcutter_ohai",
+        "= 0.1.0"
+      ],
+      [
+        "boxcutter_onepassword",
         "= 0.1.0"
       ],
       [
@@ -1514,6 +1635,10 @@
         "= 0.0.1"
       ],
       [
+        "fb_ssh",
+        "= 0.1.0"
+      ],
+      [
         "fb_storage",
         "= 0.0.1"
       ],
@@ -1571,6 +1696,12 @@
       ]
     ],
     "dependencies": {
+      "boxcutter_chef (0.1.0)": [
+
+      ],
+      "boxcutter_docker (0.1.0)": [
+
+      ],
       "boxcutter_init (0.0.1)": [
         [
           "fb_apt",
@@ -1741,6 +1872,10 @@
           ">= 0.0.0"
         ],
         [
+          "fb_ssh",
+          ">= 0.0.0"
+        ],
+        [
           "fb_storage",
           ">= 0.0.0"
         ],
@@ -1793,16 +1928,37 @@
           ">= 0.0.0"
         ],
         [
+          "boxcutter_chef",
+          ">= 0.0.0"
+        ],
+        [
+          "boxcutter_nfs",
+          ">= 0.0.0"
+        ],
+        [
           "boxcutter_site_settings",
           ">= 0.0.0"
         ]
       ],
+      "boxcutter_nfs (0.1.0)": [
+
+      ],
       "boxcutter_ohai (0.1.0)": [
 
+      ],
+      "boxcutter_onepassword (0.1.0)": [
+        [
+          "boxcutter_docker",
+          ">= 0.0.0"
+        ]
       ],
       "boxcutter_site_settings (0.1.0)": [
         [
           "boxcutter_users",
+          ">= 0.0.0"
+        ],
+        [
+          "fb_helpers",
           ">= 0.0.0"
         ]
       ],
@@ -1816,7 +1972,10 @@
         ]
       ],
       "boxcutter_users (0.1.0)": [
-
+        [
+          "boxcutter_onepassword",
+          ">= 0.0.0"
+        ]
       ],
       "fb_apcupsd (0.1.0)": [
         [
@@ -1833,6 +1992,10 @@
       "fb_chrony (0.1.0)": [
         [
           "fb_helpers",
+          ">= 0.0.0"
+        ],
+        [
+          "fb_systemd",
           ">= 0.0.0"
         ]
       ],
@@ -2086,9 +2249,16 @@
           ">= 0.0.0"
         ]
       ],
+      "fb_ssh (0.1.0)": [
+
+      ],
       "fb_storage (0.0.1)": [
         [
           "fb_helpers",
+          ">= 0.0.0"
+        ],
+        [
+          "fb_sysfs",
           ">= 0.0.0"
         ]
       ],

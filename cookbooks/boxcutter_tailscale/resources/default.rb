@@ -24,12 +24,8 @@ property :timeout, String, default: '60s'
 property :use_tailscale_dns, [true, false], default: false
 property :shields_up, [true, false], default: true
 
-class Helpers
-  extend ::Boxcutter::Tailscale::Helpers
-end
-
 load_current_value do |new_resource|
-  status = Helpers.tailscale_status
+  status = Boxcutter::Tailscale::Helpers.tailscale_status
   Chef::Log.debug("boxcutter_tailscale[load_current_value]: tailscale status output #{status}")
   # Description of the fields:
   # https://github.com/tailscale/tailscale/blob/main/ipn/ipnstate/ipnstate.go
@@ -47,7 +43,7 @@ load_current_value do |new_resource|
   end
   hostname status['Self']['HostName'] unless new_resource.hostname.nil?
 
-  prefs = Helpers.tailscale_debug_prefs
+  prefs = Boxcutter::Tailscale::Helpers.tailscale_debug_prefs
   Chef::Log.debug("boxcutter_tailscale[load_current_value]: prefs=#{prefs}")
   # Description of the fields:
   # https://github.com/tailscale/tailscale/blob/main/ipn/prefs.go

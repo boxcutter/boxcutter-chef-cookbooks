@@ -3,26 +3,22 @@ require 'chef/mixin/shell_out'
 module Boxcutter
   class Tailscale
     module Helpers
-      include Chef::Mixin::ShellOut
+      extend Chef::Mixin::ShellOut
 
-      def tailscale_status
-        cmd = Mixlib::ShellOut.new('/usr/bin/tailscale status --peers=false --json')
-        cmd.run_command
-        cmd.error!
+      def self.tailscale_status
+        result = shell_out!('/usr/bin/tailscale status --peers=false --json')
 
         # Description of the fields:
         # https://github.com/tailscale/tailscale/blob/main/ipn/ipnstate/ipnstate.go
-        JSON.parse(cmd.stdout)
+        JSON.parse(result.stdout)
       end
 
       def tailscale_debug_prefs
-        cmd = Mixlib::ShellOut.new('/usr/bin/tailscale debug prefs')
-        cmd.run_command
-        cmd.error!
+        result = shell_out!('/usr/bin/tailscale debug prefs')
 
         # Description of the fields:
         # https://github.com/tailscale/tailscale/blob/main/ipn/prefs.go
-        JSON.parse(cmd.stdout)
+        JSON.parse(result.stdout)
       end
     end
   end
