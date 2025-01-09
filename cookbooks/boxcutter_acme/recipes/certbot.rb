@@ -16,32 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-package ['python3', 'python3-venv'] do
-  action :upgrade
-end
+include_recipe 'boxcutter_python::system'
 
-directory '/opt/certbot' do
-  owner node.root_user
-  group node.root_group
-  mode '0755'
-end
-
-execute 'create certbot virtualenv' do
-  command 'python3 -m venv /opt/certbot/venv'
-  creates '/opt/certbot/venv/bin/python'
-end
+boxcutter_python_virtualenv '/opt/certbot/venv'
 
 %w{
   certbot
   certbot-dns-cloudflare
 }.each do |pkg|
-  execute "install #{pkg} python package" do
-    command "/opt/certbot/venv/bin/python -m pip install #{pkg}"
-    not_if "/opt/certbot/venv/bin/python -m pip list installed | grep ^#{pkg}"
-  end
-
-  execute "update #{pkg} python package" do
-    command "/opt/certbot/venv/bin/python -m pip install --upgrade #{pkg}"
-    only_if "/opt/certbot/venv/bin/python -m pip list --outdated | grep ^#{pkg}"
+  boxcutter_python_pip pkg do
+    virtualenv '/opt/certbot/venv'
+    action :upgrade
   end
 end

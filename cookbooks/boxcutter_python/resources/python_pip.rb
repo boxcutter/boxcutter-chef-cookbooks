@@ -68,9 +68,13 @@ end
 action :upgrade do
   if current_resource.version != Helpers.candidate_version(new_resource)
     original_version = current_resource.version || 'uninstalled'
-    description = "upgrade #{current_resource} version from #{current_resource.version} to #{Helpers.candidate_version(new_resource)}"
+    description = "upgrade #{current_resource} version from " +
+                  "#{current_resource.version} to " +
+                  Helpers.candidate_version(new_resource)
     converge_by(description) do
-      Chef::Log.info("Upgrading #{new_resource} version from #{original_version} to #{Helpers.candidate_version(new_resource)}")
+      Chef::Log.info("Upgrading #{new_resource} version from " +
+                     "#{original_version} to " +
+                     Helpers.candidate_version(new_resource))
       Helpers.upgrade_package(Helpers.candidate_version(new_resource), new_resource)
     end
   end

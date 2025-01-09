@@ -63,7 +63,7 @@ module Boxcutter
         else
           version = "==#{version}"
         end
-        pip_cmd('install', version, new_resource)
+        pip_cmd('install', new_resource, version)
       end
 
       def upgrade_package(version, new_resource)
@@ -76,7 +76,7 @@ module Boxcutter
         new_resource.extra_options "#{new_resource.extra_options} --yes"
         # Python only allows one version to be installed at a time, so it's
         # not necessary to provide a version on uninstall.
-        pip_cmd('uninstall', '', new_resource)
+        pip_cmd('uninstall', new_resource)
       end
 
       def removing_package?(current_resource, new_resource)
@@ -89,7 +89,7 @@ module Boxcutter
         end
       end
 
-      def pip_cmd(subcommand, version = '', new_resource)
+      def pip_cmd(subcommand, new_resource, version = '')
         options = { :timeout => new_resource.timeout, :user => new_resource.user, :group => new_resource.group }
         environment = {}
         environment['HOME'] = Dir.home(new_resource.user) if new_resource.user
