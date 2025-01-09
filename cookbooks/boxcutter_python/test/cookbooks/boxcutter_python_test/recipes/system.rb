@@ -23,6 +23,7 @@ end
 boxcutter_python_pip 'Jinja2' do
   version '2.8'
   virtualenv '/opt/jinja/venv'
+  action :upgrade
 end
 
 boxcutter_python_virtualenv '/opt/deleteme' do

@@ -3,9 +3,9 @@ require 'chef/mixin/shell_out'
 module Boxcutter
   class Python
     module Helpers
-      extend Chef::Mixin::ShellOut
+      include Chef::Mixin::ShellOut
 
-      def self.read_pyvenv_cfg(pyvenv_cfg_path)
+      def read_pyvenv_cfg(pyvenv_cfg_path)
         config = {}
         ::File.foreach(pyvenv_cfg_path) do |line|
           # Skip comments or blank lines
@@ -18,7 +18,7 @@ module Boxcutter
         config
       end
 
-      def self.remove_surrounding_single_quotes(string)
+      def remove_surrounding_single_quotes(string)
         if string.start_with?("'") && string.end_with?("'")
           string[1..-2]
         else
@@ -30,7 +30,7 @@ module Boxcutter
       # a provider that extends from Chef::Provider::Package
       # so refactoring into core Chef should be easy
 
-      def self.current_installed_version(new_resource)
+      def current_installed_version(new_resource)
         @current_installed_version ||= begin
           # Normalize package name (e.g., replace underscores with hyphens)
           normalized_package_name = new_resource.package_name.gsub('_', '-')
@@ -47,11 +47,11 @@ module Boxcutter
         end
       end
 
-      def self.candidate_version(new_resource)
+      def candidate_version(new_resource)
         @candidate_version ||= new_resource.version||'latest'
       end
 
-      def self.install_package(version, new_resource)
+      def install_package(version, new_resource)
         # if a version isn't specified (latest), is a source archive
         # (ex. http://my.package.repo/SomePackage-1.0.4.zip),
         # or from a VCS (ex. git+https://git.repo/some_pkg.git) then do not
@@ -66,20 +66,20 @@ module Boxcutter
         pip_cmd('install', version, new_resource)
       end
 
-      def self.upgrade_package(version, new_resource)
+      def upgrade_package(version, new_resource)
         # Upgrades are just an install with the `--upgrade` parameter added
-        new_resource.options "#{new_resource.options} --upgrade"
+        new_resource.extra_options "#{new_resource.extra_options} --upgrade"
         install_package(version, new_resource)
       end
 
-      def self.remove_package(_version, new_resource)
-        new_resource.options "#{new_resource.options} --yes"
+      def remove_package(_version, new_resource)
+        new_resource.extra_options "#{new_resource.extra_options} --yes"
         # Python only allows one version to be installed at a time, so it's
         # not necessary to provide a version on uninstall.
         pip_cmd('uninstall', '', new_resource)
       end
 
-      def self.removing_package?(current_resource, new_resource)
+      def removing_package?(current_resource, new_resource)
         if current_resource.version.nil?
           false # nothing to remove
         elsif new_resource.version.nil?
@@ -89,19 +89,19 @@ module Boxcutter
         end
       end
 
-      def self.pip_cmd(subcommand, version = '', new_resource)
+      def pip_cmd(subcommand, version = '', new_resource)
         options = { :timeout => new_resource.timeout, :user => new_resource.user, :group => new_resource.group }
         environment = {}
         environment['HOME'] = Dir.home(new_resource.user) if new_resource.user
         environment.merge!(new_resource.environment) if new_resource.environment && !new_resource.environment.empty?
         options[:environment] = environment
         shell_out!(
-          "#{which_pip(new_resource)} #{subcommand} #{new_resource.extra_options}" \
+          "#{which_pip(new_resource)} #{subcommand} #{new_resource.extra_options} " \
           "#{new_resource.package_name}#{version}", **options
 )
       end
 
-      def self.which_pip(new_resource)
+      def which_pip(new_resource)
         if new_resource.respond_to?('virtualenv') && new_resource.virtualenv
           ::File.join(new_resource.virtualenv, '/bin/pip')
         else

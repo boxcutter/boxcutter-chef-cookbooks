@@ -31,11 +31,19 @@ property :environment, Hash,
          description: 'Hash containing environment varibles to set before the pip command is run.',
          default: {}
 
+# This one is here for all the actions
+action_class do
+  class Helpers
+    extend Boxcutter::Python::Helpers
+  end
+end
+
 load_current_value do |new_resource|
+  extend Boxcutter::Python::Helpers
   package_name new_resource.package_name
   version nil
-  unless Boxcutter::Python::Helpers.current_installed_version(new_resource).nil?
-    version Boxcutter::Python::Helpers.current_installed_version(new_resource)
+  unless current_installed_version(new_resource).nil?
+    version current_installed_version(new_resource)
   end
 end
 
@@ -45,25 +53,25 @@ action :install do
     install_version = new_resource.version
     # If it's not installed at all, install it
   elsif current_resource.version.nil?
-    install_version = Boxcutter::Python::Helpers.candidate_version(new_resource)
+    install_version = Helpers.candidate_version(new_resource)
   end
 
   if install_version
     description = "install package #{new_resource} version #{install_version}"
     converge_by(description) do
       Chef::Log.info("Installing #{new_resource} version #{install_version}")
-      Boxcutter::Python::Helpers.install_package(install_version, new_resource)
+      Helpers.install_package(install_version, new_resource)
     end
   end
 end
 
 action :upgrade do
-  if current_resource.version != Boxcutter::Python::Helpers.candidate_version
+  if current_resource.version != Helpers.candidate_version(new_resource)
     original_version = current_resource.version || 'uninstalled'
-    description = "upgrade #{current_resource} version from #{current_resource.version} to #{candidate_version}"
+    description = "upgrade #{current_resource} version from #{current_resource.version} to #{Helpers.candidate_version(new_resource)}"
     converge_by(description) do
-      Chef::Log.info("Upgrading #{new_resource} version from #{original_version} to #{candidate_version}")
-      Boxcutter::Python::Helpers.upgrade_package(candidate_version, new_resource)
+      Chef::Log.info("Upgrading #{new_resource} version from #{original_version} to #{Helpers.candidate_version(new_resource)}")
+      Helpers.upgrade_package(Helpers.candidate_version(new_resource), new_resource)
     end
   end
 end
@@ -73,7 +81,7 @@ action :remove do
     description = "remove package #{new_resource}"
     converge_by(description) do
       Chef::Log.info("Removing #{new_resource}")
-      Boxcutter::Python::Helpers.remove_package(new_resource.version, new_resource)
+      Helpers.remove_package(new_resource.version, new_resource)
     end
   end
 end

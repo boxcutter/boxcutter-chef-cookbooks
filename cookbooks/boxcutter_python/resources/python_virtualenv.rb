@@ -35,12 +35,13 @@ property :extra_options, String,
 PYVENV_CFG = 'pyvenv.cfg'.freeze
 
 load_current_value do |new_resource|
+  extend Boxcutter::Python::Helpers
   pyvenv_cfg_path = ::File.join(new_resource.path, PYVENV_CFG)
   if ::File.exist?(pyvenv_cfg_path)
-    config = Boxcutter::Python::Helpers.read_pyvenv_cfg(pyvenv_cfg_path)
+    config = read_pyvenv_cfg(pyvenv_cfg_path)
     system_site_packages config['include-system-site-packages'] == 'true'
     if config.key?('prompt')
-      prompt Boxcutter::Python::Helpers.remove_surrounding_single_quotes(config['prompt'])
+      prompt remove_surrounding_single_quotes(config['prompt'])
     end
   end
 end
