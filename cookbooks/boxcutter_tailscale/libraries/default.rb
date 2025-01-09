@@ -1,8 +1,9 @@
-require 'chef/mixin/shell_out'
-
 module Boxcutter
   class Tailscale
     module Helpers
+      # Use extend instead of include, so we can use the "shell_out" mixin. To
+      # use a mixin, you either need to include it into the Chef::Recipe class,
+      # or use an extend (instead of include).
       extend Chef::Mixin::ShellOut
 
       def self.tailscale_status
