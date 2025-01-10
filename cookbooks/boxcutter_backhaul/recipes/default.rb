@@ -201,10 +201,6 @@ if nexus_hosts
     },
   }
 
-  # cloudflare_api_token = Boxcutter::OnePassword.op_read(
-  #   'op://Automation-Org/Cloudflare API token amazing-sheila/credential',
-  # )
-
   # Set up an HTTP-only listener for ubuntu proxies because apt doesn't work
   # well with HTTPS
   node.default['fb_nginx']['sites']['nexus_http'] = {
@@ -247,8 +243,7 @@ if nexus_hosts
     },
   }
 
-  # include_recipe 'boxcutter_acme::lego'
-  # include_recipe 'boxcutter_acme::certbot'
+  include_recipe 'boxcutter_acme::certbot'
 
   node.default['fb_nginx']['enable_default_site'] = false
   node.default['fb_nginx']['config']['http']['proxy_send_timeout'] = '120'
