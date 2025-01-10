@@ -1,0 +1,50 @@
+#!/bin/bash
+
+CERTBOT_BIN="<%= @certbot_bin %>"
+DOMAINS=<%= @domains %>
+EMAIL="<%= @email %>"
+CLOUDFLARE_INI="<%= @cloudflare_ini %>"
+
+check_certificate() {
+  for DOMAIN in "${DOMAINS[@]}"; do
+    if ! "${CERTBOT_BIN}" certificates | grep -q "Domains:.*\b$DOMAIN\b"; then
+      return 1  # If any domain is missing, return failure
+    fi
+  done
+  return 0  # All domains are covered
+}
+
+obtain_certificate() {
+  if check_certificate; then
+    echo "Certificate for all domains already exists. Skipping certificate creation."
+  else
+    echo "Creating a new certificate for domains: ${DOMAINS[*]}"
+    DOMAIN_ARGS=()
+    for DOMAIN in ${DOMAINS}; do
+      DOMAIN_ARGS+=("-d $DOMAIN")
+    done
+
+    "${CERTBOT_BIN}" certonly \
+      --non-interactive \
+      --agree-tos \
+      --non-interactive \
+      -m "${EMAIL}" \
+      --no-eff-email \
+      <%= @extra_args.nil? ? '' : "#{@extra_args} " -%>--preferred-challenges dns-01 \
+      --expand \
+      ${DOMAIN_ARGS[@]}
+  fi
+}
+
+renew_certificate() {
+  echo "Attempting to renew SSL certificate for domains: ${DOMAINS[*]}"
+  "${CERTBOT_BIN}" renew
+}
+
+certificate_info() {
+  "${CERTBOT_BIN}" certificates
+}
+
+obtain_certificate
+renew_certificate
+certificate_info

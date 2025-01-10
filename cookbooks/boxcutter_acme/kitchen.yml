@@ -71,6 +71,16 @@ suites:
       inspec_tests:
         - test/integration/default
     attributes:
+    lifecycle:
+      pre_converge:
+        - remote: |
+            bash -xc '
+              set +x
+              mkdir -p /etc/cinc
+              ln -s /etc/cinc /etc/chef
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token
+              set -x
+            '
 
   - name: lego
     provisioner:
