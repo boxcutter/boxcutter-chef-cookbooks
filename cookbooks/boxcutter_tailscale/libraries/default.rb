@@ -14,7 +14,7 @@ module Boxcutter
         JSON.parse(result.stdout)
       end
 
-      def tailscale_debug_prefs
+      def self.tailscale_debug_prefs
         result = shell_out!('/usr/bin/tailscale debug prefs')
 
         # Description of the fields:
