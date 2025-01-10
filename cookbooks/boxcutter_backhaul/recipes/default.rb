@@ -16,43 +16,60 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-nfs_server_hosts = %w{
-  nfs-server-centos-stream-9
-  nfs-server-ubuntu-2204
-}.include?(node['hostname'])
-
-if nfs_server_hosts
-  node.default['fb_iptables']['filter']['INPUT']['rules']['nfs server'] = {
-    'rules' => [
-      '-p tcp --dport 2049 -j ACCEPT',
-      '-p udp --dport 2049 -j ACCEPT',
-    ],
-  }
-
-  directory '/var/nfs' do
-    owner node.root_user
-    group node.root_group
-    mode '0755'
-  end
-
-  directory '/var/nfs/general' do
-    owner 'nobody'
-    group node.ubuntu? ? 'nogroup' : 'nobody'
-    mode '0777'
-  end
-
-  node.default['boxcutter_nfs']['server']['exports']['/var/nfs/general'] = %w{
-    *(rw,sync,no_subtree_check,insecure)
-  }
-
-  include_recipe 'boxcutter_nfs::server'
-end
+# nfs_server_hosts = %w{
+#   nfs-server-centos-stream-9
+#   nfs-server-ubuntu-2204
+# }.include?(node['hostname'])
+#
+# if nfs_server_hosts
+#   node.default['fb_iptables']['filter']['INPUT']['rules']['nfs server'] = {
+#     'rules' => [
+#       '-p tcp --dport 2049 -j ACCEPT',
+#       '-p udp --dport 2049 -j ACCEPT',
+#     ],
+#   }
+#
+#   directory '/var/nfs' do
+#     owner node.root_user
+#     group node.root_group
+#     mode '0755'
+#   end
+#
+#   directory '/var/nfs/general' do
+#     owner 'nobody'
+#     group node.ubuntu? ? 'nogroup' : 'nobody'
+#     mode '0777'
+#   end
+#
+#   node.default['boxcutter_nfs']['server']['exports']['/var/nfs/general'] = %w{
+#     *(rw,sync,no_subtree_check,insecure)
+#   }
+#
+#   include_recipe 'boxcutter_nfs::server'
+# end
 
 nexus_hosts = %w{
-  crake-nexus
+  ip-10-0-1-51
 }.include?(node['hostname'])
 
 if nexus_hosts
+  # op item get 'tailscale oauth automation-sandbox-write-blue' --vault Automation-Sandbox
+  # op item get v5zvz2gomyzhgow46esj7txneu --format json
+  tailscale_oauth_client_id_write_blue =\
+    Boxcutter::OnePassword.op_read('op://Automation-Org/tailscale oauth write blue/username')
+  tailscale_oauth_client_secret_write_blue = \
+    Boxcutter::OnePassword.op_read('op://Automation-Org/tailscale oauth write blue/credential')
+  node.run_state['boxcutter_tailscale'] ||= {}
+  node.run_state['boxcutter_tailscale']['oauth_client_id'] = tailscale_oauth_client_id_write_blue
+  node.run_state['boxcutter_tailscale']['oauth_client_secret'] = tailscale_oauth_client_secret_write_blue
+  node.default['boxcutter_tailscale']['enable'] = true
+  node.default['boxcutter_tailscale']['ephemeral'] = false
+  node.default['boxcutter_tailscale']['use_tailscale_dns'] = false
+  node.default['boxcutter_tailscale']['shields_up'] = false
+  node.default['boxcutter_tailscale']['hostname'] = 'aws-boxcutter-nexus'
+  node.default['boxcutter_tailscale']['tags'] = ['chef']
+  include_recipe 'boxcutter_tailscale::default'
+
   node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
     'ros-apt-proxy' => {
       'name' => 'ros-apt-proxy',
@@ -184,15 +201,15 @@ if nexus_hosts
     },
   }
 
-  cloudflare_api_token = Boxcutter::OnePassword.op_read(
-    'op://Automation-Org/Cloudflare API token amazing-sheila/credential',
-  )
+  # cloudflare_api_token = Boxcutter::OnePassword.op_read(
+  #   'op://Automation-Org/Cloudflare API token amazing-sheila/credential',
+  # )
 
   # Set up an HTTP-only listener for ubuntu proxies because apt doesn't work
   # well with HTTPS
   node.default['fb_nginx']['sites']['nexus_http'] = {
     'listen' => '80',
-    'server_name' => 'crake-nexus.org.boxcutter.net',
+    'server_name' => 'aws-boxcutter-nexus.org.boxcutter.net',
     'location ~ ^/repository/' \
       '(ros-apt-proxy|' \
       'ubuntu-archive-apt-proxy|' \
@@ -210,30 +227,28 @@ if nexus_hosts
     },
   }
 
-  node.default['boxcutter_acme']['lego']['config'] = {
+  node.run_state['boxcutter_acme'] ||= {}
+  node.run_state['boxcutter_acme']['certbot'] ||= {}
+  node.run_state['boxcutter_acme']['certbot']['cloudflare_api_token'] = \
+    Boxcutter::OnePassword.op_read('op://Automation-Org/Cloudflare API token amazing-sheila/credential')
+
+  node.default['boxcutter_acme']['certbot']['config'] = {
     'nexus' => {
-      'certificate_name' => 'crake-nexus.org.boxcutter.net',
-      'data_path' => '/etc/lego',
-      'renew_script_path' => '/opt/lego/lego_renew.sh',
-      'renew_days' => '30',
+      'renew_script_path' => '/opt/certbot/bin/certbot_renew.sh',
+      'certbot_bin' => '/opt/certbot/venv/bin/certbot',
+      'domains' => ['aws-boxcutter-nexus.org.boxcutter.net', '*.aws-boxcutter-nexus.org.boxcutter.net'],
       'email' => 'letsencrypt@boxcutter.dev',
-      'domains' => %w{
-        crake-nexus.org.boxcutter.net
-        *.crake-nexus.org.boxcutter.net
-      },
-      'extra_parameters' => [
-        '--dns=cloudflare',
-        # There are issues resolving apex domain servers over tailscale, so
-        # override the DNS resolver lego uses, in case we're running tailscale
-        '--dns.resolvers=newt.ns.cloudflare.com:53',
-      ],
-      'extra_environment' => {
-        'export CF_DNS_API_TOKEN' => cloudflare_api_token,
-      },
+      'cloudflare_ini' => '/etc/chef/cloudflare.ini',
+      'extra_args' => [
+        '--dns-cloudflare',
+        '--dns-cloudflare-credentials /etc/chef/cloudflare.ini',
+        '--test-cert',
+      ].join(' '),
     },
   }
 
-  include_recipe 'boxcutter_acme::lego'
+  # include_recipe 'boxcutter_acme::lego'
+  # include_recipe 'boxcutter_acme::certbot'
 
   node.default['fb_nginx']['enable_default_site'] = false
   node.default['fb_nginx']['config']['http']['proxy_send_timeout'] = '120'
@@ -246,7 +261,7 @@ if nexus_hosts
 
   node.default['fb_nginx']['sites']['nexus'] = {
     'listen 443' => 'ssl',
-    'server_name' => 'crake-nexus.org.boxcutter.net',
+    'server_name' => 'aws-nexus.org.boxcutter.net',
     'client_max_body_size' => '1G',
     'ssl_certificate' =>
       '/etc/lego/certificates/crake-nexus.org.boxcutter.net.crt',
@@ -319,20 +334,20 @@ if nexus_hosts
     },
   }
 
-  include_recipe 'fb_nginx'
+  # include_recipe 'fb_nginx'
 
-  nexus_admin_username = Boxcutter::OnePassword.op_read(
-    'op://Automation-Org/nexus admin blue/username',
-    )
-  nexus_admin_password = Boxcutter::OnePassword.op_read(
-    'op://Automation-Org/nexus admin blue/password',
-    )
-  node.run_state['boxcutter_sonatype'] ||= {}
-  node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
-  node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = nexus_admin_username
-  node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = nexus_admin_password
-
-  include_recipe 'boxcutter_sonatype::default'
+  # nexus_admin_username = Boxcutter::OnePassword.op_read(
+  #   'op://Automation-Org/nexus admin blue/username',
+  #   )
+  # nexus_admin_password = Boxcutter::OnePassword.op_read(
+  #   'op://Automation-Org/nexus admin blue/password',
+  #   )
+  # node.run_state['boxcutter_sonatype'] ||= {}
+  # node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
+  # node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = nexus_admin_username
+  # node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = nexus_admin_password
+  #
+  # include_recipe 'boxcutter_sonatype::default'
 
   # node['boxcutter_docker']['buildkits']['x86_64_builder'] = {
   #   'name' => 'x86-64-builder',

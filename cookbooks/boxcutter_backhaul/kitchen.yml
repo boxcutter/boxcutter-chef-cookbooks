@@ -24,6 +24,14 @@ provisioner:
 transport:
   name: dokken
 
+lifecycle:
+  post_create:
+    - remote: |
+        bash -c -x '
+          # Force firstboot
+          touch /root/firstboot_os
+        '
+
 verifier:
   name: inspec
 
