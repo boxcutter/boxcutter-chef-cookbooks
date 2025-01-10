@@ -238,7 +238,7 @@ if nexus_hosts
       'extra_args' => [
         '--dns-cloudflare',
         '--dns-cloudflare-credentials /etc/chef/cloudflare.ini',
-        '--test-cert',
+        # '--test-cert',
       ].join(' '),
     },
   }
