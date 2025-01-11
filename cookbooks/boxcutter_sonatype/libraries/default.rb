@@ -377,6 +377,15 @@ module Boxcutter
         puts "MISCHA: DELETE response body: #{response.body}"
       end
 
+      def self.blobstore_create_file_payload(blobstore_name, blobstore_config)
+        payload = {
+          'name' => blobstore_name,
+          'path' => blobstore_config['path'],
+        }
+
+        payload.to_json
+      end
+
       def self.blobstore_create_s3_payload(blobstore_name, blobstore_config)
         payload = {
           'name' => blobstore_name,
@@ -405,6 +414,8 @@ module Boxcutter
         uri = URI.parse("http://localhost:8081/service/rest/v1/blobstores/#{blobstore_type}")
 
         case blobstore_config['type']
+        when 'file'
+          payload = blobstore_create_file_payload(blobstore_name, blobstore_config)
         when 's3'
           payload = blobstore_create_s3_payload(blobstore_name, blobstore_config)
         end

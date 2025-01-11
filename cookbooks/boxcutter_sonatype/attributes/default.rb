@@ -22,6 +22,12 @@ default['boxcutter_sonatype']['nexus_repository'] = {
   },
   'properties' => {
   },
-  'blobstores' => {},
+  'blobstores' => {
+    'default' => {
+      'name' => 'default',
+      'type' => 'file',
+      'path' => 'default',
+    }
+  },
   'repositories' => {},
 }
