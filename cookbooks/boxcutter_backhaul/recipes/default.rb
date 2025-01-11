@@ -238,7 +238,6 @@ if nexus_hosts
       'extra_args' => [
         '--dns-cloudflare',
         '--dns-cloudflare-credentials /etc/chef/cloudflare.ini',
-        # '--test-cert',
       ].join(' '),
     },
   }
@@ -256,12 +255,12 @@ if nexus_hosts
 
   node.default['fb_nginx']['sites']['nexus'] = {
     'listen 443' => 'ssl',
-    'server_name' => 'aws-nexus.org.boxcutter.net',
+    'server_name' => 'aws-boxcutter-nexus.org.boxcutter.net',
     'client_max_body_size' => '1G',
     'ssl_certificate' =>
-      '/etc/lego/certificates/crake-nexus.org.boxcutter.net.crt',
+      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/fullchain.pem',
     'ssl_certificate_key' =>
-      '/etc/lego/certificates/crake-nexus.org.boxcutter.net.key',
+      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/privkey.pem',
     'location /' => {
       'proxy_set_header Host' => '$host:$server_port',
       'proxy_set_header X-Real-IP' => '$remote_addr',
@@ -273,12 +272,12 @@ if nexus_hosts
 
   node.default['fb_nginx']['sites']['nexus_docker'] = {
     'listen 443' => 'ssl',
-    'server_name' => 'docker.crake-nexus.org.boxcutter.net',
+    'server_name' => 'docker.aws-boxcutter-nexus.org.boxcutter.net',
     'client_max_body_size' => '0',
     'ssl_certificate' =>
-      '/etc/lego/certificates/crake-nexus.org.boxcutter.net.crt',
+      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/fullchain.pem',
     'ssl_certificate_key' =>
-      '/etc/lego/certificates/crake-nexus.org.boxcutter.net.key',
+      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/privkey.pem',
     'location ~ ^/(v1|v2)/[^/]+/?[^/]+/blobs/' => {
       'if ($request_method ~* (POST|PUT|DELETE|PATCH|HEAD) )' => {
         'rewrite ^/(.*)$ /repository/docker-hosted/$1' => 'last',
@@ -302,12 +301,12 @@ if nexus_hosts
 
   node.default['fb_nginx']['sites']['nexus_docker_cache'] = {
     'listen 443' => 'ssl',
-    'server_name' => 'docker-cache.crake-nexus.org.boxcutter.net',
+    'server_name' => 'docker-cache.aws-boxcutter-nexus.org.boxcutter.net',
     'client_max_body_size' => '0',
     'ssl_certificate' =>
-      '/etc/lego/certificates/crake-nexus.org.boxcutter.net.crt',
+      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/fullchain.pem',
     'ssl_certificate_key' =>
-      '/etc/lego/certificates/crake-nexus.org.boxcutter.net.key',
+      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/privkey.pem',
     'location ~ ^/(v1|v2)/[^/]+/?[^/]+/blobs/' => {
       'if ($request_method ~* (POST|PUT|DELETE|PATCH|HEAD) )' => {
         'rewrite ^/(.*)$ /repository/docker-cache-hosted/$1' => 'last',
@@ -329,7 +328,7 @@ if nexus_hosts
     },
   }
 
-  # include_recipe 'fb_nginx'
+  include_recipe 'fb_nginx'
 
   # nexus_admin_username = Boxcutter::OnePassword.op_read(
   #   'op://Automation-Org/nexus admin blue/username',
