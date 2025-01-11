@@ -39,7 +39,7 @@ list_certificates() {
 }
 
 DOMAIN_ARGS=()
-for DOMAIN in ${DOMAINS}; do
+for DOMAIN in ${DOMAINS[@]}; do
   echo "${DOMAIN}"
   DOMAIN_ARGS+=("--domains $DOMAIN")
 done

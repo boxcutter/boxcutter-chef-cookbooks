@@ -20,7 +20,7 @@ obtain_certificate() {
   else
     echo "Creating a new certificate for domains: ${DOMAINS[*]}"
     DOMAIN_ARGS=()
-    for DOMAIN in ${DOMAINS}; do
+    for DOMAIN in ${DOMAINS[@]}; do
       DOMAIN_ARGS+=("-d $DOMAIN")
     done
 
