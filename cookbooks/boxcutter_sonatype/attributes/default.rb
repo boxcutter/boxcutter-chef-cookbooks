@@ -27,7 +27,7 @@ default['boxcutter_sonatype']['nexus_repository'] = {
       'name' => 'default',
       'type' => 'file',
       'path' => 'default',
-    }
+    },
   },
   'repositories' => {},
 }

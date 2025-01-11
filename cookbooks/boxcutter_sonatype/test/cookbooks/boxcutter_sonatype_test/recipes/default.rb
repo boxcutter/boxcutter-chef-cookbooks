@@ -5,7 +5,7 @@
 node.run_state['boxcutter_sonatype'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = 'admin'
-  node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
+node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
 # node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = 'chef'
 # node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'sucre-canonize-ROADSTER-bashful'
 
@@ -14,7 +14,7 @@ node.default['boxcutter_sonatype']['nexus_repository']['blobstores'] = {
     'name' => 'default',
     'type' => 'file',
     'path' => 'default',
-  }
+  },
 }
 
 node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
