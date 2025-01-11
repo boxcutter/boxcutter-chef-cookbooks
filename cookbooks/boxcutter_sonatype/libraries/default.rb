@@ -129,7 +129,7 @@ module Boxcutter
             'name' => repository_name,
             'online' => true,
             'storage' => {
-              'blobStoreName' => 'default',
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
               'strictContentTypeValidation' => false,
             },
             'cleanup' => {
@@ -183,7 +183,7 @@ module Boxcutter
             'name' => repository_name,
             'online' => true,
             'storage' => {
-              'blobStoreName' => 'default',
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
               'strictContentTypeValidation' => true,
             },
             'group' => {
@@ -202,7 +202,7 @@ module Boxcutter
             'name' => repository_name,
             'online' => true,
             'storage' => {
-              'blobStoreName' => 'default',
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
               'strictContentTypeValidation' => true,
               'writePolicy' => 'allow',
               'latestPolicy' => true,
@@ -222,7 +222,7 @@ module Boxcutter
             'name' => repository_name,
             'online' => true,
             'storage' => {
-              'blobStoreName' => 'default',
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
               'strictContentTypeValidation' => true,
             },
             'cleanup' => {
@@ -272,7 +272,7 @@ module Boxcutter
             'name' => repository_name,
             'online' => true,
             'storage' => {
-              'blobStoreName' => 'default',
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
               'strictContentTypeValidation' => true,
               'writePolicy' => 'allow',
             },
@@ -285,7 +285,7 @@ module Boxcutter
             'name' => repository_name,
             'online' => true,
             'storage' => {
-              'blobStoreName' => 'default',
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
               'strictContentTypeValidation' => false,
             },
             'proxy' => {

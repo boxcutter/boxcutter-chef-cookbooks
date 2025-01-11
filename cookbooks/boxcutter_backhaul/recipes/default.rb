@@ -78,7 +78,18 @@ if nexus_hosts
       'bucket_name' => 'boxcutter-acceptance-blobstore-sandbox-uswest2',
     },
   }
-  node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {}
+  # storage_blob_store_name
+  node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
+    'ros-apt-proxy' => {
+      'name' => 'ros-apt-proxy',
+      'type' => 'proxy',
+      'format' => 'apt',
+      'remote_url' => 'http://packages.ros.org/ros2/ubuntu',
+      'distribution' => 'jammy',
+      'flat' => false,
+      'storage_blob_store_name' => 's3-blob-store',
+    },
+  }
   # node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
   #   'ros-apt-proxy' => {
   #     'name' => 'ros-apt-proxy',
