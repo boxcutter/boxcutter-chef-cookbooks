@@ -70,6 +70,17 @@ if nexus_hosts
   node.default['boxcutter_tailscale']['tags'] = ['chef']
   include_recipe 'boxcutter_tailscale::default'
 
+  node.default['boxcutter_sonatype']['nexus_repository'] = {
+    'repositories' => {},
+    'blobstores' => {
+      's3-blob-store' => {
+        'name' => 's3-blob-store',
+        'type' => 's3',
+        'bucket_region' => 'us-west-2',
+        'bucket_name' => 'boxcutter-acceptance-blobstore-sandbox-uswest2',
+      },
+    },
+  }
   # node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
   #   'ros-apt-proxy' => {
   #     'name' => 'ros-apt-proxy',

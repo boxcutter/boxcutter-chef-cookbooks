@@ -313,6 +313,28 @@ module Boxcutter
         end
       end
 
+      # curl -ifu admin:Superseekret63 \
+      #   -X GET 'http://127.0.0.1:8081/service/rest/v1/blobstores'
+      def self.blobstores_list(node)
+        uri = URI.parse('http://localhost:8081/service/rest/v1/blobstores')
+        request = Net::HTTP::Get.new(uri)
+        request.basic_auth(admin_username(node), admin_password(node))
+        request['Accept'] = 'application/json'
+
+        response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.request(request)
+        end
+
+        if response.code.to_i == 200
+          blobstores = JSON.parse(response.body)
+          Chef::Log.info("Blobstores: #{blobstores}")
+          # You can process the blobstores as needed here
+        else
+          Chef::Log.error("Failed to get blobstores: #{response.message}")
+        end
+        blobstores
+      end
+
       # curl -u admin:admin123 -X POST 'http://localhost:8081/service/rest/v1/repositories/raw/hosted' \
       #                                 -H 'Content-Type: application/json' \
       #  -d @repo_config.json
@@ -344,6 +366,63 @@ module Boxcutter
 
       def self.repository_delete(node, repository_name)
         uri = URI.parse("http://localhost:8081/service/rest/v1/repositories/#{repository_name}")
+        http = Net::HTTP.new(uri.hostname, uri.port)
+
+        request = Net::HTTP::Delete.new(uri)
+        request.basic_auth(admin_username(node), admin_password(node))
+
+        response = http.request(request)
+
+        puts "MISCHA: DELETE response code: #{response.code}"
+        puts "MISCHA: DELETE response body: #{response.body}"
+      end
+
+      def self.blobstore_create_s3_payload(blobstore_name, blobstore_config)
+        payload = {
+          'name' => blobstore_name,
+          'bucketConfiguration' => {
+            'bucket' => {
+              'region' => blobstore_config['bucket_region'],
+              'name' => blobstore_config['bucket_name'],
+              'prefix' => '',
+              'expiration' => 3,
+            },
+            'advancedBucketConnection' => {
+              'endpoint' => '',
+              'forcePathStyle' => false,
+            },
+          },
+        }
+
+        payload.to_json
+      end
+
+      # curl -u admin:admin123 -X POST 'http://localhost:8081/service/rest/v1/repositories/raw/hosted' \
+      #                                 -H 'Content-Type: application/json' \
+      #  -d @repo_config.json
+      def self.blobstore_create(node, blobstore_name, blobstore_config)
+        blobstore_type = blobstore_config['type']
+        uri = URI.parse("http://localhost:8081/service/rest/v1/blobstores/#{blobstore_type}")
+
+        case blobstore_config['type']
+        when 's3'
+          payload = blobstore_create_s3_payload(blobstore_name, blobstore_config)
+        end
+
+        http = Net::HTTP.new(uri.host, uri.port)
+
+        request = Net::HTTP::Post.new(uri.request_uri, { 'Content-Type' => 'application/json' })
+        request.basic_auth(admin_username(node), admin_password(node))
+        request.body = payload
+
+        response = http.request(request)
+
+        puts "MISCHA: PUT response code: #{response.code}"
+        puts "MISCHA: PUT response body: #{response.body}"
+      end
+
+      def self.blobstore_delete(node, blobstore_name)
+        uri = URI.parse("http://localhost:8081/service/rest/v1/blobstores/#{blobstore_name}")
         http = Net::HTTP.new(uri.hostname, uri.port)
 
         request = Net::HTTP::Delete.new(uri)
