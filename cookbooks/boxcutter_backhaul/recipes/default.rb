@@ -70,136 +70,136 @@ if nexus_hosts
   node.default['boxcutter_tailscale']['tags'] = ['chef']
   include_recipe 'boxcutter_tailscale::default'
 
-  node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
-    'ros-apt-proxy' => {
-      'name' => 'ros-apt-proxy',
-      'type' => 'proxy',
-      'format' => 'apt',
-      'remote_url' => 'http://packages.ros.org/ros2/ubuntu',
-      'distribution' => 'jammy',
-      'flat' => false,
-    },
-    'ubuntu-archive-apt-proxy' => {
-      'name' => 'ubuntu-archive-apt-proxy',
-      'type' => 'proxy',
-      'format' => 'apt',
-      'remote_url' => 'http://archive.ubuntu.com/ubuntu',
-      'distribution' => 'jammy',
-      'flat' => false,
-    },
-    'ubuntu-security-apt-proxy' => {
-      'name' => 'ubuntu-security-apt-proxy',
-      'type' => 'proxy',
-      'format' => 'apt',
-      'remote_url' => 'http://security.ubuntu.com/ubuntu/',
-      'distribution' => 'jammy',
-      'flat' => false,
-    },
-    'ubuntu-ports-apt-proxy' => {
-      'name' => 'ubuntu-ports-apt-proxy',
-      'type' => 'proxy',
-      'format' => 'apt',
-      'remote_url' => 'http://ports.ubuntu.com/ubuntu-ports',
-      'distribution' => 'jammy',
-      'flat' => false,
-    },
-    'ubuntu-releases-proxy' => {
-      'name' => 'ubuntu-releases-proxy',
-      'type' => 'proxy',
-      'format' => 'raw',
-      'remote_url' => 'https://releases.ubuntu.com',
-    },
-    'ubuntu-cdimage-proxy' => {
-      'name' => 'ubuntu-cdimage-proxy',
-      'type' => 'proxy',
-      'format' => 'raw',
-      'remote_url' => 'https://cdimage.ubuntu.com',
-    },
-    'ubuntu-cloud-images-proxy' => {
-      'name' => 'ubuntu-cloud-images-proxy',
-      'type' => 'proxy',
-      'format' => 'raw',
-      'remote_url' => 'https://cloud-images.ubuntu.com',
-    },
-    'cinc-proxy' => {
-      'name' => 'cinc-proxy',
-      'type' => 'proxy',
-      'format' => 'raw',
-      'remote_url' => 'https://ftp.osuosl.org/pub/cinc',
-    },
-    'github-releases-proxy' => {
-      'name' => 'github-releases-proxy',
-      'type' => 'proxy',
-      'format' => 'raw',
-      'remote_url' => 'https://github.com',
-    },
-    'githubusercontent-proxy' => {
-      'name' => 'githubusercontent-proxy',
-      'type' => 'proxy',
-      'format' => 'raw',
-      'remote_url' => 'https://raw.githubusercontent.com',
-    },
-    'onepassword-proxy' => {
-      'name' => 'onepassword-proxy',
-      'type' => 'proxy',
-      'format' => 'raw',
-      'remote_url' => 'https://cache.agilebits.com',
-    },
-    'boxcutter-images-hosted' => {
-      'name' => 'boxcutter-images-hosted',
-      'type' => 'hosted',
-      'format' => 'raw',
-    },
-    'docker-hosted' => {
-      'name' => 'docker-hosted',
-      'type' => 'hosted',
-      'format' => 'docker',
-      'docker_v1_enabled' => true,
-      'docker_force_basic_auth' => true,
-    },
-    'docker-proxy' => {
-      'name' => 'docker-proxy',
-      'type' => 'proxy',
-      'format' => 'docker',
-      'remote_url' => 'https://registry-1.docker.io',
-      'docker_v1_enabled' => true,
-      'docker_force_basic_auth' => true,
-      'docker_proxy_index_type' => 'HUB',
-    },
-    'docker' => {
-      'name' => 'docker',
-      'type' => 'group',
-      'format' => 'docker',
-      'member_names' => %w{
-        docker-hosted
-        docker-proxy
-      },
-      'writableMember' => 'docker-hosted',
-      'docker_v1_enabled' => true,
-      'docker_force_basic_auth' => true,
-      'docker_http_port' => 8082,
-    },
-    'docker-cache-hosted' => {
-      'name' => 'docker-cache-hosted',
-      'type' => 'hosted',
-      'format' => 'docker',
-      'docker_v1_enabled' => true,
-      'docker_force_basic_auth' => true,
-    },
-    'docker-cache' => {
-      'name' => 'docker-cache',
-      'type' => 'group',
-      'format' => 'docker',
-      'member_names' => %w{
-        docker-cache-hosted
-        docker-proxy
-      },
-      'writableMember' => 'docker-cache-hosted',
-      'docker_v1_enabled' => true,
-      'docker_force_basic_auth' => true,
-      'docker_http_port' => 8083,
-    },
-  }
+  # node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
+  #   'ros-apt-proxy' => {
+  #     'name' => 'ros-apt-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'apt',
+  #     'remote_url' => 'http://packages.ros.org/ros2/ubuntu',
+  #     'distribution' => 'jammy',
+  #     'flat' => false,
+  #   },
+  #   'ubuntu-archive-apt-proxy' => {
+  #     'name' => 'ubuntu-archive-apt-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'apt',
+  #     'remote_url' => 'http://archive.ubuntu.com/ubuntu',
+  #     'distribution' => 'jammy',
+  #     'flat' => false,
+  #   },
+  #   'ubuntu-security-apt-proxy' => {
+  #     'name' => 'ubuntu-security-apt-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'apt',
+  #     'remote_url' => 'http://security.ubuntu.com/ubuntu/',
+  #     'distribution' => 'jammy',
+  #     'flat' => false,
+  #   },
+  #   'ubuntu-ports-apt-proxy' => {
+  #     'name' => 'ubuntu-ports-apt-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'apt',
+  #     'remote_url' => 'http://ports.ubuntu.com/ubuntu-ports',
+  #     'distribution' => 'jammy',
+  #     'flat' => false,
+  #   },
+  #   'ubuntu-releases-proxy' => {
+  #     'name' => 'ubuntu-releases-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'raw',
+  #     'remote_url' => 'https://releases.ubuntu.com',
+  #   },
+  #   'ubuntu-cdimage-proxy' => {
+  #     'name' => 'ubuntu-cdimage-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'raw',
+  #     'remote_url' => 'https://cdimage.ubuntu.com',
+  #   },
+  #   'ubuntu-cloud-images-proxy' => {
+  #     'name' => 'ubuntu-cloud-images-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'raw',
+  #     'remote_url' => 'https://cloud-images.ubuntu.com',
+  #   },
+  #   'cinc-proxy' => {
+  #     'name' => 'cinc-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'raw',
+  #     'remote_url' => 'https://ftp.osuosl.org/pub/cinc',
+  #   },
+  #   'github-releases-proxy' => {
+  #     'name' => 'github-releases-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'raw',
+  #     'remote_url' => 'https://github.com',
+  #   },
+  #   'githubusercontent-proxy' => {
+  #     'name' => 'githubusercontent-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'raw',
+  #     'remote_url' => 'https://raw.githubusercontent.com',
+  #   },
+  #   'onepassword-proxy' => {
+  #     'name' => 'onepassword-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'raw',
+  #     'remote_url' => 'https://cache.agilebits.com',
+  #   },
+  #   'boxcutter-images-hosted' => {
+  #     'name' => 'boxcutter-images-hosted',
+  #     'type' => 'hosted',
+  #     'format' => 'raw',
+  #   },
+  #   'docker-hosted' => {
+  #     'name' => 'docker-hosted',
+  #     'type' => 'hosted',
+  #     'format' => 'docker',
+  #     'docker_v1_enabled' => true,
+  #     'docker_force_basic_auth' => true,
+  #   },
+  #   'docker-proxy' => {
+  #     'name' => 'docker-proxy',
+  #     'type' => 'proxy',
+  #     'format' => 'docker',
+  #     'remote_url' => 'https://registry-1.docker.io',
+  #     'docker_v1_enabled' => true,
+  #     'docker_force_basic_auth' => true,
+  #     'docker_proxy_index_type' => 'HUB',
+  #   },
+  #   'docker' => {
+  #     'name' => 'docker',
+  #     'type' => 'group',
+  #     'format' => 'docker',
+  #     'member_names' => %w{
+  #       docker-hosted
+  #       docker-proxy
+  #     },
+  #     'writableMember' => 'docker-hosted',
+  #     'docker_v1_enabled' => true,
+  #     'docker_force_basic_auth' => true,
+  #     'docker_http_port' => 8082,
+  #   },
+  #   'docker-cache-hosted' => {
+  #     'name' => 'docker-cache-hosted',
+  #     'type' => 'hosted',
+  #     'format' => 'docker',
+  #     'docker_v1_enabled' => true,
+  #     'docker_force_basic_auth' => true,
+  #   },
+  #   'docker-cache' => {
+  #     'name' => 'docker-cache',
+  #     'type' => 'group',
+  #     'format' => 'docker',
+  #     'member_names' => %w{
+  #       docker-cache-hosted
+  #       docker-proxy
+  #     },
+  #     'writableMember' => 'docker-cache-hosted',
+  #     'docker_v1_enabled' => true,
+  #     'docker_force_basic_auth' => true,
+  #     'docker_http_port' => 8083,
+  #   },
+  # }
 
   # Set up an HTTP-only listener for ubuntu proxies because apt doesn't work
   # well with HTTPS
@@ -330,18 +330,18 @@ if nexus_hosts
 
   include_recipe 'fb_nginx'
 
-  # nexus_admin_username = Boxcutter::OnePassword.op_read(
-  #   'op://Automation-Org/nexus admin blue/username',
-  #   )
-  # nexus_admin_password = Boxcutter::OnePassword.op_read(
-  #   'op://Automation-Org/nexus admin blue/password',
-  #   )
-  # node.run_state['boxcutter_sonatype'] ||= {}
-  # node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
-  # node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = nexus_admin_username
-  # node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = nexus_admin_password
-  #
-  # include_recipe 'boxcutter_sonatype::default'
+  nexus_admin_username = Boxcutter::OnePassword.op_read(
+    'op://Automation-Org/nexus admin blue/username',
+    )
+  nexus_admin_password = Boxcutter::OnePassword.op_read(
+    'op://Automation-Org/nexus admin blue/password',
+    )
+  node.run_state['boxcutter_sonatype'] ||= {}
+  node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
+  node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = nexus_admin_username
+  node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = nexus_admin_password
+
+  include_recipe 'boxcutter_sonatype::default'
 
   # node['boxcutter_docker']['buildkits']['x86_64_builder'] = {
   #   'name' => 'x86-64-builder',
