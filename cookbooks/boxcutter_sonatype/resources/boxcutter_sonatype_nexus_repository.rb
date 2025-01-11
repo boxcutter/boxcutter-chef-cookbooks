@@ -18,7 +18,7 @@ action :configure do
   # end
 
   puts "MISCHA: list blobstores=#{Boxcutter::Sonatype::Helpers.blobstores_list(node)}"
-  current_blobstore_names = Boxcutter::SonaType::Helpers.blobstores_list(node).map { |blobstore| blobstore['name'] }
+  current_blobstore_names = Boxcutter::Sonatype::Helpers.blobstores_list(node).map { |blobstore| blobstore['name'] }
   puts "MISCHA: current_blobstore_names=#{current_blobstore_names}"
   desired_blobstores = node['boxcutter_sonatype']['nexus_repository']['blobstores']
   desired_blobstore_names = desired_blobstores.map { |key, blobstore| blobstore['name'] || key }
