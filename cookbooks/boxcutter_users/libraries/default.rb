@@ -88,6 +88,9 @@ module FB
         'comment' => 'GitLab Runner',
         'uid' => 8013,
       },
+      'ros' => {
+        'uid' => 8014,
+      }
     }.freeze
 
     GID_MAP = {
@@ -169,6 +172,9 @@ module FB
       },
       'gitlab-runner' => {
         'gid' => 8013,
+      },
+      'ros' => {
+        'gid' => 8014,
       },
       'nogroup' => {
         'gid' => 65534,
