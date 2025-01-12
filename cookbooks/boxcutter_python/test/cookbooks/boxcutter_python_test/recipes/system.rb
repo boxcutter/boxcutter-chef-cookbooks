@@ -13,6 +13,7 @@ end
 
 boxcutter_python_pip 'certbot' do
   virtualenv '/opt/certbot/venv'
+  # extra_options '--index-url https://aws-boxcutter-nexus.org.boxcutter.net/repository/pypi-proxy/simple/'
   action :install
 end
 
@@ -23,6 +24,7 @@ end
 boxcutter_python_pip 'Jinja2' do
   version '2.8'
   virtualenv '/opt/jinja/venv'
+  #  extra_options '--index-url https://aws-boxcutter-nexus.org.boxcutter.net/repository/pypi-proxy/simple/'
   action :upgrade
 end
 
