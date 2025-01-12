@@ -90,5 +90,5 @@ WE+F5FaIKwb72PL4rLi4
   # Omit signed-by and use apt-key to import the key
   node.default['fb_apt']['repos'] << "deb #{node['boxcutter_ros']['mirror']} #{node['lsb']['codename']} main"
 when 'centos'
-  raise 'Unsupported platform'
+  fail 'Unsupported platform'
 end

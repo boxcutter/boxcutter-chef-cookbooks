@@ -16,6 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-node['boxcutter_ros']['distributions'].each do |distro_name, distro_config|
+node['boxcutter_ros']['distributions'].each do |_distro_name, distro_config|
   package distro_config['packages']
 end

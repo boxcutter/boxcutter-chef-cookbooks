@@ -89,7 +89,7 @@ BAo3BKu2XUVqE1t7Q2EfsItL/0FpfDY6zGKM6NIi+C40CsRl4W0o6egUhiDqsMYX
   node.default['fb_apt']['repos'] << \
     "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable #{node['lsb']['codename']} main"
 when 'centos'
-  raise 'Unsupported platform'
+  fail 'Unsupported platform'
 end
 
 package 'gz-harmonic' do
