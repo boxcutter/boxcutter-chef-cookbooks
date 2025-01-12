@@ -58,7 +58,7 @@ if node.exist?('boxcutter_acme', 'certbot', 'cloudflare_api_token') ||
     source 'cloudflare.ini.erb'
     owner 'root'
     group 'root'
-    mode 0400
+    mode '0400'
     variables(
       cloudflare_api_token: cloudflare_api_token,
       )
@@ -75,7 +75,7 @@ node.default['boxcutter_acme']['certbot']['config'].each do |name, config|
     source 'certbot_renew.sh.erb'
     owner 'root'
     group 'root'
-    mode 0700
+    mode '0700'
     variables(
       certbot_bin: config['certbot_bin'],
       domains: Boxcutter::Acme.to_bash_array(config['domains']),

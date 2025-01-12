@@ -90,7 +90,7 @@ module FB
       },
       'ros' => {
         'uid' => 8014,
-      }
+      },
     }.freeze
 
     GID_MAP = {
