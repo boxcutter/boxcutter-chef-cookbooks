@@ -265,6 +265,54 @@ module Boxcutter
         end
       end
 
+      def self.repository_create_pypi_payload(repository_name, repository_config)
+        case repository_config['type']
+        when 'hosted'
+          {
+            'name' => repository_name,
+            'online' => true,
+            'storage' => {
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
+              'strictContentTypeValidation' => true,
+              'writePolicy' => 'allow',
+            },
+            'cleanup' => {
+              'policyNames' => [],
+            },
+          }.to_json
+        when 'proxy'
+          {
+            'name' => repository_name,
+            'online' => true,
+            'storage' => {
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
+              'strictContentTypeValidation' => false,
+            },
+            'proxy' => {
+              'remoteUrl' => repository_config['remote_url'],
+              'contentMaxAge' => 1440,
+              'metadataMaxAge' => 1440,
+            },
+            'negativeCache' => {
+              'enabled' => true,
+              'timeToLive' => 1440,
+            },
+            'httpClient' => {
+              'blocked' => false,
+              'autoBlock' => true,
+              'connection' => {
+                'retries' => 0,
+                # 'userAgentSuffix' => 'string',
+                'timeout' => 60,
+                'enableCircularRedirects' => false,
+                'enableCookies' => false,
+                'useTrustStore' => false,
+              },
+            },
+          }.to_json
+        end
+      end
+
       def self.repository_create_raw_payload(repository_name, repository_config)
         case repository_config['type']
         when 'hosted'
@@ -313,28 +361,6 @@ module Boxcutter
         end
       end
 
-      # curl -ifu admin:Superseekret63 \
-      #   -X GET 'http://127.0.0.1:8081/service/rest/v1/blobstores'
-      def self.blobstores_list(node)
-        uri = URI.parse('http://localhost:8081/service/rest/v1/blobstores')
-        request = Net::HTTP::Get.new(uri)
-        request.basic_auth(admin_username(node), admin_password(node))
-        request['Accept'] = 'application/json'
-
-        response = Net::HTTP.start(uri.hostname, uri.port) do |http|
-          http.request(request)
-        end
-
-        if response.code.to_i == 200
-          blobstores = JSON.parse(response.body)
-          Chef::Log.info("Blobstores: #{blobstores}")
-          # You can process the blobstores as needed here
-        else
-          Chef::Log.error("Failed to get blobstores: #{response.message}")
-        end
-        blobstores
-      end
-
       # curl -u admin:admin123 -X POST 'http://localhost:8081/service/rest/v1/repositories/raw/hosted' \
       #                                 -H 'Content-Type: application/json' \
       #  -d @repo_config.json
@@ -348,6 +374,8 @@ module Boxcutter
           payload = repository_create_apt_payload(repository_name, repository_config)
         when 'docker'
           payload = repository_create_docker_payload(repository_name, repository_config)
+        when 'pypi'
+          payload = repository_create_pypi_payload(repository_name, repository_config)
         when 'raw'
           payload = repository_create_raw_payload(repository_name, repository_config)
         end
@@ -375,6 +403,28 @@ module Boxcutter
 
         puts "MISCHA: DELETE response code: #{response.code}"
         puts "MISCHA: DELETE response body: #{response.body}"
+      end
+
+      # curl -ifu admin:Superseekret63 \
+      #   -X GET 'http://127.0.0.1:8081/service/rest/v1/blobstores'
+      def self.blobstores_list(node)
+        uri = URI.parse('http://localhost:8081/service/rest/v1/blobstores')
+        request = Net::HTTP::Get.new(uri)
+        request.basic_auth(admin_username(node), admin_password(node))
+        request['Accept'] = 'application/json'
+
+        response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.request(request)
+        end
+
+        if response.code.to_i == 200
+          blobstores = JSON.parse(response.body)
+          Chef::Log.info("Blobstores: #{blobstores}")
+          # You can process the blobstores as needed here
+        else
+          Chef::Log.error("Failed to get blobstores: #{response.message}")
+        end
+        blobstores
       end
 
       def self.blobstore_create_file_payload(blobstore_name, blobstore_config)

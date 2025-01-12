@@ -225,6 +225,13 @@ if nexus_hosts
       'docker_http_port' => 8083,
       'storage_blob_store_name' => 's3-blob-store',
     },
+    'pypi-proxy' => {
+      'name' => 'pypi-proxy',
+      'type' => 'proxy',
+      'format' => 'pypi',
+      'remote_url' => 'https://pypi.org',
+      'storage_blob_store_name' => 's3-blob-store',
+    },
   }
 
   # Set up an HTTP-only listener for ubuntu proxies because apt doesn't work
