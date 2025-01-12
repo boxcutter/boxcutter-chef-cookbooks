@@ -229,7 +229,7 @@ if nexus_hosts
       'name' => 'pypi-proxy',
       'type' => 'proxy',
       'format' => 'pypi',
-      'remote_url' => 'https://pypi.org',
+      'remote_url' => 'https://pypi.org/',
       'storage_blob_store_name' => 's3-blob-store',
     },
   }
