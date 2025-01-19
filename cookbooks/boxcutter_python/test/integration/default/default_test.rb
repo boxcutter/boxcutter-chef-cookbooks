@@ -3,15 +3,13 @@
 # The Chef InSpec reference, with examples and extensive documentation, can be
 # found at https://docs.chef.io/inspec/resources/
 
-pyenv_user = 'python'
-pyenv_group = 'python'
-pyenv_home = '/home/python'
-pyenv_root = '/home/python/.pyenv'
+pyenv_user = 'boxcutter'
+pyenv_group = 'boxcutter'
+pyenv_home = '/home/boxcutter'
+pyenv_root = '/home/boxcutter/.pyenv'
 
 describe user(pyenv_user) do
   it { should exist }
-  its('uid') { should eq 994 }
-  its('gid') { should eq 994 }
   its('group') { should eq pyenv_group }
   its('home') { should eq pyenv_home }
   its('shell') { should eq '/bin/bash' }

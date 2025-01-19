@@ -3,9 +3,10 @@
 # Recipe:: pyenv
 #
 
-python_user = 'python'
-python_group = 'python'
-python_home = '/home/python'
+python_user = 'boxcutter'
+python_group = 'boxcutter'
+python_home = '/home/boxcutter'
+pyenv_root = '/home/boxcutter/.pyenv'
 
 node.default['boxcutter_python']['pyenv'] = {
   ::File.join(python_home, '.pyenv') => {
@@ -58,7 +59,7 @@ end
 include_recipe 'boxcutter_python::pyenv'
 
 boxcutter_python_pyenv_package 'flask' do
-  pyenv_root ::File.join(python_home, '.pyenv')
+  pyenv_root pyenv_root
   pyenv_version '3.8.13'
   user python_user
   group python_group
@@ -67,7 +68,7 @@ end
 
 # List out venvs with "pyenv versions"
 boxcutter_python_pyenv_package 'vcstool' do
-  pyenv_root '/home/python/.pyenv'
+  pyenv_root pyenv_root
   pyenv_version '3.10.4/envs/venv310'
   user python_user
   group python_group

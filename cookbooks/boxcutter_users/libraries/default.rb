@@ -61,9 +61,10 @@ module FB
       'anaconda' => {
         'uid' => 698,
       },
-      'python' => {
-        'uid' => 699,
-      },
+      # # Start phasing out language-specific GIDs
+      # 'python' => {
+      #   'uid' => 699,
+      # },
       'boxcutter' => {
         'uid' => 2001,
       },
@@ -148,9 +149,10 @@ module FB
       'anaconda' => {
         'gid' => 698,
       },
-      'python' => {
-        'gid' => 699,
-      },
+      # # Start phasing out language-specific GIDs
+      # 'python' => {
+      #   'gid' => 699,
+      # },
       'boxcutter' => {
         'gid' => 2001,
       },
