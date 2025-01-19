@@ -58,9 +58,10 @@ module FB
       # 'java' => {
       #   'uid' => 697,
       # },
-      'anaconda' => {
-        'uid' => 698,
-      },
+      # # Start phasing out language-specific UIDs
+      # 'anaconda' => {
+      #   'uid' => 698,
+      # },
       # # Start phasing out language-specific GIDs
       # 'python' => {
       #   'uid' => 699,
@@ -146,9 +147,10 @@ module FB
       # 'java' => {
       #   'gid' => 697,
       # },
-      'anaconda' => {
-        'gid' => 698,
-      },
+      # # Start phasing out language-specific GIDs
+      # 'anaconda' => {
+      #   'gid' => 698,
+      # },
       # # Start phasing out language-specific GIDs
       # 'python' => {
       #   'gid' => 699,

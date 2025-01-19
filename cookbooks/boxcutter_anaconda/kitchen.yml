@@ -24,6 +24,14 @@ provisioner:
 transport:
   name: dokken
 
+lifecycle:
+  post_create:
+    - remote: |
+        bash -c -x '
+          # Force firstboot
+          touch /root/firstboot_os
+        '
+
 verifier:
   name: inspec
   root_path: '/opt/verifier'
@@ -41,6 +49,11 @@ platforms:
   - name: ubuntu-22.04
     driver:
       image: boxcutter/dokken-ubuntu-22.04
+      pid_one_command: /bin/systemd
+
+  - name: ubuntu-24.04
+    driver:
+      image: boxcutter/dokken-ubuntu-24.04
       pid_one_command: /bin/systemd
 
   - name: centos-stream-9

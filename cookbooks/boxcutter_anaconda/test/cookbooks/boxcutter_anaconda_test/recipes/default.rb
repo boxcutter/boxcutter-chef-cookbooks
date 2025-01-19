@@ -3,9 +3,10 @@
 # Recipe:: default
 #
 
-anaconda_user = 'anaconda'
-anaconda_group = 'anaconda'
-anaconda_home = '/home/anaconda'
+anaconda_user = 'boxcutter'
+anaconda_group = 'boxcutter'
+anaconda_home = '/home/boxcutter'
+miniconda_root = '/home/boxcutter/miniconda3'
 
 FB::Users.initialize_group(node, anaconda_user)
 node.default['fb_users']['users'][anaconda_user] = {
@@ -36,12 +37,12 @@ template ::File.join(anaconda_home, '.bashrc') do
 end
 
 node.default['boxcutter_anaconda']['config'] = {
-  '/home/anaconda/miniconda3': {
-    'user': anaconda_user,
-    'group': anaconda_group,
-    'condarc': {
-      'auto_activate_base': false,
-      'notify_outdated_conda': false,
+  miniconda_root => {
+    'user' => anaconda_user,
+    'group' => anaconda_group,
+    'condarc' => {
+      'auto_activate_base' => false,
+      'notify_outdated_conda' => false,
     },
   },
 }
@@ -49,7 +50,7 @@ node.default['boxcutter_anaconda']['config'] = {
 include_recipe 'boxcutter_anaconda::default'
 
 boxcutter_anaconda_package 'cmake' do
-  anaconda_root '/home/anaconda/miniconda3'
-  user 'anaconda'
-  group 'anaconda'
+  anaconda_root miniconda_root
+  user anaconda_user
+  group anaconda_group
 end
