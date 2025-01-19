@@ -3,9 +3,9 @@
 # Recipe:: default
 #
 
-java_user = 'java'
-java_group = 'java'
-java_home = '/home/java'
+java_user = 'boxcutter'
+java_group = 'boxcutter'
+java_home = '/home/boxcutter'
 
 # https://whichjdk.com/
 # https://medium.com/@javachampions/java-is-still-free-3-0-0-ocrt-2021-bca75c88d23b

@@ -3,15 +3,13 @@
 # The Chef InSpec reference, with examples and extensive documentation, can be
 # found at https://docs.chef.io/inspec/resources/
 
-java_user = 'java'
-java_group = 'java'
-java_home = '/home/java'
-sdkman_root = '/home/java/.sdkman'
+java_user = 'boxcutter'
+java_group = 'boxcutter'
+java_home = '/home/boxcutter'
+sdkman_root = '/home/boxcutter/.sdkman'
 
 describe user(java_user) do
   it { should exist }
-  its('uid') { should eq 991 }
-  its('gid') { should eq 991 }
   its('group') { should eq java_group }
   its('home') { should eq java_home }
   its('shell') { should eq '/bin/bash' }
@@ -32,7 +30,7 @@ end
 sdk_list_java_command = \
   %{su --login #{java_user} --command "source \"#{sdkman_root}/bin/sdkman-init.sh\" && sdk list java"}
 describe command(sdk_list_java_command) do
-  its('stdout') { should match(/installed.*|.*11\.0\.24-tem/) }
+  its('stdout') { should match(/local only.*|.*17\.0\.12-tem/) }
   its('stdout') { should match(/local only.*|.*8\.0\.382-tem/) }
 end
 

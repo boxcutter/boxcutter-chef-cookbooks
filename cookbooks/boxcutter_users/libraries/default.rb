@@ -54,9 +54,10 @@ module FB
       'nexus' => {
         'uid' => 696,
       },
-      'java' => {
-        'uid' => 697,
-      },
+      # # Start phasing out language-specific UIDs
+      # 'java' => {
+      #   'uid' => 697,
+      # },
       'anaconda' => {
         'uid' => 698,
       },
@@ -140,9 +141,10 @@ module FB
       'nexus' => {
         'gid' => 696,
       },
-      'java' => {
-        'gid' => 697,
-      },
+      # # Start phasing out language-specific GIDs
+      # 'java' => {
+      #   'gid' => 697,
+      # },
       'anaconda' => {
         'gid' => 698,
       },

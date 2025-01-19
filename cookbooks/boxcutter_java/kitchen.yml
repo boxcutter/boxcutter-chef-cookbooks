@@ -48,6 +48,11 @@ platforms:
       image: boxcutter/dokken-ubuntu-22.04
       pid_one_command: /bin/systemd
 
+  - name: ubuntu-24.04
+    driver:
+      image: boxcutter/dokken-ubuntu-24.04
+      pid_one_command: /bin/systemd
+
   - name: centos-stream-9
     driver:
       image: boxcutter/dokken-centos-stream-9
