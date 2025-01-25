@@ -64,19 +64,157 @@ module Boxcutter
         end
       end
 
+      # curl -u admin:password \
+      #   -H "accept: application/json" \
+      #   -X GET 'http://127.0.0.1:8081/service/rest/v1/security/realms/available'
+      def self.get_realms_available(node)
+        uri = URI.parse('http://localhost:8081/service/rest/v1/security/realms/available')
+        request = Net::HTTP::Get.new(uri)
+        request.basic_auth(admin_username(node), admin_password(node))
+        request['Accept'] = 'application/json'
+
+        response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.request(request)
+        end
+
+        if response.is_a?(Net::HTTPSuccess)
+          available_realms = JSON.parse(response.body)
+          Chef::Log.info("Available Realms: #{available_realms}")
+        else
+          Chef::Log.error("Failed to query available realms. HTTP Status: #{response.code}")
+        end
+        available_realms
+      end
+
       # curl -u admin:Superseekret63 \
       #   -H "Content-Type: application/json" \
       #   -X GET "http://localhost:8081/service/rest/v1/security/roles"
-      def self.list_roles; end
+      def self.roles_list(node)
+        uri = URI.parse('http://localhost:8081/service/rest/v1/security/roles')
+        request = Net::HTTP::Get.new(uri)
+        request.basic_auth(admin_username(node), admin_password(node))
+        request['Accept'] = 'application/json'
 
-      def self.create_role; end
+        response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.request(request)
+        end
+
+        if response.code.to_i == 200
+          roles = JSON.parse(response.body)
+          Chef::Log.info("Roles: #{roles}")
+          # You can process the repositories as needed here
+        else
+          Chef::Log.error("Failed to get roles: #{response.message}")
+        end
+        roles
+      end
+
+      def self.role_create_payload(role_id, role_config)
+        {
+          'id' => role_id,
+          'name' => role_config['name'],
+          'description' => role_config['description'],
+          'privileges' => role_config['privileges'],
+          'roles' => role_config['roles'],
+        }.to_json
+      end
+
+      def self.role_create(node, role_id, role_config)
+        uri = URI.parse('http://localhost:8081/service/rest/v1/security/roles')
+
+        payload = role_create_payload(role_id, role_config)
+        puts "MISCHA: role_create_payload: #{payload}"
+
+        http = Net::HTTP.new(uri.host, uri.port)
+
+        request = Net::HTTP::Post.new(uri.request_uri, { 'Content-Type' => 'application/json' })
+        request.basic_auth(admin_username(node), admin_password(node))
+        request.body = payload
+
+        response = http.request(request)
+
+        puts "MISCHA: PUT response code: #{response.code}"
+        puts "MISCHA: PUT response body: #{response.body}"
+      end
+
+      def self.role_delete(node, role_id)
+        uri = URI.parse("http://localhost:8081/service/rest/v1/security/roles/#{role_id}")
+        http = Net::HTTP.new(uri.hostname, uri.port)
+
+        request = Net::HTTP::Delete.new(uri)
+        request.basic_auth(admin_username(node), admin_password(node))
+
+        response = http.request(request)
+
+        puts "MISCHA: DELETE response code: #{response.code}"
+        puts "MISCHA: DELETE response body: #{response.body}"
+      end
 
       # curl -u admin:password \
       #   -H "Content-Type: application/json" \
       #   -X GET "http://localhost:8081/service/rest/v1/security/users"
-      def self.list_users; end
+      def self.users_list(node)
+        uri = URI.parse('http://localhost:8081/service/rest/v1/security/users')
+        request = Net::HTTP::Get.new(uri)
+        request.basic_auth(admin_username(node), admin_password(node))
+        request['Accept'] = 'application/json'
 
-      def self.create_user; end
+        response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.request(request)
+        end
+
+        if response.code.to_i == 200
+          users = JSON.parse(response.body)
+          Chef::Log.info("Users: #{users}")
+          # You can process the repositories as needed here
+        else
+          Chef::Log.error("Failed to get repositories: #{response.message}")
+        end
+        users
+      end
+
+      def self.user_create_payload(user_id, user_config)
+        {
+          'userId' => user_id,
+          'firstName' => user_config['first_name'],
+          'lastName' => user_config['last_name'],
+          'emailAddress' => user_config['email_address'],
+          'password' => user_config['password'],
+          'status' => 'active',
+          'roles' => user_config['roles'],
+        }.to_json
+      end
+
+      def self.user_create(node, user_id, user_config)
+        uri = URI.parse('http://localhost:8081/service/rest/v1/security/users')
+
+        payload = user_create_payload(user_id, user_config)
+        puts "MISCHA: user_create_payload: #{payload}"
+
+        http = Net::HTTP.new(uri.host, uri.port)
+
+        request = Net::HTTP::Post.new(uri.request_uri, { 'Content-Type' => 'application/json' })
+        request.basic_auth(admin_username(node), admin_password(node))
+        request.body = payload
+
+        response = http.request(request)
+
+        puts "MISCHA: PUT response code: #{response.code}"
+        puts "MISCHA: PUT response body: #{response.body}"
+      end
+
+      def self.user_delete(node, user_id)
+        uri = URI.parse("http://localhost:8081/service/rest/v1/security/users/#{user_id}")
+        http = Net::HTTP.new(uri.hostname, uri.port)
+
+        request = Net::HTTP::Delete.new(uri)
+        request.basic_auth(admin_username(node), admin_password(node))
+
+        response = http.request(request)
+
+        puts "MISCHA: DELETE response code: #{response.code}"
+        puts "MISCHA: DELETE response body: #{response.body}"
+      end
 
       def self.change_user_password(user_id, new_password); end
 
@@ -265,6 +403,54 @@ module Boxcutter
         end
       end
 
+      def self.repository_create_npm_payload(repository_name, repository_config)
+        case repository_config['type']
+        when 'hosted'
+          {
+            'name' => repository_name,
+            'online' => true,
+            'storage' => {
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
+              'strictContentTypeValidation' => true,
+              'writePolicy' => 'allow',
+            },
+            'cleanup' => {
+              'policyNames' => [],
+            },
+          }.to_json
+        when 'proxy'
+          {
+            'name' => repository_name,
+            'online' => true,
+            'storage' => {
+              'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
+              'strictContentTypeValidation' => false,
+            },
+            'proxy' => {
+              'remoteUrl' => repository_config['remote_url'],
+              'contentMaxAge' => 1440,
+              'metadataMaxAge' => 1440,
+            },
+            'negativeCache' => {
+              'enabled' => true,
+              'timeToLive' => 1440,
+            },
+            'httpClient' => {
+              'blocked' => false,
+              'autoBlock' => true,
+              'connection' => {
+                'retries' => 0,
+                # 'userAgentSuffix' => 'string',
+                'timeout' => 60,
+                'enableCircularRedirects' => false,
+                'enableCookies' => false,
+                'useTrustStore' => false,
+              },
+            },
+          }.to_json
+        end
+      end
+
       def self.repository_create_pypi_payload(repository_name, repository_config)
         case repository_config['type']
         when 'hosted'
@@ -374,6 +560,8 @@ module Boxcutter
           payload = repository_create_apt_payload(repository_name, repository_config)
         when 'docker'
           payload = repository_create_docker_payload(repository_name, repository_config)
+        when 'npm'
+          payload = repository_create_npm_payload(repository_name, repository_config)
         when 'pypi'
           payload = repository_create_pypi_payload(repository_name, repository_config)
         when 'raw'

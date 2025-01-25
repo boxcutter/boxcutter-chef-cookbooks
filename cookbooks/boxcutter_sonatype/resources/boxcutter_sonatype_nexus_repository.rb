@@ -13,9 +13,35 @@ action :configure do
     Boxcutter::Sonatype::Helpers.set_realms_active(node, desired_realms)
   end
 
-  # puts "MISCHA: list repositories=#{properties}"
-  # node['boxcutter_sonatype']['nexus_repository']['repositories'] each do |repository_name, repository_info|
-  # end
+  puts "MISCHA: list roles=#{Boxcutter::Sonatype::Helpers.roles_list(node)}"
+  current_role_names = Boxcutter::Sonatype::Helpers.roles_list(node).map { |role| role['id'] }
+  puts "MISCHA: current_role_names=#{current_role_names}"
+  filtered_current_role_names = current_role_names.reject do |user_id|
+    ['nx-admin', 'nx-anonymous'].include?(user_id)
+  end
+  puts "MISCHA: filtered_current_user_names=#{filtered_current_role_names}"
+  desired_roles = node['boxcutter_sonatype']['nexus_repository']['roles']
+  desired_role_names = desired_roles.map { |key, role| role['id'] || key }
+  puts "MISCHA: desired_role_names=#{desired_role_names}"
+  roles_to_delete = filtered_current_role_names - desired_role_names
+  roles_to_delete.each do |role_name|
+    Boxcutter::Sonatype::Helpers.role_delete(node, role_name)
+  end
+
+  puts "MISCHA: list users=#{Boxcutter::Sonatype::Helpers.users_list(node)}"
+  current_user_names = Boxcutter::Sonatype::Helpers.users_list(node).map { |user| user['userId'] }
+  puts "MISCHA: current_user_names=#{current_user_names}"
+  filtered_current_user_names = current_user_names.reject do |user_id|
+    ['anonymous', 'admin'].include?(user_id)
+  end
+  puts "MISCHA: filtered_current_user_names=#{filtered_current_user_names}"
+  desired_users = node['boxcutter_sonatype']['nexus_repository']['users']
+  desired_user_names = desired_users.map { |key, user| user['user_id'] || key }
+  puts "MISCHA: desired_user_names=#{desired_user_names}"
+  users_to_delete = filtered_current_user_names - desired_user_names
+  users_to_delete.each do |user_name|
+    Boxcutter::Sonatype::Helpers.user_delete(node, user_name)
+  end
 
   puts "MISCHA: list blobstores=#{Boxcutter::Sonatype::Helpers.blobstores_list(node)}"
   current_blobstore_names = Boxcutter::Sonatype::Helpers.blobstores_list(node).map { |blobstore| blobstore['name'] }
@@ -28,6 +54,10 @@ action :configure do
     Boxcutter::Sonatype::Helpers.blobstore_delete(node, blobstore_name)
   end
 
+  # puts "MISCHA: list repositories=#{properties}"
+  # node['boxcutter_sonatype']['nexus_repository']['repositories'] each do |repository_name, repository_info|
+  # end
+
   puts "MISCHA: list repositories=#{Boxcutter::Sonatype::Helpers.repositories_list(node)}"
   current_repository_names = Boxcutter::Sonatype::Helpers.repositories_list(node).map { |repo| repo['name'] }
   puts "MISCHA: current_repository_names=#{current_repository_names}"
@@ -37,6 +67,16 @@ action :configure do
   repositories_to_delete = current_repository_names - desired_repository_names
   repositories_to_delete.each do |repository_name|
     Boxcutter::Sonatype::Helpers.repository_delete(node, repository_name)
+  end
+
+  node['boxcutter_sonatype']['nexus_repository']['roles'].each do |role_id, role_config|
+    next if filtered_current_role_names.include?(role_id)
+    Boxcutter::Sonatype::Helpers.role_create(node, role_id, role_config)
+  end
+
+  node['boxcutter_sonatype']['nexus_repository']['users'].each do |user_name, user_config|
+    next if filtered_current_user_names.include?(user_name)
+    Boxcutter::Sonatype::Helpers.user_create(node, user_name, user_config)
   end
 
   node['boxcutter_sonatype']['nexus_repository']['blobstores'].each do |blobstore_name, blobstore_config|

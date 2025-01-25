@@ -20,8 +20,10 @@ default['boxcutter_sonatype']['nexus_repository'] = {
     #   '-Dkaraf.log' => '/opt/sonatype-work/nexus3/log ',
     # }
   },
-  'properties' => {
-  },
+  'properties' => {},
+  'repositories' => {},
+  'roles' => {},
+  'users' => {},
   'blobstores' => {
     'default' => {
       'name' => 'default',
@@ -29,5 +31,4 @@ default['boxcutter_sonatype']['nexus_repository'] = {
       'path' => 'default',
     },
   },
-  'repositories' => {},
 }

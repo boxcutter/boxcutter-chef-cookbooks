@@ -9,6 +9,31 @@ node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Su
 # node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = 'chef'
 # node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'sucre-canonize-ROADSTER-bashful'
 
+node.default['boxcutter_sonatype']['nexus_repository']['roles'] = {
+  'engineering-read-only' => {
+    'id' => 'engineering-read-only',
+    'name' => 'engineering-read-only',
+    'description' => 'Read-only access to engineering repositories',
+    'privileges' => [
+      'nx-healthcheck-read',
+      'nx-search-read',
+      'nx-repository-view-*-*-read',
+      'nx-repository-view-*-*-browse',
+    ],
+    'roles' => [],
+  },
+}
+node.default['boxcutter_sonatype']['nexus_repository']['users'] = {
+  'chef' => {
+    'user_id' => 'chef',
+    'first_name' => 'Chef',
+    'last_name' => 'User',
+    'email_address' => 'nobody@nowhere.com',
+    'password' => 'superseekret',
+    'roles' => ['nx-admin'],
+  },
+}
+
 node.default['boxcutter_sonatype']['nexus_repository']['blobstores'] = {
   'default' => {
     'name' => 'default',

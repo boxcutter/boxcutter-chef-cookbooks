@@ -43,9 +43,9 @@ directory install_root do
 end
 
 # https://help.sonatype.com/en/download.html
-version = 'nexus-3.76.0-03'
-url = 'https://download.sonatype.com/nexus/3/nexus-3.76.0-03-unix.tar.gz'
-checksum = 'd336a1c1fa3c26ee977ef720707d7bbca660aee5bf7369a9037293910c63c672'
+version = 'nexus-3.76.1-01'
+url = 'https://download.sonatype.com/nexus/3/nexus-3.76.1-01-unix.tar.gz'
+checksum = 'e6a68b903a445fc6b923a2ea922accb336e659a838099f2efb08e382332ff8f1'
 
 tmp_path = ::File.join(Chef::Config[:file_cache_path], ::File.basename(url))
 
