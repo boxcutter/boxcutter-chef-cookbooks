@@ -50,7 +50,8 @@ repo File.join(ENV['HOME'], 'github', 'boxcutter', 'boxcutter-chef-cookbooks')
 repo_type 'auto'
 base_dir ''
 cookbook_dirs ['cookbooks', '../chef-cookbooks/cookbooks']
-databag_dir 'data_bags'
+# For now don't declare databag_dir - between meals seems to have a bug where it hardcodes debug_level=info
+# databag_dir 'data_bags'
 role_dir 'roles'
 role_type 'rb'
 chef_config_path '/etc/chef'
