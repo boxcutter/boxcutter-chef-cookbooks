@@ -72,6 +72,8 @@ if bundle exec cookstyle --version > /dev/null 2>&1; then
   COOKSTYLE='bundle exec cookstyle'
 elif [ -x /opt/chef-workstation/embedded/bin/cookstyle ]; then
   COOKSTYLE='/opt/chef-workstation/embedded/bin/cookstyle'
+elif [ -x /opt/cinc-workstation/embedded/bin/cookstyle ]; then
+  COOKSTYLE='/opt/cinc-workstation/embedded/bin/cookstyle'
 else
   echo 'Cannot find cookstyle!'
   exit 1
@@ -97,4 +99,4 @@ if [ "$AUTOCORRECT" -eq 1 ]; then
   options+=("-a")
 fi
 
-exec $COOKSTYLE --display-cop-names -c "$CONFIG" "${options[@]}" "$@"
+exec $COOKSTYLE --display-cop-names -c "$CONFIG" ${options[@]+"${options[@]}"} "$@"
