@@ -29,6 +29,7 @@ describe FB::Networkmanager do
 
   before(:each) do
     allow(mock_so).to receive(:run_command).and_return(mock_so)
+    allow(File).to receive(:exist?).and_call_original
     allow(File).to receive(:exist?).with('/usr/bin/nmcli').
       and_return(true)
   end
