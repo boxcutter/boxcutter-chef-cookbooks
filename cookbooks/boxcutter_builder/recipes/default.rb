@@ -278,3 +278,16 @@ if node.aws?
     include_recipe 'boxcutter_github::runner'
   end
 end
+
+arm64_self_hosted_runner_list = %w{
+  agx01
+}
+
+if arm64_self_hosted_runner_list.include?(node['hostname'])
+  package 'jq'
+
+  node.default['polymath_docker']['enable_cleanup'] = false
+
+  # include_recipe 'boxcutter_users::default'
+  include_recipe 'boxcutter_docker::default'
+end
