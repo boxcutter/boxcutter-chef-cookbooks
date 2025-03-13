@@ -29,16 +29,16 @@ when 'ubuntu'
     package_info = value_for_platform(
       'ubuntu' => {
         '20.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/20.04/cinc_18.4.12-1_amd64.deb',
-          'checksum' => 'ac02fab9c6351893e250b3ba91d6604dfffedefe80609d44ab2189caea281ca2',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/ubuntu/20.04/cinc_18.6.2-1_amd64.deb',
+          'checksum' => '0547888512fdb96a823933bc339ebb28f85796e2ceffae4922cf5e7ee26f094b',
         },
         '22.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/22.04/cinc_18.4.12-1_amd64.deb',
-          'checksum' => 'f79d89bad254ce9a2881eed77cd5f0d9a172f4e2ed29f161cb620206b0d103a6',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/ubuntu/22.04/cinc_18.6.2-1_amd64.deb',
+          'checksum' => '043c2cb693d1b6038a3341b471efdb5726d7b08c55f4835a1fb59a6a7f1fba21',
         },
         '24.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/22.04/cinc_18.4.12-1_amd64.deb',
-          'checksum' => 'f79d89bad254ce9a2881eed77cd5f0d9a172f4e2ed29f161cb620206b0d103a6',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/ubuntu/24.04/cinc_18.6.2-1_amd64.deb',
+          'checksum' => '48d4e2f5a5befd6a18a90c7dc05aa038a5032825b048e5614dec0e0e83eca42c',
         },
       },
     )
@@ -46,16 +46,16 @@ when 'ubuntu'
     package_info = value_for_platform(
       'ubuntu' => {
         '20.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/20.04/cinc_18.4.12-1_arm64.deb',
-          'checksum' => 'e83412c10f1daa47c92d2230486cb29e43a42f07c9e89a3cd4ccc71d31a0026c',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/ubuntu/20.04/cinc_18.6.2-1_arm64.deb',
+          'checksum' => 'f3181b8fcf7aee139b317c152e7c2b2a564b8024faa58e568e897ad01bdff782',
         },
         '22.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/22.04/cinc_18.4.12-1_arm64.deb',
-          'checksum' => 'c98805280ac44428af455f245ea1892e707bb45a68b12ca50ddf78978ede7856',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/ubuntu/22.04/cinc_18.6.2-1_arm64.deb',
+          'checksum' => 'a7404177b1bca4eae8b6e79992e6c68606d0da545604635a074cc52ab42dce24',
         },
         '24.04' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.4.12/ubuntu/22.04/cinc_18.4.12-1_arm64.deb',
-          'checksum' => 'c98805280ac44428af455f245ea1892e707bb45a68b12ca50ddf78978ede7856',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/ubuntu/24.04/cinc_18.6.2-1_arm64.deb',
+          'checksum' => 'f36a1b948f0a3559a7eb4ee60c5512586a961c315f135f281faa7f15623ba560',
         },
       },
     )
@@ -66,8 +66,8 @@ when 'centos'
     package_info = value_for_platform(
       'centos' => {
         '9' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/el/9/cinc-18.5.0-1.el9.x86_64.rpm',
-          'checksum' => '644a0bf1de601d886a6886bd099523704c948c1f49fccc4b97b3f074388db081',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/el/9/cinc-18.6.2-1.el9.x86_64.rpm',
+          'checksum' => '26ebe3eeb91121def370c44414394fc9a396359c285df6e6a561cfd251cd20f6',
         },
       },
     )
@@ -75,8 +75,8 @@ when 'centos'
     package_info = value_for_platform(
       'centos' => {
         '9' => {
-          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.5.0/el/9/cinc-18.5.0-1.el9.aarch64.rpm',
-          'checksum' => '9cb55dcc3763a8669c1f701af94c1fda0e6ccfc76c41e4ee76f8de6534f9bca9',
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/el/9/cinc-18.6.2-1.el9.aarch64.rpm',
+          'checksum' => '3c9091f1f81e7e57410c9d0043fede5c9bc5748d1c204e74b553f726435cf0d2',
         },
       },
     )
