@@ -1,4 +1,4 @@
-# boxcutter-chef-cookbooks [![boxcutter-chef-cookbooks](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml/badge.svg)](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml)
+#  boxcutter-chef-cookbooks [![boxcutter-chef-cookbooks](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml/badge.svg)](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml)
 
 This  repo contains automation used to maintain a fleet of robots using
 neuromorphic sensors and their supporting infrastructure. It is built
