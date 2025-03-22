@@ -321,7 +321,7 @@ new_amd64_self_hosted_runner_list = %w{
   nancy-amd64-builder
 }
 
-if mew_amd64_self_hosted_runner_list.include?(node['hostname'])
+if new_amd64_self_hosted_runner_list.include?(node['hostname'])
   package 'jq'
 
   node.default['polymath_docker']['enable_cleanup'] = false
