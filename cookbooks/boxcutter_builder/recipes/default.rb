@@ -385,4 +385,32 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
       },
     },
   }
+
+  directory '/home/github-runner/actions-runner' do
+    owner 'github-runner'
+    group 'github-runner'
+    mode '0700'
+  end
+
+  %w{
+      oci
+    }.each do |dir|
+    directory "/home/github-runner/actions-runner/#{dir}" do
+      owner 'github-runner'
+      group 'github-runner'
+      mode '0700'
+    end
+
+    node.default['boxcutter_github']['github_runner']['runners']["/home/github-runner/actions-runner/#{dir}"] = {
+      'runner_name' => node['hostname'],
+      'labels' => ['self-hosted', 'multi-arch'],
+      'url' => "https://github.com/boxcutter/#{dir}",
+      'owner' => 'github-runner',
+      'group' => 'github-runner',
+    }
+  end
+
+  include_recipe 'boxcutter_github::cli'
+  include_recipe 'boxcutter_github::runner'
+end
 end
