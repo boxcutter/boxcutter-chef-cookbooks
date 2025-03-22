@@ -86,16 +86,30 @@ when 'ubuntu'
   # remains the same:
   # -----BEGIN PGP PUBLIC KEY BLOCK-----
   # -----END PGP PUBLIC KEY BLOCK-----
+  node.default['fb_apt']['sources']['docker'] = {
+    'key' => 'docker',
+    'url' => 'https://download.docker.com/linux/ubuntu',
+    'suite' => node['lsb']['codename'],
+    'components' => ['stable'],
+  }
   case node['kernel']['machine']
-  when 'aarch64', 'arm64'
-    node.default['fb_apt']['repos'] <<
-      "deb [arch=arm64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
   when 'x86_64', 'amd64'
-    node.default['fb_apt']['repos'] <<
-      "deb [arch=amd64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
+    node.default['fb_apt']['sources']['docker']['options'] = { 'arch' => 'amd64'}
+  when 'aarch64', 'arm64'
+    node.default['fb_apt']['sources']['docker']['options'] = { 'arch' => 'arm64'}
   end
 
-  node.default['fb_apt']['keys']['8D81803C0EBFCD88'] = <<~EOS
+  # case node['kernel']['machine']
+  # when 'aarch64', 'arm64'
+  #   node.default['fb_apt']['repos'] <<
+  #     "deb [arch=arm64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
+  # when 'x86_64', 'amd64'
+  #   node.default['fb_apt']['repos'] <<
+  #     "deb [arch=amd64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
+  # end
+
+  # node.default['fb_apt']['keys']['8D81803C0EBFCD88'] = <<~EOS
+  node.default['fb_apt']['keymap']['docker'] = <<~EOS
     -----BEGIN PGP PUBLIC KEY BLOCK-----
 
     mQINBFit2ioBEADhWpZ8/wvZ6hUTiXOwQHXMAlaFHcPH9hAtr4F1y2+OYdbtMuth
