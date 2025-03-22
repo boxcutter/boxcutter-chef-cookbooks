@@ -56,36 +56,6 @@ end
 
 case node['platform']
 when 'ubuntu'
-  # For now, continue to publish keys installable by apt-key, so we don't have
-  # to change fb_apt yet. apt-key is not going away until after Ubuntu 22.04.
-  # Hopefully Facebook will accommodate fb_apt to work without apt-key so we
-  # don't have to do it.
-  #
-  # To get the information needed from a gpg key, download it to a temporary
-  # ubuntu install:
-  #
-  # curl -fsSLO https://download.docker.com/linux/ubuntu/gpg
-  #
-  # List the key with `gpg --show-keys` like so:
-  #
-  # gpg --with-fingerprint --show-keys gpg
-  #
-  # In 2023-11-03 show-keys looked like this:
-  #
-  # pub   rsa4096 2017-02-22 [SCEA]
-  #       9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
-  # uid                      Docker Release (CE deb) <docker@docker.com>
-  # sub   rsa4096 2017-02-22 [S]
-  # #
-  # Use the last 16 digits of the key signature as the key for
-  # node.default['fb_apt']['keys']:
-  #
-  # 8D81 803C 0EBF CD88
-  #
-  # Then replace the GPG armored blocks with the following markers (content
-  # remains the same:
-  # -----BEGIN PGP PUBLIC KEY BLOCK-----
-  # -----END PGP PUBLIC KEY BLOCK-----
   node.default['fb_apt']['sources']['docker'] = {
     'key' => 'docker',
     'url' => 'https://download.docker.com/linux/ubuntu',
@@ -99,16 +69,7 @@ when 'ubuntu'
     node.default['fb_apt']['sources']['docker']['options'] = { 'arch' => 'arm64' }
   end
 
-  # case node['kernel']['machine']
-  # when 'aarch64', 'arm64'
-  #   node.default['fb_apt']['repos'] <<
-  #     "deb [arch=arm64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
-  # when 'x86_64', 'amd64'
-  #   node.default['fb_apt']['repos'] <<
-  #     "deb [arch=amd64] https://download.docker.com/linux/ubuntu #{node['lsb']['codename']} stable"
-  # end
-
-  # node.default['fb_apt']['keys']['8D81803C0EBFCD88'] = <<~EOS
+  # curl -fsSLO https://download.docker.com/linux/ubuntu/gpg
   node.default['fb_apt']['keymap']['docker'] = <<~EOS
     -----BEGIN PGP PUBLIC KEY BLOCK-----
 
