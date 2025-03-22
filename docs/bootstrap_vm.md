@@ -168,7 +168,7 @@ sudo mkdir -p /etc/cinc
 sudo ln -snf /etc/cinc /etc/chef
 
 curl -L https://omnitruck.cinc.sh/install.sh | sudo bash
-curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -v 18.4.12
+curl -L https://omnitruck.cinc.sh/install.sh | sudo bash -s -- -v 18.6.2
 
 
 # /opt/chef -> /opt/cinc
