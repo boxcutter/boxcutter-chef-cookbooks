@@ -364,4 +364,25 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
     group 'github-runner'
     mode '0600'
   end
+
+  node.default['boxcutter_docker']['buildx']['github-runner'] = {
+    'home' => '/home/github-runner',
+    'user' => 'github-runner',
+    'group' => 'github-runner',
+    'builders' => {
+      'github-runner-multi-arch-builder' => {
+        'name' => 'github-runner-multi-arch-builder',
+        'driver' => 'docker-container',
+        'platform' => 'linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/386',
+        'use' => true,
+        'append' => {
+          '10.67.127.109' => {
+            'name' => '10.67.127.109',
+            'endpoint' => 'host=ssh://github-runner@10.67.127.109',
+            'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
+          },
+        },
+      },
+    },
+  }
 end
