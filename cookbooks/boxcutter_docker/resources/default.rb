@@ -9,7 +9,7 @@ action :configure do
   node['boxcutter_docker']['buildx'].each do |user, user_config|
     current_builders = Boxcutter::Docker::Helpers.buildx_ls(user_config['user'], user_config['group'])
     puts "MISCHA: current_builders=#{current_builders}"
-    docker_container_builders = current_builders.select { |builder| builder["Driver"] == 'docker-container' }
+    docker_container_builders = current_builders.select { |builder| builder['Driver'] == 'docker-container' }
     current_builder_names = docker_container_builders.values.map { |builder| builder['Name'] }.compact
     # current_builder_names = current_builders.values.map { |builder| builder['Name'] }.compact
     puts "MISCHA: current_builder_names=#{current_builder_names}"
