@@ -413,4 +413,3 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
   include_recipe 'boxcutter_github::cli'
   include_recipe 'boxcutter_github::runner'
 end
-end
