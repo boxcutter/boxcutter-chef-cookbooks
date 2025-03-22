@@ -288,6 +288,31 @@ if arm64_self_hosted_runner_list.include?(node['hostname'])
 
   node.default['polymath_docker']['enable_cleanup'] = false
 
-  # include_recipe 'boxcutter_users::default'
   include_recipe 'boxcutter_docker::default'
+
+  include_recipe 'boxcutter_github::runner_user'
+  node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
+
+  directory '/home/github-runner/.ssh' do
+    owner 'github-runner'
+    group 'github-runner'
+    mode '0700'
+  end
+
+  craft_rsa_ssh_key_private = \
+    Boxcutter::OnePassword.op_read('op://Automation-Org/craft SSH Key/private key')
+
+  file '/home/github-runner/.ssh/id_rsa' do
+    owner 'github-runner'
+    group 'github-runner'
+    mode '0600'
+    content craft_rsa_ssh_key_private
+  end
+
+  ssh_known_hosts_entry 'github.com' do
+    file_location '/home/github-runner/.ssh/known_hosts'
+    owner 'github-runner'
+    group 'github-runner'
+    mode '0600'
+  end
 end
