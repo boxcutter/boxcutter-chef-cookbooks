@@ -94,9 +94,9 @@ when 'ubuntu'
   }
   case node['kernel']['machine']
   when 'x86_64', 'amd64'
-    node.default['fb_apt']['sources']['docker']['options'] = { 'arch' => 'amd64'}
+    node.default['fb_apt']['sources']['docker']['options'] = { 'arch' => 'amd64' }
   when 'aarch64', 'arm64'
-    node.default['fb_apt']['sources']['docker']['options'] = { 'arch' => 'arm64'}
+    node.default['fb_apt']['sources']['docker']['options'] = { 'arch' => 'arm64' }
   end
 
   # case node['kernel']['machine']
