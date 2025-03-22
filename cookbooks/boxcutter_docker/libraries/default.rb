@@ -59,31 +59,24 @@ module Boxcutter
       end
 
       # buildkits
-      def self.buildx_ls(home)
-        # Currently the output of `docker buildx ls --format ls` is essentially
-        # unparseable in an automated way. Work is being done to remedy this but
-        # doesn't seem like it will land anytime soon, so instead look where the
-        # config files are stored in ~/.docker/buildx
-        # https://github.com/docker/buildx/pull/830
-        buildx_instances_path = ::File.join(home, '.docker/buildx/instances')
-        config_map = {}
-        return config_map unless Dir.exist?(buildx_instances_path)
-        Dir.foreach(buildx_instances_path) do |filename|
-          next if ['.', '..'].include?(filename)
-
-          file_path = ::File.join(buildx_instances_path, filename)
-          if ::File.file?(file_path)
-            begin
-              json_content = ::File.read(file_path)
-              config_map[filename] = JSON.parse(json_content)
-            rescue JSON::ParserError => e
-              puts "Error parsing JSON in file #{filename}: #{e.message}"
-            rescue StandardError => e
-              puts "Error reading file #{filename}: #{e.message}"
-            end
-          end
+      def self.buildx_ls(user, group)
+        # https://github.com/docker/buildx/pull/1787
+        # https://github.com/docker/buildx/pull/2138
+        cmd = Mixlib::ShellOut.new(
+          'docker buildx ls --no-trunc --format json',
+          login: true,
+          user: user,
+          group: group,
+          ).run_command
+        cmd.error!
+        builder_instances = []
+        # `docker buildx ls` outputs multiple JSON objects, each on a new line.
+        # So we need to parse the output line by line and store each in an array
+        cmd.stdout.each_line do |line|
+          builder_instance = JSON.parse(line)
+          builder_instances.push(builder_instance)
         end
-        config_map
+        builder_instances
       end
 
       def self.buildx_create_command(name, config)
