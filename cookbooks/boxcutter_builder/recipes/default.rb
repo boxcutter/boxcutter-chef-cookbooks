@@ -393,8 +393,8 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
   end
 
   %w{
-      oci
-    }.each do |dir|
+    oci
+  }.each do |dir|
     directory "/home/github-runner/actions-runner/#{dir}" do
       owner 'github-runner'
       group 'github-runner'
