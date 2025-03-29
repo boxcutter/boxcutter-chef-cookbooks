@@ -29,7 +29,6 @@ jobs:
       matrix:
         os:
           - centos-stream-9
-          - ubuntu-2004
           - ubuntu-2204
           - ubuntu-2404
     runs-on: ubuntu-latest
