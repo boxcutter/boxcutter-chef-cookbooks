@@ -135,6 +135,16 @@ fi
 unset rc
 ```
 
+```
+cat <<'EOF' > ~/.zshrc.d/100.cinc-workstation.sh
+#!/bin/bash
+
+autoload -Uz compinit
+compinit
+eval "$(cinc shell-init zsh)"
+EOF
+```
+
 ## macOS Uninstall
 
 To remove Cinc Workstation, run `uninstall_chef_workstation` (located
