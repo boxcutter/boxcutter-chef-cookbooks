@@ -15,6 +15,45 @@ Verify the installation:
 cinc --version
 ```
 
+Should list the versions of all the Cinc-related tools:
+
+```
+Cinc Workstation version: 25.2.1075
+Cookstyle version: 7.32.8
+Cinc Client version: 18.6.2
+Cinc Auditor version: 5.22.65
+Cinc CLI version: 5.6.16
+Biome version: 1.6.821
+Test Kitchen version: 3.6.0
+```
+
+### Configure the Ruby environment (simple)
+
+Configure the Ruby environment Cinc uses by adding the following
+commands to the configuration file for bash (`~/.bashrc`):
+
+```
+# Add the Cinc Workstation initialization content
+echo 'eval "$(cinc shell-init bash)"' >> ~/.bashrc
+```
+
+Reload the config in the current shell with `source ~/.bashrc` or
+restart the current terminal.
+
+Verify that the Ruby interpreter being used is the cin-workstation
+ruby instead of the system ruby:
+
+```
+% which ruby
+/opt/cinc-workstation/embedded/bin/ruby
+```
+
+### Configure the Ruby environment (advanced)
+
+```
+mkdir -m 0755 ~/.bashrc.d
+```
+
 ```
 # User specific aliases and functions
 if [[ -d ~/.bashrc.d ]]; then
@@ -26,6 +65,14 @@ if [[ -d ~/.bashrc.d ]]; then
 fi
 
 unset rc
+```
+
+```
+cat <<'EOF' > ~/.bashrc.d/100.cinc-workstation.sh
+#!/bin/bash
+
+eval "$(cinc shell-init bash)"
+EOF
 ```
 
 ## macOS Install
