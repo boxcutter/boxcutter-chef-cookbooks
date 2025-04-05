@@ -407,6 +407,7 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
       'url' => "https://github.com/boxcutter/#{dir}",
       'owner' => 'github-runner',
       'group' => 'github-runner',
+      'disable_update' => false,
     }
   end
 
