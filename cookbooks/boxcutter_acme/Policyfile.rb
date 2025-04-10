@@ -12,6 +12,8 @@ default_source :chef_repo, '../'
 
 # run_list: chef-client will run these recipes in the order specified.
 run_list 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_acme_test::default'
+named_run_list 'boxcutter_acme_test_certbot', 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_acme_test::certbot'
+named_run_list 'boxcutter_acme_test_lego', 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_acme_test::lego'
 
 # Specify a custom source for a single cookbook:
 cookbook 'boxcutter_acme', path: '.'
