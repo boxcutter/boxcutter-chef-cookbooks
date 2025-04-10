@@ -74,16 +74,14 @@ suites:
     attributes:
 
   - name: pyenv
-    provisioner:
-      policyfile_path: policyfiles/Policyfile.pyenv.rb
+    named_run_list: boxcutter_python_test_pyenv
     verifier:
       inspec_tests:
         - test/integration/default
     attributes:
 
   - name: system
-    provisioner:
-      policyfile_path: policyfiles/Policyfile.system.rb
+    named_run_list: boxcutter_python_test_system
     verifier:
       inspec_tests:
         - test/integration/system
