@@ -128,8 +128,8 @@ action :configure do
 
   node['boxcutter_docker']['containers'].each do |name, data|
     container_name = data.fetch('name', name)
-    puts "MISCHA: containers enable_cleanup=#{node['polymath_docker']['enable_cleanup']}"
-    next unless node['polymath_docker']['enable_cleanup']
+    puts "MISCHA: containers enable_cleanup=#{node['boxcutter_docker']['enable_cleanup']}"
+    next unless node['boxcutter_docker']['enable_cleanup']
     next if container_name.start_with?('__')
 
     action = data['action'] || 'run'
@@ -148,7 +148,7 @@ action :configure do
       service_action = :stop
       puts "MISCHA: container_name=#{container_name} action=#{action}"
     else
-      fail "polymath_docker: container_name=#{container_name} unknown action=#{action}"
+      fail "boxcutter_docker: container_name=#{container_name} unknown action=#{action}"
     end
 
     with_run_context :root do
@@ -173,8 +173,8 @@ action :configure do
   current_containers.each do |name, data|
     container_name = data.fetch('name', name)
 
-    puts "MISCHA: current_containers enable_cleanup=#{node['polymath_docker']['enable_cleanup']}"
-    next unless node['polymath_docker']['enable_cleanup']
+    puts "MISCHA: current_containers enable_cleanup=#{node['boxcutter_docker']['enable_cleanup']}"
+    next unless node['boxcutter_docker']['enable_cleanup']
 
     if !node['boxcutter_docker']['containers'][container_name]
       Boxcutter::Docker::Helpers.container_stop(container_name)
@@ -194,8 +194,8 @@ action :configure do
     # Allow for 'Name' attribute to override section name, if present
     volume_name = data.fetch('name', name)
 
-    puts "MISCHA: volume enable_cleanup=#{node['polymath_docker']['enable_cleanup']}"
-    next unless node['polymath_docker']['enable_cleanup']
+    puts "MISCHA: volume enable_cleanup=#{node['boxcutter_docker']['enable_cleanup']}"
+    next unless node['boxcutter_docker']['enable_cleanup']
 
     next if node['boxcutter_docker']['volumes'][volume_name]
     Boxcutter::Docker::Helpers.volume_rm(volume_name)
