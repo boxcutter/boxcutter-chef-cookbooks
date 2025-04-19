@@ -18,6 +18,17 @@
 
 connect_server_username = 'opuser'
 
+node.default['fb_users']['users']['opuser'] = {
+  'action' => :add,
+  'home' => '/home/opuser',
+  'shell' => '/bin/bash',
+}
+
+node.default['fb_users']['groups']['opuser'] = {
+  'members' => ['opuser'],
+  'action' => :add,
+}
+
 include_recipe 'boxcutter_docker'
 
 node.default['fb_users']['groups']['docker']['members'] << 'opuser'

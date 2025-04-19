@@ -11,7 +11,12 @@ default_source :chef_repo, '../../../chef-cookbooks/cookbooks'
 default_source :chef_repo, '../'
 
 # run_list: chef-client will run these recipes in the order specified.
-run_list 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_onepassword_test'
+run_list 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_onepassword_test::cli'
+named_run_list 'boxcutter_onepassword_test_cli', 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_onepassword_test::cli'
+named_run_list 'boxcutter_onepassword_test_service_account', 'boxcutter_ohai', 'boxcutter_init',
+               'boxcutter_onepassword_test::service_account'
+named_run_list 'boxcutter_onepassword_test_connect_server', 'boxcutter_ohai', 'boxcutter_init',
+               'boxcutter_onepassword_test::connect_server'
 
 # Specify a custom source for a single cookbook:
 cookbook 'boxcutter_onepassword', path: '.'

@@ -15,13 +15,13 @@ action :install do
   case node['kernel']['machine']
   when 'x86_64', 'amd64'
     package_info = {
-      'url' => 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.27.0/op_linux_amd64_v2.27.0.zip',
-      'checksum' => 'e076905292bba0d6e459353f89fd1d29b626f37e610ee56299bcf8c9201e0405',
+      'url' => 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.3/op_linux_amd64_v2.30.3.zip',
+      'checksum' => 'a16307ebcecb40fd091d7a6ff4f0c380c3c0897c4f4616de2c5d285e57d5ee28',
     }
   when 'aarch64', 'arm64'
     package_info = {
-      'url' => 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.27.0/op_linux_arm64_v2.27.0.zip',
-      'checksum' => '3ee60ec19020fb2bb43c3a73a2aa1988d85dd651eedb195b72d555f329737502',
+      'url' => 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.3/op_linux_arm64_v2.30.3.zip',
+      'checksum' => '39bd361b2cd4819ea757583624eeda33f6062ba5ccfc2b90ad0764aed94cd1c4',
     }
   end
 

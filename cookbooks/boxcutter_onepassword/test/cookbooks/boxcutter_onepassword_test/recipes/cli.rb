@@ -1,6 +1,6 @@
 #
 # Cookbook:: boxcutter_onepassword_test
-# Recipe:: default
+# Recipe:: cli
 #
 
 include_recipe 'boxcutter_onepassword::cli'
