@@ -38,11 +38,6 @@ verifier:
 platforms:
   # @see https://github.com/chef-cookbooks/testing_examples/blob/main/kitchen.dokken.yml
   # @see https://hub.docker.com/u/dokken
-  - name: ubuntu-20.04
-    driver:
-      image: boxcutter/dokken-ubuntu-20.04
-      pid_one_command: /bin/systemd
-
   - name: ubuntu-22.04
     driver:
       image: boxcutter/dokken-ubuntu-22.04

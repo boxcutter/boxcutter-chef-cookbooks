@@ -3,9 +3,6 @@
 # Recipe:: default
 #
 
-node.default['boxcutter_ros']['mirror'] = \
-  'https://aws-boxcutter-nexus.org.boxcutter.net/repository/ros-apt-proxy/'
-
 include_recipe 'boxcutter_ros::common'
 include_recipe 'boxcutter_ros::user'
 include_recipe 'boxcutter_ros::default'
