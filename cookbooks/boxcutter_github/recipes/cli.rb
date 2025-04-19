@@ -31,7 +31,7 @@ when 'ubuntu'
   node.default['fb_apt']['keymap']['github_cli'] = <<~EOS
     -----BEGIN PGP ARMORED FILE-----
     Comment: Use "gpg --dearmor" for unpacking
-    
+
     mQINBGMXLooBEADPmB8Gfd9kLqkIKnAnOktQqRwjjOWLTRV9fhGPlkuVQCffhu1b
     /x6pLHwC/c5ZRB2Y9SDXxbYAKHunA1AvxHlc6OFciUAMpE0ygAGyuMmC3CwyGE3q
     /SjvOe982Wpjg0J2FTpGiQ2C/isCtkfEsFR3sofV/SzCBbuIYQE5TrGEAfF0+jEh
