@@ -27,7 +27,6 @@ if arm64_self_hosted_runner_list.include?(node['hostname'])
 
   include_recipe 'boxcutter_docker::default'
 
-  include_recipe 'boxcutter_github::runner_user'
   node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
 
   node.default['fb_ssh']['authorized_keys']['github-runner']['craft'] = \
@@ -68,7 +67,6 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
 
   include_recipe 'boxcutter_docker::default'
 
-  include_recipe 'boxcutter_github::runner_user'
   node.default['fb_users']['groups']['docker']['members'] << 'github-runner'
 
   directory '/home/github-runner/.ssh' do

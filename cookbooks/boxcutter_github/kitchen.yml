@@ -40,11 +40,6 @@ verifier:
 platforms:
   # @see https://github.com/chef-cookbooks/testing_examples/blob/main/kitchen.dokken.yml
   # @see https://hub.docker.com/u/dokken
-  - name: ubuntu-20.04
-    driver:
-      image: boxcutter/dokken-ubuntu-20.04
-      pid_one_command: /bin/systemd
-
   - name: ubuntu-22.04
     driver:
       image: boxcutter/dokken-ubuntu-22.04
@@ -66,15 +61,18 @@ platforms:
         - RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
 suites:
-  - name: default
-    # run_list set in Policyfile.rb, this does nothing
-    # run_list:
-    #   - recipe[boxcutter_ohai]
-    #   - recipe[boxcutter_init]
-    #   - recipe[boxcutter_github::default]
+  - name: cli
+    named_run_list: boxcutter_github_test_cli
     verifier:
       inspec_tests:
-        - test/integration/default
+        - test/integration/cli
+    attributes:
+
+  - name: runner
+    named_run_list: boxcutter_github_test_runner
+    verifier:
+      inspec_tests:
+        - test/integration/runner
     attributes:
     lifecycle:
       pre_converge:

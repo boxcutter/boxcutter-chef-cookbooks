@@ -8,7 +8,7 @@ property :owner, String
 property :group, String
 property :work_directory, String
 property :labels, Array
-property :disable_update, [true, false], default: true
+property :disable_update, [true, false], default: false
 
 load_current_value do |new_resource|
   puts 'MISCHA: load_current_value'
@@ -63,12 +63,6 @@ action :register do
 
   filename = ::File.basename(url)
   tmp_path = ::File.join(Chef::Config[:file_cache_path], filename)
-
-  remote_file tmp_path do
-    source url
-    checksum checksum
-  end
-
   path = "#{new_resource.install_directory}/#{filename.gsub(/\.tar\.gz$/, '')}"
 
   [
@@ -80,6 +74,11 @@ action :register do
       group new_resource.group
       mode '0700'
     end
+  end
+
+  remote_file tmp_path do
+    source url
+    checksum checksum
   end
 
   execute 'extract actions-runner' do

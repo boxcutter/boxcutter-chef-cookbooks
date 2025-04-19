@@ -31,3 +31,20 @@ node.default['boxcutter_github']['github_runner'] = {
   },
 }
 ```
+
+## Removing a runner
+
+```
+sudo su -
+# Must run from runner root
+cd /home/github-runner/actions-runner/latest
+./svc.sh status
+
+./svc.sh uninstall
+```
+
+```
+su - github-runner
+cd ~/actions-runner/latest
+./config.sh remove
+```
