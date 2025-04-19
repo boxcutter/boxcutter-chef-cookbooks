@@ -10,7 +10,7 @@
 # - Reusable: true
 # - Tags: tag:chef
 # Copy Client ID and Client secret to run_state
-# Run `kitchen converge oauth-client`
+# Run `kitchen converge auth-key`
 #
 # 1. Verify default settings work
 #            - create default

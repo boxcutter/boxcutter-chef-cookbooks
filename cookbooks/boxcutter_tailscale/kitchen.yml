@@ -38,14 +38,14 @@ verifier:
 platforms:
   # @see https://github.com/chef-cookbooks/testing_examples/blob/main/kitchen.dokken.yml
   # @see https://hub.docker.com/u/dokken
-  - name: ubuntu-20.04
-    driver:
-      image: boxcutter/dokken-ubuntu-20.04
-      pid_one_command: /bin/systemd
-
   - name: ubuntu-22.04
     driver:
       image: boxcutter/dokken-ubuntu-22.04
+      pid_one_command: /bin/systemd
+
+  - name: ubuntu-24.04
+    driver:
+      image: boxcutter/dokken-ubuntu-24.04
       pid_one_command: /bin/systemd
 
   - name: centos-stream-9
@@ -71,24 +71,21 @@ suites:
     attributes:
 
   - name: no_key
-    provisioner:
-      policyfile_path: policyfiles/Policyfile.no_key.rb
+    named_run_list: boxcutter_tailscale_test_no_key
     verifier:
       inspec_tests:
         - test/integration/default
     attributes:
 
   - name: oauth_client
-    provisioner:
-      policyfile_path: policyfiles/Policyfile.oauth_client.rb
+    named_run_list: boxcutter_tailscale_test_oauth_client
     verifier:
       inspec_tests:
         - test/integration/default
     attributes:
 
   - name: auth_key
-    provisioner:
-      policyfile_path: policyfiles/Policyfile.auth_key.rb
+    named_run_list: boxcutter_tailscale_test_auth_key
     verifier:
       inspec_tests:
         - test/integration/default
