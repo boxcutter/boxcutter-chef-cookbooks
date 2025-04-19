@@ -30,7 +30,7 @@ when 'ubuntu'
   node.default['fb_apt']['keymap']['tailscale'] = <<~EOS
     -----BEGIN PGP ARMORED FILE-----
     Comment: Use "gpg --dearmor" for unpacking
-    
+
     mQINBF5UmbgBEADAA5mxC8EoWEf53RVdlhQJbNnQW7fctUA5yNcGUbGGGTk6XFqO
     nlek0Us0FAl5KVBgcS0Bj+VSwKVI/wx91tnAWI36CHeMyPTawdT4FTcS2jZMHbcN
     UMqM1mcGs3wEQmKz795lfy2cQdVktc886aAF8hy1GmZDSs2zcGMvq5KCNPuX3DD5
