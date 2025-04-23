@@ -21,15 +21,15 @@
 # of recommended tools.
 
 unless node.ubuntu?
-  raise 'boxcutter_ros is only supported onUbuntu.'
+  fail 'boxcutter_ros is only supported onUbuntu.'
 end
 
-%w(
+%w{
   build-essential
   cmake
   git
   python3-pip
-).each do |pkg|
+}.each do |pkg|
   package pkg do
     action :upgrade
   end

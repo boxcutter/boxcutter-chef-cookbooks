@@ -17,17 +17,17 @@
 # limitations under the License.
 
 unless node.ubuntu?
-  raise 'boxcutter_ros is only supported onUbuntu.'
+  fail 'boxcutter_ros is only supported onUbuntu.'
 end
 
 include_recipe 'boxcutter_ros::common'
 include_recipe 'boxcutter_ros::build_essential'
 
-%w(
+%w{
   python3-colcon-common-extensions
   python3-vcstool
   python3-rosdep
-).each do |pkg|
+}.each do |pkg|
   package pkg do
     action :upgrade
   end
