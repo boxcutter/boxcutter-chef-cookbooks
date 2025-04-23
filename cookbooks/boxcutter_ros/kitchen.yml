@@ -69,3 +69,17 @@ suites:
       inspec_tests:
         - test/integration/default
     attributes:
+
+  - name: build_essential
+    named_run_list: boxcutter_ros_test_build_essential
+    verifier:
+      inspec_tests:
+        - test/integration/build_essential
+    attributes:
+
+  - name: dev_tools
+    named_run_list: boxcutter_ros_test_dev_tools
+    verifier:
+      inspec_tests:
+        - test/integration/dev_tools
+    attributes:
