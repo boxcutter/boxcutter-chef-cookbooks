@@ -50,31 +50,31 @@ template '/opt/netbox/latest/netbox/netbox/configuration.py' do
   owner 'root'
   group 'root'
   mode '0644'
-  notifies :restart, 'service[netbox]'
+  # notifies :restart, 'service[netbox]'
 end
 
-cookbook_file '/opt/netbox/latest/gunicorn.py' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-end
+# cookbook_file '/opt/netbox/latest/gunicorn.py' do
+#   owner 'root'
+#   group 'root'
+#   mode '0755'
+# end
 
-cookbook_file '/etc/systemd/system/netbox.service' do
-  owner 'root'
-  group 'root'
-  mode '0644'
-end
+# cookbook_file '/etc/systemd/system/netbox.service' do
+#   owner 'root'
+#   group 'root'
+#   mode '0644'
+# end
 
-cookbook_file '/etc/systemd/system/netbox-rq.service' do
-  owner 'root'
-  group 'root'
-  mode '0644'
-end
+# cookbook_file '/etc/systemd/system/netbox-rq.service' do
+#   owner 'root'
+#   group 'root'
+#   mode '0644'
+# end
 
-service 'netbox-rq' do
-  action [:enable, :start]
-end
+# service 'netbox-rq' do
+#   action [:enable, :start]
+# end
 
-service 'netbox' do
-  action [:enable, :start]
-end
+# service 'netbox' do
+#   action [:enable, :start]
+# end

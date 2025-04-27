@@ -72,3 +72,36 @@ sudo ln -s /etc/nginx/sites-available/netbox /etc/nginx/sites-enabled/netbox
 sudo systemctl restart nginx
 
 ```
+
+```
+curl --output /usr/share/keyrings/nginx-keyring.gpg  \
+      https://unit.nginx.org/keys/nginx-keyring.gpg
+
+/etc/apt/sources.list.d/unit.list      
+deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/ubuntu/ noble unit
+deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/ubuntu/ noble unit
+
+sudo apt-get update
+sudo apt-get install unit unit-python3.12
+
+source /opt/netbox/latest/venv/bin/activate
+
+config.json
+{
+  "listeners": {
+    "*:8000": {
+      "pass": "applications/netbox"
+    }
+  },
+  "applications": {
+    "netbox": {
+      "type": "python",
+      "path": "/opt/netbox/latest/netbox",
+      "home": "/opt/netbox/latest/venv",
+      "module": "netbox.wsgi"
+    }
+  }
+}
+
+curl -X PUT --data-binary @config.json --unix-socket /var/run/control.unit.sock http://localhost/config
+```
