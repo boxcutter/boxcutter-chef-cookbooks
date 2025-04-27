@@ -29,7 +29,7 @@ when 'ubuntu'
   # curl -fsSLO https://packages.redis.io/gpg
   node.default['fb_apt']['keymap']['redis'] = <<~EOS
     -----BEGIN PGP PUBLIC KEY BLOCK-----
-    
+
     mQINBGD37jsBEADdZKxRBkGSzT4XJbSVtNHCdacP5WvEVx3u6Ly95mYaoVR7N4LX
     3Muy3CCLk5LU1dW0e8Ws38/ZZTF6Lu3793qhDCi6hCbD36UkfH9xWqLNEgU/G8P9
     9aGbh9LDt6JyD5v4kJaQnMYnrFHNu0cYwvfn83IobaOhluLdR3Z7XIWorViLm1JG
