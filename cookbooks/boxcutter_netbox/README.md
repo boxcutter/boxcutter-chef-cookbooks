@@ -6,7 +6,7 @@
 su - postgres
 psql
 CREATE DATABASE netbox;
-CREATE USER netbox WITH PASSWORD 'J5brHrAXFLQSif0K';
+CREATE USER netbox WITH PASSWORD 'superseekret';
 ALTER DATABASE netbox OWNER TO netbox;
 -- the next two commands are needed on PostgreSQL 15 and later
 \connect netbox;
@@ -21,7 +21,7 @@ cp \
   /opt/netbox/latest/netbox/netbox/configuration.py
 
 python3 /opt/netbox/latest/netbox/generate_secret_key.py
-B@Li4HVu1^E4$5#2)Ulr$dlWMM2z4p2s*XRayfkaKe9h^gwM)B
+dummyKeyWithMinimumLength-------------------------
 
 vi /opt/netbox/latest/netbox/netbox/configuration.py
 ALLOWED_HOSTS = ['*']
@@ -29,13 +29,13 @@ ALLOWED_HOSTS = ['*']
 DATABASE = {
     'NAME': 'netbox',               # Database name
     'USER': 'netbox',               # PostgreSQL username
-    'PASSWORD': 'J5brHrAXFLQSif0K', # PostgreSQL password
+    'PASSWORD': 'superseekret', # PostgreSQL password
     'HOST': 'localhost',            # Database server
     'PORT': '',                     # Database port (leave blank for default)
     'CONN_MAX_AGE': 300,            # Max database connection age (seconds)
 }
 
-SECRET_KEY = 'B@Li4HVu1^E4$5#2)Ulr$dlWMM2z4p2s*XRayfkaKe9h^gwM)B'
+SECRET_KEY = 'dummyKeyWithMinimumLength-------------------------'
 
 
 # upgrade
