@@ -12,6 +12,7 @@ ALTER DATABASE netbox OWNER TO netbox;
 \connect netbox;
 GRANT CREATE ON SCHEMA public TO netbox;
 \q
+exit
 
 # https://netboxlabs.com/docs/netbox/en/stable/installation/3-netbox/
 su -
@@ -54,4 +55,20 @@ Superuser created successfully.
 python3 manage.py runserver 0.0.0.0:8000 --insecure
 
 http://localhost:2404
+```
+
+```
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/netbox.key \
+  -out /etc/ssl/certs/netbox.crt
+
+sudo apt install -y nginx
+
+sudo cp /opt/netbox/contrib/nginx.conf /etc/nginx/sites-available/netbox
+
+sudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/netbox /etc/nginx/sites-enabled/netbox
+
+sudo systemctl restart nginx
+
 ```
