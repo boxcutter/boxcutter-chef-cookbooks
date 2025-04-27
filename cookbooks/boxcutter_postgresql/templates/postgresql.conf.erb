@@ -1,0 +1,18 @@
+# PostgreSQL configuration file
+# This file is configured by Chef. Local changes will be overwritten.
+
+<% node['boxcutter_postgresql']['server']['config'].sort.each do |key, value| %>
+  <% next if value.nil? -%>
+  <%= key %> = <%=
+  case value
+  when String
+    "'#{value}'"
+  when TrueClass
+    'on'
+  when FalseClass
+    'off'
+  else
+    value
+  end
+%>
+<% end %>

@@ -66,6 +66,12 @@ module FB
       # 'python' => {
       #   'uid' => 699,
       # },
+      'postgres' => {
+        'uid' => 700,
+      },
+      'netbox' => {
+        'uid' => 701,
+      },
       'boxcutter' => {
         'uid' => 2001,
       },
@@ -155,6 +161,12 @@ module FB
       # 'python' => {
       #   'gid' => 699,
       # },
+      'postgres' => {
+        'gid' => 700,
+      },
+      'netbox' => {
+        'gid' => 701,
+      },
       'boxcutter' => {
         'gid' => 2001,
       },

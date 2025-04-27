@@ -1,0 +1,5 @@
+# This file is configured by Chef. Local changes will be overwritten.
+
+<% node['boxcutter_postgresql']['server']['pg_hba']['hosts'].each do |host| -%>
+  <%=   host['type'].ljust(7) %> <%= host['database'].ljust(15) %> <%= host['user'].ljust(15) %> <%= host['address'].ljust(23) if host.key?('address') %> <%= host['method'] if host.key?('method') %>
+<% end -%>
