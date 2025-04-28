@@ -31,3 +31,26 @@ parameters specified in the `postgresql.conf` for the data directory.
 Use `node['boxcutter_postgresql']['server']['pg_hba']` to automate
 configuring of the `pg_hba.conf` file, that controls client configuration.
 
+## Resources
+
+There are a few supporting resources that are used to encapsulate "update"
+functionality used in the "configuration as data" implementation on various
+PostgreSQL objects:
+
+### `boxcutter_postgresql_role`
+
+The `boxcutter_postgresql_reole` resource configures a PostgreSQL role.
+There is only one type of authetnicational principal in PostgreSQL, a `ROLE`.
+By convention, a `ROLE` that allows login is considered a **user**, while a
+role that is not allowed to login is a **group**. (While there are 
+`CREATE USER` and `CREATE GROUP` commands, they are aliases for `CREATE ROLE`).
+
+```ruby
+boxcutter_postgresql_role 'dev1'
+```
+
+#### Actions
+
+- `:create` - Define a new database role. *(default)*
+- `:alter` - Change a database role.
+- `:drop` - Remove a database role.

@@ -37,6 +37,7 @@ describe command(psql_command) do
   its('exit_status') { should eq 0 }
 end
 
+# https://www.digitalocean.com/community/tutorials/how-to-audit-a-postgresql-database-with-inspec-on-ubuntu-18-04
 # describe postgres_conf('/etc/postgresql/16/main/postgresql.conf') do
 #   its('unix_socket_directories') { should eq '.s.PGSQL.5432' }
 #   its('unix_socket_group') { should eq nil }
@@ -46,3 +47,14 @@ end
 # describe postgres_hba_conf.where { type == 'local' } do
 #   its('auth_method') { should all eq 'scram-sha-256' }
 # end
+
+# su - postgres
+# psql
+# SELECT rolname FROM pg_roles WHERE rolname = 'dev1';
+# postgres = postgres_session('postgres', nil, 'localhost')
+# describe postgres.query("SELECT 1 FROM pg_roles WHERE rolname = 'dev1';", ['postgres']) do
+#   its('output') { should match /^1$/ }
+# end
+describe command("su - postgres -c \"psql -d postgres -c \\\"SELECT 1 FROM pg_roles WHERE rolname = 'dev1';\\\"\"") do
+  its('stdout') { should match(/^\s*1\s*$/) }
+end
