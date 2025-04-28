@@ -37,3 +37,12 @@ describe command('redis-server --version') do
   its('stdout') { should match(/Redis server v=\d+\.\d+\.\d+/) }
   its('exit_status') { should eq 0 }
 end
+
+describe command('redis-server') do
+  it { should exist }
+end
+
+describe command('redis-cli ping') do
+  its('exit_status') { should eq 0 }
+  its('stdout') { should match (/PONG/) }
+end

@@ -18,6 +18,14 @@
 
 case node['platform']
 when 'ubuntu'
+  FB::Users.initialize_group(node, 'redis')
+  node.default['fb_users']['users']['redis'] = {
+    'gid' => 'redis',
+    'home' => '/var/lib/redis',
+    'shell' => '/usr/sbin/nologin',
+    'action' => :add,
+  }
+
   # https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/install-redis-on-linux/
   node.default['fb_apt']['sources']['redis'] = {
     'key' => 'redis',
@@ -86,6 +94,32 @@ when 'ubuntu'
     action :upgrade
   end
 
+  directory '/var/lib/redis' do
+    owner 'redis'
+    group 'redis'
+    mode '0750'
+  end
+
+  directory '/var/log/redis' do
+    owner 'redis'
+    group 'adm'
+    mode '2750'
+  end
+
+  file '/var/log/redis/redis-server.log' do
+    owner 'redis'
+    group 'adm'
+    mode '0660'
+  end
+
+  template '/etc/redis/redis.conf' do
+    source 'redis.conf.erb'
+    owner 'redis'
+    group 'redis'
+    mode '0640'
+    notifies :restart, 'service[redis-server]'
+  end
+
   service 'redis-server' do
     action [:enable, :start]
     only_if { node['boxcutter_redis']['enable'] }
@@ -97,6 +131,8 @@ when 'ubuntu'
     not_if { node['boxcutter_redis']['enable'] }
   end
 when 'centos'
+  # At the moment EPEL has Redis 6.x instead of 7.x. Until that changes,
+  # just install the package and don't manage configuration
   package 'redis' do
     action :upgrade
   end

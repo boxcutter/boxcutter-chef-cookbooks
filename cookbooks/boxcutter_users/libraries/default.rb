@@ -72,6 +72,9 @@ module FB
       'netbox' => {
         'uid' => 701,
       },
+      'redis' => {
+        'uid' => 702,
+      },
       'boxcutter' => {
         'uid' => 2001,
       },
@@ -166,6 +169,9 @@ module FB
       },
       'netbox' => {
         'gid' => 701,
+      },
+      'redis' => {
+        'gid' => 702,
       },
       'boxcutter' => {
         'gid' => 2001,

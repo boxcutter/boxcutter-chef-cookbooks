@@ -7,6 +7,7 @@ quick-response database.
 ## Attributes 
 
 - node['boxcutter_redis']['enable']
+- node['boxcutter_redis']['config']
 
 ## Usage
 
