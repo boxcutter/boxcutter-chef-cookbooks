@@ -17,14 +17,5 @@ that the redis service is enabled and set to restart on boot.
 You can use the `enable` attribute to control the running status of the
 redis service.
 
-This cookbook currently **does not** manage the Redis configuration file
-(`redis.conf`). Redis will run with the default settings installed by the
-platform's package manager.
-
-Future versions of this cookbook may add more configuration management
-options.
-
-If you need to manage custom Redis settings today, you should manually
-manage `/etc/redis/redis.conf` outside of this cookbook, or extend it as
-needed.
-
+The `config` attribute can be used to manage the Redis configuration file
+`/etc/redis/redis.conf`.
