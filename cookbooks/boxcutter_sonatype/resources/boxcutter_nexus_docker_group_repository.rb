@@ -35,7 +35,7 @@ load_current_value do |new_resource|
   storage_blob_store_name response['storage']['blobStoreName']
   storage_strict_content_type_validation response['storage']['strictContentTypeValidation']
   group_member_names response['group']['memberNames']
-  group_writableMember response['group']['writeableMember']
+  group_writable_member response['group']['writeableMember']
   docker_v1_enabled response['docker']['v1Enabled']
   docker_force_basic_auth response['docker']['forceBasicAuth']
   docker_http_port response['docker']['httpPort']
