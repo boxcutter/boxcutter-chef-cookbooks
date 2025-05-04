@@ -20,15 +20,15 @@ load_current_value do |new_resource|
   response = nil
   begin
     response = Boxcutter::Sonatype::Resource::Helpers.repository_get(new_resource, 'docker', 'group')
-  rescue
+  rescue StandardError
     current_value_does_not_exist!
   end
 
   if response['format'] != 'docker'
-    raise 'format != docker'
+    fail 'format != docker'
   end
   if response['type'] != 'group'
-    raise 'type != hosted'
+    fail 'type != hosted'
   end
   repository_name response['name']
   online response['online']
@@ -62,7 +62,8 @@ action :update do
   repository_exist = Boxcutter::Sonatype::Resource::Helpers.repository_exist?(new_resource, 'docker', 'group')
   puts "MISCHA boxcutter_nexus_docker_group_repository::update repository_exist=#{repository_exist}"
   unless repository_exist
-    raise Chef::Exceptions::CurrentValueDoesNotExist, "Cannot update repository'#{new_resource.repository_name}' as it does not exist"
+    fail Chef::Exceptions::CurrentValueDoesNotExist,
+         "Cannot update repository'#{new_resource.repository_name}' as it does not exist"
   end
   converge_if_changed(
     :online,

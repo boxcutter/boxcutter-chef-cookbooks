@@ -132,7 +132,8 @@ action :configure do
           http_client_connection_retries repository_config['http_client_connection_retries']
           http_client_connection_user_agent_suffix repository_config['http_client_connection_user_agent_suffix']
           http_client_connection_timeout repository_config['http_client_connection_timeout']
-          http_client_connection_enable_circular_redirects repository_config['http_client_connection_enable_circular_redirects']
+          http_client_connection_enable_circular_redirects \
+            repository_config['http_client_connection_enable_circular_redirects']
           http_client_connection_enable_cookies repository_config['http_client_connection_enable_cookies']
           http_client_connection_use_trust_store repository_config['http_client_connection_use_trust_store']
           http_client_authentication_type repository_config['http_client_authentication_type']
@@ -147,7 +148,7 @@ action :configure do
           action action
         end
       else
-        raise "invalid type #{type}"
+        fail "invalid type #{type}"
       end
     when 'docker'
       case repository_type
@@ -205,7 +206,8 @@ action :configure do
           http_client_connection_retries repository_config['http_client_connection_retries']
           http_client_connection_user_agent_suffix repository_config['http_client_connection_user_agent_suffix']
           http_client_connection_timeout repository_config['http_client_connection_timeout']
-          http_client_connection_enable_circular_redirects repository_config['http_client_connection_enable_circular_redirects']
+          http_client_connection_enable_circular_redirects \
+            repository_config['http_client_connection_enable_circular_redirects']
           http_client_connection_enable_cookies repository_config['http_client_connection_enable_cookies']
           http_client_connection_use_trust_store repository_config['http_client_connection_use_trust_store']
           http_client_authentication_type repository_config['http_client_authentication_type']
@@ -227,7 +229,7 @@ action :configure do
           action action
         end
       else
-        raise "invalid type #{type}"
+        fail "invalid type #{type}"
       end
     when 'pypi'
       case repository_type
@@ -273,7 +275,8 @@ action :configure do
           http_client_connection_retries repository_config['http_client_connection_retries']
           http_client_connection_user_agent_suffix repository_config['http_client_connection_user_agent_suffix']
           http_client_connection_timeout repository_config['http_client_connection_timeout']
-          http_client_connection_enable_circular_redirects repository_config['http_client_connection_enable_circular_redirects']
+          http_client_connection_enable_circular_redirects \
+            repository_config['http_client_connection_enable_circular_redirects']
           http_client_connection_enable_cookies repository_config['http_client_connection_enable_cookies']
           http_client_connection_use_trust_store repository_config['http_client_connection_use_trust_store']
           http_client_authentication_type repository_config['http_client_authentication_type']
@@ -287,7 +290,7 @@ action :configure do
           action action
         end
       else
-        raise "invalid type #{type}"
+        fail "invalid type #{type}"
       end
     when 'raw'
       case repository_type
@@ -333,7 +336,8 @@ action :configure do
           http_client_connection_retries repository_config['http_client_connection_retries']
           http_client_connection_user_agent_suffix repository_config['http_client_connection_user_agent_suffix']
           http_client_connection_timeout repository_config['http_client_connection_timeout']
-          http_client_connection_enable_circular_redirects repository_config['http_client_connection_enable_circular_redirects']
+          http_client_connection_enable_circular_redirects \
+            repository_config['http_client_connection_enable_circular_redirects']
           http_client_connection_enable_cookies repository_config['http_client_connection_enable_cookies']
           http_client_connection_use_trust_store repository_config['http_client_connection_use_trust_store']
           http_client_authentication_type repository_config['http_client_authentication_type']
@@ -346,10 +350,10 @@ action :configure do
           action action
         end
       else
-        raise "invalid type #{type}"
+        fail "invalid type #{type}"
       end
     else
-      raise "invalid format #{repository_format}"
+      fail "invalid format #{repository_format}"
     end
   end
 end

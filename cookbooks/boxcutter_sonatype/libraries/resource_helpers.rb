@@ -22,7 +22,7 @@ module Boxcutter
           when Net::HTTPSuccess
             JSON.parse(response.body)
           else
-            raise "Error #{response.code}: #{response.message} — #{response.body}"
+            fail "Error #{response.code}: #{response.message} — #{response.body}"
           end
         end
 
@@ -32,20 +32,20 @@ module Boxcutter
           begin
             response = repository_get(new_resource, format, type)
             puts "MISCHA: response=#{response}"
-          rescue => e
+          rescue StandardError => e
             puts "Rescue: #{e.message}"
-            puts "MISCHA: returning false"
+            puts 'MISCHA: returning false'
             return false
           end
 
           if response['format'] != format
-            raise "format != #{format}"
+            fail "format != #{format}"
           end
           if response['type'] != type
-            raise "type != #{type}"
+            fail "type != #{type}"
           end
 
-          puts "MISCHA: returning true"
+          puts 'MISCHA: returning true'
           true
         end
 
@@ -118,8 +118,9 @@ module Boxcutter
             'httpClient' => {
               'blocked' => new_resource.http_client_blocked,
               'autoBlock' => new_resource.http_client_auto_block,
-            }.merge(connection.empty? ? {} : { 'connection' => connection }
-            ).merge(authentication.empty? ? {} : { 'authentication' => authentication })
+            }.merge(
+              connection.empty? ? {} : { 'connection' => connection },
+            ).merge(authentication.empty? ? {} : { 'authentication' => authentication }),
           }.to_json
         end
 
@@ -178,12 +179,13 @@ module Boxcutter
             'httpClient' => {
               'blocked' => new_resource.http_client_blocked,
               'autoBlock' => new_resource.http_client_auto_block,
-            }.merge(connection.empty? ? {} : { 'connection' => connection }
+            }.merge(
+              connection.empty? ? {} : { 'connection' => connection },
             ).merge(authentication.empty? ? {} : { 'authentication' => authentication }),
             'apt' => {
               'distribution' => new_resource.apt_distribution,
               'flat' => new_resource.apt_flat,
-            }
+            },
           }.to_json
         end
 
@@ -256,11 +258,12 @@ module Boxcutter
             'httpClient' => {
               'blocked' => new_resource.http_client_blocked,
               'autoBlock' => new_resource.http_client_auto_block,
-            }.merge(connection.empty? ? {} : { 'connection' => connection }
+            }.merge(
+              connection.empty? ? {} : { 'connection' => connection },
             ).merge(authentication.empty? ? {} : { 'authentication' => authentication }),
             'pypi' => {
               'removeQuarantined' => new_resource.pypi_remove_quarantined,
-            }
+            },
           }.to_json
         end
 
@@ -282,7 +285,7 @@ module Boxcutter
               'httpPort' => new_resource.docker_http_port,
               'httpsPort' => new_resource.docker_https_port,
               'subdomain' => new_resource.docker_subdomain,
-            }
+            },
           }.to_json
         end
 
@@ -305,7 +308,7 @@ module Boxcutter
               'httpPort' => new_resource.docker_http_port,
               'httpsPort' => new_resource.docker_https_port,
               'subdomain' => new_resource.docker_subdomain,
-            }
+            },
           }.to_json
         end
 
@@ -349,7 +352,8 @@ module Boxcutter
             'httpClient' => {
               'blocked' => new_resource.http_client_blocked,
               'autoBlock' => new_resource.http_client_auto_block,
-            }.merge(connection.empty? ? {} : { 'connection' => connection }
+            }.merge(
+              connection.empty? ? {} : { 'connection' => connection },
             ).merge(authentication.empty? ? {} : { 'authentication' => authentication }),
             'docker' => {
               'v1Enabled' => new_resource.docker_v1_enabled,
@@ -363,7 +367,7 @@ module Boxcutter
               'indexUrl' => new_resource.docker_proxy_index_url,
               'cacheForeignLayers' => new_resource.docker_proxy_cache_foreign_layers,
               'foreignLayerUrlWhitelist' => new_resource.docker_proxy_foreign_layer_url_whitelist,
-            }
+            },
           }.to_json
         end
 
@@ -382,7 +386,7 @@ module Boxcutter
             when 'group'
               payload = raw_group_repository_payload(new_resource)
             else
-              raise "invalid type #{type}"
+              fail "invalid type #{type}"
             end
           when 'apt'
             case type
@@ -391,7 +395,7 @@ module Boxcutter
             when 'proxy'
               payload = apt_proxy_repository_payload(new_resource)
             else
-              raise "invalid type #{type}"
+              fail "invalid type #{type}"
             end
           when 'pypi'
             case type
@@ -402,7 +406,7 @@ module Boxcutter
             when 'group'
               payload = pypi_group_repository_payload(new_resource)
             else
-              raise "invalid type #{type}"
+              fail "invalid type #{type}"
             end
           when 'docker'
             case type
@@ -413,10 +417,10 @@ module Boxcutter
             when 'group'
               payload = docker_group_repository_payload(new_resource)
             else
-              raise "invalid type #{type}"
+              fail "invalid type #{type}"
             end
           else
-            raise "invalid format #{format}"
+            fail "invalid format #{format}"
           end
 
           puts "MISCHA: payload=#{payload.inspect}"
@@ -450,7 +454,7 @@ module Boxcutter
             when 'group'
               payload = raw_group_repository_payload(new_resource)
             else
-              raise "invalid type #{type}"
+              fail "invalid type #{type}"
             end
           when 'apt'
             case type
@@ -459,7 +463,7 @@ module Boxcutter
             when 'proxy'
               payload = apt_proxy_repository_payload(new_resource)
             else
-              raise "invalid type #{type}"
+              fail "invalid type #{type}"
             end
           when 'pypi'
             case type
@@ -470,7 +474,7 @@ module Boxcutter
             when 'group'
               payload = pypi_group_repository_payload(new_resource)
             else
-              raise "invalid type #{type}"
+              fail "invalid type #{type}"
             end
           when 'docker'
             case type
@@ -481,10 +485,10 @@ module Boxcutter
             when 'group'
               payload = docker_group_repository_payload(new_resource)
             else
-              raise "invalid type #{type}"
+              fail "invalid type #{type}"
             end
           else
-            raise "invalid format #{format}"
+            fail "invalid format #{format}"
           end
 
           http = Net::HTTP.new(uri.host, uri.port)
@@ -503,7 +507,7 @@ module Boxcutter
           when Net::HTTPSuccess, Net::HTTPNoContent
             puts "Repository '#{new_resource.repository_name}' updated successfully."
           else
-            raise "Update failed: #{response.code} #{response.message} — #{response.body}"
+            fail "Update failed: #{response.code} #{response.message} — #{response.body}"
           end
         end
 
@@ -528,7 +532,7 @@ module Boxcutter
           when Net::HTTPNotFound
             puts "Repository '#{new_resource.repository_name}' does not exist."
           else
-            raise "Failed to delete repo: #{response.code} #{response.message} — #{response.body}"
+            fail "Failed to delete repo: #{response.code} #{response.message} — #{response.body}"
           end
         end
       end

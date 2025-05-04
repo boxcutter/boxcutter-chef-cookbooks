@@ -9,7 +9,7 @@ property :online, [TrueClass, FalseClass], default: true
 property :storage_blob_store_name, String, default: 'default'
 property :storage_strict_content_type_validation, [TrueClass, FalseClass], default: false
 property :storage_write_policy, String,
-         equal_to: %w[allow allow_once read_only],
+         equal_to: %w{allow allow_once read_only},
          default: 'allow'
 # property :cleanup_policy_names
 # property :component_proprietary_components
@@ -21,15 +21,15 @@ load_current_value do |new_resource|
   response = nil
   begin
     response = Boxcutter::Sonatype::Resource::Helpers.repository_get(new_resource, 'apt', 'hosted')
-  rescue
+  rescue StandardError
     current_value_does_not_exist!
   end
 
   if response['format'] != 'apt'
-    raise 'format != apt'
+    fail 'format != apt'
   end
   if response['type'] != 'hosted'
-    raise 'type != hosted'
+    fail 'type != hosted'
   end
   repository_name response['name']
   online response['online']
@@ -60,7 +60,8 @@ action :update do
   repository_exist = Boxcutter::Sonatype::Resource::Helpers.repository_exist?(new_resource, 'apt', 'hosted')
   puts "MISCHA boxcutter_nexus_apt_hosted_repository::update repository_exist=#{repository_exist}"
   unless repository_exist
-    raise Chef::Exceptions::CurrentValueDoesNotExist, "Cannot update repository'#{new_resource.repository_name}' as it does not exist"
+    fail Chef::Exceptions::CurrentValueDoesNotExist,
+         "Cannot update repository'#{new_resource.repository_name}' as it does not exist"
   end
   converge_if_changed(
     :online,
