@@ -49,188 +49,163 @@
 # end
 
 nexus_hosts = %w{
-  ip-10-0-1-51
+  crake-nexus
 }.include?(node['hostname'])
 
 if nexus_hosts
-  # op item get 'tailscale oauth automation-sandbox-write-blue' --vault Automation-Sandbox
-  # op item get v5zvz2gomyzhgow46esj7txneu --format json
-  tailscale_oauth_client_id_write_blue =\
-    Boxcutter::OnePassword.op_read('op://Automation-Org/tailscale oauth write blue/username')
-  tailscale_oauth_client_secret_write_blue = \
-    Boxcutter::OnePassword.op_read('op://Automation-Org/tailscale oauth write blue/credential')
-  node.run_state['boxcutter_tailscale'] ||= {}
-  node.run_state['boxcutter_tailscale']['oauth_client_id'] = tailscale_oauth_client_id_write_blue
-  node.run_state['boxcutter_tailscale']['oauth_client_secret'] = tailscale_oauth_client_secret_write_blue
-  node.default['boxcutter_tailscale']['enable'] = true
-  node.default['boxcutter_tailscale']['ephemeral'] = false
-  node.default['boxcutter_tailscale']['use_tailscale_dns'] = false
-  node.default['boxcutter_tailscale']['shields_up'] = false
-  node.default['boxcutter_tailscale']['hostname'] = 'aws-boxcutter-nexus'
-  node.default['boxcutter_tailscale']['tags'] = ['chef']
-  include_recipe 'boxcutter_tailscale::default'
-
-  node.default['boxcutter_sonatype']['nexus_repository']['blobstores'] = {
-    's3-blob-store' => {
-      'name' => 's3-blob-store',
-      'type' => 's3',
-      'bucket_region' => 'us-west-2',
-      'bucket_name' => 'boxcutter-acceptance-blobstore-sandbox-uswest2',
-    },
-  }
-  # storage_blob_store_name
+  storage_blob_store_name = 'default'
   node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
     'ros-apt-proxy' => {
       'name' => 'ros-apt-proxy',
       'type' => 'proxy',
       'format' => 'apt',
-      'remote_url' => 'http://packages.ros.org/ros2/ubuntu',
-      'distribution' => 'jammy',
-      'flat' => false,
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'http://packages.ros.org/ros2/ubuntu',
+      'apt_distribution' => 'jammy',
+      'apt_flat' => false,
     },
     'ubuntu-archive-apt-proxy' => {
       'name' => 'ubuntu-archive-apt-proxy',
       'type' => 'proxy',
       'format' => 'apt',
-      'remote_url' => 'http://archive.ubuntu.com/ubuntu',
-      'distribution' => 'jammy',
-      'flat' => false,
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'http://archive.ubuntu.com/ubuntu',
+      'apt_distribution' => 'jammy',
+      'apt_flat' => false,
     },
     'ubuntu-security-apt-proxy' => {
       'name' => 'ubuntu-security-apt-proxy',
       'type' => 'proxy',
       'format' => 'apt',
-      'remote_url' => 'http://security.ubuntu.com/ubuntu/',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'http://security.ubuntu.com/ubuntu/',
       'distribution' => 'jammy',
       'flat' => false,
-      'storage_blob_store_name' => 's3-blob-store',
     },
     'ubuntu-ports-apt-proxy' => {
       'name' => 'ubuntu-ports-apt-proxy',
       'type' => 'proxy',
       'format' => 'apt',
-      'remote_url' => 'http://ports.ubuntu.com/ubuntu-ports',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'http://ports.ubuntu.com/ubuntu-ports',
       'distribution' => 'jammy',
       'flat' => false,
-      'storage_blob_store_name' => 's3-blob-store',
     },
     'ubuntu-releases-proxy' => {
       'name' => 'ubuntu-releases-proxy',
       'type' => 'proxy',
       'format' => 'raw',
-      'remote_url' => 'https://releases.ubuntu.com',
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'https://releases.ubuntu.com',
     },
     'ubuntu-cdimage-proxy' => {
       'name' => 'ubuntu-cdimage-proxy',
       'type' => 'proxy',
       'format' => 'raw',
-      'remote_url' => 'https://cdimage.ubuntu.com',
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'https://cdimage.ubuntu.com',
     },
     'ubuntu-cloud-images-proxy' => {
       'name' => 'ubuntu-cloud-images-proxy',
       'type' => 'proxy',
       'format' => 'raw',
-      'remote_url' => 'https://cloud-images.ubuntu.com',
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'https://cloud-images.ubuntu.com',
     },
     'cinc-proxy' => {
       'name' => 'cinc-proxy',
       'type' => 'proxy',
       'format' => 'raw',
-      'remote_url' => 'https://ftp.osuosl.org/pub/cinc',
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'https://ftp.osuosl.org/pub/cinc',
     },
     'github-releases-proxy' => {
       'name' => 'github-releases-proxy',
       'type' => 'proxy',
       'format' => 'raw',
-      'remote_url' => 'https://github.com',
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'https://github.com',
     },
     'githubusercontent-proxy' => {
       'name' => 'githubusercontent-proxy',
       'type' => 'proxy',
       'format' => 'raw',
-      'remote_url' => 'https://raw.githubusercontent.com',
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'https://raw.githubusercontent.com',
     },
     'onepassword-proxy' => {
       'name' => 'onepassword-proxy',
       'type' => 'proxy',
       'format' => 'raw',
-      'remote_url' => 'https://cache.agilebits.com',
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'https://cache.agilebits.com',
     },
     'boxcutter-images-hosted' => {
       'name' => 'boxcutter-images-hosted',
       'type' => 'hosted',
       'format' => 'raw',
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
     },
     'docker-hosted' => {
       'name' => 'docker-hosted',
       'type' => 'hosted',
       'format' => 'docker',
+      'storage_blob_store_name' => storage_blob_store_name,
       'docker_v1_enabled' => true,
       'docker_force_basic_auth' => true,
-      'storage_blob_store_name' => 's3-blob-store',
     },
     'docker-proxy' => {
       'name' => 'docker-proxy',
       'type' => 'proxy',
       'format' => 'docker',
+      'storage_blob_store_name' => storage_blob_store_name,
       'remote_url' => 'https://registry-1.docker.io',
       'docker_v1_enabled' => true,
       'docker_force_basic_auth' => true,
       'docker_proxy_index_type' => 'HUB',
-      'storage_blob_store_name' => 's3-blob-store',
     },
     'docker' => {
       'name' => 'docker',
       'type' => 'group',
       'format' => 'docker',
-      'member_names' => %w{
+      'storage_blob_store_name' => storage_blob_store_name,
+      'group_member_names' => %w{
         docker-hosted
         docker-proxy
       },
-      'writableMember' => 'docker-hosted',
+      'group_writableMember' => 'docker-hosted',
       'docker_v1_enabled' => true,
       'docker_force_basic_auth' => true,
       'docker_http_port' => 8082,
-      'storage_blob_store_name' => 's3-blob-store',
     },
     'docker-cache-hosted' => {
       'name' => 'docker-cache-hosted',
       'type' => 'hosted',
       'format' => 'docker',
+      'storage_blob_store_name' => storage_blob_store_name,
       'docker_v1_enabled' => true,
       'docker_force_basic_auth' => true,
-      'storage_blob_store_name' => 's3-blob-store',
     },
     'docker-cache' => {
       'name' => 'docker-cache',
       'type' => 'group',
       'format' => 'docker',
-      'member_names' => %w{
+      'storage_blob_store_name' => storage_blob_store_name,
+      'group_member_names' => %w{
         docker-cache-hosted
         docker-proxy
       },
-      'writableMember' => 'docker-cache-hosted',
+      'group_writableMember' => 'docker-cache-hosted',
       'docker_v1_enabled' => true,
       'docker_force_basic_auth' => true,
       'docker_http_port' => 8083,
-      'storage_blob_store_name' => 's3-blob-store',
     },
     'pypi-proxy' => {
       'name' => 'pypi-proxy',
       'type' => 'proxy',
       'format' => 'pypi',
-      'remote_url' => 'https://pypi.org/',
-      'storage_blob_store_name' => 's3-blob-store',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'https://pypi.org/',
     },
   }
 
@@ -238,7 +213,7 @@ if nexus_hosts
   # well with HTTPS
   node.default['fb_nginx']['sites']['nexus_http'] = {
     'listen' => '80',
-    'server_name' => 'aws-boxcutter-nexus.org.boxcutter.net',
+    'server_name' => 'crake-nexus.org.boxcutter.net',
     'location ~ ^/repository/' \
       '(ros-apt-proxy|' \
       'ubuntu-archive-apt-proxy|' \
@@ -265,7 +240,7 @@ if nexus_hosts
     'nexus' => {
       'renew_script_path' => '/opt/certbot/bin/certbot_renew.sh',
       'certbot_bin' => '/opt/certbot/venv/bin/certbot',
-      'domains' => ['aws-boxcutter-nexus.org.boxcutter.net', '*.aws-boxcutter-nexus.org.boxcutter.net'],
+      'domains' => ['crake-nexus.org.boxcutter.net', '*.crake-nexus.org.boxcutter.net'],
       'email' => 'letsencrypt@boxcutter.dev',
       'cloudflare_ini' => '/etc/chef/cloudflare.ini',
       'extra_args' => [
@@ -288,12 +263,12 @@ if nexus_hosts
 
   node.default['fb_nginx']['sites']['nexus'] = {
     'listen 443' => 'ssl',
-    'server_name' => 'aws-boxcutter-nexus.org.boxcutter.net',
+    'server_name' => 'crake-nexus.org.boxcutter.net',
     'client_max_body_size' => '1G',
     'ssl_certificate' =>
-      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/fullchain.pem',
+      '/etc/letsencrypt/live/crake-nexus.org.boxcutter.net/fullchain.pem',
     'ssl_certificate_key' =>
-      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/privkey.pem',
+      '/etc/letsencrypt/live/crake-nexus.org.boxcutter.net/privkey.pem',
     'location /' => {
       'proxy_set_header Host' => '$host:$server_port',
       'proxy_set_header X-Real-IP' => '$remote_addr',
@@ -305,12 +280,12 @@ if nexus_hosts
 
   node.default['fb_nginx']['sites']['nexus_docker'] = {
     'listen 443' => 'ssl',
-    'server_name' => 'docker.aws-boxcutter-nexus.org.boxcutter.net',
+    'server_name' => 'docker.crake-nexus.org.boxcutter.net',
     'client_max_body_size' => '0',
     'ssl_certificate' =>
-      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/fullchain.pem',
+      '/etc/letsencrypt/live/crake-nexus.org.boxcutter.net/fullchain.pem',
     'ssl_certificate_key' =>
-      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/privkey.pem',
+      '/etc/letsencrypt/live/crake-nexus.org.boxcutter.net/privkey.pem',
     'location ~ ^/(v1|v2)/[^/]+/?[^/]+/blobs/' => {
       'if ($request_method ~* (POST|PUT|DELETE|PATCH|HEAD) )' => {
         'rewrite ^/(.*)$ /repository/docker-hosted/$1' => 'last',
@@ -334,12 +309,12 @@ if nexus_hosts
 
   node.default['fb_nginx']['sites']['nexus_docker_cache'] = {
     'listen 443' => 'ssl',
-    'server_name' => 'docker-cache.aws-boxcutter-nexus.org.boxcutter.net',
+    'server_name' => 'docker-cache.crake-nexus.org.boxcutter.net',
     'client_max_body_size' => '0',
     'ssl_certificate' =>
-      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/fullchain.pem',
+      '/etc/letsencrypt/live/crake-nexus.org.boxcutter.net/fullchain.pem',
     'ssl_certificate_key' =>
-      '/etc/letsencrypt/live/aws-boxcutter-nexus.org.boxcutter.net/privkey.pem',
+      '/etc/letsencrypt/live/crake-nexus.org.boxcutter.net/privkey.pem',
     'location ~ ^/(v1|v2)/[^/]+/?[^/]+/blobs/' => {
       'if ($request_method ~* (POST|PUT|DELETE|PATCH|HEAD) )' => {
         'rewrite ^/(.*)$ /repository/docker-cache-hosted/$1' => 'last',
