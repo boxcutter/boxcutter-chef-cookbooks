@@ -70,7 +70,7 @@ action :update do
     :storage_blob_store_name,
     :storage_strict_content_type_validation,
     :group_member_names,
-    :group_writableMember,
+    :group_writable_member,
     :docker_v1_enabled,
     :docker_force_basic_auth,
     :docker_http_port,
