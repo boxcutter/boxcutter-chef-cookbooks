@@ -159,7 +159,7 @@ if nexus_hosts
       'type' => 'proxy',
       'format' => 'docker',
       'storage_blob_store_name' => storage_blob_store_name,
-      'remote_url' => 'https://registry-1.docker.io',
+      'proxy_remote_url' => 'https://registry-1.docker.io',
       'docker_v1_enabled' => true,
       'docker_force_basic_auth' => true,
       'docker_proxy_index_type' => 'HUB',
