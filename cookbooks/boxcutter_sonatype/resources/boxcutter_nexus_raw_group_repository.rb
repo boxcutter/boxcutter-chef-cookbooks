@@ -22,7 +22,7 @@ load_current_value do |new_resource|
     fail 'format != raw'
   end
   if response['type'] != 'group'
-    fail 'type != hosted'
+    fail 'type != group'
   end
   repository_name response['name']
   online response['online']

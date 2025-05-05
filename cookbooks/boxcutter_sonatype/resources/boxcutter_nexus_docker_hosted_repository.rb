@@ -23,13 +23,13 @@ property :docker_subdomain, String
 load_current_value do |new_resource|
   response = nil
   begin
-    response = Boxcutter::Sonatype::Resource::Helpers.repository_get(new_resource, 'apt', 'hosted')
+    response = Boxcutter::Sonatype::Resource::Helpers.repository_get(new_resource, 'docker', 'hosted')
   rescue StandardError
     current_value_does_not_exist!
   end
 
-  if response['format'] != 'apt'
-    fail 'format != apt'
+  if response['format'] != 'docker'
+    fail 'format != docker'
   end
   if response['type'] != 'hosted'
     fail 'type != hosted'

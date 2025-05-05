@@ -48,6 +48,14 @@ node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
     'type' => 'hosted',
     'format' => 'raw',
   },
+  'gazebo-apt-proxy' => {
+    'name' => 'gazebo-apt-proxy',
+    'type' => 'proxy',
+    'format' => 'apt',
+    'proxy_remote_url' => 'http://packages.osrfoundation.org/gazebo/ubuntu-stable',
+    'apt_distribution' => 'jammy',
+    'apt_flat' => false,
+  },
   'ros-proxy' => {
     'name' => 'ros-proxy',
     'type' => 'proxy',
