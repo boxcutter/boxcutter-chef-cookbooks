@@ -136,6 +136,17 @@ node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
     'docker_https_port' => 10443,
     'docker_proxy_index_type' => 'HUB',
   },
+  'npm-proxy' => {
+    'name' => 'npm-proxy',
+    'type' => 'proxy',
+    'format' => 'npm',
+    'proxy_remote_url' => 'https://registry.npmjs.org',
+  },
+  'npm-hosted' => {
+    'name' => 'npm-hosted',
+    'type' => 'hosted',
+    'format' => 'npm',
+  },
 }
 
 include_recipe 'boxcutter_sonatype::default'

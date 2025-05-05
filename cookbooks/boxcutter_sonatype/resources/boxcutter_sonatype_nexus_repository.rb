@@ -231,6 +231,67 @@ action :configure do
       else
         fail "invalid type #{type}"
       end
+    when 'npm'
+      case repository_type
+      when 'group'
+        boxcutter_nexus_npm_group_repository repository_name do
+          server_url server_url
+          user_name user_name
+          password password
+          online repository_config['online']
+          storage_blob_store_name repository_config['storage_blob_store_name']
+          storage_strict_content_type_validation repository_config['storage_strict_content_type_validation']
+          group_member_names repository_config['group_member_names']
+
+          action action
+        end
+      when 'hosted'
+        boxcutter_nexus_npm_hosted_repository repository_name do
+          server_url server_url
+          user_name user_name
+          password password
+          online repository_config['online']
+          storage_blob_store_name repository_config['storage_blob_store_name']
+          storage_strict_content_type_validation repository_config['storage_strict_content_type_validation']
+          storage_write_policy repository_config['storage_write_policy']
+
+          action action
+        end
+      when 'proxy'
+        boxcutter_nexus_npm_proxy_repository repository_name do
+          server_url server_url
+          user_name user_name
+          password password
+          online repository_config['online']
+          storage_blob_store_name repository_config['storage_blob_store_name']
+          storage_strict_content_type_validation repository_config['storage_strict_content_type_validation']
+          proxy_remote_url repository_config['proxy_remote_url']
+          proxy_content_max_age repository_config['proxy_content_max_age']
+          proxy_metadata_max_age repository_config['proxy_metadata_max_age']
+          negative_cache_enabled repository_config['negative_cache_enabled']
+          negative_cache_time_to_live repository_config['negative_cache_time_to_live']
+          http_client_blocked repository_config['http_client_blocked']
+          http_client_auto_block repository_config['http_client_auto_block']
+          http_client_connection_retries repository_config['http_client_connection_retries']
+          http_client_connection_user_agent_suffix repository_config['http_client_connection_user_agent_suffix']
+          http_client_connection_timeout repository_config['http_client_connection_timeout']
+          http_client_connection_enable_circular_redirects \
+            repository_config['http_client_connection_enable_circular_redirects']
+          http_client_connection_enable_cookies repository_config['http_client_connection_enable_cookies']
+          http_client_connection_use_trust_store repository_config['http_client_connection_use_trust_store']
+          http_client_authentication_type repository_config['http_client_authentication_type']
+          http_client_authentication_username repository_config['http_client_authentication_username']
+          http_client_authentication_password repository_config['http_client_authentication_password']
+          http_client_authentication_ntlm_host repository_config['http_client_authentication_ntlm_host']
+          http_client_authentication_ntlm_domain repository_config['http_client_authentication_ntlm_domain']
+          routing_rule repository_config['routing_rule']
+          npm_remove_quarantined repository_config['npm_remove_quarantined']
+
+          action action
+        end
+      else
+        fail "invalid type #{type}"
+      end
     when 'pypi'
       case repository_type
       when 'group'

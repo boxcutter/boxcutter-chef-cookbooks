@@ -189,6 +189,85 @@ module Boxcutter
           }.to_json
         end
 
+        def self.npm_group_repository_payload(new_resource)
+          {
+            'name' => new_resource.repository_name,
+            'online' => new_resource.online,
+            'storage' => {
+              'blobStoreName' => new_resource.storage_blob_store_name,
+              'strictContentTypeValidation' => new_resource.storage_strict_content_type_validation,
+            },
+            'group' => {
+              'memberNames' => new_resource.group_member_names,
+              'writableMember' => new_resource.group_writable_member,
+            },
+          }.to_json
+        end
+
+        def self.npm_hosted_repository_payload(new_resource)
+          {
+            'name' => new_resource.repository_name,
+            'online' => new_resource.online,
+            'storage' => {
+              'blobStoreName' => new_resource.storage_blob_store_name,
+              'strictContentTypeValidation' => new_resource.storage_strict_content_type_validation,
+              'writePolicy' => new_resource.storage_write_policy,
+            },
+            'cleanup' => {
+              'policyNames' => [],
+            },
+          }.to_json
+        end
+
+        def self.npm_proxy_repository_payload(new_resource)
+          # Cannot do this inline, define the connection hash before,
+          # so we can check its contents
+          connection = {
+            'retries' => new_resource.http_client_connection_retries,
+            'userAgentSuffix' => new_resource.http_client_connection_user_agent_suffix,
+            'timeout' => new_resource.http_client_connection_timeout,
+            'enableCircularRedirects' => new_resource.http_client_connection_enable_circular_redirects,
+            'enableCookies' => new_resource.http_client_connection_enable_cookies,
+            'useTrustStore' => new_resource.http_client_connection_use_trust_store,
+          }.compact
+
+          authentication = {
+            'type' => new_resource.http_client_authentication_type,
+            'username' => new_resource.http_client_authentication_username,
+            'password' => new_resource.http_client_authentication_password,
+            'ntlmHost' => new_resource.http_client_authentication_ntlm_host,
+            'ntlmDomain' => new_resource.http_client_authentication_ntlm_domain,
+            # 'bearerToken' => new_resource.http_client_authentication_bearer_token,
+          }.compact
+
+          {
+            'name' => new_resource.repository_name,
+            'online' => new_resource.online,
+            'storage' => {
+              'blobStoreName' => new_resource.storage_blob_store_name,
+              'strictContentTypeValidation' => new_resource.storage_strict_content_type_validation,
+            },
+            'proxy' => {
+              'remoteUrl' => new_resource.proxy_remote_url,
+              'contentMaxAge' => new_resource.proxy_content_max_age,
+              'metadataMaxAge' => new_resource.proxy_metadata_max_age,
+            },
+            'negativeCache' => {
+              'enabled' => new_resource.negative_cache_enabled,
+              'timeToLive' => new_resource.negative_cache_time_to_live,
+            },
+            'httpClient' => {
+              'blocked' => new_resource.http_client_blocked,
+              'autoBlock' => new_resource.http_client_auto_block,
+            }.merge(
+              connection.empty? ? {} : { 'connection' => connection },
+              ).merge(authentication.empty? ? {} : { 'authentication' => authentication }),
+            'npm' => {
+              'removeQuarantined' => new_resource.npm_remove_quarantined,
+            },
+          }.to_json
+        end
+
         def self.pypi_group_repository_payload(new_resource)
           {
             'name' => new_resource.repository_name,
@@ -397,6 +476,17 @@ module Boxcutter
             else
               fail "invalid type #{type}"
             end
+          when 'npm'
+            case type
+            when 'hosted'
+              payload = npm_hosted_repository_payload(new_resource)
+            when 'proxy'
+              payload = npm_proxy_repository_payload(new_resource)
+            when 'group'
+              payload = npm_group_repository_payload(new_resource)
+            else
+              fail "invalid type #{type}"
+            end
           when 'pypi'
             case type
             when 'hosted'
@@ -462,6 +552,17 @@ module Boxcutter
               payload = apt_hosted_repository_payload(new_resource)
             when 'proxy'
               payload = apt_proxy_repository_payload(new_resource)
+            else
+              fail "invalid type #{type}"
+            end
+          when 'npm'
+            case type
+            when 'hosted'
+              payload = npm_hosted_repository_payload(new_resource)
+            when 'proxy'
+              payload = npm_proxy_repository_payload(new_resource)
+            when 'group'
+              payload = npm_group_repository_payload(new_resource)
             else
               fail "invalid type #{type}"
             end
