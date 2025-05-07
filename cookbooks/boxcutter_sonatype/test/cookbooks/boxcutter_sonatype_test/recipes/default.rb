@@ -147,6 +147,17 @@ node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
     'type' => 'hosted',
     'format' => 'npm',
   },
+  'pypi-proxy' => {
+    'name' => 'python-proxy',
+    'type' => 'proxy',
+    'format' => 'pypi',
+    'proxy_remote_url' => 'https://pypi.org/',
+  },
+  'pypi-hosted' => {
+    'name' => 'python-hosted',
+    'type' => 'hosted',
+    'format' => 'pypi',
+  },
 }
 
 include_recipe 'boxcutter_sonatype::default'

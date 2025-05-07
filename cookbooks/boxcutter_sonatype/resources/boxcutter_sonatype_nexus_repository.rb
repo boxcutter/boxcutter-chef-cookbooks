@@ -69,25 +69,29 @@ action :configure do
     Boxcutter::Sonatype::Helpers.repository_delete(node, repository_name)
   end
 
-  node['boxcutter_sonatype']['nexus_repository']['roles'].each do |role_id, role_config|
+  node['boxcutter_sonatype']['nexus_repository']['roles'].each do |key, role_config|
+    role_id = role_config['id'] || key
     next if filtered_current_role_names.include?(role_id)
     Boxcutter::Sonatype::Helpers.role_create(node, role_id, role_config)
   end
 
-  node['boxcutter_sonatype']['nexus_repository']['users'].each do |user_name, user_config|
+  node['boxcutter_sonatype']['nexus_repository']['users'].each do |key, user_config|
+    user_name = user_config['name'] || key
     next if filtered_current_user_names.include?(user_name)
     Boxcutter::Sonatype::Helpers.user_create(node, user_name, user_config)
   end
 
-  node['boxcutter_sonatype']['nexus_repository']['blobstores'].each do |blobstore_name, blobstore_config|
+  node['boxcutter_sonatype']['nexus_repository']['blobstores'].each do |key, blobstore_config|
+    blobstore_name = blobstore_config['name'] || key
     next if current_blobstore_names.include?(blobstore_name)
     Boxcutter::Sonatype::Helpers.blobstore_create(node, blobstore_name, blobstore_config)
   end
 
-  node['boxcutter_sonatype']['nexus_repository']['repositories'].each do |repository_name, repository_config|
+  node['boxcutter_sonatype']['nexus_repository']['repositories'].each do |key, repository_config|
     # next if current_repository_names.include?(repository_name)
     # Boxcutter::Sonatype::Helpers.repository_create(node, repository_name, repository_config)
 
+    repository_name = repository_config['name'] || key
     repository_format = repository_config['format']
     repository_type = repository_config['type']
     server_url = 'http://localhost:8081'

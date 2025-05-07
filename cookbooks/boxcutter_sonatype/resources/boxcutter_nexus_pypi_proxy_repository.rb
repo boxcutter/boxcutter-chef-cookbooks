@@ -52,7 +52,7 @@ property :http_client_authentication_ntlm_domain, String
 property :routing_rule
 # property :replication_preemptive_pull_enabled
 # property :replication_asset_path_regex
-property :pypi_remove_quarantined, [TrueClass, FalseClass]
+property :pypi_remove_quarantined, [TrueClass, FalseClass], default: false
 
 load_current_value do |new_resource|
   response = nil
