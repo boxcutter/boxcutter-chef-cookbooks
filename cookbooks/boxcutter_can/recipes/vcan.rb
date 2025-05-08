@@ -22,27 +22,25 @@ fb_modprobe_module 'vcan' do
   action :load
 end
 
-node.default['fb_networkd']['primary_interface'] = nil
-node.default['fb_networkd']['networks'].delete('eth0')
-node.default['fb_networkd']['networks']['vcan0'] = {
-  'config' => {
-    'Match' => {
-      'Name' => 'vcan0',
-    },
-  },
-}
-node.default['fb_networkd']['devices']['vcan0']['config'] = {
-  'NetDev' => {
-    'Name' => 'vcan0',
-    'Kind' => 'vcan',
-    'MTUBytes' => '16',
-    'Description' => 'Virtual CAN0 network interface',
-  },
-}
-
-# Ensure that systemd-networkd is enabled and started
-service 'systemd-networkd' do
-  action [:enable, :start]
-end
-
 package 'can-utils'
+
+systemd_unit 'vcan.service' do
+  content <<-EOU.gsub(/^\s+/, '')
+    [Unit]
+    Description=Virtual CAN interface vcan0
+    Requires=network.target
+    After=network.target
+
+    [Service]
+    Type=oneshot
+    RemainAfterExit=yes
+    ExecStartPre=/sbin/modprobe vcan
+    ExecStart=/sbin/ip link add dev vcan0 type vcan
+    ExecStartPost=/sbin/ip link set up vcan0
+    ExecStop=/sbin/ip link delete vcan0
+
+    [Install]
+    WantedBy=multi-user.target
+  EOU
+  action [:create, :enable, :start]
+end
