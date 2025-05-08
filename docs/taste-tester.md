@@ -1,5 +1,7 @@
 # Taste Tester
 
+Prerequisites - Ubuntu
+
 ```
 sudo apt-get update
 # to build rugged for taste-tester
@@ -9,21 +11,33 @@ sudo apt-get install cmake
 # we need to install rugged with special openssl settings, or it will get
 # linked against the system openssl and won't work properly
 export OPENSSL_ROOT_DIR=/opt/cinc-workstation/embedded
+```
 
+Prerequisites - macOS
+
+```
+# install xcode via the App Store (sorry!)
+sudo xcodebuild -license accept
+# install homebrew
+brew install pkg-config
+brew install cmake
+brew install coreutils
+```
+
+```
 $ eval "$(cinc shell-init bash)"
 $ which cinc
 /opt/cinc-workstation/bin/cinc
 
-# macos:
-# install xcode
-# brew install pkg-config
-# brew install cmake
-
 cinc gem install taste_tester
 
 sudo mkdir -p /usr/local/etc/taste-tester
-# sudo cp ~/github/boxcutter/boxcutter-chef-cookbooks/cookbooks/boxcutter_chef/files/taste-tester/taste-tester-plugin.rb /usr/local/etc/taste-tester
-# sudo cp ~/github/boxcutter/boxcutter-chef-cookbooks/cookbooks/boxcutter_chef/files/taste-tester/taste-tester.conf /usr/local/etc/taste-tester
+# sudo cp \
+  ~/github/boxcutter/boxcutter-chef-cookbooks/cookbooks/boxcutter_chef/files/taste-tester/taste-tester-plugin.rb \
+  /usr/local/etc/taste-tester
+# sudo cp \
+  ~/github/boxcutter/boxcutter-chef-cookbooks/cookbooks/boxcutter_chef/files/taste-tester/taste-tester.conf \
+  /usr/local/etc/taste-tester
 
 sudo tee /usr/local/etc/taste-tester/taste-tester-plugin.rb <<'EOF'
 def self.test_remote_client_rb_extra_code(_hostname)
@@ -43,7 +57,6 @@ def self.test_remote_client_rb_extra_code(_hostname)
   EOF
 end
 EOF
-
 
 sudo tee /usr/local/etc/taste-tester/taste-tester.conf <<EOF
 repo File.join(ENV['HOME'], 'github', 'boxcutter', 'boxcutter-chef-cookbooks')
@@ -73,11 +86,11 @@ EOF
 # tt test -ys <yourhost>
 taste-tester test \
   -c /usr/local/etc/taste-tester/taste-tester.conf \
-  -s 10.63.46.39 -v --user taylor -y
+  -s 10.67.132.38 -v --user taylor -y
 
 taste-tester upload \
   -c /usr/local/etc/taste-tester/taste-tester.conf \
-  -s 10.63.46.39 --user taylor -v
+  -s 10.67.132.38 --user taylor -v
 
 taste-tester untest -s 10.63.46.39 --user taylor -v
 ```

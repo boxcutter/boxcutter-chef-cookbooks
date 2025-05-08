@@ -7,42 +7,35 @@
   
 ## Ubuntu x86_64
 
-### Spin up Ubuntu 22.04 x86_64 cloud image as a VM
+### Spin up Ubuntu 24.04 x86_64 cloud image as a VM
 
 Download and import the Ubuntu cloud image template into kvm:
 
 ```
 # Download and import the Ubuntu cloud image itself into kvm
-mkdir -p ubuntu-server-2204 && cd ubuntu-server-2204
-curl -LO https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
+$ mkdir -p ubuntu-server-2404
+$ cd ubuntu-server-2404
+$ curl -LO http://cloud-images.ubuntu.com/noble/current/SHA256SUMS
+$ curl -LO http://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
 
-$ qemu-img info jammy-server-cloudimg-amd64.img 
-image: jammy-server-cloudimg-amd64.img
-file format: qcow2
-virtual size: 2.2 GiB (2361393152 bytes)
-disk size: 620 MiB
-cluster_size: 65536
-Format specific information:
-    compat: 0.10
-    compression type: zlib
-    refcount bits: 16
+$ qemu-img info noble-server-cloudimg-amd64.img
 
-sudo qemu-img convert \
+$ sudo qemu-img convert \
   -f qcow2 \
   -O qcow2 \
-  jammy-server-cloudimg-amd64.img \
-  /var/lib/libvirt/images/ubuntu-server-2204.qcow2
-sudo qemu-img resize \
+  noble-server-cloudimg-amd64.img \
+  /var/lib/libvirt/images/ubuntu-server-2404.qcow2
+$ sudo qemu-img resize \
   -f qcow2 \
-  /var/lib/libvirt/images/ubuntu-server-2204.qcow2 \
+  /var/lib/libvirt/images/ubuntu-server-2404.qcow2 \
   64G
 
 # Create a cloud-init template to customize the Ubuntu image in kvm:
 touch network-config
 
 cat >meta-data <<EOF
-instance-id: ubuntu-server-2204
-local-hostname: ubuntu-server-2204
+instance-id: ubuntu-server-2404
+local-hostname: ubuntu-server-2404
 EOF
 
 cat >user-data <<EOF
@@ -68,10 +61,11 @@ sudo apt-get update
 sudo apt-get install genisoimage
 genisoimage \
     -input-charset utf-8 \
-    -output ubuntu-server-2204-cloud-init.img \
+    -output ubuntu-server-2404-cloud-init.img \
     -volid cidata -rational-rock -joliet \
     user-data meta-data network-config
-sudo cp ubuntu-server-2204-cloud-init.img /var/lib/libvirt/boot/ubuntu-server-2204-cloud-init.iso
+sudo cp ubuntu-server-2404-cloud-init.img \
+  /var/lib/libvirt/boot/ubuntu-server-2404-cloud-init.iso
 ```
 
 Initialize the virtual machine:
@@ -79,13 +73,13 @@ Initialize the virtual machine:
 # Perform a customization run by loading the cloud-init image with the VM
 virt-install \
   --connect qemu:///system \
-  --name ubuntu-server-2204 \
+  --name ubuntu-server-2404 \
   --boot uefi \
   --memory 4096 \
   --vcpus 2 \
-  --os-variant ubuntu22.04 \
-  --disk /var/lib/libvirt/images/ubuntu-server-2204.qcow2,bus=virtio \
-  --disk /var/lib/libvirt/boot/ubuntu-server-2204-cloud-init.iso,device=cdrom \
+  --os-variant ubuntu24.04 \
+  --disk /var/lib/libvirt/images/ubuntu-server-2404.qcow2,bus=virtio \
+  --disk /var/lib/libvirt/boot/ubuntu-server-2404-cloud-init.iso,device=cdrom \
   --network network=host-network,model=virtio \
   --graphics spice \
   --noautoconsole \
@@ -94,7 +88,7 @@ virt-install \
   --debug
 
 # Login to the VM with automat/superseekret
-virsh console ubuntu-server-2204
+virsh console ubuntu-server-2404
 # login with automat/superseekret
 
 # Verify that cloud-init is done (wait until it shows "done" status)
@@ -127,25 +121,21 @@ status: disabled
 $ sudo shutdown -h now
 
 # Detach the cloud-init image
-$ virsh domblklist ubuntu-server-2204
- Target   Source
--------------------------------------------------------------------
- vda      /var/lib/libvirt/images/ubuntu-server-2204.qcow2
- sda      /var/lib/libvirt/boot/ubuntu-server-2204-cloud-init.iso
-
-$ virsh change-media ubuntu-server-2204 sda --eject
+$ virsh domblklist ubuntu-server-2404
+ 
+$ virsh change-media ubuntu-server-2404 sda --eject
 Successfully ejected media.
 
-$ sudo rm /var/lib/libvirt/boot/ubuntu-server-2204-cloud-init.iso
+$ sudo rm /var/lib/libvirt/boot/ubuntu-server-2404-cloud-init.iso
 
 # Make a snapshot of this clean config so you can revert in the future
-virsh snapshot-create-as --domain ubuntu-server-2204 --name clean --description "Initial install"
+virsh snapshot-create-as --domain ubuntu-server-2404 --name clean --description "Initial install"
 
 # Nameless snapshot
-virsh snapshot-create ubuntu-server-2204
-virsh snapshot-list ubuntu-server-2204
-virsh snapshot-revert ubuntu-server-2204 clean
-virsh snapshot-delete ubuntu-server-2204 clean
+virsh snapshot-create ubuntu-server-2404
+virsh snapshot-list ubuntu-server-2404
+virsh snapshot-revert ubuntu-server-2404 clean
+virsh snapshot-delete ubuntu-server-2404 clean
 
 # If you need to destroy and recreate....
 virsh destroy ubuntu-server-2404
@@ -156,7 +146,7 @@ virsh undefine ubuntu-server-2404 --nvram --remove-all-storage
 
 ```
 # Login to the VM with automat/superseekret
-virsh console ubuntu-server-2204
+virsh console ubuntu-server-2404
 # login with automat/superseekret
 
 # chefctl uses a shebang that points at /opt/chef, so make sure we have a link
@@ -233,7 +223,8 @@ sudo git clone https://github.com/boxcutter/boxcutter-chef-cookbooks.git \
   /var/chef/repos/boxcutter-chef-cookbooks
 
 sudo mkdir -p /usr/local/sbin
-sudo curl -o /usr/local/sbin/chefctl.rb https://raw.githubusercontent.com/facebook/chef-utils/main/chefctl/src/chefctl.rb
+sudo curl -o /usr/local/sbin/chefctl.rb \
+  https://raw.githubusercontent.com/facebook/chef-utils/main/chefctl/src/chefctl.rb
 sudo chmod +x /usr/local/sbin/chefctl.rb
 sudo ln -sf /usr/local/sbin/chefctl.rb /usr/local/sbin/chefctl
 
