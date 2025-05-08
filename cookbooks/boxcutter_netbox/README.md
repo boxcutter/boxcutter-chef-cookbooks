@@ -1,6 +1,6 @@
 # boxcutter_netbox
 
-```bash
+```
 # https://netboxlabs.com/docs/netbox/en/stable/installation/1-postgresql/
 # Configure PostgreSQL 16 - create database
 su - postgres
@@ -13,29 +13,6 @@ ALTER DATABASE netbox OWNER TO netbox;
 GRANT CREATE ON SCHEMA public TO netbox;
 \q
 exit
-
-# https://netboxlabs.com/docs/netbox/en/stable/installation/3-netbox/
-su -
-cp \
-  /opt/netbox/latest/netbox/netbox/configuration_example.py \
-  /opt/netbox/latest/netbox/netbox/configuration.py
-
-python3 /opt/netbox/latest/netbox/generate_secret_key.py
-dummyKeyWithMinimumLength-------------------------
-
-vi /opt/netbox/latest/netbox/netbox/configuration.py
-ALLOWED_HOSTS = ['*']
-
-DATABASE = {
-    'NAME': 'netbox',               # Database name
-    'USER': 'netbox',               # PostgreSQL username
-    'PASSWORD': 'superseekret', # PostgreSQL password
-    'HOST': 'localhost',            # Database server
-    'PORT': '',                     # Database port (leave blank for default)
-    'CONN_MAX_AGE': 300,            # Max database connection age (seconds)
-}
-
-SECRET_KEY = 'dummyKeyWithMinimumLength-------------------------'
 
 
 # upgrade
@@ -55,53 +32,4 @@ Superuser created successfully.
 python3 manage.py runserver 0.0.0.0:8000 --insecure
 
 http://localhost:2404
-```
-
-```
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /etc/ssl/private/netbox.key \
-  -out /etc/ssl/certs/netbox.crt
-
-sudo apt install -y nginx
-
-sudo cp /opt/netbox/contrib/nginx.conf /etc/nginx/sites-available/netbox
-
-sudo rm /etc/nginx/sites-enabled/default
-sudo ln -s /etc/nginx/sites-available/netbox /etc/nginx/sites-enabled/netbox
-
-sudo systemctl restart nginx
-
-```
-
-```
-curl --output /usr/share/keyrings/nginx-keyring.gpg  \
-      https://unit.nginx.org/keys/nginx-keyring.gpg
-
-/etc/apt/sources.list.d/unit.list      
-deb [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/ubuntu/ noble unit
-deb-src [signed-by=/usr/share/keyrings/nginx-keyring.gpg] https://packages.nginx.org/unit/ubuntu/ noble unit
-
-sudo apt-get update
-sudo apt-get install unit unit-python3.12
-
-source /opt/netbox/latest/venv/bin/activate
-
-config.json
-{
-  "listeners": {
-    "*:8000": {
-      "pass": "applications/netbox"
-    }
-  },
-  "applications": {
-    "netbox": {
-      "type": "python",
-      "path": "/opt/netbox/latest/netbox",
-      "home": "/opt/netbox/latest/venv",
-      "module": "netbox.wsgi"
-    }
-  }
-}
-
-curl -X PUT --data-binary @config.json --unix-socket /var/run/control.unit.sock http://localhost/config
 ```
