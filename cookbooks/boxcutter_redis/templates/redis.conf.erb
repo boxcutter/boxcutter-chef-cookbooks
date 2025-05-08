@@ -1,5 +1,5 @@
 # This file is configured by Chef. Local changes will be overwritten.
 
-<% node['polymath_redis']['config'].to_hash.sort.each do |key, val| -%>
+<% node['boxcutter_redis']['config'].to_hash.sort.each do |key, val| -%>
   <%=  key %> <%= val %>
 <% end -%>
