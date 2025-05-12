@@ -145,15 +145,17 @@ node.default['boxcutter_java']['sdkman'] = {
   },
 }
 
-FB::Users.initialize_group(node, 'nexus')
-node.default['fb_users']['users']['nexus'] = {
-  # /opt/sonatype/nexus
-  'home' => nexus_home,
-  'gid' => 'nexus',
-  'shell' => '/bin/bash',
-  'manage_home' => false,
-  'action' => :add,
-}
+if defined?(FB::Users)
+  FB::Users.initialize_group(node, 'nexus')
+  node.default['fb_users']['users']['nexus'] = {
+    # /opt/sonatype/nexus
+    'home' => nexus_home,
+    'gid' => 'nexus',
+    'shell' => '/bin/bash',
+    'manage_home' => false,
+    'action' => :add,
+  }
+end
 
 include_recipe 'boxcutter_java::default'
 
