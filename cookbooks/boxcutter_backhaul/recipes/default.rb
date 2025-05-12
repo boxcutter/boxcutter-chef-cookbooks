@@ -61,7 +61,7 @@ if nexus_hosts
       'format' => 'apt',
       'storage_blob_store_name' => storage_blob_store_name,
       'proxy_remote_url' => 'http://packages.ros.org/ros2/ubuntu',
-      'apt_distribution' => 'jammy',
+      'apt_distribution' => 'noble',
       'apt_flat' => false,
     },
     'ubuntu-archive-apt-proxy' => {
@@ -70,7 +70,7 @@ if nexus_hosts
       'format' => 'apt',
       'storage_blob_store_name' => storage_blob_store_name,
       'proxy_remote_url' => 'http://archive.ubuntu.com/ubuntu',
-      'apt_distribution' => 'jammy',
+      'apt_distribution' => 'noble',
       'apt_flat' => false,
     },
     'ubuntu-security-apt-proxy' => {
@@ -79,7 +79,7 @@ if nexus_hosts
       'format' => 'apt',
       'storage_blob_store_name' => storage_blob_store_name,
       'proxy_remote_url' => 'http://security.ubuntu.com/ubuntu/',
-      'distribution' => 'jammy',
+      'distribution' => 'noble',
       'flat' => false,
     },
     'ubuntu-ports-apt-proxy' => {
@@ -88,7 +88,16 @@ if nexus_hosts
       'format' => 'apt',
       'storage_blob_store_name' => storage_blob_store_name,
       'proxy_remote_url' => 'http://ports.ubuntu.com/ubuntu-ports',
-      'distribution' => 'jammy',
+      'distribution' => 'noble',
+      'flat' => false,
+    },
+    'grafana-oss-apt-proxy' => {
+      'name' => 'grafana-oss-apt-proxy',
+      'type' => 'proxy',
+      'format' => 'apt',
+      'storage_blob_store_name' => storage_blob_store_name,
+      'proxy_remote_url' => 'https://packages.grafana.com/oss/deb',
+      'distribution' => 'noble',
       'flat' => false,
     },
     'ubuntu-releases-proxy' => {
