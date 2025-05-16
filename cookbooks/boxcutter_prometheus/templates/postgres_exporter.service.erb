@@ -1,0 +1,26 @@
+[Unit]
+Description=Prometheus exporter for PostgreSQL
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=postgres
+Group=postgres
+Restart=on-failure
+<% env = node['boxcutter_prometheus']['postgres_exporter']['environment'] -%>
+<% if env.is_a?(Hash) && !env.empty? -%>
+<%   env.each do |key, value| -%>
+Environment="<%= key %>=<%= value %>"
+<%   end -%>
+<% end -%>
+ExecStart=/opt/postgres_exporter/latest/postgres_exporter \
+<% options = node['boxcutter_prometheus']['postgres_exporter']['command_line_flags'].reject { |k, _| k == 'config.file' } %>
+<% options.each do |key, value| %>
+  --<%= key %>="<%= value %>" \
+<% end %>
+  --config.file=/etc/postgres_exporter/postgres_exporter.yml
+ExecReload=/bin/kill -s SIGHUP $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

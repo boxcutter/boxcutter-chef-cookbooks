@@ -1,8 +1,8 @@
 #
 # Cookbook:: boxcutter_prometheus
-# Recipe:: node_exporter
+# Recipe:: redis_exporter
 #
-# Copyright:: 2024, Boxcutter
+# Copyright:: 2025, Boxcutter
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,34 +18,20 @@
 
 include_recipe 'boxcutter_prometheus::user'
 
-boxcutter_prometheus_tarball 'node_exporter' do
-  source lazy { node['boxcutter_prometheus']['node_exporter']['source'] }
-  checksum lazy { node['boxcutter_prometheus']['node_exporter']['checksum'] }
-  creates lazy { node['boxcutter_prometheus']['node_exporter']['creates'] }
+boxcutter_prometheus_tarball 'redis_exporter' do
+  source lazy { node['boxcutter_prometheus']['redis_exporter']['source'] }
+  checksum lazy { node['boxcutter_prometheus']['redis_exporter']['checksum'] }
+  creates lazy { node['boxcutter_prometheus']['redis_exporter']['creates'] }
 end
 
-%w{
-  /var/lib/node_exporter
-  /var/lib/node_exporter/textfile
-}.each do |dir|
-  directory dir do
-    owner 'root'
-    group 'root'
-    mode '0755'
-  end
-end
-
-# node_exporter_config_dir: "/etc/node_exporter"
-# node_exporter_textfile_dir: "/var/lib/node_exporter"
-
-template '/etc/systemd/system/node_exporter.service' do
+template '/etc/systemd/system/redis_exporter.service' do
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'fb_systemd_reload[system instance]', :immediately
-  notifies :restart, 'service[node_exporter.service]'
+  notifies :restart, 'service[redis_exporter.service]'
 end
 
-service 'node_exporter.service' do
+service 'redis_exporter.service' do
   action [:enable, :start]
 end

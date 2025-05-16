@@ -1,0 +1,20 @@
+[Unit]
+Description=Alertmanager
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart=/opt/alertmanager/latest/alertmanager \
+<% options = node['boxcutter_prometheus']['alertmanager']['command_line_flags'].reject { |k, _| k == 'config.file' } %>
+<% options.each do |key, value| %>
+  --<%= key %>="<%= value %>" \
+<% end %>
+  --config.file=/etc/alertmanager/alertmanager.yml
+ExecReload=/bin/kill -s SIGHUP $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

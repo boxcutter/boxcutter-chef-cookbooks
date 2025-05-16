@@ -1,0 +1,22 @@
+[Unit]
+Description=Prometheus Time Series Collection and Processing Server
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecReload=/bin/kill -s SIGHUP $MAINPID
+ExecStart=/opt/prometheus/latest/prometheus \
+<% options = node['boxcutter_prometheus']['prometheus']['command_line_flags'].reject { |k, _| k == 'config.file' } %>
+<% options.each do |key, value| %>
+  --<%= key %>="<%= value %>" \
+<% end %>
+  --config.file=/etc/prometheus/prometheus.yml
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
