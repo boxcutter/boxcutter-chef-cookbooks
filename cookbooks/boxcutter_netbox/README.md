@@ -3,6 +3,19 @@
 ```
 # https://netboxlabs.com/docs/netbox/en/stable/installation/1-postgresql/
 # Configure PostgreSQL 16 - create database
+su - postgres -s /bin/bash <<'EOF'
+psql <<SQL
+CREATE DATABASE netbox;
+CREATE USER netbox WITH PASSWORD 'superseekret';
+ALTER DATABASE netbox OWNER TO netbox;
+SQL
+
+psql -d netbox <<SQL
+GRANT CREATE ON SCHEMA public TO netbox;
+SQL
+EOF
+
+
 su - postgres
 psql
 CREATE DATABASE netbox;

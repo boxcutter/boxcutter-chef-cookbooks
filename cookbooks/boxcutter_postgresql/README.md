@@ -21,6 +21,12 @@ and the client configuration through node attributes.
 Future versions of this cookbook may add more options to configure
 databases themselves.
 
+## Terminology Differences
+
+### Cluster vs. Instance
+
+### Role vs. User
+
 ### Data directory configuration
 
 Use `node['boxcutter_postgresql']['server']['config']` to control the
