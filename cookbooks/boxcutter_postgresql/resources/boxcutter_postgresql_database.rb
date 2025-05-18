@@ -46,7 +46,8 @@ action :alter do
   install_pg_gem
 
   unless Boxcutter::PostgreSQL::Helpers.database_exist?(new_resource)
-    raise Chef::Exceptions::CurrentValueDoesNotExist, "Cannot update database '#{new_resource.database_name}' as it does not exist"
+    fail Chef::Exceptions::CurrentValueDoesNotExist,
+         "Cannot update database '#{new_resource.database_name}' as it does not exist"
   end
 
   converge_if_changed(:owner) do

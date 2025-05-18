@@ -27,7 +27,7 @@ action :grant do
   puts 'MISCHA: boxcutter_postgresql_access_privileges::grant'
   install_pg_gem
 
-  unless Boxcutter::PostgreSQL::Helpers.has_schema_privilege?(new_resource)
+  unless Boxcutter::PostgreSQL::Helpers.schema_privilege?(new_resource)
     Boxcutter::PostgreSQL::Helpers.grant_access_privileges(new_resource)
   end
 end

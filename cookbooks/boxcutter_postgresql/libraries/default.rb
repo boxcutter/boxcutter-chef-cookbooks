@@ -54,12 +54,12 @@ module Boxcutter
           new_resource.connect_password,
           new_resource.connect_hostname,
           new_resource.connect_port,
-          new_resource.connection_string
+          new_resource.connection_string,
         ].freeze
 
         puts("Got params: #{key}")
 
-        client = @pg_connection.dig(key)
+        client = @pg_connection[key]
 
         if client.is_a?(::PG::Connection)
           puts("MISCHA: Returning pre-existing client for #{key}")
@@ -77,9 +77,9 @@ module Boxcutter
         client = nil
         begin
           # connection_params = { port: 5432, user: 'postgres' }
-          connection_params = { host: new_resource.connect_hostname, port: new_resource.connect_port, dbname: new_resource.connect_dbname, user: new_resource.connect_username, password: new_resource.connect_password }
+          connection_params = { host: new_resource.connect_hostname, port: new_resource.connect_port,
+dbname: new_resource.connect_dbname, user: new_resource.connect_username, password: new_resource.connect_password }
           client = ::PG::Connection.new(**connection_params)
-
         ensure
           if Process.euid != original_euid
             Process::UID.eid = original_euid
@@ -186,7 +186,7 @@ module Boxcutter
       end
 
       def self.drop_role(new_resource)
-        execute_sql(new_resource,"DROP ROLE \"#{new_resource.user_name}\"")
+        execute_sql(new_resource, "DROP ROLE \"#{new_resource.user_name}\"")
       end
 
       def self.alter_role_password(new_resource)
@@ -210,7 +210,7 @@ module Boxcutter
 
       def self.database_exist?(new_resource)
         sql = 'SELECT * FROM pg_database WHERE datname=$1'
-        params = [ new_resource.database_name ]
+        params = [new_resource.database_name]
         result = execute_sql_params(new_resource, sql, params, max_one_result: true)
 
         return false if result.to_a.empty?
@@ -223,7 +223,7 @@ module Boxcutter
 
       def self.select_database(new_resource)
         sql = 'SELECT * FROM pg_database WHERE datname=$1'
-        params = [ new_resource.database_name ]
+        params = [new_resource.database_name]
         result = execute_sql_params(new_resource, sql, params, max_one_result: true)
 
         return if result.to_a.empty?
@@ -238,9 +238,9 @@ module Boxcutter
         sql = []
         sql.push("CREATE DATABASE \"#{new_resource.database_name}\"")
 
-        properties = %i(
-                       owner
-                     )
+        properties = %i{
+          owner
+        }
         if properties.any? { |p| new_resource.property_is_set?(p) }
           sql.push('WITH')
 
@@ -262,11 +262,10 @@ module Boxcutter
         execute_sql(new_resource, create_database_sql_request(new_resource))
       end
 
-      def self.alter_database(new_resource)
-      end
+      def self.alter_database(new_resource); end
 
       def self.alter_database_owner(new_resource)
-        execute_sql(new_resource,"ALTER DATABASE #{new_resource.database_name} OWNER TO #{new_resource.owner}")
+        execute_sql(new_resource, "ALTER DATABASE #{new_resource.database_name} OWNER TO #{new_resource.owner}")
       end
 
       def self.drop_database(new_resource)
@@ -279,10 +278,10 @@ module Boxcutter
       # Access Privileges
       #
 
-      def self.has_schema_privilege?(new_resource)
+      def self.schema_privilege?(new_resource)
         # not_if %(psql -d netbox -tAc "SELECT has_schema_privilege('netbox', 'public', 'CREATE');" | grep -q t)
         sql = 'SELECT has_schema_privilege($1, $2, $3)'
-        params = [ new_resource.role, new_resource.object, new_resource.privilege ]
+        params = [new_resource.role, new_resource.object, new_resource.privilege]
         puts "MISCHA: execute_sql_params query=#{sql}, params=#{params}"
         result = pg_client(new_resource).exec_params(sql, params)
 

@@ -50,7 +50,8 @@ action :alter do
   install_pg_gem
 
   unless Boxcutter::PostgreSQL::Helpers.role_exist?(new_resource)
-    raise Chef::Exceptions::CurrentValueDoesNotExist, "Cannot update role '#{new_resource.rele_name}' as it does not exist"
+    fail Chef::Exceptions::CurrentValueDoesNotExist,
+         "Cannot update role '#{new_resource.rele_name}' as it does not exist"
   end
 
   converge_if_changed(:plain_text_password, :encrypted_password) do
