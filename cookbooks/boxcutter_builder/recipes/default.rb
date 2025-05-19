@@ -92,7 +92,7 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
     mode '0600'
   end
 
-  arm64 builder
+  # arm64 builder
   ssh_known_hosts_entry '10.67.135.109' do
     file_location '/home/github-runner/.ssh/known_hosts'
     owner 'github-runner'
