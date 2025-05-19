@@ -23,7 +23,7 @@ arm64_self_hosted_runner_list = %w{
 if arm64_self_hosted_runner_list.include?(node['hostname'])
   package 'jq'
 
-  node.default['polymath_docker']['enable_cleanup'] = false
+  node.default['boxcutter_docker']['enable_cleanup'] = false
 
   include_recipe 'boxcutter_docker::default'
 
@@ -63,7 +63,7 @@ new_amd64_self_hosted_runner_list = %w{
 if new_amd64_self_hosted_runner_list.include?(node['hostname'])
   package 'jq'
 
-  node.default['polymath_docker']['enable_cleanup'] = false
+  node.default['boxcutter_docker']['enable_cleanup'] = false
 
   include_recipe 'boxcutter_docker::default'
 
@@ -85,20 +85,20 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
     content craft_rsa_ssh_key_private
   end
 
-  # ssh_known_hosts_entry 'github.com' do
-  #   file_location '/home/github-runner/.ssh/known_hosts'
-  #   owner 'github-runner'
-  #   group 'github-runner'
-  #   mode '0600'
-  # end
+  ssh_known_hosts_entry 'github.com' do
+    file_location '/home/github-runner/.ssh/known_hosts'
+    owner 'github-runner'
+    group 'github-runner'
+    mode '0600'
+  end
 
-  # arm64 builder
-  # ssh_known_hosts_entry '10.67.135.109' do
-  #   file_location '/home/github-runner/.ssh/known_hosts'
-  #   owner 'github-runner'
-  #   group 'github-runner'
-  #   mode '0600'
-  # end
+  arm64 builder
+  ssh_known_hosts_entry '10.67.135.109' do
+    file_location '/home/github-runner/.ssh/known_hosts'
+    owner 'github-runner'
+    group 'github-runner'
+    mode '0600'
+  end
 
   node.default['boxcutter_docker']['buildx']['github-runner'] = {
     'home' => '/home/github-runner',
