@@ -55,6 +55,22 @@ end
 # describe postgres.query("SELECT 1 FROM pg_roles WHERE rolname = 'dev1';", ['postgres']) do
 #   its('output') { should match /^1$/ }
 # end
-describe command("su - postgres -c \"psql -d postgres -c \\\"SELECT 1 FROM pg_roles WHERE rolname = 'dev1';\\\"\"") do
+# describe command("su - postgres -c \"psql --dbname postgres --command \\\"SELECT 1 FROM pg_roles WHERE rolname = 'dev1';\\\"\"") do
+describe command(%q{
+  su - postgres -c "psql --dbname postgres --command \"SELECT 1 FROM pg_roles WHERE rolname = 'dev1';\""
+}) do
   its('stdout') { should match(/^\s*1\s*$/) }
+end
+
+describe command(%q{
+  su - postgres -c "psql --tuples-only --no-align --command \"SELECT 1 FROM pg_database WHERE datname = 'test1';\""
+}) do
+  its('stdout') { should match(/^\s*1\s*$/) }
+end
+
+describe command(%q{
+    su - postgres -c "psql --dbname netbox -tAc \"SELECT has_schema_privilege('netbox', 'public', 'CREATE');\""
+  }) do
+  its('stdout') { should match(/^\s*t\s*$/) }  # 't' = true
+  its('exit_status') { should eq 0 }
 end
