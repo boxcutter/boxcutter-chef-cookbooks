@@ -55,7 +55,7 @@ end
 # describe postgres.query("SELECT 1 FROM pg_roles WHERE rolname = 'dev1';", ['postgres']) do
 #   its('output') { should match /^1$/ }
 # end
-# describe command("su - postgres -c \"psql --dbname postgres --command \\\"SELECT 1 FROM pg_roles WHERE rolname = 'dev1';\\\"\"") do
+
 describe command(%q{
   su - postgres -c "psql --dbname postgres --command \"SELECT 1 FROM pg_roles WHERE rolname = 'dev1';\""
 }) do
