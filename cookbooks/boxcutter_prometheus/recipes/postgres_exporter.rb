@@ -25,13 +25,13 @@ boxcutter_prometheus_tarball 'postgres_exporter' do
 end
 
 directory '/etc/postgres_exporter' do
-  owner 'prometheus'
-  group 'prometheus'
+  owner 'root'
+  group 'root'
   mode '0755'
 end
 
 template '/etc/postgres_exporter/postgres_exporter.yml' do
-  owner 'prometheus'
+  owner 'root'
   group 'prometheus'
   mode '0644'
   notifies :reload, 'service[postgres_exporter.service]'

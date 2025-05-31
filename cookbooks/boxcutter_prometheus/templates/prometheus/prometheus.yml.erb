@@ -1,5 +1,8 @@
 <%
-config = node['boxcutter_prometheus']['prometheus']['config'].to_hash.dup
+# config = node['boxcutter_prometheus']['prometheus']['config'].to_hash.dup
+config = Boxcutter::Prometheus::Helpers.h_to_a(
+  (node['boxcutter_prometheus']['prometheus']['config'] || {}).to_hash.dup
+)
 
 rule_files = []
 

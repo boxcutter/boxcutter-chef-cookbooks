@@ -25,13 +25,14 @@ boxcutter_prometheus_tarball 'prometheus' do
 end
 
 directory '/etc/prometheus' do
-  owner 'prometheus'
-  group 'prometheus'
+  owner 'root'
+  group 'root'
   mode '0755'
 end
 
 template '/etc/prometheus/alerting_rules.yml' do
-  owner 'prometheus'
+  source 'prometheus/alerting_rules.yml.erb'
+  owner 'root'
   group 'prometheus'
   mode '0644'
   verify '/opt/prometheus/latest/promtool check rules %{path}'
@@ -42,7 +43,8 @@ template '/etc/prometheus/alerting_rules.yml' do
 end
 
 template '/etc/prometheus/recording_rules.yml' do
-  owner 'prometheus'
+  source 'prometheus/recording_rules.yml.erb'
+  owner 'root'
   group 'prometheus'
   mode '0644'
   verify '/opt/prometheus/latest/promtool check rules %{path}'
@@ -53,26 +55,38 @@ template '/etc/prometheus/recording_rules.yml' do
 end
 
 template '/etc/prometheus/prometheus.yml' do
-  owner 'prometheus'
+  source 'prometheus/prometheus.yml.erb'
+  owner 'root'
   group 'prometheus'
   mode '0644'
   verify '/opt/prometheus/latest/promtool check config %{path}'
-  notifies :reload, 'service[prometheus.service]'
+  notifies :reload, 'service[prometheus]'
 end
 
-directory '/var/lib/prometheus' do
+directory 'prometheus server data directory' do
+  path lazy {
+    node['boxcutter_prometheus']['prometheus']['command_line_flags']['storage.tsdb.path']
+  }
   owner 'prometheus'
   group 'prometheus'
   mode '0755'
 end
 
 template '/etc/systemd/system/prometheus.service' do
+  source 'prometheus/prometheus.service.erb'
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'fb_systemd_reload[system instance]', :immediately
 end
 
-service 'prometheus.service' do
+service 'prometheus' do
   action [:enable, :start]
+  only_if { node['boxcutter_prometheus']['prometheus']['enable'] }
+end
+
+service 'disable prometheus' do
+  service_name 'prometheus'
+  action [:disable, :stop]
+  not_if { node['boxcutter_prometheus']['prometheus']['enable'] }
 end

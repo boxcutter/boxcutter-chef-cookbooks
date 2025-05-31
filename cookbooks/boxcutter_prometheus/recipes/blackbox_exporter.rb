@@ -25,13 +25,13 @@ boxcutter_prometheus_tarball 'blackbox_exporter' do
 end
 
 directory '/etc/blackbox_exporter' do
-  owner 'prometheus'
-  group 'prometheus'
+  owner 'root'
+  group 'root'
   mode '0755'
 end
 
 template '/etc/blackbox_exporter/blackbox.yml' do
-  owner 'prometheus'
+  owner 'root'
   group 'prometheus'
   mode '0644'
   notifies :reload, 'service[blackbox_exporter.service]'

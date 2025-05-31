@@ -25,13 +25,13 @@ boxcutter_prometheus_tarball 'alertmanager' do
 end
 
 directory '/etc/alertmanager' do
-  owner 'prometheus'
-  group 'prometheus'
+  owner 'root'
+  group 'root'
   mode '0755'
 end
 
 template '/etc/alertmanager/alertmanager.yml' do
-  owner 'prometheus'
+  owner 'root'
   group 'prometheus'
   mode '0644'
   notifies :reload, 'service[alertmanager.service]'

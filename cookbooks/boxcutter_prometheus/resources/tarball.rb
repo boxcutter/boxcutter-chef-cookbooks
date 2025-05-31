@@ -1,7 +1,7 @@
 property :package_name, String, name_property: true
-property :source, String
-property :checksum, String
-property :creates, String
+property :source, String, required: true
+property :checksum, String, required: true
+property :creates, String, required: true
 
 action :install do
   tmp_path = ::File.join(Chef::Config[:file_cache_path], ::File.basename(new_resource.source))
@@ -13,17 +13,16 @@ action :install do
 
   install_path = "/opt/#{new_resource.package_name}"
 
-  directory install_path do
-    owner node.root_user
-    group node.root_user
-    mode '0755'
-  end
-
-  execute 'extract alertmanager' do
-    command <<-BASH
-      tar --extract --directory #{install_path} --file #{tmp_path}
-    BASH
-    creates "#{install_path}/#{new_resource.creates}"
+  archive_file "extract #{tmp_path}" do
+    path tmp_path
+    destination install_path
+    owner 'root'
+    group 'root'
+    overwrite :auto
+    # This guard shouldn't be necessary as the :auto flag should auto-detect
+    # file changes. But adding it just to be safe as I'm not sure how good
+    # the timestamps are on prometheus tarballs.
+    not_if { ::Dir.exist?("#{install_path}/#{new_resource.creates}") }
   end
 
   link "#{install_path}/latest" do

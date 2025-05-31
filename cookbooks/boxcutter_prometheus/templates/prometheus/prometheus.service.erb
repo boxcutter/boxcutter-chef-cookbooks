@@ -15,7 +15,6 @@ ExecStart=/opt/prometheus/latest/prometheus \
   --<%= key %>="<%= value %>" \
 <% end %>
   --config.file=/etc/prometheus/prometheus.yml
-
 Restart=on-failure
 
 [Install]
