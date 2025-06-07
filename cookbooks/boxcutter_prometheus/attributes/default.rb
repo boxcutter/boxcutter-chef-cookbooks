@@ -1,12 +1,12 @@
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  prometheus_source = 'https://github.com/prometheus/prometheus/releases/download/v3.3.1/prometheus-3.3.1.linux-amd64.tar.gz'
-  prometheus_checksum = 'e22600b314f65fd180fe17c0afeea85ed8484e924fc589c2331b084813699ef0'
-  prometheus_creates = 'prometheus-3.3.1.linux-amd64'
+  prometheus_source = 'https://github.com/prometheus/prometheus/releases/download/v3.4.1/prometheus-3.4.1.linux-amd64.tar.gz'
+  prometheus_checksum = '09203151c132f36b004615de1a3dea22117ad17e6d7a59962e34f3abf328f312'
+  prometheus_creates = 'prometheus-3.4.1.linux-amd64'
 when 'aarch64', 'arm64'
-  prometheus_source = 'https://github.com/prometheus/prometheus/releases/download/v3.3.1/prometheus-3.3.1.linux-arm64.tar.gz'
-  prometheus_checksum = '6e3b24c13c55bb2f0e05248327276e6ad6e96ceea4865296a41cbbc092dd45ea'
-  prometheus_creates = 'prometheus-3.3.1.linux-arm64'
+  prometheus_source = 'https://github.com/prometheus/prometheus/releases/download/v3.4.1/prometheus-3.4.1.linux-arm64.tar.gz'
+  prometheus_checksum = '2a85be1dff46238c0d799674e856c8629c8526168dd26c3de2cecfbfc6f9a0a2'
+  prometheus_creates = 'prometheus-3.4.1.linux-arm64'
 end
 
 default['boxcutter_prometheus']['prometheus'] = {
@@ -27,6 +27,7 @@ default['boxcutter_prometheus']['prometheus'] = {
     'storage.tsdb.path' => '/var/lib/prometheus/data',
     'storage.tsdb.retention.time' => '30d',
     'storage.tsdb.retention.size' => '20GB',
+    'web.listen-address' => 'localhost:9090',
   },
 }
 
@@ -42,12 +43,23 @@ when 'aarch64', 'arm64'
 end
 
 default['boxcutter_prometheus']['alertmanager'] = {
+  'enable' => true,
   'source' => alertmanager_source,
   'checksum' => alertmanager_checksum,
   'creates' => alertmanager_creates,
-  'config' => {},
+  'config' => {
+    'route' => {
+      'receiver' => 'null',
+    },
+    'receivers' => [
+      {
+        'name' => 'null',
+      },
+    ],
+  },
   'command_line_flags' => {
     'storage.path' => '/var/lib/alertmanager/data',
+    'web.listen-address' => 'localhost:9093',
   },
 }
 
@@ -63,9 +75,13 @@ when 'aarch64', 'arm64'
 end
 
 default['boxcutter_prometheus']['pushgateway'] = {
+  'enable' => true,
   'source' => pushgateway_source,
   'checksum' => pushgateway_checksum,
   'creates' => pushgateway_creates,
+  'command_line_flags' => {
+    'web.listen-address' => 'localhost:9115',
+  },
 }
 
 case node['kernel']['machine']
@@ -80,12 +96,13 @@ when 'aarch64', 'arm64'
 end
 
 default['boxcutter_prometheus']['blackbox_exporter'] = {
+  'enable' => true,
   'source' => blockbox_exporter_source,
   'checksum' => blockbox_exporter_checksum,
   'creates' => blockbox_exporter_creates,
   'config' => {},
   'command_line_flags' => {
-    'web.listen-address' => ':9115',
+    'web.listen-address' => 'localhost:9115',
   },
 }
 
@@ -101,6 +118,7 @@ when 'aarch64', 'arm64'
 end
 
 default['boxcutter_prometheus']['node_exporter'] = {
+  'enable' => true,
   'source' => node_exporter_source,
   'checksum' => node_exporter_checksum,
   'creates' => node_exporter_creates,
@@ -111,7 +129,7 @@ default['boxcutter_prometheus']['node_exporter'] = {
     'no-collector.nfs' => nil,
     'collector.textfile' => nil,
     'collector.textfile.directory' => '/var/lib/node_exporter/textfile',
-    'web.listen-address' => ':9100',
+    'web.listen-address' => 'localhost:9100',
   },
 }
 
@@ -127,30 +145,36 @@ when 'aarch64', 'arm64'
 end
 
 default['boxcutter_prometheus']['postgres_exporter'] = {
+  'enable' => true,
   'source' => postgres_exporter_source,
   'checksum' => postgres_exporter_checksum,
   'creates' => postgres_exporter_creates,
   'config' => {},
   'environment' => {},
-  'command_line_flags' => {},
+  'command_line_flags' => {
+    'web.listen-address' => 'localhost:9187',
+  },
 }
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  redis_exporter_source = 'https://github.com/oliver006/redis_exporter/releases/download/v1.72.0/redis_exporter-v1.72.0.linux-amd64.tar.gz'
-  redis_exporter_checksum = '067e10be2e9819da114f0c26e4edb1b8d586adafd9bd23a0f9b736651921def2'
-  redis_exporter_creates = 'redis_exporter-v1.72.0.linux-amd64'
+  redis_exporter_source = 'https://github.com/oliver006/redis_exporter/releases/download/v1.73.0/redis_exporter-v1.73.0.linux-amd64.tar.gz'
+  redis_exporter_checksum = '64a8902bf953095c5396349f289e17f7ce8f8f01e9f6859933344c260ccfd2f8'
+  redis_exporter_creates = 'redis_exporter-v1.73.0.linux-amd64'
 when 'aarch64', 'arm64'
-  redis_exporter_source = 'https://github.com/oliver006/redis_exporter/releases/download/v1.72.0/redis_exporter-v1.72.0.linux-arm64.tar.gz'
-  redis_exporter_checksum = '67ddb8ddbf67ba21a0594388e2a2df9b5db229e932ba1842634cc2ebba2cd0ab'
-  redis_exporter_creates = 'redis_exporter-v1.72.0.linux-arm64'
+  redis_exporter_source = 'https://github.com/oliver006/redis_exporter/releases/download/v1.73.0/redis_exporter-v1.73.0.linux-arm64.tar.gz'
+  redis_exporter_checksum = '1b802280742f40837f586509f3b5c528fa6196d3c21aaad4b13b0624de705acc'
+  redis_exporter_creates = 'redis_exporter-v1.73.0.linux-arm64'
 end
 
 default['boxcutter_prometheus']['redis_exporter'] = {
+  'enable' => true,
   'source' => redis_exporter_source,
   'checksum' => redis_exporter_checksum,
   'creates' => redis_exporter_creates,
-  'command_line_flags' => {},
+  'command_line_flags' => {
+    'web.listen-address' => 'localhost:9121',
+  },
 }
 
 case node['kernel']['machine']
@@ -165,8 +189,11 @@ when 'aarch64', 'arm64'
 end
 
 default['boxcutter_prometheus']['nvidia_gpu_exporter'] = {
+  'enable' => true,
   'source' => nvidia_gpu_exporter_source,
   'checksum' => nvidia_gpu_exporter_checksum,
   'creates' => nvidia_gpu_exporter_creates,
-  'command_line_flags' => {},
+  'command_line_flags' => {
+    'web.listen-address' => 'localhost:9835',
+  },
 }

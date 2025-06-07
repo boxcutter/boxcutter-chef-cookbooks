@@ -9,11 +9,6 @@ module Boxcutter
                 else
                   obj.values
                 end
-          # obj = if obj.keys.map { |k| !k.to_s.start_with?('index_') }.any? || obj.empty?
-          #         obj.map { |k, v| [k, h_to_a(v)] }.to_h
-          #       else
-          #         obj.values
-          #       end
         end
         obj.is_a?(Array) ? obj.map { |v| h_to_a(v) } : obj
       end

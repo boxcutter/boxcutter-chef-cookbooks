@@ -30,30 +30,35 @@ directory '/etc/alertmanager' do
   mode '0755'
 end
 
-template '/etc/alertmanager/alertmanager.yml' do
-  owner 'root'
-  group 'prometheus'
-  mode '0644'
-  notifies :reload, 'service[alertmanager.service]'
-end
-
 directory '/var/lib/alertmanager' do
   owner 'prometheus'
   group 'prometheus'
   mode '0755'
 end
 
-# alertmanager_config_dir: /etc/alertmanager
-# alertmanager_db_dir: /var/lib/alertmanager
+template '/etc/alertmanager/alertmanager.yml' do
+  source 'alertmanager/alertmanager.yml.erb'
+  owner 'root'
+  group 'prometheus'
+  mode '0644'
+  notifies :reload, 'service[alertmanager]'
+end
 
 template '/etc/systemd/system/alertmanager.service' do
+  source 'alertmanager/alertmanager.service.erb'
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'fb_systemd_reload[system instance]', :immediately
-  notifies :restart, 'service[alertmanager.service]'
 end
 
-service 'alertmanager.service' do
+service 'alertmanager' do
   action [:enable, :start]
+  only_if { node['boxcutter_prometheus']['alertmanager']['enable'] }
+end
+
+service 'disable alertmanager' do
+  service_name 'alertmanager'
+  action [:stop, :disable]
+  not_if { node['boxcutter_prometheus']['alertmanager']['enable'] }
 end

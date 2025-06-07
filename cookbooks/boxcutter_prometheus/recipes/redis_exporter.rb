@@ -25,13 +25,21 @@ boxcutter_prometheus_tarball 'redis_exporter' do
 end
 
 template '/etc/systemd/system/redis_exporter.service' do
+  source 'redis_exporter/redis_exporter.service.erb'
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'fb_systemd_reload[system instance]', :immediately
-  notifies :restart, 'service[redis_exporter.service]'
+  notifies :restart, 'service[redis_exporter]'
 end
 
-service 'redis_exporter.service' do
+service 'redis_exporter' do
   action [:enable, :start]
+  only_if { node['boxcutter_prometheus']['redis_exporter']['enable'] }
+end
+
+service 'disable redis_exporter' do
+  service_name 'redis_exporter'
+  action [:disable, :stop]
+  not_if { node['boxcutter_prometheus']['redis_exporter']['enable'] }
 end

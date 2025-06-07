@@ -35,17 +35,22 @@ end
   end
 end
 
-# node_exporter_config_dir: "/etc/node_exporter"
-# node_exporter_textfile_dir: "/var/lib/node_exporter"
-
 template '/etc/systemd/system/node_exporter.service' do
+  source 'node_exporter/node_exporter.service.erb'
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'fb_systemd_reload[system instance]', :immediately
-  notifies :restart, 'service[node_exporter.service]'
+  notifies :restart, 'service[node_exporter]'
 end
 
-service 'node_exporter.service' do
+service 'node_exporter' do
   action [:enable, :start]
+  only_if { node['boxcutter_prometheus']['node_exporter']['enable'] }
+end
+
+service 'disable node_exporter' do
+  service_name 'node_exporter'
+  action [:disable, :stop]
+  not_if { node['boxcutter_prometheus']['node_exporter']['enable'] }
 end

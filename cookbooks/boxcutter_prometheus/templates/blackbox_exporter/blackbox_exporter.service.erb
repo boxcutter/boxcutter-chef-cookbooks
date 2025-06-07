@@ -8,13 +8,13 @@ Wants=network-online.target
 User=prometheus
 Group=prometheus
 Type=simple
+ExecReload=/bin/kill -s SIGHUP $MAINPID
 ExecStart=/opt/blackbox_exporter/latest/blackbox_exporter \
 <% options = node['boxcutter_prometheus']['blackbox_exporter']['command_line_flags'].reject { |k, _| k == 'config.file' } %>
 <% options.each do |key, value| %>
   --<%= key %>="<%= value %>" \
 <% end %>
   --config.file=/etc/blackbox_exporter/blackbox.yml
-ExecReload=/bin/kill -s SIGHUP $MAINPID
 Restart=always
 
 [Install]

@@ -1,0 +1,20 @@
+[Unit]
+Description=NVidia GPU Exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+<% flags = [] %>
+<% node['boxcutter_prometheus']['nvidia_gpu_exporter']['command_line_flags'].each do |key, value| %>
+  <%   flag = "--#{key}" %>
+  <%   flag << "=#{value}" if value %>
+  <%   flags << flag %>
+<% end %>
+ExecStart=/opt/nvidia_gpu_exporter/latest/nvidia_gpu_exporter <%= flags.join(' ') %>
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

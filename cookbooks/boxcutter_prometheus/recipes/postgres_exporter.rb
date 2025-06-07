@@ -31,20 +31,28 @@ directory '/etc/postgres_exporter' do
 end
 
 template '/etc/postgres_exporter/postgres_exporter.yml' do
+  source 'postgres_exporter/postgres_exporter.yml.erb'
   owner 'root'
   group 'prometheus'
   mode '0644'
-  notifies :reload, 'service[postgres_exporter.service]'
+  notifies :reload, 'service[postgres_exporter]'
 end
 
 template '/etc/systemd/system/postgres_exporter.service' do
+  source 'postgres_exporter/postgres_exporter.service.erb'
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'fb_systemd_reload[system instance]', :immediately
-  notifies :restart, 'service[postgres_exporter.service]'
 end
 
-service 'postgres_exporter.service' do
+service 'postgres_exporter' do
   action [:enable, :start]
+  only_if { node['boxcutter_prometheus']['postgres_exporter']['enable'] }
+end
+
+service 'disable postgres_exporter' do
+  service_name 'postgres_exporter'
+  action [:disable, :stop]
+  not_if { node['boxcutter_prometheus']['postgres_exporter']['enable'] }
 end

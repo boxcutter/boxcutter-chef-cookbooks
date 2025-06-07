@@ -31,22 +31,28 @@ directory '/etc/blackbox_exporter' do
 end
 
 template '/etc/blackbox_exporter/blackbox.yml' do
+  source 'blackbox_exporter/blackbox.yml.erb'
   owner 'root'
   group 'prometheus'
   mode '0644'
-  notifies :reload, 'service[blackbox_exporter.service]'
+  notifies :reload, 'service[blackbox_exporter]'
 end
 
-# blackbox_exporter_config_dir: /etc/blackbox_exporter
-
 template '/etc/systemd/system/blackbox_exporter.service' do
+  source 'blackbox_exporter/blackbox_exporter.service.erb'
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'fb_systemd_reload[system instance]', :immediately
-  notifies :restart, 'service[blackbox_exporter.service]'
 end
 
-service 'blackbox_exporter.service' do
+service 'blackbox_exporter' do
   action [:enable, :start]
+  only_if { node['boxcutter_prometheus']['blackbox_exporter']['enable'] }
+end
+
+service 'disable blackbox_exporter' do
+  service_name 'blackbox_exporter'
+  action [:stop, :disable]
+  not_if { node['boxcutter_prometheus']['blackbox_exporter']['enable'] }
 end

@@ -55,6 +55,7 @@ platforms:
         - '9115:9115' # blackbox_exporter
         - '9121:9121' # redis_exporter
         - '9187:9187' # postgres_exporter
+        - '9835:9835' # nvidia_gpu_exporter
         - '3000:3000' # grafana
 
   - name: centos-stream-9
@@ -83,54 +84,54 @@ suites:
     named_run_list: boxcutter_prometheus_test_prometheus
     verifier:
       inspec_tests:
-        - test/integration/default
+        - test/integration/prometheus
     attributes:
 
   - name: alertmanager
     named_run_list: boxcutter_prometheus_test_alertmanager
     verifier:
       inspec_tests:
-        - test/integration/default
+        - test/integration/alertmanager
     attributes:
 
   - name: pushgateway
     named_run_list: boxcutter_prometheus_test_pushgateway
     verifier:
       inspec_tests:
-        - test/integration/default
+        - test/integration/pushgateway
     attributes:
 
   - name: blackbox_exporter
     named_run_list: boxcutter_prometheus_test_blackbox_exporter
     verifier:
       inspec_tests:
-        - test/integration/default
+        - test/integration/blackbox_exporter
     attributes:
 
   - name: node_exporter
     named_run_list: boxcutter_prometheus_test_node_exporter
     verifier:
       inspec_tests:
-        - test/integration/default
+        - test/integration/node_exporter
     attributes:
 
   - name: postgres_exporter
     named_run_list: boxcutter_prometheus_test_postgres_exporter
     verifier:
       inspec_tests:
-        - test/integration/default
+        - test/integration/postgres_exporter
     attributes:
 
   - name: redis_exporter
     named_run_list: boxcutter_prometheus_test_redis_exporter
     verifier:
       inspec_tests:
-        - test/integration/default
+        - test/integration/redis_exporter
     attributes:
 
   - name: nvidia_gpu_exporter
     named_run_list: boxcutter_prometheus_test_nvidia_gpu_exporter
     verifier:
       inspec_tests:
-        - test/integration/default
+        - test/integration/nvidia_gpu_exporter
     attributes:

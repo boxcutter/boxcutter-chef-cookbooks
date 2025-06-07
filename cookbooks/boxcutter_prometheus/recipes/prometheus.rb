@@ -63,10 +63,7 @@ template '/etc/prometheus/prometheus.yml' do
   notifies :reload, 'service[prometheus]'
 end
 
-directory 'prometheus server data directory' do
-  path lazy {
-    node['boxcutter_prometheus']['prometheus']['command_line_flags']['storage.tsdb.path']
-  }
+directory '/var/lib/prometheus' do
   owner 'prometheus'
   group 'prometheus'
   mode '0755'

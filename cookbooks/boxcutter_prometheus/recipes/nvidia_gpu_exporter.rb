@@ -48,13 +48,21 @@ link '/opt/nvidia_gpu_exporter/latest' do
 end
 
 template '/etc/systemd/system/nvidia_gpu_exporter.service' do
+  source 'nvidia_gpu_exporter/nvidia_gpu_exporter.service.erb'
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'fb_systemd_reload[system instance]', :immediately
-  notifies :restart, 'service[nvidia_gpu_exporter.service]'
+  notifies :restart, 'service[nvidia_gpu_exporter]'
 end
 
-service 'nvidia_gpu_exporter.service' do
+service 'nvidia_gpu_exporter' do
   action [:enable, :start]
+  only_if { node['boxcutter_prometheus']['nvidia_gpu_exporter']['enable'] }
+end
+
+service 'disable nvidia_gpu_exporter' do
+  service_name 'nvidia_gpu_exporter'
+  action [:disable, :stop]
+  not_if { node['boxcutter_prometheus']['nvidia_gpu_exporter']['enable'] }
 end

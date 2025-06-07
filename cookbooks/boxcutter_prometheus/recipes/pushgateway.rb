@@ -25,13 +25,21 @@ boxcutter_prometheus_tarball 'pushgateway' do
 end
 
 template '/etc/systemd/system/pushgateway.service' do
+  source 'pushgateway/pushgateway.service.erb'
   owner 'root'
   group 'root'
   mode '0644'
   notifies :run, 'fb_systemd_reload[system instance]', :immediately
-  notifies :restart, 'service[pushgateway.service]'
+  notifies :restart, 'service[pushgateway]'
 end
 
-service 'pushgateway.service' do
+service 'pushgateway' do
   action [:enable, :start]
+  only_if { node['boxcutter_prometheus']['pushgateway']['enable'] }
+end
+
+service 'disable pushgateway' do
+  service_name 'pushgateway'
+  action [:disable, :stop]
+  not_if { node['boxcutter_prometheus']['pushgateway']['enable'] }
 end

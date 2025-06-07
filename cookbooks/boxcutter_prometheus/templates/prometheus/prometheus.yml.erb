@@ -8,12 +8,12 @@ rule_files = []
 
 alerting_rules = node['boxcutter_prometheus']['prometheus']['alerting_rules']
 if alerting_rules.is_a?(Hash) && !alerting_rules.empty?
-  rule_files << 'alerting_rules.yml'
+  rule_files << '/etc/prometheus/alerting_rules.yml'
 end
 
 recording_rules = node['boxcutter_prometheus']['prometheus']['recording_rules']
 if recording_rules.is_a?(Hash) && !recording_rules.empty?
-  rule_files << 'recording_rules.yml'
+  rule_files << '/etc/prometheus/recording_rules.yml'
 end
 
 config['rule_files'] = rule_files unless rule_files.empty?
