@@ -189,7 +189,7 @@ module FB
         'gid' => 2005,
       },
       'emerson' => {
-        'gid' => 2006',
+        'gid' => 2006,
       },
       'opuser' => {
         'gid' => 8010,
