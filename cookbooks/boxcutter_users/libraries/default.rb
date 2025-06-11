@@ -87,6 +87,9 @@ module FB
       'david' => {
         'uid' => 2005,
       },
+      'emerson' => {
+        'uid' => 2006,
+      },
       'opuser' => {
         'uid' => 8010,
       },
@@ -184,6 +187,9 @@ module FB
       },
       'david' => {
         'gid' => 2005,
+      },
+      'emerson' => {
+        'gid' => 2006',
       },
       'opuser' => {
         'gid' => 8010,
