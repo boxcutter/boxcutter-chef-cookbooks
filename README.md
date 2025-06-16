@@ -44,5 +44,5 @@ export DIGITALOCEAN_SSH_KEY_IDS=41887654,41887653
 
 ## Attributions
 
-- [@jaymzh](https://github.com/jaymzh) for open sourcing https://github.com/socallinuxexpo/scale-chef which has a great example of automating `chefctl` (among other things)
+- [@jaymzh](https://github.com/jaymzh) for open sourcing https://github.com/socallinuxexpo/scale-chef which has a great example for automating `chefctl` (among other things)
 - [@jaymzh](https://www.phildev.net/) and [@bwann](https://binaryfury.wann.net/) for showing me the Facebook Chef way
