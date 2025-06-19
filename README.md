@@ -4,7 +4,8 @@ This  repo contains automation used to maintain a fleet of robots using
 neuromorphic sensors and their supporting infrastructure. It is built
 on top of the attribute-driven API cookbooks maintained by
 Meta/Facebook. For more information about this style of writing automation
-code, refer to the [Facebook Cookbooks Suite README](https://github.com/facebook/chef-cookbooks/blob/main/README.md).
+code, refer to the [Philosophy](https://github.com/facebook/chef-utils/blob/main/Philosophy.md)
+,[Facebook Cookbooks Suite README](https://github.com/facebook/chef-cookbooks/blob/main/README.md) and [Compile Time vs Run Time, and APIs](https://github.com/facebook/chef-utils/blob/main/Compile-Time-Run-Time.md).
 
 To use these cookbooks, make sure that `boxcutter_ohai` and `boxcutter_init`
 cookbooks are first in the Chef run-list, then followed by whatever
