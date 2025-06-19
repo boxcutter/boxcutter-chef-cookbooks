@@ -1,0 +1,41 @@
+---
+auths:
+  public_v3:
+    version: 3
+    security_level: authPriv
+    username: snmpreader
+    password: superseekret
+    auth_protocol: SHA
+    priv_protocol: AES
+    priv_password: superseekret
+
+modules:
+  # Default IF-MIB interfaces table with ifIndex.
+  if_mib:
+    walk:
+      - sysUpTime
+      - interfaces
+      - ifXTable
+      - sysName
+      - ifHCInOctets
+      - ifHCOutOctets
+      - ifInErrors
+      - ifOutErrors
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: "IF-MIB::ifAlias"
+      - source_indexes: [ifIndex]
+        # Disambiguate from PaloAlto PAN-COMMON-MIB::ifDescr.
+        lookup: "IF-MIB::ifDescr"
+      - source_indexes: [ifIndex]
+        # Disambiguate from Netscaler NS-ROOT-MIB::ifName.
+        lookup: "IF-MIB::ifName"
+    overrides:
+      ifAlias:
+        ignore: true # Lookup metric
+      ifDescr:
+        ignore: true # Lookup metric
+      ifName:
+        ignore: true # Lookup metric
+      ifType:
+        type: EnumAsInfo

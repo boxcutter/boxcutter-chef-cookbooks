@@ -197,3 +197,35 @@ default['boxcutter_prometheus']['nvidia_gpu_exporter'] = {
     'web.listen-address' => 'localhost:9835',
   },
 }
+
+case node['kernel']['machine']
+when 'x86_64', 'amd64'
+  snmp_exporter_source = 'https://github.com/prometheus/snmp_exporter/releases/download/v0.29.0/snmp_exporter-0.29.0.linux-amd64.tar.gz'
+  snmp_exporter_checksum = 'fd7ded886180063a8f77e1ca18cc648e44b318b9c92bcb3867b817d93a5232d6'
+  snmp_exporter_creates = 'snmp_exporter-0.29.0.linux-amd64'
+when 'aarch64', 'arm64'
+  snmp_exporter_source = 'https://github.com/prometheus/snmp_exporter/releases/download/v0.29.0/snmp_exporter-0.29.0.linux-arm64.tar.gz'
+  snmp_exporter_checksum = 'e590870ad2fcd39ea9c7d722d6e85aa6f1cc9e8671ff3f17feba12a6b5a3b47a'
+  snmp_exporter_creates = 'snmp_exporter-0.29.0.linux-arm64'
+end
+
+default['boxcutter_prometheus']['snmp_exporter'] = {
+  'enable' => true,
+  'source' => snmp_exporter_source,
+  'checksum' => snmp_exporter_checksum,
+  'creates' => snmp_exporter_creates,
+  'auth' => {
+    'version' => '3',
+    'community' => 'public',
+    'security_level' => nil,
+    'username' => nil,
+    'auth_protocol' => 'MD5',
+    'password' => nil,
+    'priv_protocol' => 'DES',
+    'priv_password' => nil,
+    'context_name' => nil,
+  },
+  'command_line_flags' => {
+    'web.listen-address' => 'localhost:9116',
+  },
+}

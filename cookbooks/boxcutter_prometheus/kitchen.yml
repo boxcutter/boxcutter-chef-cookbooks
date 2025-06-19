@@ -53,6 +53,7 @@ platforms:
         - '9093:9093' # alertmanager
         - '9100:9100' # node_exporter
         - '9115:9115' # blackbox_exporter
+        - '9116:9116' # snmp_exporter
         - '9121:9121' # redis_exporter
         - '9187:9187' # postgres_exporter
         - '9835:9835' # nvidia_gpu_exporter
@@ -134,4 +135,11 @@ suites:
     verifier:
       inspec_tests:
         - test/integration/nvidia_gpu_exporter
+    attributes:
+
+  - name: snmp_exporter
+    named_run_list: boxcutter_prometheus_test_snmp_exporter
+    verifier:
+      inspec_tests:
+        - test/integration/snmp_exporter
     attributes:

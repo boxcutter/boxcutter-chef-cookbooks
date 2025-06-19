@@ -1,0 +1,18 @@
+[Unit]
+Description=SNMP Exporter
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Type=simple
+ExecStart=/opt/snmp_exporter/latest/snmp_exporter \
+<% options = node['boxcutter_prometheus']['snmp_exporter']['command_line_flags'].reject { |k, _| k == 'config.file' } %>
+<% options.each do |key, value| %>
+  --<%= key %>="<%= value %>" \
+<% end %>
+  --config.file=/etc/snmp_exporter/snmp.yml
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -28,6 +28,8 @@ named_run_list 'boxcutter_prometheus_test_redis_exporter',
                'boxcutter_ohai', 'boxcutter_init', 'boxcutter_prometheus_test::redis_exporter'
 named_run_list 'boxcutter_prometheus_test_nvidia_gpu_exporter',
                'boxcutter_ohai', 'boxcutter_init', 'boxcutter_prometheus_test::nvidia_gpu_exporter'
+named_run_list 'boxcutter_prometheus_test_snmp_exporter',
+               'boxcutter_ohai', 'boxcutter_init', 'boxcutter_prometheus_test::snmp_exporter'
 
 # Specify a custom source for a single cookbook:
 cookbook 'boxcutter_prometheus', path: '.'
