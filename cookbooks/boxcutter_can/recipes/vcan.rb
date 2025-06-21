@@ -24,23 +24,13 @@ end
 
 package 'can-utils'
 
-systemd_unit 'vcan.service' do
-  content <<-EOU.gsub(/^\s+/, '')
-    [Unit]
-    Description=Virtual CAN interface vcan0
-    Requires=network.target
-    After=network.target
+cookbook_file '/etc/systemd/system/vcan.service' do
+  owner 'root'
+  group 'root'
+  mode '0644'
+  notifies :run, 'fb_systemd_reload[system instance]', :immediately
+end
 
-    [Service]
-    Type=oneshot
-    RemainAfterExit=yes
-    ExecStartPre=/sbin/modprobe vcan
-    ExecStart=/sbin/ip link add dev vcan0 type vcan
-    ExecStartPost=/sbin/ip link set up vcan0
-    ExecStop=/sbin/ip link delete vcan0
-
-    [Install]
-    WantedBy=multi-user.target
-  EOU
-  action [:create, :enable, :start]
+service 'vcan' do
+  action [:enable, :start]
 end
