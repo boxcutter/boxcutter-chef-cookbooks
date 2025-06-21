@@ -16,45 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-nfs_client_hosts = %w{
-  nfs-client-centos-stream-9
-  nfs-client-ubuntu-2204
-}.include?(node['hostname'])
-
-if nfs_client_hosts
-  node.default['fb_iptables']['filter']['INPUT']['rules']['nfs server'] = {
-    'rules' => [
-      '-p tcp --dport 2049 -j ACCEPT',
-      '-p udp --dport 2049 -j ACCEPT',
-    ],
-  }
-
-  directory '/mnt' do
-    owner node.root_user
-    group node.root_group
-    mode '0755'
-  end
-
-  directory '/mnt/server' do
-    owner 'nobody'
-    group node.ubuntu? ? 'nogroup' : 'nobody'
-    mode '0777'
-  end
-
-  include_recipe 'boxcutter_nfs::client'
-
-  node.default['fb_fstab']['mounts']['/var/nfs/general'] = {
-    'device' => '10.63.45.196:/var/nfs/general',
-    'mount_point' => '/mnt/server',
-    'type' => 'nfs',
-  }
-end
-
 robot_hosts = %w{
-  robot-centos-stream-9
-  robot-ubuntu-2204
+  ubuntu-server-2404
 }.include?(node['hostname'])
 
 if robot_hosts
-  # include_recipe 'boxcutter_podman'
+  package 'qemu-guest-agent'
 end
