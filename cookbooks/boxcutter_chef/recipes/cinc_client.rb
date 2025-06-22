@@ -159,6 +159,13 @@ ruby_block 'reload_client_config' do
   action :nothing
 end
 
+cookbook_file "#{config_dir}/attribute-change-handler.rb" do
+  source 'config/attribute-change-handler.rb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
 template "#{config_dir}/client-prod.rb" do
   source 'client-prod.rb.erb'
   cookbook 'boxcutter_chef'

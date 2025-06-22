@@ -9,6 +9,7 @@ client_fork false
 no_lazy_load false
 local_key_generation true
 json_attribs '/etc/cinc/run-list.json'
+require '/etc/cinc/attribute-trace-handler.rb'
 ohai.critical_plugins ||= []
 ohai.critical_plugins += [:Passwd]
 ohai.critical_plugins += [:ShardSeed]
