@@ -1,7 +1,7 @@
 module Boxcutter
   class AttributeChangeHandler < Chef::Handler
     def report
-      puts "MISCHA: AttributeChangeHandler"
+      puts 'MISCHA: AttributeChangeHandler'
     end
   end
 end
@@ -11,7 +11,7 @@ Chef.event_handler do
     # Skip attributes coming from ohai
     next if precedence == :automatic
 
-    frame = caller.find { |frame| frame.include?('cookbooks/') }
+    frame = caller.find { |line| line.include?('cookbooks/') }
     puts "MISCHA: frame=#{frame}"
 
     puts "MISCHA: precedence: #{precedence}, next_path: #{next_path}, value: #{value}"
