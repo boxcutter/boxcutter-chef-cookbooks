@@ -6,7 +6,9 @@ def self.test_remote_client_rb_extra_code(_hostname)
     no_lazy_load false
     local_key_generation true
     json_attribs '/etc/cinc/run-list.json'
-    require '/etc/cinc/attribute-change-handler.rb'
+    if File.exist?('/etc/cinc/handlers/attribute-change-handler.rb')
+      require '/etc/cinc/handlers/attribute-change-handler.rb'
+    end
     ohai.critical_plugins ||= []
     ohai.critical_plugins += [:Passwd]
     ohai.critical_plugins += [:ShardSeed]
