@@ -43,15 +43,15 @@ FB::Users::UID_MAP.each do |user_name, desired_user_data|
     puts "MISCHA remap_users: user=#{user_name}: " \
       "current_uid=#{current_user_data['uid']}, " \
       "desired_uid=#{desired_user_data['uid']}"
-  end
 
-  ruby_block "Fail if removing user #{user_name} and not adding back" do
-    block do
-      fail "boxcutter_site_settings::remap_users: User #{user_name} would be " \
-        "removed, but not added back to node['fb_users']['users'], aborting."
-    end
-    not_if do
-      node['fb_users']['users'][user_name]
+    ruby_block "Fail if removing user #{user_name} and not adding back" do
+      block do
+        fail "boxcutter_site_settings::remap_users: User #{user_name} would be " \
+          "removed, but not added back to node['fb_users']['users'], aborting."
+      end
+      not_if do
+        node['fb_users']['users'][user_name]
+      end
     end
   end
 end
@@ -69,15 +69,15 @@ FB::Users::GID_MAP.each do |group_name, desired_group_data|
     puts "MISCHA remap_users: group=#{group_name}: " \
       "current_gid=#{current_group_data['gid']}, " \
       "desired_gid=#{desired_group_data['gid']}"
-  end
 
-  ruby_block "Fail if removing group #{group_name} and not adding back" do
-    block do
-      fail "boxcutter_site_settings::remap_users: Group #{group_name} would be " \
-             "removed, but not added back to node['fb_users']['groups'], aborting."
-    end
-    not_if do
-      node['fb_users']['groups'][group_name]
+    ruby_block "Fail if removing group #{group_name} and not adding back" do
+      block do
+        fail "boxcutter_site_settings::remap_users: Group #{group_name} would be " \
+               "removed, but not added back to node['fb_users']['groups'], aborting."
+      end
+      not_if do
+        node['fb_users']['groups'][group_name]
+      end
     end
   end
 end
