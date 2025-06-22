@@ -11,13 +11,13 @@ Chef.event_handler do
       cookbook: resource.cookbook_name,
       recipe: resource.recipe_name,
       line: resource.source_line,
-      action: action
+      action: action,
     }
   end
 
   on :run_completed do
     if resource_updates.empty?
-      Chef::Log.info("No resources updated.")
+      Chef::Log.info('No resources updated.')
     else
       Chef::Log.info("Updated #{resource_updates.size} resource(s):")
       resource_updates.each do |r|
