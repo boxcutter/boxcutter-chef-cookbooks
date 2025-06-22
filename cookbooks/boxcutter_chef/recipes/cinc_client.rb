@@ -165,8 +165,15 @@ directory "#{config_dir}/handlers" do
   mode '0755'
 end
 
-cookbook_file "#{config_dir}/handlers/attribute-change-handler.rb" do
-  source 'config/attribute-change-handler.rb'
+cookbook_file "#{config_dir}/handlers/attribute-changed-handler.rb" do
+  source 'config/attribute-changed-handler.rb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
+cookbook_file "#{config_dir}/handlers/resource-updated-handler.rb" do
+  source 'config/resource-updated-handler.rb'
   owner 'root'
   group 'root'
   mode '0644'
