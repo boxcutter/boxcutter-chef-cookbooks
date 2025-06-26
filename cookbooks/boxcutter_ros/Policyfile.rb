@@ -16,6 +16,8 @@ named_run_list 'boxcutter_ros_test_build_essential',
                'boxcutter_ohai', 'boxcutter_init', 'boxcutter_ros_test::build_essential'
 named_run_list 'boxcutter_ros_test_dev_tools',
                'boxcutter_ohai', 'boxcutter_init', 'boxcutter_ros_test::dev_tools'
+named_run_list 'boxcutter_ros_test_rocker',
+               'boxcutter_ohai', 'boxcutter_init', 'boxcutter_ros_test::rocker'
 
 # Specify a custom source for a single cookbook:
 cookbook 'boxcutter_ros', path: '.'

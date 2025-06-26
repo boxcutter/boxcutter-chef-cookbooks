@@ -3,7 +3,7 @@
 # Recipe:: default
 #
 
-include_recipe 'boxcutter_ros::common'
+node.default['boxcutter_ros']['mirror'] = 'https://crake-nexus.org.boxcutter.net/repository/ros-apt-proxy'
 include_recipe 'boxcutter_ros::user'
 include_recipe 'boxcutter_ros::default'
 include_recipe 'boxcutter_ros::gazebo' if node.ubuntu? && node['platform_version'].start_with?('20')

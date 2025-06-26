@@ -29,11 +29,9 @@ when 'ubuntu'
     'components' => ['main'],
   }
 
-  # curl -fsSLO https://github.com/ros/rosdistro/raw/refs/heads/master/ros.key
-  # gpg --enarmor < ros.key > ros.asc
+  # https://github.com/ros-infrastructure/ros-apt-source/releases
   node.default['fb_apt']['keymap']['ros'] = <<~EOS
-    -----BEGIN PGP ARMORED FILE-----
-    Comment: Use "gpg --dearmor" for unpacking
+    -----BEGIN PGP PUBLIC KEY BLOCK-----
 
     mQINBFzvJpYBEADY8l1YvO7iYW5gUESyzsTGnMvVUmlV3XarBaJz9bGRmgPXh7jc
     VFrQhE0L/HV7LOfoLI9H2GWYyHBqN5ERBlcA8XxG3ZvX7t9nAZPQT2Xxe3GT3tro
@@ -48,21 +46,40 @@ when 'ubuntu'
     okdGpcUzvz2hq1fqjxB6MlB/1vtk0bImfcsoxBmF7H+4E9ZN1sX/tSb0KQARAQAB
     tCZPcGVuIFJvYm90aWNzIDxpbmZvQG9zcmZvdW5kYXRpb24ub3JnPokCVAQTAQgA
     PgIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBMHPbjHmut6IaLFytPQu1vur
-    F8ZUBQJgsdhRBQkLTMW7AAoJEPQu1vurF8ZUTMwP/3f7EkOPIFjUdRmpNJ2db4iB
-    RQu5b2SJRG+KIdbvQBzKUBMV6/RUhEDPjhXZI3zDevzBewvAMKkqs2Q1cWo9WV7Z
-    PyTkvSyey/Tjn+PozcdvzkvrEjDMftIk8E1WzLGq7vnPLZ1q/b6Vq4H373Z+EDWa
-    DaDwW72CbCBLWAVtqff80CwlI2x8fYHKr3VBUnwcXNHR4+nRABfAWnaU4k+oTshC
-    Qucsd8vitNfsSXrKuKyz91IRHRPnJjx8UvGU4tRGfrHkw1505EZvgP02vXeRyWBR
-    fKiL1vGy4tCSRDdZO3ms2J2m08VPv65HsHaWYMnO+rNJmMZj9d9JdL/9GRf5F6U0
-    quoIFL39BhUEvBynuqlrqistnyOhw8W/IQy/ymNzBMcMz6rcMjMwhkgm/LNXoSD1
-    1OrJu4ktQwRhwvGVarnB8ihwjsTxZFylaLmFSfaA+OAlOqCLS1OkIVMzjW+Ul6A6
-    qjiCEUOsnlf4CGlhzNMZOx3low6ixzEqKOcfECpeIj80a2fBDmWkcAAjlHu6VBhA
-    TUDG9e2xKLzV2Z/DLYsb3+n9QW7KO0yZKfiuUo6AYboAioQKn5jh3iRvjGh2Ujpo
-    22G+oae3PcCc7G+z12j6xIY709FQuA49dA2YpzMda0/OX4LP56STEveDRrO+CnV6
-    WE+F5FaIKwb72PL4rLi4
-    =i0tj
-    -----END PGP ARMORED FILE-----
+    F8ZUBQJoEhoGBQkUtHZwAAoJEPQu1vurF8ZUv1AP/2gID+uw7pw3WpPevny3pliZ
+    JeDx4Y+ut+5c2nCfkpUc3lG50v9ly4ZpNQTWKIm9yB6dxgary7EKpAlGVmiU75JA
+    LyftVtjeyQcre2f7Z00u2lXw8Red52AsWHkh/dtctgLSGQiJdTd0donO6cszZFVa
+    sCiFdRKlizGvBkE8uFdKYMGixOgnvQZrb9OLqRsoj10aDzN0X3NJk1LTxiS3+udY
+    poOk2Bm9VGyrNmgIrYiNqbYPBHYkWGHBqJxvAK92lJ2I/n6X4U8r6sMdDE7QDw4j
+    FMdrxC0XmCL4cFPkkR1qadtJy9FiCtpKyqiKuUsCG6AUi5EOY+7Y3oSpKn8Wp1K5
+    VMbv12JRIatDIeaAnwa2qyBQVAVC1F/OqWUFKluPjKyMR3DXKwjxpt1P+HUmda0w
+    HcnhFIu2th/egmGKH5e3atcVxjAxYfm+f92MN7fFEuFQsMZhI/gt3IgESWrgdaAz
+    opRInrMz7yEtz3VaaehwmUUR2gevPQMzBRaA+NIqMLDUvV5jujvFe8c1VUtBLTYc
+    /alBiM/Mo1niy3aUfDahzhTr6zz+ur6BFRnNFWv56M3NOVlreNm3NIbNX2kTKh0Z
+    QJSSCklJuDUqnPmAzT2BZWUpwfe7QYRwvQhF0YB2N1LavyNwiyfinCQlAh+Q9eme
+    2jqGsxvQym3sAPnWvA68
+    =xH9H
+    -----END PGP PUBLIC KEY BLOCK-----
   EOS
 when 'centos'
-  fail 'Unsupported platform'
+  node.default['fb_yum_repos']['repos']['ros2'] = {
+    'repos' => {
+      'ros2' => {
+        'name' => 'ROS 2 - $basearch',
+        'baseurl' => 'http://packages.ros.org/ros2/rhel/$releasever/$basearch/',
+        'enabled' => true,
+        'gpgcheck' => false,
+        'gpgkey' => 'https://repo.ros2.org/repos.key',
+        'repo_gpgcheck' => true,
+      },
+      'ros2-source' => {
+        'name' => 'ROS 2 - Source',
+        'baseurl' => 'http://packages.ros.org/ros2/rhel/$releasever/SRPMS/',
+        'enabled' => false,
+        'gpgcheck' => false,
+        'gpgkey' => 'https://repo.ros2.org/repos.key',
+        'repo_gpgcheck' => true,
+      },
+    },
+  }
 end

@@ -1,6 +1,6 @@
 #
 # Cookbook:: boxcutter_ros
-# Recipe:: default
+# Recipe:: rocker
 #
 # Copyright:: 2025, Boxcutter
 #
@@ -18,7 +18,6 @@
 
 include_recipe 'boxcutter_ros::common'
 
-package 'ros packages' do
-  package_name lazy { node['boxcutter_ros']['packages'] }
+package 'python3-rocker' do
   action :upgrade
 end

@@ -83,3 +83,10 @@ suites:
       inspec_tests:
         - test/integration/dev_tools
     attributes:
+
+  - name: rocker
+    named_run_list: boxcutter_ros_test_rocker
+    verifier:
+      inspec_tests:
+        - test/integration/rocker
+    attributes:
