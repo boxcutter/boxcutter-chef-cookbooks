@@ -21,5 +21,7 @@ def self.test_remote_client_rb_extra_code(_hostname)
     ohai.optional_plugins ||= []
     ohai.optional_plugins += [:Passwd]
     ohai.optional_plugins += [:ShardSeed]
+    file_backup_path File.join('/var/chef', 'backup')
+    file_cache_path File.join('/var/chef', 'cache')
   EOF
 end

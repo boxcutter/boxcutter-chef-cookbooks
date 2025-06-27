@@ -24,3 +24,8 @@ ohai.critical_plugins += [:ShardSeed]
 ohai.optional_plugins ||= []
 ohai.optional_plugins += [:Passwd]
 ohai.optional_plugins += [:ShardSeed]
+
+# these seem to incorrectly get set to /etc/cinc instead of /var/chef when
+# local mode is used, confusing our chefctl config
+file_backup_path File.join('/var/chef', 'backup')
+file_cache_path File.join('/var/chef', 'cache')
