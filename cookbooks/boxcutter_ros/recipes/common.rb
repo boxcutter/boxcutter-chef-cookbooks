@@ -16,12 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-locale 'set system locale' do
-  lang 'en_US.UTF-8'
-end
-
 case node['platform']
 when 'ubuntu'
+  locale 'set system locale' do
+    lang 'en_US.UTF-8'
+  end
+
   node.default['fb_apt']['sources']['ros'] = {
     'key' => 'ros',
     'url' => node['boxcutter_ros']['mirror'],
@@ -62,6 +62,8 @@ when 'ubuntu'
     -----END PGP PUBLIC KEY BLOCK-----
   EOS
 when 'centos'
+  # TODO: locale UTF-8 equivalent for rhel
+
   node.default['fb_yum_repos']['repos']['ros2'] = {
     'repos' => {
       'ros2' => {

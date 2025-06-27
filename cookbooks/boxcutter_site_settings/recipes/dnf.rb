@@ -226,7 +226,7 @@ if node.centos?
               'repo_gpgcheck' => '0',
               'metadata_expire' => '6h',
               'countme' => '1',
-              'enabled' => '0',
+              'enabled' => '1',
             },
             'crb-debuginfo' => {
               'name' => 'CentOS Stream $releasever - CRB - Debug',
