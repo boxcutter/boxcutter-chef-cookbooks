@@ -69,6 +69,10 @@ when 'centos'
           'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/el/9/cinc-18.6.2-1.el9.x86_64.rpm',
           'checksum' => '26ebe3eeb91121def370c44414394fc9a396359c285df6e6a561cfd251cd20f6',
         },
+        '10' => {
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/el/10/cinc-18.6.2-1.el10.x86_64.rpm',
+          'checksum' => '3cb1ca62a4fd603f6ee9f8728f04416b3a3226099c6332790357d909936733d5',
+        },
       },
     )
   when 'aarch64', 'arm64'
@@ -77,6 +81,10 @@ when 'centos'
         '9' => {
           'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/el/9/cinc-18.6.2-1.el9.aarch64.rpm',
           'checksum' => '3c9091f1f81e7e57410c9d0043fede5c9bc5748d1c204e74b553f726435cf0d2',
+        },
+        '10' => {
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/el/10/cinc-18.6.2-1.el10.aarch64.rpm',
+          'checksum' => 'fa45d047567ebe4ff40d728f586264fc3e0d42c24545f635dcd001bae850b447',
         },
       },
     )
