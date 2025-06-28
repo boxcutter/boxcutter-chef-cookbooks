@@ -62,27 +62,48 @@ end
 
 confdir = '/etc/chef'
 
-{
-  'chef' => {
-    'time' => '*/15 * * * *',
-    'command' => '/usr/bin/test -f /var/chef/cron.default.override -o ' +
-      "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q &>/dev/null",
-  },
-  'taste-untester' => {
-    'time' => '*/5 * * * *',
-    'command' => '/usr/local/sbin/taste-untester &>/dev/null',
-  },
-  'remove override files' => {
-    'time' => '*/5 * * * *',
-    'command' => '/usr/bin/find /var/chef/ -maxdepth 1 ' +
-      '-name cron.default.override -mmin +60 -exec /bin/rm -f {} \; &>/dev/null',
-  },
-  # keep two weeks of chef run logs
-  'cleanup chef logs' => {
-    'time' => '1 1 * * *',
-    'command' => '/usr/bin/find /var/log/chef -maxdepth 1 ' +
-      '-name chef.2* -mtime +14 -exec /bin/rm -f {} \; &>/dev/null',
-  },
-}.each do |name, job|
-  node.default['fb_cron']['jobs'][name] = job
-end
+# {
+#   'chef' => {
+#     'time' => '*/15 * * * *',
+#     'command' => '/usr/bin/test -f /var/chef/cron.default.override -o ' +
+#       "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q &>/dev/null",
+#   },
+#   'taste-untester' => {
+#     'time' => '*/5 * * * *',
+#     'command' => '/usr/local/sbin/taste-untester &>/dev/null',
+#   },
+#   'remove override files' => {
+#     'time' => '*/5 * * * *',
+#     'command' => '/usr/bin/find /var/chef/ -maxdepth 1 ' +
+#       '-name cron.default.override -mmin +60 -exec /bin/rm -f {} \; &>/dev/null',
+#   },
+#   # keep two weeks of chef run logs
+#   'cleanup chef logs' => {
+#     'time' => '1 1 * * *',
+#     'command' => '/usr/bin/find /var/log/chef -maxdepth 1 ' +
+#       '-name chef.2* -mtime +14 -exec /bin/rm -f {} \; &>/dev/null',
+#   },
+# }.each do |name, job|
+#   node.default['fb_cron']['jobs'][name] = job
+# end
+
+node.default['fb_timers']['jobs']['chef'] = {
+  'calendar' => FB::Systemd::Calendar.every(15).minutes,
+  'command' => '/usr/bin/test -f /var/chef/cron.default.override -o ' +
+    "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q &>/dev/null",
+}
+node.default['fb_timers']['jobs']['taste-untester'] = {
+  'calendar' => FB::Systemd::Calendar.every(5).minutes,
+  'command' => '/usr/local/sbin/taste-untester &>/dev/null',
+}
+node.default['fb_timers']['jobs']['remove_override_files'] = {
+  'calendar' => FB::Systemd::Calendar.every(5).minutes,
+  'command' => '/usr/bin/find /var/chef/ -maxdepth 1 ' +
+    '-name cron.default.override -mmin +60 -exec /bin/rm -f {} \; &>/dev/null',
+}
+node.default['fb_timers']['jobs']['cleanup_chef_logs'] = {
+  'calendar' => '*-*-* 01:01:00',
+  'command' => '/usr/bin/find /var/log/chef -maxdepth 1 ' +
+    '-name chef.2* -mtime +14 -exec /bin/rm -f {} \; &>/dev/null',
+}
+
