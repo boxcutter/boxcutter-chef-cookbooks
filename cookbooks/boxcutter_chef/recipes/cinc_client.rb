@@ -165,11 +165,15 @@ directory "#{config_dir}/handlers" do
   mode '0755'
 end
 
-cookbook_file "#{config_dir}/handlers/attribute-changed-handler.rb" do
-  source 'config/attribute-changed-handler.rb'
+cookbook_file "#{config_dir}/handlers/attribute_changed_handler.rb" do
+  source 'config/attribute_changed_handler.rb'
   owner 'root'
   group 'root'
   mode '0644'
+end
+
+cookbook_file "#{config_dir}/handlers/attribute-changed-handler.rb" do
+  action :delete
 end
 
 # cookbook_file "#{config_dir}/handlers/resource-updated-handler.rb" do

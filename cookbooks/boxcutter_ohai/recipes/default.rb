@@ -18,8 +18,9 @@
 
 # firstboot handler
 Chef.event_handler do
-  on :run_completed do # |node, run_status|
+  on :run_completed do |run_status|
     puts 'MISCHA: run_completed handler'
+    Boxcutter::Ohai::Helpers.firstboot_handler(run_status)
   end
 end
 
@@ -41,12 +42,13 @@ Chef.event_handler do
   on :run_completed do
     if resource_updates.empty?
       # Chef::Log.info('NEW: No resources updated.')
-      puts('NEW: No resources updated.')
+      puts('No resources updated.')
     else
       # Chef::Log.info("NEW: Updated #{resource_updates.size} resource(s):")
-      puts("NEW: Updated #{resource_updates.size} resource(s):")
+      puts("Updated #{resource_updates.size} resource(s):")
       resource_updates.each do |r|
         # Chef::Log.info("NEW:  - #{r[:name]} (#{r[:cookbook]}::#{r[:recipe]} line #{r[:line]}) via :#{r[:action]}")
+        puts("- #{r[:name]} (#{r[:cookbook]}::#{r[:recipe]} line #{r[:line]}) via :#{r[:action]}")
       end
     end
   end
