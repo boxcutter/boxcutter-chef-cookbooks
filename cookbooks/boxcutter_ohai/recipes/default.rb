@@ -16,12 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# firstboot handler
 Chef.event_handler do
-  on :run_completed do |node, run_status|
+  on :run_completed do # |node, run_status|
     puts 'MISCHA: run_completed handler'
   end
 end
 
+# resource_updated handler
 Chef.event_handler do
   resource_updates = []
   on :resource_updated do |resource, action|
@@ -49,4 +51,3 @@ Chef.event_handler do
     end
   end
 end
-
