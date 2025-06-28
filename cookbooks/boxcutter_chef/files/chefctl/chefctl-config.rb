@@ -34,8 +34,8 @@ chef_client '/opt/cinc/bin/cinc-client'
 chef_options ['--no-fork']
 
 # Whether or not to provide human-readable output.
-human false
-# human true
+# human false
+human true
 
 # If set, ignore the splay and stop pending chefctl processes before
 # running. This is intended for interactive runs of chef
