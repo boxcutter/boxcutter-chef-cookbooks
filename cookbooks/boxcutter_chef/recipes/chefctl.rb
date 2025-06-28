@@ -108,7 +108,7 @@ node.default['fb_timers']['jobs']['taste-untester'] = {
 node.default['fb_timers']['jobs']['remove_override_files'] = {
   'calendar' => FB::Systemd::Calendar.every(5).minutes,
   'command' => "/bin/sh -c '/usr/bin/find /var/chef/ -maxdepth 1 " +
-    "-name cron.default.override -mmin +60 -exec /bin/rm -f {} \; &>/dev/null'",
+    "-name cron.default.override -mmin +60 -exec /bin/rm -f {} \\; &>/dev/null'",
 }
 node.default['fb_timers']['jobs']['cleanup_chef_logs'] = {
   'calendar' => '*-*-* 01:01:00',
