@@ -2,6 +2,7 @@ unified_mode true
 provides :boxcutter_postgresql_role
 
 property :role_name, String, name_property: true
+property :login, [true, false]
 property :plain_text_password, String
 property :encrypted_password, String
 property :connect_dbname, String, desired_state: false
@@ -24,6 +25,7 @@ load_current_value do |new_resource|
   query_result = Boxcutter::PostgreSQL::Helpers.select_role(new_resource)
   puts "MISCHA: query_result=#{query_result}"
   role_name(query_result.fetch('rolname', nil))
+  login(query_result.fetch('rolcanlogin', nil))
 end
 
 action_class do
@@ -36,7 +38,11 @@ action :create do
 
   return if Boxcutter::PostgreSQL::Helpers.role_exist?(new_resource)
 
-  converge_if_changed(:plain_text_password, :encrypted_password) do
+  converge_if_changed(
+    :login,
+    :plain_text_password,
+    :encrypted_password,
+  ) do
     Boxcutter::PostgreSQL::Helpers.create_role(new_resource)
   end
 
@@ -52,6 +58,10 @@ action :alter do
   unless Boxcutter::PostgreSQL::Helpers.role_exist?(new_resource)
     fail Chef::Exceptions::CurrentValueDoesNotExist,
          "Cannot update role '#{new_resource.rele_name}' as it does not exist"
+  end
+
+  converge_if_changed(:login) do
+    Boxcutter::PostgreSQL::Helpers.alter_role_password(new_resource)
   end
 
   converge_if_changed(:plain_text_password, :encrypted_password) do

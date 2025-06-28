@@ -53,6 +53,23 @@ template '/opt/netbox/latest/netbox/netbox/configuration.py' do
   # notifies :restart, 'service[netbox]'
 end
 
+boxcutter_postgresql_role 'netbox' do
+  plain_text_password node['boxcutter_netbox']['config']['database_password']
+  login true
+end
+
+boxcutter_postgresql_database 'netbox' do
+  owner 'netbox'
+end
+
+boxcutter_postgresql_access_privileges 'GRANT CREATE ON SCHEMA public TO netbox' do
+  privilege 'CREATE'
+  type 'SCHEMA'
+  object 'public'
+  role 'netbox'
+  connect_dbname 'netbox'
+  connect_password node['boxcutter_netbox']['config']['database_password']
+end
 # cookbook_file '/opt/netbox/latest/gunicorn.py' do
 #   owner 'root'
 #   group 'root'

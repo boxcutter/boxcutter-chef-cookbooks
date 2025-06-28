@@ -170,6 +170,16 @@ dbname: new_resource.connect_dbname, user: new_resource.connect_username, passwo
 
         sql.push("CREATE ROLE \"#{new_resource.role_name}\" WITH")
 
+        %i{login}.each do |perm|
+          next unless new_resource.property_is_set?(perm)
+
+          if new_resource.send(perm)
+            sql.push(perm.to_s.upcase.gsub('_', ' ').to_s)
+          else
+            sql.push("NO#{perm.to_s.upcase.gsub('_', ' ')}")
+          end
+        end
+
         if new_resource.encrypted_password
           sql.push("ENCRYPTED PASSWORD '#{new_resource.encrypted_password}'")
         elsif new_resource.plain_text_password
@@ -192,6 +202,16 @@ dbname: new_resource.connect_dbname, user: new_resource.connect_username, passwo
       def self.alter_role_password(new_resource)
         sql = []
         sql.push("ALTER ROLE \"#{new_resource.role_name}\"")
+
+        %i{login}.each do |perm|
+          next unless new_resource.property_is_set?(perm)
+
+          if new_resource.send(perm)
+            sql.push(perm.to_s.upcase.gsub('_', ' ').to_s)
+          else
+            sql.push("NO#{perm.to_s.upcase.gsub('_', ' ')}")
+          end
+        end
 
         if new_resource.encrypted_password
           sql.push("ENCRYPTED PASSWORD '#{new_resource.encrypted_password}'")
