@@ -91,6 +91,15 @@ node.default['fb_timers']['jobs']['chef'] = {
   'calendar' => FB::Systemd::Calendar.every(15).minutes,
   'command' => "/bin/sh -c '/usr/bin/test -f /var/chef/cron.default.override -o " +
     "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q &>/dev/null'",
+  'service_unit_options' => {
+    # Chef runs are normally pretty fast, but if you're running chef for the first
+    # time on a machine, it can take a while. 1d 6h is much longer than even these
+    # chef runs should take, so it's a generous upper bound.
+    'TimeoutStartSec' => '1d 6h',
+    # Prevent lingering processes in the chef cgroup by killing them 15 minutes
+    # after chef finishes, or is told to stop:
+    'TimeoutStopSec' => '15m',
+  },
 }
 node.default['fb_timers']['jobs']['taste-untester'] = {
   'calendar' => FB::Systemd::Calendar.every(5).minutes,
