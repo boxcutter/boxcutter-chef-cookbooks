@@ -89,7 +89,7 @@ confdir = '/etc/chef'
 
 node.default['fb_timers']['jobs']['chef'] = {
   'calendar' => FB::Systemd::Calendar.every(15).minutes,
-  'command' => "/bin/sh -c '/usr/bin/test -f /var/chef/cron.default.override -o" +
+  'command' => "/bin/sh -c '/usr/bin/test -f /var/chef/cron.default.override -o " +
     "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q &>/dev/null'",
 }
 node.default['fb_timers']['jobs']['taste-untester'] = {
