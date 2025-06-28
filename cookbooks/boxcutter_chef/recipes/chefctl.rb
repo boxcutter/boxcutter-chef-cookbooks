@@ -113,5 +113,5 @@ node.default['fb_timers']['jobs']['remove_override_files'] = {
 node.default['fb_timers']['jobs']['cleanup_chef_logs'] = {
   'calendar' => '*-*-* 01:01:00',
   'command' => "/bin/sh -c '/usr/bin/find /var/log/chef -maxdepth 1 " +
-    "-name chef.2* -mtime +14 -exec /bin/rm -f {} \; &>/dev/null'",
+    "-name chef.2* -mtime +14 -exec /bin/rm -f {} \\; &>/dev/null'",
 }
