@@ -10,8 +10,7 @@ no_lazy_load false
 local_key_generation true
 json_attribs '/etc/cinc/run-list.json'
 %w(
-  attribute-changed-handler.rb
-  resource-updated-handler.rb
+  attribute_changed_handler.rb
 ).each do |handler|
   handler_file = File.join('/etc/cinc/handlers', handler)
   if File.exist?(handler_file)
