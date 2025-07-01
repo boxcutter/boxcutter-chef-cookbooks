@@ -89,8 +89,8 @@ confdir = '/etc/chef'
 
 node.default['fb_timers']['jobs']['chef'] = {
   'calendar' => FB::Systemd::Calendar.every(15).minutes,
-  'command' => '/bin/sh -c "/usr/bin/test -f /var/chef/cron.default.override -o ' +
-    "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q\"",
+  'command' => "/bin/sh -c '/usr/bin/test -f /var/chef/cron.default.override -o " +
+    "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q'",
   'service_options' => {
     # Chef runs are normally pretty fast, but if you're running chef for the first
     # time on a machine, it can take a while. 1d 6h is much longer than even these
@@ -107,11 +107,11 @@ node.default['fb_timers']['jobs']['taste-untester'] = {
 }
 node.default['fb_timers']['jobs']['remove_override_files'] = {
   'calendar' => FB::Systemd::Calendar.every(5).minutes,
-  'command' => '/bin/sh -c "/usr/bin/find /var/chef/ -maxdepth 1 ' +
-    '-name cron.default.override -mmin +60 -exec /bin/rm -f {} \\;"',
+  'command' => "/bin/sh -c '/usr/bin/find /var/chef/ -maxdepth 1 " +
+    "-name cron.default.override -mmin +60 -exec /bin/rm -f {} \\;'",
 }
 node.default['fb_timers']['jobs']['cleanup_chef_logs'] = {
   'calendar' => '*-*-* 01:01:00',
-  'command' => '/bin/sh -c "/usr/bin/find /var/log/chef -maxdepth 1 ' +
-    '-name chef.2* -mtime +14 -exec /bin/rm -f {} \\;"',
+  'command' => "/bin/sh -c '/usr/bin/find /var/log/chef -maxdepth 1 " +
+    "-name chef.2* -mtime +14 -exec /bin/rm -f {} \\;'",
 }
