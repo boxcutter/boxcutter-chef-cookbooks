@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'chef', '~> 18'
+gem 'chef', '~> 16'
 gem 'cookstyle', '= 7.32.1'
 gem 'rspec', '= 3.11'
 gem 'rubocop', '= 1.25.1'
