@@ -1,0 +1,5 @@
+suites:
+  - name: local
+    run_list:
+      - recipe[boxcutter_ohai]
+      - recipe[boxcutter_init]
