@@ -39,6 +39,10 @@ EOF
 }
 
 CONFIG='.cookstyle_combined.yml'
+ME=$(realpath "$0")
+MY_DIR=$(dirname "$ME")
+# `cookstyle -r FOO` expects FOO to be absolute
+RULES_DIR="${MY_DIR}/../cookstyle/"
 AUTOCORRECT=0
 COMPAT_MODE=1
 
@@ -72,8 +76,6 @@ if bundle exec cookstyle --version > /dev/null 2>&1; then
   COOKSTYLE='bundle exec cookstyle'
 elif [ -x /opt/chef-workstation/embedded/bin/cookstyle ]; then
   COOKSTYLE='/opt/chef-workstation/embedded/bin/cookstyle'
-elif [ -x /opt/cinc-workstation/embedded/bin/cookstyle ]; then
-  COOKSTYLE='/opt/cinc-workstation/embedded/bin/cookstyle'
 else
   echo 'Cannot find cookstyle!'
   exit 1
@@ -99,4 +101,4 @@ if [ "$AUTOCORRECT" -eq 1 ]; then
   options+=("-a")
 fi
 
-exec $COOKSTYLE --display-cop-names -c "$CONFIG" ${options[@]+"${options[@]}"} "$@"
+exec $COOKSTYLE --display-cop-names -r "$RULES_DIR/helpers.rb" -c "$CONFIG" "${options[@]}" "$@"

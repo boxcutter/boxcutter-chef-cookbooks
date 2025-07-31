@@ -1,65 +1,19 @@
-name: kitchen
+name: Kitchen Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-jobs:
-  changes:
-    runs-on: ubuntu-latest
-    outputs:
-      # Expose matched filters as job 'cookbooks' output variable
-      cookbooks: ${{ steps.filter.outputs.changes }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: boxcutter-chef-cookbooks
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          working-directory: boxcutter-chef-cookbooks
-          # Use context to get the branch where commits were pushed.
-          # If there is only one long-lived branch (e.g. main),
-          # you can specify it directly.
-          # If its not configured, the repository default branch is used.
-          base: ${{ github.ref }}
-          filters: |
-            cookbooks/boxcutter_python: 'cookbooks/boxcutter_python/**'
-            cookbooks/boxcutter_anaconda: 'cookbooks/boxcutter_anaconda/**'
-            cookbooks/boxcutter_tailscale: 'cookbooks/boxcutter_tailscale/**'
 
-  # Job to run Test Kitchen on just the cookbooks that changed
-  build:
-    needs: changes
+jobs:
+  kitchen:
     strategy:
-      matrix:
-        # Parse JSON array containing names of all filters matching any of changed files
-        # e.g. ['image1', 'image2'] if both image folders contains changes
-        cookbook: ${{ fromJSON(needs.changes.outputs.cookbooks) }}
-    if: ${{ needs.changes.outputs.cookbooks != '[]' && needs.changes.outputs.cookbooks != '' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          path: boxcutter-chef-cookbooks
-      - name: Checkout chef-cookbooks repository
-        uses: actions/checkout@v4
-        with:
-          repository: boxcutter/chef-cookbooks
-          path: chef-cookbooks
-      - name: Install Chef
-        uses: actionshub/chef-install@main
-        with:
-          omnitruckUrl: omnitruck.cinc.sh
-          project: cinc-workstation
-          version: 25.2.1075
-      - name: Run Kitchen
-        working-directory: boxcutter-chef-cookbooks/${{ matrix.cookbook }}
-        run: |
-          kitchen test
-        env:
-          CHEF_LICENSE: accept-no-persist
-          CHEF_VERSION: 18.6.2
-          CHEF_LOG_LEVEL: debug
+      fail-fast: false
+    uses: facebook/chef-cookbooks/.github/workflows/reusable-kitchen-tests.yml@main
+    secrets: inherit
+    with:
+      universe: true
+      # You may also specify alternative `suite` (string), as well as
+      # `additional_os_list` (JSON string array).
+      # Biwth will require a local kitchen file passed in via
+      # `kitchen_local_yaml` (string).
