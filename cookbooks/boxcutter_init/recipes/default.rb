@@ -27,8 +27,11 @@ end
 # this should be first.
 include_recipe 'boxcutter_init::site_settings'
 
-if node.centos?
+# TODO: use fedora_derived?
+if node.centos? || node.rhel? || node.fedora?
   # HERE: yum
+  # We turn this off to avoid clobbering /etc/yum,repos.d in the CI
+  node.default['fb_yum_repos']['manage_repos'] = false
   include_recipe 'fb_dnf'
   include_recipe 'fb_rpm'
 end
@@ -39,7 +42,8 @@ end
 unless ['dokken', 'kitchen-test'].include?(node['hostname']) # in_kitchen?
   include_recipe 'boxcutter_chef::default'
 end
-if node.centos?
+# TODO: use fedora_derived?
+if node.centos? || node.rhel? || node.fedora?
   include_recipe 'fb_e2fsprogs'
   include_recipe 'fb_util_linux'
 end
@@ -98,6 +102,12 @@ include_recipe 'fb_users'
 #   # Travis when rsyslog is restarted
 #   node.default['fb_syslog']['_enable_syslog_socket_override'] = false
 # end
+# TODO: use fedora_derived?
+if node.centos? || node.rhel? || node.fedora?
+  # We turn this off because the override causes intermittent failures in
+  # Travis when rsyslog is restarted
+  node.default['fb_syslog']['_enable_syslog_socket_override'] = false
+end
 if !node.container?
   include_recipe 'fb_syslog'
 end
