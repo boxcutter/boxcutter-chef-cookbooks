@@ -1,0 +1,41 @@
+---
+driver:
+  name: dokken
+  privileged: true  # allows systemd services to start
+  docker_registry: docker.io
+  chef_image: boxcutter/cinc
+  # chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
+  chef_version: 18.6.2
+
+provisioner:
+  name: dokken
+  product_name: cinc
+  chef_binary: /opt/cinc/bin/cinc-client
+  chef_license: accept-no-persist
+  chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  client_rb:
+    file_staging_uses_destdir: false
+    client_fork: false
+    force_logger: true
+    log_location: /var/log/chef.log
+    ohai.optional_plugins:
+      - Passwd
+    ohai.critical_plugins:
+      - Passwd
+
+transport:
+  name: dokken
+
+lifecycle:
+  post_create:
+    - remote: |
+        bash -c -x '
+          # Force firstboot
+          touch /root/firstboot_os
+        '
+
+suites:
+  - name: local
+    run_list:
+      - recipe[boxcutter_ohai]
+      - recipe[boxcutter_init]
