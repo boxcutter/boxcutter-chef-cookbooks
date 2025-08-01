@@ -36,6 +36,27 @@ when 'ubuntu'
       },
       )
   end
+when 'debian'
+  case node['kernel']['machine']
+  when 'x86_64', 'amd64'
+    package_info = value_for_platform(
+      'debian' => {
+        '12' => {
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/debian/12/cinc_18.6.2-1_amd64.deb',
+          'checksum' => '311f3f9c19db7d62c9e7a151398853db8d0994e0aeac96189530ee5eb972eb6c',
+        },
+      },
+      )
+  when 'aarch64', 'arm64'
+    package_info = value_for_platform(
+      'debian' => {
+        '12' => {
+          'url' => 'https://downloads.cinc.sh/files/stable/cinc/18.6.2/debian/12/cinc_18.6.2-1_arm64.deb',
+          'checksum' => 'd3a9190edba47a6946cecd2af010f7c98da02bb56d2a540a93462eb642de8c7f',
+        },
+      },
+      )
+  end
 when 'centos'
   case node['kernel']['machine']
   when 'x86_64', 'amd64'
