@@ -95,7 +95,7 @@ The bulk of the Cinc Workstation install is in `/opt/cinc-workstation`,
 with a few copies of the main program binaries in `/usr/local/bin` to
 be in the default `PATH`.
 
-### Configure the Ruby environment (simple)
+### Configure the Ruby environment (simple) - macOS
 
 Configure the Ruby environment Cinc uses by adding the following
 commands to the configuration file for Z Shell (`~/.zshrc`):
@@ -119,7 +119,7 @@ ruby instead of the system ruby:
 /opt/cinc-workstation/embedded/bin/ruby
 ```
 
-### Configure the Ruby environment (advanced)
+### Configure the Ruby environment (advanced) - macOS
 
 ```
 mkdir -m 0755 ~/.zshrc.d

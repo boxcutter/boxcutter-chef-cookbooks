@@ -87,7 +87,7 @@ You can customize the configuration with the following attributes:
 
 ### enable
 
-If you would like to include the cookbook but disable the `tailscaled` service, 
+If you would like to include the cookbook but disable the `tailscaled` service,
 set enable to `false`.
 
 ### hostname

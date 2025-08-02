@@ -24,7 +24,9 @@ If true (default) will install or uninstall packages based on `enable`. Otherwis
 
 ### config
 
-The config is a two-level hash where the top-level hash is the **section** of the INI file (`/etc/sssd/sssd.conf`), and the hash under that is key-value pairs. For example:
+The config is a two-level hash where the top-level hash is the **section** of
+ the INI file (`/etc/sssd/sssd.conf`), and the hash under that is key-value
+pairs. For example:
 
 ```ruby
 node.default['fb_sssd']['config']['nss']['default_shell'] = '/bin/bash'

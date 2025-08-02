@@ -5,7 +5,7 @@ Redis (**RE**mote **DI**ctionary **S**erver) is an open source, in-memory,
 NoSQL key/value store that is primarily used as an application cache or
 quick-response database.
 
-Attributes 
+Attributes
 ----------
 
 - node['boxcutter_redis']['enable']

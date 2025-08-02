@@ -18,7 +18,7 @@ The automation will look for credentials in the following preference order
 ```
 1. `node.run_state['boxcutter_couchdb']['admin_username']`
    `node.run_state['boxcutter_couchdb']['admin_password']`
-2. `node['boxcutter_couchdb']['admin_username']`   
+2. `node['boxcutter_couchdb']['admin_username']`
    `node['boxcutter_couchdb']['admin_password']`
 ```
 

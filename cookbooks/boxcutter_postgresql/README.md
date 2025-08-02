@@ -52,7 +52,7 @@ PostgreSQL objects:
 The `boxcutter_postgresql_reole` resource configures a PostgreSQL role.
 There is only one type of authetnicational principal in PostgreSQL, a `ROLE`.
 By convention, a `ROLE` that allows login is considered a **user**, while a
-role that is not allowed to login is a **group**. (While there are 
+role that is not allowed to login is a **group**. (While there are
 `CREATE USER` and `CREATE GROUP` commands, they are aliases for `CREATE ROLE`).
 
 ```ruby

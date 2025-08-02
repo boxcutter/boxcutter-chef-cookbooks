@@ -4,6 +4,7 @@ boxcutter_can
 Configures Controller Area Network (CAN) Bus devices.
 
 If you get an error from modprobe that says something like this:
+
 ```
 modprobe: FATAL: Module vcan not found in directory /lib/modules/6.8.0-59-generic
 ```

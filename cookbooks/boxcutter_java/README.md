@@ -24,7 +24,7 @@ node.default['boxutter_java']['sdkman'] = {
       'java' => {
         '8.0.382-tem' => nil,
         '11.0.24-tem' => nil,
-      }, 
+      },
       'sbt' => {
         '1.10.1' => nil,
       },

@@ -136,6 +136,7 @@ The `creates` attribute specifies the sub-directory name for the extracted files
      'node_exporter-1.9.1.linux-arm64'
  end
 ```
+
 You can choose whether or not to enable the node exporter service with the
 `node['boxcutter_prometheus']['node_exporter']['enable']` attribute. The
 default value is `false`.
@@ -220,7 +221,6 @@ node.default['boxcutter_prometheus']['snmp_exporter']['command_line_flags'] = {
 You can choose whether or not to enable the SNMP exporter service with the
 `node['boxcutter_prometheus']['SNMP_exporter']['enable']` attribute. The
 default value is `true`.
-
 
 Use the `source`, `checksum` and `creates` attributes to choose to install
 a different version of node exporter than the default. Normally you'll also

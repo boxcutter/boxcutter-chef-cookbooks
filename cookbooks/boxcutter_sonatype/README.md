@@ -16,7 +16,7 @@ The automation will look for credentials in the following preference order:
 4. `node['boxcutter_sonatype']['nexus_repository']['admin_password']`
 
 Provide the `admin` password in `node.run_state`, like so. The automation will
-automatically 
+automatically
 
 The automation will automatically allocate a new one-time preauthorization key using
 the OAuth Client on each Chef run, when something needs to be changed on your tailnet.
@@ -29,6 +29,7 @@ node.run_state['boxcutter_sonatype'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
 ```
+
 NOTE: Instructions for recovery if Chef ever gets out of sync with the current
 admin password are located as this [link](https://support.sonatype.com/hc/en-us/articles/213467158-How-to-reset-a-forgotten-admin-password-in-Sonatype-Nexus-Repository-3).
 
@@ -81,7 +82,6 @@ NEXUS_SERVER=https://hq0-nexus01.sandbox.polymathrobotics.dev
 COMPONENT_ID=cG9seW1hdGgtaW1hZ2VzOjE3MTU2MGEy
 curl --verbose --user ci-sandbox:${CI_PASSWORD} \
    --request DELETE "${NEXUS_SERVER}/service/rest/v1/components/${COMPONENT_ID}" 
-
 # Downlaod
 NEXUS_SERVER=https://example-nexus.boxcutter.dev
 curl --verbose -LOJ \

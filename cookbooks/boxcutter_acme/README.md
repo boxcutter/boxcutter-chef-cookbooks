@@ -60,9 +60,9 @@ Optional fields:
   Default: `/var/log/letsencrypt`.
 - `work_dir`: Specifies the working directory for temporary files.
   Default: `/var/lib/letsencrypt`.
--  `certbot_bin`
--  `renew_days`: The number of days left on a certificate to renew it. (default: 30)
--  `server`: Let's Encrypt ACME server to be used. If you'd like to test
+- `certbot_bin`
+- `renew_days`: The number of days left on a certificate to renew it. (default: 30)
+- `server`: Let's Encrypt ACME server to be used. If you'd like to test
   something without issuing real certificates, you can use the staging
   endpoint `https://acme-staging-v02.api.letsencrypt.org/directory`.
 - `extra_parameters`: Additional global options to be added to the command

@@ -73,6 +73,7 @@ sudo cp ubuntu-server-2404-cloud-init.img \
 ```
 
 Initialize the virtual machine:
+
 ```
 # Perform a customization run by loading the cloud-init image with the VM
 virt-install \

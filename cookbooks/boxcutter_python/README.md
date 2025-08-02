@@ -109,7 +109,7 @@ really use pyenv outside of the context of a user:
 https://github.com/pyenv/pyenv/issues/1843
 
 However, you can install bare versions of python in shared locations and
-manage them as plain python virtualenvs. This is supported via the 
+manage them as plain python virtualenvs. This is supported via the
 `node['boxcutter_python']['python_build']` attribute. It uses the same
 form as the `pyenv` attribute, just without the keys that wouldn't be
 applicable system-wide.
@@ -140,9 +140,10 @@ versions of Python.
 The `system` recipe installs the system Python - the default version of Python
 for a particular operating system.
 
-## Resources
+Resources
+---------
 
-### `boxcutter_python_virtualenv` 
+### `boxcutter_python_virtualenv`
 
 The `boxcutter_python_virtualenv` resource creates a Python virtual environment.
 
@@ -178,13 +179,13 @@ boxcutter_python_pip `certbot` do
 end
 ```
 
-#### Actions
+#### Actions - boxcutter_python_pip
 
 - `:install` - Install a Python package. *(default)*
 - `:upgrade` - Install a Python package using the `--upgrade` flag.
 - `:remove` - Remove a Python package.
 
-#### Properties
+#### Properties - boxcutter_python_pip
 
 - `package_name` - 'The name of the Python package to install.'
 - `version` - 'The version of the Python package to install/upgrade.'

@@ -21,7 +21,6 @@ Automates install and configuration of GitHub self-hosted runners.
 
 #### Runners
 
-
 ```ruby
 node.default['boxcutter_github']['github_runner'] = {
   'runners' => {

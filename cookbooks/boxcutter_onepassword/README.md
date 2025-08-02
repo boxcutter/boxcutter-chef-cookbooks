@@ -28,12 +28,12 @@ takes precedence.
 1Password Service
 - `/etc/chef/op_service_account_token`
 
-### Configuring a 1Password Connect Server token 
+### Configuring a 1Password Connect Server token
 
-For a 1Password Connect server token, store the connect host and connect token as files
-in the same location as the Chef encrypted data bag key is stored or as environment variables.
-When both files and environment variables are defined, the environment variables
-take precedence.
+For a 1Password Connect server token, store the connect host and connect token
+as files in the same location as the Chef encrypted data bag key is stored or
+as environment variables. When both files and environment variables are
+defined, the environment variables take precedence.
 
 1Password Connect environment variables:
 - `OP_CONNECT_HOST`

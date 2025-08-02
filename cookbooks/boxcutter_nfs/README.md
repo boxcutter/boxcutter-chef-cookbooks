@@ -11,7 +11,7 @@ Usage
 The `boxcutter_nfs::server` recipe will configure an NFS server and make a list
 of directories available to clients.
 
-`node['boxcutter_nfs']['server']['exports']` is a value:array pair of 
+`node['boxcutter_nfs']['server']['exports']` is a value:array pair of
 containing a list of directories on the NFS server to make available to NFS
 clients.
 
