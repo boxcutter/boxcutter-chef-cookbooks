@@ -1,10 +1,12 @@
-boxcutter-chef-cookbooks [![boxcutter-chef-cookbooks](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml/badge.svg)](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml)
+boxcutter-chef-cookbooks [![Continuous Integration](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml/badge.svg)](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml) [![Kitchen Tests](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/kitchen.yml/badge.svg)](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/kitchen.yml)
 ========================
 
-This  repo contains automation used to maintain a fleet of robots using
-neuromorphic sensors and their supporting infrastructure. It is built
-on top of the attribute-driven API cookbooks maintained by
-Meta/Facebook. For more information about this style of writing automation
+This repo contains automation used to configure a fleet of robots using
+neuromorphic sensors and their supporting infrastructure. The code in this
+repo follows the [Meta/Facebook attribute-driven API](https://github.com/facebook/chef-cookbooks)
+model. None of this code is maintained by Meta.
+
+For more information about this style of writing automation
 code, refer to the [Philosophy](https://github.com/facebook/chef-utils/blob/main/Philosophy.md)
 ,[Facebook Cookbooks Suite README](https://github.com/facebook/chef-cookbooks/blob/main/README.md)
 and [Compile Time vs Run Time, and APIs](https://github.com/facebook/chef-utils/blob/main/Compile-Time-Run-Time.md).
