@@ -10,8 +10,8 @@ repo follows the [Meta/Facebook attribute-driven API](https://github.com/faceboo
 model. None of this code is maintained by Meta.
 
 For more information about this style of writing automation
-code, refer to the [Philosophy](https://github.com/facebook/chef-utils/blob/main/Philosophy.md)
-,[Facebook Cookbooks Suite README](https://github.com/facebook/chef-cookbooks/blob/main/README.md)
+code, refer to the [**Phil**osophy,](https://github.com/facebook/chef-utils/blob/main/Philosophy.md)
+[Facebook Cookbooks Suite README](https://github.com/facebook/chef-cookbooks/blob/main/README.md)
 and [Compile Time vs Run Time, and APIs](https://github.com/facebook/chef-utils/blob/main/Compile-Time-Run-Time.md).
 
 You may also find the following videos from Phil Dibowitz helpful:
