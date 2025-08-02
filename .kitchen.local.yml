@@ -38,5 +38,4 @@ suites:
   - name: local
     run_list:
       - recipe[boxcutter_ohai]
-      - recipe[ci_fixes]
       - recipe[boxcutter_init]
