@@ -21,8 +21,8 @@ run_list 'boxcutter_ohai', 'boxcutter_init', '<%= policy_run_list %>'
 
 # Specify a custom source for a single cookbook:
 <% if policy_local_cookbook.nil? %>
-# cookbook 'example_cookbook', path: '../cookbooks/example_cookbook'
+# cookbook 'example_cookbook', :path => '../cookbooks/example_cookbook'
 <% else %>
-cookbook '<%= cookbook_name %>', path: '.'
-cookbook '<%= cookbook_name %>_test', path: 'test/cookbooks/<%= cookbook_name %>_test'
+cookbook '<%= cookbook_name %>', :path => '.'
+cookbook '<%= cookbook_name %>_test', :path => 'test/cookbooks/<%= cookbook_name %>_test'
 <% end %>

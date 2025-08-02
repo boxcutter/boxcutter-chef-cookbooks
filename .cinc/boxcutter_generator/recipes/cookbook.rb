@@ -24,11 +24,7 @@ template "#{cookbook_dir}/README.md" do
   action :create_if_missing
 end
 
-# CHANGELOG
-template "#{cookbook_dir}/CHANGELOG.md" do
-  helpers(ChefCLI::Generator::TemplateHelper)
-  action :create_if_missing
-end
+# No CHANGELOG
 
 # chefignore
 cookbook_file "#{cookbook_dir}/chefignore"
