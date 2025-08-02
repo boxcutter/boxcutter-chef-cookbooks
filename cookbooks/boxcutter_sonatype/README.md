@@ -81,7 +81,7 @@ NEXUS_PASSWORD=superseekret
 NEXUS_SERVER=https://hq0-nexus01.sandbox.polymathrobotics.dev
 COMPONENT_ID=cG9seW1hdGgtaW1hZ2VzOjE3MTU2MGEy
 curl --verbose --user ci-sandbox:${CI_PASSWORD} \
-   --request DELETE "${NEXUS_SERVER}/service/rest/v1/components/${COMPONENT_ID}" 
+   --request DELETE "${NEXUS_SERVER}/service/rest/v1/components/${COMPONENT_ID}"
 # Downlaod
 NEXUS_SERVER=https://example-nexus.boxcutter.dev
 curl --verbose -LOJ \
@@ -92,7 +92,7 @@ NEXUS_PASSWORD=superseekret
 NEXUS_SERVER=http://example-nexus.boxcutter.dev
 curl --verbose --user ${NEXUS_USERNAME}:${NEXUS_PASSWORD} \
   --output hello.txt \
-  "${NEXUS_SERVER}/repository/polymath-images/sandbox/tmp/hello.txt"   
+  "${NEXUS_SERVER}/repository/polymath-images/sandbox/tmp/hello.txt"
 ```
 
 Apt Repositories
@@ -156,11 +156,11 @@ NEXUS_SERVER=https://example-nexus.boxcutter.dev
 mkdir -p ~/.config/pip
 cat >~/.config/pip/pip.conf <<EOF
 [global]
-# pip search --index (XML-RPC search) 
+# pip search --index (XML-RPC search)
 # https://pip.pypa.io/en/stable/cli/pip_search/
 index = https://example-nexus.boxcutter.dev/repository/python-proxy/pypi
 
-# pip install --index-url 
+# pip install --index-url
 # https://pip.pypa.io/en/stable/cli/pip_install/
 index-url = https://example-nexus.boxcutter.dev/repository/python-proxy/simple
 EOF
@@ -174,7 +174,7 @@ pip install pulumi
 docker run -it --rm \
   --entrypoint /bin/bash \
   docker.io/boxcutter/python:3.10-noble
-  
+
 NEXUS_SERVER=http://host.docker.internal:2404
 pip install \
   --trusted-host host.docker.internal \
@@ -188,11 +188,11 @@ docker run -it --rm \
 mkdir -p ~/.config/pip
 cat >~/.config/pip/pip.conf <<EOF
 [global]
-# pip search --index (XML-RPC search) 
+# pip search --index (XML-RPC search)
 # https://pip.pypa.io/en/stable/cli/pip_search/
 index = http://host.docker.internal:2404/repository/python-proxy/pypi
 
-# pip install --index-url 
+# pip install --index-url
 # https://pip.pypa.io/en/stable/cli/pip_install/
 index-url = http://host.docker.internal:2404/repository/python-proxy/simple
 trusted-host = host.docker.internal

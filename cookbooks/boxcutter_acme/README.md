@@ -67,7 +67,7 @@ Optional fields:
   endpoint `https://acme-staging-v02.api.letsencrypt.org/directory`.
 - `extra_parameters`: Additional global options to be added to the command
   line, not covered by required fields (`--dns-resolvers value`). Default is `--http`.
--  `extra_environment`: Additional environment variables to be configured for
+- `extra_environment`: Additional environment variables to be configured for
   the renew script. Usually environment variables required for the DNS
   tokens.
 

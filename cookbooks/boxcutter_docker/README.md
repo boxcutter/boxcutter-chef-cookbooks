@@ -127,9 +127,7 @@ removed. The following options are supported as keys in the hash:
 - `extra_options` - specify additional options supported by the
   `docker container run` command not supported with predefined keys.
 - `action` action to perform on the container, defaults to `run`:
-    - `run` - the default action, creates and starts the container
-    - `stop` - stops the container
-    - `start` - starts the container
+  `[run|start|stop]`
 
 ```aiignore
 node.default['boxcutter_docker']['volumes']['postgres_data'] = {}

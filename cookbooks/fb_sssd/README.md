@@ -39,7 +39,7 @@ is rendered as:
 default_shell = /bin/bash
 ```
 
-If the value is an array it is joined into a string using `, `, ala:
+If the value is an array it is joined into a string using `,`, ala:
 
 ```ruby
 node.default['fb_sssd']['config']['sssd']['services'] = [

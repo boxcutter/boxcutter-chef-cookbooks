@@ -309,6 +309,7 @@ sudo cp centos-stream-9-cloud-init.img /var/lib/libvirt/boot/centos-stream-9-clo
 ```
 
 Initialize the virtual machine:
+
 ```
 # Perform a customization run by loading the cloud-init image with the VM
 virt-install \
@@ -390,6 +391,7 @@ virsh undefine centos-stream-9 --nvram --remove-all-storage
 ```
 
 Run syscheck
+
 ```
 docker container run --rm --interactive --tty \
   --mount type=bind,source="$(pwd)",target=/share \
@@ -399,6 +401,7 @@ docker container run --rm --interactive --tty \
 ```
 
 ### Install cinc-client and chefctl in the image
+
 ```
 virsh start centos-stream-9
 # Login to the VM with automat/superseekret
