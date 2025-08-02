@@ -4,6 +4,10 @@ driver:
   privileged: true  # allows systemd services to start
   docker_registry: docker.io
   chef_image: boxcutter/cinc
+  # Upstream reusable-kitchen-tests currently using CHEF_VERSION=18.6.14
+  # There's no Cinc Client release for this version, so we're using the
+  # closest 18.6.x release to that.
+  #
   # chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
   chef_version: 18.6.2
 
