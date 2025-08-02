@@ -129,7 +129,7 @@ template ::File.join(data_path, 'etc', 'nexus.properties') do
   group 200
   mode '0644'
   variables(
-    properties: node['boxcutter_sonatype']['nexus_repository']['runtime']['properties'],
+    :properties => node['boxcutter_sonatype']['nexus_repository']['runtime']['properties'],
   )
 end
 
@@ -225,7 +225,7 @@ template ::File.join(data_path, 'nexus.properties') do
   group 200
   mode '0644'
   variables(
-    properties: node['boxcutter_sonatype']['nexus_repository']['properties'],
+    :properties => node['boxcutter_sonatype']['nexus_repository']['properties'],
   )
   notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
 end

@@ -1,17 +1,17 @@
 unified_mode true
 provides :boxcutter_nexus_docker_group_repository
 
-property :repository_name, String, name_property: true
-property :server_url, String, desired_state: false
-property :user_name, String, desired_state: false
-property :password, String, desired_state: false
-property :online, [TrueClass, FalseClass], default: true
-property :storage_blob_store_name, String, default: 'default'
-property :storage_strict_content_type_validation, [TrueClass, FalseClass], default: false
-property :group_member_names, Array, default: []
+property :repository_name, String, :name_property => true
+property :server_url, String, :desired_state => false
+property :user_name, String, :desired_state => false
+property :password, String, :desired_state => false
+property :online, [TrueClass, FalseClass], :default => true
+property :storage_blob_store_name, String, :default => 'default'
+property :storage_strict_content_type_validation, [TrueClass, FalseClass], :default => false
+property :group_member_names, Array, :default => []
 property :group_writable_member
-property :docker_v1_enabled, [TrueClass, FalseClass], default: false
-property :docker_force_basic_auth, [TrueClass, FalseClass], default: true
+property :docker_v1_enabled, [TrueClass, FalseClass], :default => false
+property :docker_force_basic_auth, [TrueClass, FalseClass], :default => true
 property :docker_http_port, Integer
 property :docker_https_port, Integer
 property :docker_subdomain, String

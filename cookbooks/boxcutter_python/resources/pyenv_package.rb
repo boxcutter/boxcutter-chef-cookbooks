@@ -1,11 +1,11 @@
-property :package_name, String, name_property: true
+property :package_name, String, :name_property => true
 property :version, String
 property :user, String
 property :group, String
 property :pyenv_root, String
 property :pyenv_version, String
 property :environment, String
-property :live_stream, [true, false], default: true
+property :live_stream, [true, false], :default => true
 
 action :install do
   pip_package_installed?(new_resource.package_name, new_resource.version)
@@ -30,7 +30,7 @@ end
 action_class do
   def pip_package_installed?(python_package, python_version)
     cmd = Mixlib::ShellOut.new(script_code(%{eval "$(pyenv virtualenv-init -)" && pip freeze --all}),
-                               user: new_resource.user, group: new_resource.group, environment: script_environment)
+                               :user => new_resource.user, :group => new_resource.group, :environment => script_environment)
     cmd.run_command
     package_string = if python_version.nil?
                        "#{python_package}==#{python_version}"

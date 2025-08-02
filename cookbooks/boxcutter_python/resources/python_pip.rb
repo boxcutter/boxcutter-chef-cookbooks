@@ -7,29 +7,29 @@
 provides :boxcutter_python_pip
 
 property :package_name, String,
-         description: 'The name of the Python package to install.',
-         name_property: true
+         :description => 'The name of the Python package to install.',
+         :name_property => true
 property :version, String,
-         description: 'The version of the Python package to install/upgrade.'
+         :description => 'The version of the Python package to install/upgrade.'
 property :pip_binary, String,
-         description: 'Path to the pip binary. Mutually exclusive with `virtualenv`.',
-         default: '/usr/bin/pip3'
+         :description => 'Path to the pip binary. Mutually exclusive with `virtualenv`.',
+         :default => '/usr/bin/pip3'
 property :virtualenv, String,
-         description: 'Path to a virtual environment in which to install the Python package.'
+         :description => 'Path to a virtual environment in which to install the Python package.'
 property :user, [String, Integer],
-         description: 'The user name or user ID used to run pip commands.',
-         default: 'root'
+         :description => 'The user name or user ID used to run pip commands.',
+         :default => 'root'
 property :group, [String, Integer],
-         description: 'The group name or group ID used to pip commands.',
-         default: 'root'
+         :description => 'The group name or group ID used to pip commands.',
+         :default => 'root'
 property :extra_options, String,
-         description: 'Extra options to pass to the pip command.'
+         :description => 'Extra options to pass to the pip command.'
 property :timeout, Integer,
-         description: 'The number of seconds to wait for the pip command to complete.',
-         default: 900
+         :description => 'The number of seconds to wait for the pip command to complete.',
+         :default => 900
 property :environment, Hash,
-         description: 'Hash containing environment varibles to set before the pip command is run.',
-         default: {}
+         :description => 'Hash containing environment varibles to set before the pip command is run.',
+         :default => {}
 
 # This one is here for all the actions
 action_class do

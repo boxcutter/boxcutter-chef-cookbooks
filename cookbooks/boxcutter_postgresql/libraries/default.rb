@@ -78,7 +78,8 @@ module Boxcutter
         begin
           # connection_params = { port: 5432, user: 'postgres' }
           connection_params = { :host => new_resource.connect_hostname, :port => new_resource.connect_port,
-:dbname => new_resource.connect_dbname, :user => new_resource.connect_username, :password => new_resource.connect_password }
+:dbname => new_resource.connect_dbname,
+:user => new_resource.connect_username, :password => new_resource.connect_password }
           client = ::PG::Connection.new(**connection_params)
         ensure
           if Process.euid != original_euid

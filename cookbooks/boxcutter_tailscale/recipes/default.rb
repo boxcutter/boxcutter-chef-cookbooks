@@ -26,14 +26,14 @@ node.default['fb_iptables']['dynamic_chains']['filter']['ts-forward'] = [
 include_recipe 'boxcutter_tailscale::packages'
 
 service 'tailscaled' do
-  supports status: true, restart: true
+  supports :status => true, :restart => true
   action [:start, :enable]
   only_if { node['boxcutter_tailscale']['enable'] }
 end
 
 service 'disable tailscaled' do
   service_name 'tailscaled'
-  supports status: true, restart: true
+  supports :status => true, :restart => true
   action [:stop, :disable]
   not_if { node['boxcutter_tailscale']['enable'] }
 end

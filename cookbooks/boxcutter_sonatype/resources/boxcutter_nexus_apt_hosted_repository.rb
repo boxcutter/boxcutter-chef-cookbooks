@@ -1,19 +1,19 @@
 unified_mode true
 provides :boxcutter_nexus_apt_hosted_repository
 
-property :repository_name, String, name_property: true
-property :server_url, String, desired_state: false
-property :user_name, String, desired_state: false
-property :password, String, desired_state: false
-property :online, [TrueClass, FalseClass], default: true
-property :storage_blob_store_name, String, default: 'default'
-property :storage_strict_content_type_validation, [TrueClass, FalseClass], default: false
+property :repository_name, String, :name_property => true
+property :server_url, String, :desired_state => false
+property :user_name, String, :desired_state => false
+property :password, String, :desired_state => false
+property :online, [TrueClass, FalseClass], :default => true
+property :storage_blob_store_name, String, :default => 'default'
+property :storage_strict_content_type_validation, [TrueClass, FalseClass], :default => false
 property :storage_write_policy, String,
-         equal_to: %w{allow allow_once read_only},
-         default: 'allow'
+         :equal_to => %w{allow allow_once read_only},
+         :default => 'allow'
 # property :cleanup_policy_names
 # property :component_proprietary_components
-property :apt_distribution, String, default: 'bionic'
+property :apt_distribution, String, :default => 'bionic'
 property :apt_signing_keypair, String
 property :apt_signing_passphrase, String
 

@@ -5,24 +5,24 @@ require 'uri'
 unified_mode true
 
 property :hostname, String,
-         description: 'Hostname to use instead of the auto-generating the machine name from the OS hostname'
+         :description => 'Hostname to use instead of the auto-generating the machine name from the OS hostname'
 property :tailnet, String,
-         description: 'Organization name found on the General Settings page of the Tailscale admin console'
-property :api_base_url, String, default: 'https://api.tailscale.com',
-         description: 'The base URL for the Tailscale API'
-property :ephemeral, [true, false], default: true, desired_state: false,
-         description: 'Whether or not devices will be automatically removed after going offline'
-property :tags, [String, Array], default: [],
-         coerce: lambda { |v|
+         :description => 'Organization name found on the General Settings page of the Tailscale admin console'
+property :api_base_url, String, :default => 'https://api.tailscale.com',
+         :description => 'The base URL for the Tailscale API'
+property :ephemeral, [true, false], :default => true, :desired_state => false,
+         :description => 'Whether or not devices will be automatically removed after going offline'
+property :tags, [String, Array], :default => [],
+         :coerce => lambda { |v|
            # Coerce the input into an array if it's a string
            v.is_a?(String) ? [v] : v
          }
 # Having a timeout is not the default, but we need to set one in case of an expired/bad
 # auth key, as otherwise `tailscale up` hangs forever
 # https://github.com/tailscale/tailscale/issues/938
-property :timeout, String, default: '60s'
-property :use_tailscale_dns, [true, false], default: false
-property :shields_up, [true, false], default: true
+property :timeout, String, :default => '60s'
+property :use_tailscale_dns, [true, false], :default => false
+property :shields_up, [true, false], :default => true
 
 load_current_value do |new_resource|
   status = Boxcutter::Tailscale::Helpers.tailscale_status
@@ -176,22 +176,22 @@ action_class do
     hostname = new_resource.hostname.nil? ? node['hostname'] : new_resource.hostname
 
     data = {
-      capabilities: {
-        devices: {
-          create: {
-            reusable: false,
-            ephemeral: ephemeral,
-            preauthorized: true,
-            tags: [formatted_tags],
+      :capabilities => {
+        :devices => {
+          :create => {
+            :reusable => false,
+            :ephemeral => ephemeral,
+            :preauthorized => true,
+            :tags => [formatted_tags],
           },
         },
       },
-      expirySeconds: 86400,
-      description: "Chef Tailscale auth key to provision #{hostname}",
+      :expirySeconds => 86400,
+      :description => "Chef Tailscale auth key to provision #{hostname}",
     }
 
     json_data = data.to_json
-    http_client = Chef::HTTP.new(full_path, headers: {
+    http_client = Chef::HTTP.new(full_path, :headers => {
                                    'Authorization' => 'Basic ' + Base64.strict_encode64("#{api_key}:").chomp,
       'Content-Type' => 'application/json',
                                  })

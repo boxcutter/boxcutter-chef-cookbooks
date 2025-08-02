@@ -10,7 +10,7 @@ property :connect_dbname, String, :desired_state => false
 property :connect_username, String, :desired_state => false
 property :connect_password, String, :desired_state => false
 property :connect_hostname, String, :desired_state => false
-property :connect_port, Integer, default: 5432, :desired_state => false
+property :connect_port, Integer, :default => 5432, :desired_state => false
 property :connection_string, String, :desired_state => false
 
 # execute 'grant create on schema public to netbox' do

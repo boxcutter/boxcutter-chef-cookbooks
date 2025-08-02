@@ -1,7 +1,7 @@
-property :package_name, String, name_property: true
-property :source, String, required: true
-property :checksum, String, required: true
-property :creates, String, required: true
+property :package_name, String, :name_property => true
+property :source, String, :required => true
+property :checksum, String, :required => true
+property :creates, String, :required => true
 
 action :install do
   tmp_path = ::File.join(Chef::Config[:file_cache_path], ::File.basename(new_resource.source))

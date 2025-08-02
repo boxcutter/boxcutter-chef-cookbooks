@@ -111,9 +111,9 @@ if node.ubuntu?
       "#{node['lsb']['codename']}-backports main restricted universe multiverse"
 
     node.default['fb_apt']['preferences']['DigitalOcean droplet-agent.pref'] = {
-      'Package': '*',
-      'Pin': 'origin repos-droplet.digitalocean.com',
-      'Pin-Priority': '100',
+      'Package' => '*',
+      'Pin' => 'origin repos-droplet.digitalocean.com',
+      'Pin-Priority' => '100',
     }
 
     {
