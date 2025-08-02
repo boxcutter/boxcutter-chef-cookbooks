@@ -138,15 +138,17 @@ include_recipe 'fb_sudo'
 if node.linux?
   include_recipe 'fb_chrony'
 
-  node.default['fb_ipset']['auto_cleanup'] = false
-  include_recipe 'fb_ipset'
+  if node.centos? || node.rhel? || node.fedora? || node.ubuntu?
+    node.default['fb_ipset']['auto_cleanup'] = false
+    include_recipe 'fb_ipset'
 
-  if node['kernel']['machine'] == 'aarch64'
-    # tegras don't include the iptable_raw module by default
-    FB::Iptables::TABLES_AND_CHAINS.delete('raw')
+    if node['kernel']['machine'] == 'aarch64'
+      # tegras don't include the iptable_raw module by default
+      FB::Iptables::TABLES_AND_CHAINS.delete('raw')
+    end
+
+    include_recipe 'fb_iptables'
   end
-
-  include_recipe 'fb_iptables'
 end
 # if node.linux? && !node.container?
 #   include_recipe 'fb_chrony'
