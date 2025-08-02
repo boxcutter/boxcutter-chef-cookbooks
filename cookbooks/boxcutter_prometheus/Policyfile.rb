@@ -32,5 +32,5 @@ named_run_list 'boxcutter_prometheus_test_snmp_exporter',
                'boxcutter_ohai', 'boxcutter_init', 'boxcutter_prometheus_test::snmp_exporter'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_prometheus', path: '.'
-cookbook 'boxcutter_prometheus_test', path: 'test/cookbooks/boxcutter_prometheus_test'
+cookbook 'boxcutter_prometheus', :path => '.'
+cookbook 'boxcutter_prometheus_test', :path => 'test/cookbooks/boxcutter_prometheus_test'

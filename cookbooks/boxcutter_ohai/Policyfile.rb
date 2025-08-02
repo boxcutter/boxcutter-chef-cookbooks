@@ -14,5 +14,5 @@ default_source :chef_repo, '../'
 run_list 'boxcutter_ohai'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_ohai', path: '.'
-cookbook 'boxcutter_ohai_test', path: 'test/cookbooks/boxcutter_ohai_test'
+cookbook 'boxcutter_ohai', :path => '.'
+cookbook 'boxcutter_ohai_test', :path => 'test/cookbooks/boxcutter_ohai_test'

@@ -16,5 +16,5 @@ named_run_list 'boxcutter_python_test_pyenv', 'boxcutter_ohai', 'boxcutter_init'
 named_run_list 'boxcutter_python_test_system', 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_python_test::system'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_python', path: '.'
-cookbook 'boxcutter_python_test', path: 'test/cookbooks/boxcutter_python_test'
+cookbook 'boxcutter_python', :path => '.'
+cookbook 'boxcutter_python_test', :path => 'test/cookbooks/boxcutter_python_test'

@@ -19,5 +19,5 @@ named_run_list 'boxcutter_onepassword_test_connect_server', 'boxcutter_ohai', 'b
                'boxcutter_onepassword_test::connect_server'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_onepassword', path: '.'
-cookbook 'boxcutter_onepassword_test', path: 'test/cookbooks/boxcutter_onepassword_test'
+cookbook 'boxcutter_onepassword', :path => '.'
+cookbook 'boxcutter_onepassword_test', :path => 'test/cookbooks/boxcutter_onepassword_test'

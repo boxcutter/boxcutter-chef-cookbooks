@@ -20,5 +20,5 @@ named_run_list 'boxcutter_tailscale_test_oauth_client',
                'boxcutter_ohai', 'boxcutter_init', 'boxcutter_tailscale_test::oauth_client'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_tailscale', path: '.'
-cookbook 'boxcutter_tailscale_test', path: 'test/cookbooks/boxcutter_tailscale_test'
+cookbook 'boxcutter_tailscale', :path => '.'
+cookbook 'boxcutter_tailscale_test', :path => 'test/cookbooks/boxcutter_tailscale_test'

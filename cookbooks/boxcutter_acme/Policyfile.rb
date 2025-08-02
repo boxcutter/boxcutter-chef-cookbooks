@@ -16,5 +16,5 @@ named_run_list 'boxcutter_acme_test_certbot', 'boxcutter_ohai', 'boxcutter_init'
 named_run_list 'boxcutter_acme_test_lego', 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_acme_test::lego'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_acme', path: '.'
-cookbook 'boxcutter_acme_test', path: 'test/cookbooks/boxcutter_acme_test'
+cookbook 'boxcutter_acme', :path => '.'
+cookbook 'boxcutter_acme_test', :path => 'test/cookbooks/boxcutter_acme_test'

@@ -14,5 +14,5 @@ default_source :chef_repo, '../'
 run_list 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_golang::default'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_golang', path: '.'
-cookbook 'boxcutter_golang_test', path: 'test/cookbooks/boxcutter_golang_test'
+cookbook 'boxcutter_golang', :path => '.'
+cookbook 'boxcutter_golang_test', :path => 'test/cookbooks/boxcutter_golang_test'

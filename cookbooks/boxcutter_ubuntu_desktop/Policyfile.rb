@@ -14,5 +14,5 @@ default_source :chef_repo, '../'
 run_list 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_ubuntu_desktop::default'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_ubuntu_desktop', path: '.'
-cookbook 'boxcutter_ubuntu_desktop_test', path: 'test/cookbooks/boxcutter_ubuntu_desktop_test'
+cookbook 'boxcutter_ubuntu_desktop', :path => '.'
+cookbook 'boxcutter_ubuntu_desktop_test', :path => 'test/cookbooks/boxcutter_ubuntu_desktop_test'

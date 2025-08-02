@@ -18,5 +18,5 @@ named_run_list 'boxcutter_github_test_runner',
                'boxcutter_ohai', 'boxcutter_init', 'boxcutter_github_test::runner'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_github', path: '.'
-cookbook 'boxcutter_github_test', path: 'test/cookbooks/boxcutter_github_test'
+cookbook 'boxcutter_github', :path => '.'
+cookbook 'boxcutter_github_test', :path => 'test/cookbooks/boxcutter_github_test'

@@ -14,5 +14,5 @@ default_source :chef_repo, '../'
 run_list 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_jfrog::default'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_jfrog', path: '.'
-cookbook 'boxcutter_jfrog_test', path: 'test/cookbooks/boxcutter_jfrog_test'
+cookbook 'boxcutter_jfrog', :path => '.'
+cookbook 'boxcutter_jfrog_test', :path => 'test/cookbooks/boxcutter_jfrog_test'

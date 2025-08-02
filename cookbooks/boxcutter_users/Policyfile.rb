@@ -14,5 +14,5 @@ default_source :chef_repo, '../'
 run_list 'boxcutter_init', 'boxcutter_users::default'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_users', path: '.'
-cookbook 'boxcutter_users_test', path: 'test/cookbooks/boxcutter_users_test'
+cookbook 'boxcutter_users', :path => '.'
+cookbook 'boxcutter_users_test', :path => 'test/cookbooks/boxcutter_users_test'

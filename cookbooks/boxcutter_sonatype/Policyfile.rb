@@ -14,5 +14,5 @@ default_source :chef_repo, '../'
 run_list 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_sonatype_test::default'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_sonatype', path: '.'
-cookbook 'boxcutter_sonatype_test', path: 'test/cookbooks/boxcutter_sonatype_test'
+cookbook 'boxcutter_sonatype', :path => '.'
+cookbook 'boxcutter_sonatype_test', :path => 'test/cookbooks/boxcutter_sonatype_test'

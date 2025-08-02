@@ -14,5 +14,5 @@ default_source :chef_repo, '../'
 run_list 'boxcutter_ohai', 'boxcutter_init', 'boxcutter_nvidia::default'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_nvidia', path: '.'
-cookbook 'boxcutter_nvidia_test', path: 'test/cookbooks/boxcutter_nvidia_test'
+cookbook 'boxcutter_nvidia', :path => '.'
+cookbook 'boxcutter_nvidia_test', :path => 'test/cookbooks/boxcutter_nvidia_test'

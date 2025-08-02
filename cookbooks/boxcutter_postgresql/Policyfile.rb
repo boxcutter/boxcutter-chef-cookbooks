@@ -18,5 +18,5 @@ named_run_list 'boxcutter_postgresql_test_server', 'boxcutter_ohai', 'boxcutter_
                'boxcutter_postgresql_test::server'
 
 # Specify a custom source for a single cookbook:
-cookbook 'boxcutter_postgresql', path: '.'
-cookbook 'boxcutter_postgresql_test', path: 'test/cookbooks/boxcutter_postgresql_test'
+cookbook 'boxcutter_postgresql', :path => '.'
+cookbook 'boxcutter_postgresql_test', :path => 'test/cookbooks/boxcutter_postgresql_test'
