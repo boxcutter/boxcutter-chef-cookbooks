@@ -73,9 +73,9 @@ module Boxcutter
       architecture = RbConfig::CONFIG['host_cpu']
       puts "MISCHA: architecture #{architecture}"
 
-      url = 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.0/op_linux_amd64_v2.30.0.zip'
+      url = 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.31.1/op_linux_amd64_v2.31.1.zip'
       if ['aarch64', 'arm64'].include?(architecture)
-        url = 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.0/op_linux_arm64_v2.30.0.zip'
+        url = 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.31.1/op_linux_arm64_v2.31.1.zip'
       end
       tmp_path = ::File.join(Chef::Config[:file_cache_path], ::File.basename(url))
 
