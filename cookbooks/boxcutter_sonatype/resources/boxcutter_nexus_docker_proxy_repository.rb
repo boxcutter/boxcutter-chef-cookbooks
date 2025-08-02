@@ -37,7 +37,7 @@ property :http_client_connection_timeout, Integer,
                       'retrying the connection. Leave blank to use the globally defined HTTP timeout.'
 property :http_client_connection_enable_circular_redirects, [TrueClass, FalseClass], :default => false,
          :description => 'Enable redirects to the same location (may be required by some servers)'
-property :http_client_connection_enable_cookies, [TrueClass, FalseClass], default: false,
+property :http_client_connection_enable_cookies, [TrueClass, FalseClass], :default => false,
          :description => 'Allow cookies to be stored and used'
 property :http_client_connection_use_trust_store, [TrueClass, FalseClass], :default => false,
          :description => 'Use certificates stored in the Nexus Repository truststore to connect to external system'

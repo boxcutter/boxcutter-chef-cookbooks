@@ -19,7 +19,7 @@ property :copies, [true, false],
          :description => 'Use copies rather than symlinks',
          :default => false
 property :clear, [true, false],
-         :description => 'Delete the contents of the virtual environment directory if it already exists, before creating',
+         :description => 'Delete the contents of the virtual environment directory if it already exists',
          :default => false
 property :upgrade_deps, [true, false],
          :description => 'Upgrade pip + setuptools to the latest on PyPI',

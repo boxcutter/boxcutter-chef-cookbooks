@@ -14,7 +14,7 @@ property :storage_strict_content_type_validation, [TrueClass, FalseClass], :defa
 # cleanup_policy_names
 property :proxy_remote_url, String,
          :description => 'Location of the remote repository being proxied'
-property :proxy_content_max_age, Integer, default: 1440,
+property :proxy_content_max_age, Integer, :default => 1440,
          :description => 'How long (in minutes) to cache artifacts before ' \
                       'rechecking the remote repository. Release repositories should use -1.'
 property :proxy_metadata_max_age, Integer, :default => 1440,
@@ -25,7 +25,7 @@ property :negative_cache_time_to_live, Integer, :default => 1440,
          :description => 'How long to cache the fact that a file was not found in the repository (in minutes)'
 property :http_client_blocked, [TrueClass, FalseClass], :default => false,
          :description => 'Block outbound connections on the repository'
-property :http_client_auto_block, [TrueClass, FalseClass], default: true,
+property :http_client_auto_block, [TrueClass, FalseClass], :default => true,
          :description => 'Auto-block outbound connections on the repository if ' \
                       'remote peer is detected as unreachable/unresponsive'
 property :http_client_connection_retries, Integer,
