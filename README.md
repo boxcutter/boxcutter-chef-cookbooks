@@ -13,6 +13,14 @@ code, refer to the [Philosophy](https://github.com/facebook/chef-utils/blob/main
 ,[Facebook Cookbooks Suite README](https://github.com/facebook/chef-cookbooks/blob/main/README.md)
 and [Compile Time vs Run Time, and APIs](https://github.com/facebook/chef-utils/blob/main/Compile-Time-Run-Time.md).
 
+You may also find the following videos from Phil Dibowitz helpful:
+- [![Scaling System Configuration at Facebook](https://img.youtube.com/vi/-YtZiVxEiJ8/0.jpg)](https://www.youtube.com/watch?v=-YtZiVxEiJ8)
+- [![The Software Side of DevOps](https://img.youtube.com/vi/-ry51Llzil1I/0.jpg)](https://www.youtube.com/watch?v=-ry51Llzil1I)
+
+The primary maintainer of this repo, Mischa Taylor, is also working on some
+[training](https://taylorific.github.io/chef-training) on this Meta-style API
+coding:
+
 To use these cookbooks, make sure that `boxcutter_ohai` and `boxcutter_init`
 cookbooks are first in the Chef run-list, then followed by whatever
 cookbooks you need for your config. The first two cookbooks in the run-list
