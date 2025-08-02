@@ -7,7 +7,7 @@ Table of Contents
 - [Ubuntu x86_64](#ubuntu-x86_64)
 - [CentOS x86_64](#centos-x86_64)
 - [Ubuntu NVIDIA Jetson](#ubuntu-nvidia-jetson)
-  
+
 Ubuntu x86_64
 -------------
 
@@ -101,7 +101,7 @@ $ cloud-init status
 status: done
 
 # Check networking - you may notice that the network interface is down and
-# the name of the interface generated in netplan doesn't match. If not 
+# the name of the interface generated in netplan doesn't match. If not
 # correct, can regenerate with cloud-init
 $ ip --brief a
 
@@ -127,7 +127,7 @@ $ sudo shutdown -h now
 
 # Detach the cloud-init image
 $ virsh domblklist ubuntu-server-2404
- 
+
 $ virsh change-media ubuntu-server-2404 sda --eject
 Successfully ejected media.
 
@@ -177,8 +177,8 @@ sudo ln -snf /opt/cinc /opt/chef
 # curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.3/op_linux_amd64_v2.30.3.zip
 # sudo unzip /tmp/op.zip op -d /usr/local/bin/
 # rm -f /tmp/op.zip
- 
-# op user get --me 
+
+# op user get --me
 
 sudo tee /etc/cinc/client-prod.rb <<EOF
 local_mode true
@@ -337,7 +337,7 @@ $ cloud-init status
 status: done
 
 # Check networking - you may notice that the network interface is down and
-# the name of the interface generated in netplan doesn't match. If not 
+# the name of the interface generated in netplan doesn't match. If not
 # correct, can regenerate with cloud-init
 $ ip --brief a
 
@@ -400,7 +400,7 @@ docker container run --rm --interactive --tty \
     --target ssh://cloud-user@10.63.46.148
 ```
 
-### Install cinc-client and chefctl in the image
+### Install cinc-client and chefctl in the image - centos-stream-9
 
 ```
 virsh start centos-stream-9
@@ -428,8 +428,8 @@ ARCH="<choose between 386/amd64/arm/arm64>"
 curl -o /tmp/op.zip https://cache.agilebits.com/dist/1P/op2/pkg/v2.30.3/op_linux_amd64_v2.30.3.zip
 sudo unzip /tmp/op.zip op -d /usr/local/bin/
 rm -f /tmp/op.zip
- 
-# op user get --me 
+
+# op user get --me
 
 sudo tee /etc/cinc/client-prod.rb <<EOF
 local_mode true
@@ -499,7 +499,7 @@ Ubuntu NVIDIA Jetson
 ```
 curl -LO https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-arm64.img
 
-$ qemu-img info focal-server-cloudimg-arm64.img 
+$ qemu-img info focal-server-cloudimg-arm64.img
 image: focal-server-cloudimg-arm64.img
 file format: qcow2
 virtual size: 2.2 GiB (2361393152 bytes)
