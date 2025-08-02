@@ -1,7 +1,8 @@
 boxcutter-chef-cookbooks
 ========================
 
-[![Continuous Integration](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml/badge.svg)](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml) [![Kitchen Tests](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/kitchen.yml/badge.svg)](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/kitchen.yml)
+[![Continuous Integration](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml/badge.svg)](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/ci.yml)
+[![Kitchen Tests](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/kitchen.yml/badge.svg)](https://github.com/boxcutter/boxcutter-chef-cookbooks/actions/workflows/kitchen.yml)
 
 This repo contains automation used to configure a fleet of robots using
 neuromorphic sensors and their supporting infrastructure. The code in this
