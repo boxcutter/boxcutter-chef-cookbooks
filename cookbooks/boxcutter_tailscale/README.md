@@ -1,8 +1,10 @@
-# boxcutter_tailscale
+boxcutter_tailscale
+===================
 
 Configures the Tailscale VPN https://tailscale.com/
 
-## Attributes
+Attributes
+----------
 
 - node['boxcutter_tailscale']['oauth_client_id']
 - node['boxcutter_tailscale']['oauth_client_secret']
@@ -16,13 +18,14 @@ Configures the Tailscale VPN https://tailscale.com/
 - node['boxcutter_tailscale']['accept_dns']
 - node['boxcutter_tailscale']['shields_up']
 
-## Usage
+Usage
+-----
 
 You'll need to create an [OAuth client](https://tailscale.com/kb/1215/oauth-clients)
-or a [pre-authentication key](https://tailscale.com/kb/1085/auth-keys) for Chef to
-to register new Tailscale nodes without needing manual steps. NOTE: You only need
-to use one or the other, not BOTH. And in general, OAuth Clients are preferred
-as you have more control over the key lifetime.
+or a [pre-authentication key](https://tailscale.com/kb/1085/auth-keys) for Chef
+to register new Tailscale nodes without needing manual steps. NOTE: You only
+need to use one or the other, not BOTH. And in general, OAuth Clients are
+preferred as you have more control over the key lifetime.
 
 Since this is a secret, it is recommended this key be stored in
 `node.run_state` so that it is not stored on the Chef server after the Chef run.
@@ -35,19 +38,20 @@ The automation will look for credentials in the following preference order:
 
 You can generate a new OAuth Client using the [OAuth clients](https://login.tailscale.com/admin/settings/oauth)
 page of the admin console. `Devices: Write` permission is sufficient permissions
-for this cookbook, so it can add/remove devices from the tailnet. You'll also need
-to define one more more [ACL tags](https://tailscale.com/kb/1068/acl-tags) in your
-Tailnet policy file to define ownership for any managed devices.
+for this cookbook, so it can add/remove devices from the tailnet. You'll also
+need to define one more more [ACL tags](https://tailscale.com/kb/1068/acl-tags)
+in your Tailnet policy file to define ownership for any managed devices.
 
 For an OAuth Client, provide the `Client ID` and `Client Secret` as a hash in an
-array, like so. The attribute is defined as an array so that you can provide multiple
-credentials, if desired. The automation code will try each credential until one is
-successful. This allows use of a primary and secondary credential to ensure zero downtime
-while a new credential is being propagated to the entire fleet.
+array, like so. The attribute is defined as an array so that you can provide
+multiple credentials, if desired. The automation code will try each credential
+until one is successful. This allows use of a primary and secondary credential
+to ensure zero downtime while a new credential is being propagated to the
+entire fleet.
 
-The automation will automatically allocate a new one-time preauthorization key using
-the OAuth Client on each Chef run, when something needs to be changed on your tailnet.
-Conflicts with `auth_key`, if provided.
+The automation will automatically allocate a new one-time preauthorization key
+using the OAuth Client on each Chef run, when something needs to be changed on
+your tailnet. Conflicts with `auth_key`, if provided.
 
 ```
 # Initialize the parent hash if it doesn't exist
@@ -125,6 +129,6 @@ not uncommon to have a conflicting IP using `100.100.100.100` on these networks.
 
 ### shields_up
 
-When set to `true` incoming connections are blocked by default. This is the default
-setting in this cookbook. Otherwise when sel to `false`, incoming connections are
-allowed.
+When set to `true` incoming connections are blocked by default. This is the
+default setting in this cookbook. Otherwise when sel to `false`, incoming
+connections are allowed.

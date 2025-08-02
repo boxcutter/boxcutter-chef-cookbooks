@@ -1,6 +1,8 @@
-# boxcutter_sonatype
+boxcutter_sonatype
+==================
 
-## Usage
+Usage
+-----
 
 To use this automation, you need to define a password for the `admin` account.
 The `admin` account is used to authorize all the API calls that drive this
@@ -30,7 +32,8 @@ node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Su
 NOTE: Instructions for recovery if Chef ever gets out of sync with the current
 admin password are located as this [link](https://support.sonatype.com/hc/en-us/articles/213467158-How-to-reset-a-forgotten-admin-password-in-Sonatype-Nexus-Repository-3).
 
-## Raw Repository
+Raw Repository
+--------------
 
 ```bash
 # Create file - Direct Upload using HTTP PUT
@@ -92,7 +95,8 @@ curl --verbose --user ${NEXUS_USERNAME}:${NEXUS_PASSWORD} \
   "${NEXUS_SERVER}/repository/polymath-images/sandbox/tmp/hello.txt"   
 ```
 
-## Apt Repositories
+Apt Repositories
+----------------
 
 https://help.sonatype.com/en/apt-repositories.html
 
@@ -107,7 +111,8 @@ curl --verbose --user "${NEXUS_USER}:${NEXUS_PASSWORD}" \
     "${NEXUS_SERVER}/repository/apt-hosted/"
 ```
 
-## Docker Repositories
+Docker Repositories
+-------------------
 
 ```bash
 docker login docker.hq0-nexus01.sandbox.polymathrobotics.dev
@@ -137,7 +142,8 @@ docker buildx rm testy-buildkit
 docker logout
 ```
 
-## Pypi Repositories
+Pypi Repositories
+-----------------
 
 ```bash
 # Per-install (one-time use)

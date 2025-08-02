@@ -1,13 +1,16 @@
-# boxcutter_ros
+boxcutter_ros
+=============
 
 Install and configure the Robot Operating System (ROS).
 
-## Attributes
+Attributes
+----------
 
 - node['boxcutter_ros']['mirror']
 - node['boxcutter_ros']['packagees']
 
-## Usage
+Usage
+-----
 
 To install ROS, include the recipe `boxcutter_ros::default`. If you have a local
 mirror, specify the mirror url with the attribute `node['boxcutter_ros']['mirror']`.

@@ -1,9 +1,11 @@
-# boxcutter_anaconda
+boxcutter_anaconda
+==================
 
 Manage Anaconda-based Python installs and Conda environments, both user-based
 and system-wide.
 
-## Usage
+Usage
+-----
 
 Use the `node['boxcutter_anaconda']['config']` attribute to specify a
 locations for each Anaconda python install on a host. Provide a directory

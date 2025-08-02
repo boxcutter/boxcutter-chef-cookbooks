@@ -1,8 +1,10 @@
-# boxcutter_docker
+boxcutter_docker
+================
 
 Configure the Docker daemon and containers.
 
-## Attributes
+Attributes
+----------
 
 - node['boxcutter_docker']['enable']
 - node['boxcutter_docker']['group']
@@ -13,7 +15,8 @@ Configure the Docker daemon and containers.
 - node['boxcutter_docker']['volumes']
 - node['boxcutter_docker']['networks']
 
-## Usage
+Usage
+-----
 
 ### enable
 

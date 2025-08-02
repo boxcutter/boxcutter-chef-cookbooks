@@ -1,8 +1,10 @@
-# boxcutter_users
+boxcutter_users
+===============
 
 Populates the UID_MAP and GID_MAP for the `fb_users` cookbook.
 
-## Description
+Description
+-----------
 
 Per [fb_users](https://github.com/facebook/chef-cookbooks/blob/main/cookbooks/fb_users/README.md)
 this cookbook provides the consistent data that should never change describing

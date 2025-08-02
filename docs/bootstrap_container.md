@@ -1,4 +1,5 @@
-# Bootstrap Chef in a container
+Bootstrap Chef in a container
+=============================
 
 ```
 docker run -it --rm --privileged ubuntu:22.04

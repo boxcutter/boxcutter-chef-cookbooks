@@ -1,8 +1,10 @@
-# boxcutter_site_settings
+boxcutter_site_settings
+=======================
 
 Site settings for Boxcutter.
 
-## Description
+Description
+-----------
 
 Sets up all the global default settings, which the Meta Chef automation refers
 to as "site settings". These can be overridden at any level in other cookbooks,

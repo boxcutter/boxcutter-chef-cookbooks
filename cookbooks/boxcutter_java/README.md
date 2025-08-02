@@ -1,9 +1,11 @@
-# boxcutter_java
+boxcutter_java
+==============
 
 Manage multiple side-by-side Java environments with
 [sdkman](https://sdkman.io/).
 
-## Description
+Description
+-----------
 
 This cookbook uses [sdkman](https://sdkman.io/) to install and manage multiple
 versions of Java side-by-side on a single host.

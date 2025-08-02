@@ -1,4 +1,5 @@
-# boxcutter_chef
+boxcutter_chef
+==============
 
 Setup Chef configuration management. Based on
 https://github.com/socallinuxexpo/scale-chef
@@ -8,7 +9,8 @@ https://github.com/facebook/chef-utils/tree/main/chefctl
 
 Taste Tester comes from https://github.com/facebook/taste-tester
 
-## Recipes
+Recipes
+-------
 
 - chefctl - Install and configure the Meta wrapper for cinc-client
 - cinc_client - Install and configure cinc-client

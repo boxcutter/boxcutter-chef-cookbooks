@@ -1,4 +1,5 @@
-# boxcutter_acme
+boxcutter_acme
+==============
 
 Configures ACME-based clients (Automated Certificate Management Environment)
 that make it possible to automate the issuance and renewal of SSL certificates
@@ -8,7 +9,8 @@ Two different systems are supported:
 - certbot - Python-based Let's Encrypt client and ACME library.
 - lego - Go languaged-based Let's Encrypt client and ACME library.
 
-## Using certbot to automate the issuance and renewal of SSL certificates
+Using certbot to automate the issuance and renewal of SSL certificates
+----------------------------------------------------------------------
 
 Add `include_recipe 'boxcutter_acme::certbot'` to install the certbot Let's
 Encrypt client and ACME library. A Python virtual environment will be
@@ -38,39 +40,39 @@ node.default['boxcutter_acme']['certbot']['config'] = {
 }
 ```
 
-### Fields
+Fields
+------
 
 Required fields:
 
-* `renew_script_path`: Full path where the automation should put the script
+- `renew_script_path`: Full path where the automation should put the script
   that obtains and renews
-* `email`: Email used for registration and recovery contact.
-* `domains`: Array containing the list of domain values to be added to the SSL
+- `email`: Email used for registration and recovery contact.
+- `domains`: Array containing the list of domain values to be added to the SSL
   certificate
-* `certbot_bin`
+- `certbot_bin`
 
 Optional fields:
 
-* `config_dir`: Specifies the directory where Certbot saves its configuration
+- `config_dir`: Specifies the directory where Certbot saves its configuration
   and certificates. Default: `/etc/letsencrypt`.
-* `logs_dir`: Specifies the directory where Certbot saves logs.
+- `logs_dir`: Specifies the directory where Certbot saves logs.
   Default: `/var/log/letsencrypt`.
-* `work_dir`: Specifies the working directory for temporary files.
+- `work_dir`: Specifies the working directory for temporary files.
   Default: `/var/lib/letsencrypt`.
-* `certbot_bin`
-
-
-* `renew_days`: The number of days left on a certificate to renew it. (default: 30)
-* `server`: Let's Encrypt ACME server to be used. If you'd like to test
+-  `certbot_bin`
+-  `renew_days`: The number of days left on a certificate to renew it. (default: 30)
+-  `server`: Let's Encrypt ACME server to be used. If you'd like to test
   something without issuing real certificates, you can use the staging
   endpoint `https://acme-staging-v02.api.letsencrypt.org/directory`.
-* `extra_parameters`: Additional global options to be added to the command
+- `extra_parameters`: Additional global options to be added to the command
   line, not covered by required fields (`--dns-resolvers value`). Default is `--http`.
-* `extra_environment`: Additional environment variables to be configured for
+-  `extra_environment`: Additional environment variables to be configured for
   the renew script. Usually environment variables required for the DNS
   tokens.
 
-## Using lego to automate the issuance and renewal of SSL certificates
+Using lego to automate the issuance and renewal of SSL certificates
+-------------------------------------------------------------------
 
 Add `include_recipe 'boxcutter_acme::lego'` to install the Let's Encryt client
 and ACME library for Go. The LEGO binaries will be installed to `/opt/lego`
@@ -97,33 +99,35 @@ node.default['boxcutter_acme']['lego']['config'] = {
 }
 ```
 
-### Fields
+Lego Fields
+-----------
 
 Required fields:
 
-* `certificate_name`: Name of the certificate to be matched by `lego list`.
+- `certificate_name`: Name of the certificate to be matched by `lego list`.
   Usually matches domains, but depends on whether or not wildcard domains
   are used.
-* `data_path`: Directory to use for storing the certificate data.
-* `renew_script_path`: Full path where the automation should put the script
+- `data_path`: Directory to use for storing the certificate data.
+- `renew_script_path`: Full path where the automation should put the script
   that obtains and renews
-* `email`: Email used for registration and recovery contact.
-* `domains`: Array containing the list of domain values to be added to the SSL
+- `email`: Email used for registration and recovery contact.
+- `domains`: Array containing the list of domain values to be added to the SSL
   certificate
 
 Optional fields:
 
-* `renew_days`: The number of days left on a certificate to renew it. (default: 30)
-* `server`: Let's Encrypt ACME server to be used. If you'd like to test
+- `renew_days`: The number of days left on a certificate to renew it. (default: 30)
+- `server`: Let's Encrypt ACME server to be used. If you'd like to test
   something without issuing real certificates, you can use the staging
   endpoint `https://acme-staging-v02.api.letsencrypt.org/directory`.
-* `extra_parameters`: Additional global options to be added to the command
+- `extra_parameters`: Additional global options to be added to the command
   line, not covered by required fields (`--dns-resolvers value`). Default is `--http`.
-* `extra_environment`: Additional environment variables to be configured for
+- `extra_environment`: Additional environment variables to be configured for
   the renew script. Usually environment variables required for the DNS
   tokens.
 
-## Recipes
+Recipes
+-------
 
 - `boxcutter_acme::lego` - Let’s Encrypt client and ACME library written in Go.
 

@@ -1,9 +1,11 @@
-# boxcutter_onepassword
+boxcutter_onepassword
+=====================
 
 Integrates 1Password secrets into Chef, eliminating plaintext secrets in
 code.
 
-## Usage
+Usage
+-----
 
 Create a [1Password Service account](https://developer.1password.com/docs/service-accounts) token
 or a [1Password Connect server](https://developer.1password.com/docs/connect)
@@ -80,4 +82,3 @@ Created:                1 hour ago
 Updated:                1 hour ago
 Last Authentication:    32 minutes ago
 ```
-

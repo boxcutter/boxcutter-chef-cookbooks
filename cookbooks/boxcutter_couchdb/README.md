@@ -1,8 +1,10 @@
-# boxcutter_couchdb
+boxcutter_couchdb
+=================
 
 Configures the Apache CouchDB document-oriented database.
 
-## Usage
+Usage
+-----
 
 This automation defaults to configuring a single node install of CouchDB.
 

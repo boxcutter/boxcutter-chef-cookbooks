@@ -1,4 +1,4 @@
-# boxcutter_node
+boxcutter_node
+==============
 
 TODO: Enter the cookbook description here.
-

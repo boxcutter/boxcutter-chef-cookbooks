@@ -1,10 +1,12 @@
-# boxcutter_python
+boxcutter_python
+================
 
 Configure Python, Python packages and virtual environments using the
 system Python and/or multiple side-by-side Python environments with
 pyenv.
 
-## Configuring system Python
+Configuring system Python
+-------------------------
 
 Some basic primitive resources are provided for working with the system python:
 - `boxcutter_python_virtualenv`
@@ -24,7 +26,8 @@ boxcutter_python_package 'certbot' do
 end
 ```
 
-## Configuring pyenv
+Configuring pyenv
+-----------------
 
 This cookbook uses [pyenv](https://github.com/pyenv/pyenv) to install and
 manage multiple versions of Python side-by-side on a single host. This allows
@@ -124,7 +127,8 @@ node.default['boxcutter_python']['python_build'] = {
 }
 ```
 
-## Recipes
+Recipes
+-------
 
 ### `pyenv`
 
@@ -191,4 +195,3 @@ end
 - `extra_options` - 'Extra options to pass to the pip command.'
 - `timeout` - 'The number of seconds to wait for the pip command to complete.'
 - `environment` - 'Hash containing environment varibles to set before the pip command is run.'
-

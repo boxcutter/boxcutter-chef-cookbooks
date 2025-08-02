@@ -1,4 +1,5 @@
-# boxcutter_fluent
+boxcutter_fluent
+================
 
 Configures Fluentd and Fluent Bit log forwarding and aggregation. Both are
 part of the Fluent suite of tools.
@@ -21,7 +22,8 @@ more recently and covers Fluent Bit exclusively.
 - "Logging in Action", by Phil Wilkins, 2022
 - "Logs and Telemetry", by Phil Wilkins, 2024
 
-## Configuring Fluentd
+Configuring Fluentd
+-------------------
 
 Include `boxcutter_fluent::fluent_package` to get a default Fluentd server.
 
@@ -56,7 +58,8 @@ node.default['boxcutter_fluent']['fluentd']['config'] = {
 }
 ```
 
-## Configuring Fluent Bit
+Configuring Fluent Bit
+----------------------
 
 Include `boxcutter_fluent::fluent_bit` to get a default Fluent Bit server.
 

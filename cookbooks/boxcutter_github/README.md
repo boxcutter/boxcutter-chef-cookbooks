@@ -1,12 +1,15 @@
-# boxcutter_github
+boxcutter_github
+================
 
 Manages configuration for GitHub source control-related products.
 
-## boxcutter_github::cli
+boxcutter_github::cli
+---------------------
 
 Automated install of the GitHub CLI, or `gh`.
 
-## boxcutter_github::runner
+boxcutter_github::runner
+------------------------
 
 Automates install and configuration of GitHub self-hosted runners.
 
@@ -32,7 +35,8 @@ node.default['boxcutter_github']['github_runner'] = {
 }
 ```
 
-## Removing a runner
+Removing a runner
+-----------------
 
 ```
 sudo su -

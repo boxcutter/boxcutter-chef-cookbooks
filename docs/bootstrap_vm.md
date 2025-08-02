@@ -1,11 +1,15 @@
-# Bootstrapping Chef
+Bootstrapping Chef
+==================
 
-## Table of Contents
+Table of Contents
+-----------------
+
 - [Ubuntu x86_64](#ubuntu-x86_64)
 - [CentOS x86_64](#centos-x86_64)
 - [Ubuntu NVIDIA Jetson](#ubuntu-nvidia-jetson)
   
-## Ubuntu x86_64
+Ubuntu x86_64
+-------------
 
 ### Spin up Ubuntu 24.04 x86_64 cloud image as a VM
 
@@ -237,7 +241,8 @@ sudo chefctl -iv
 # /opt/cinc/bin/cinc-client --config /etc/cinc/client.rb --json-attributes /etc/chef/run-list.json
 ```
 
-## CentOS x86_64
+CentOS x86_64
+-------------
 
 ```
 $ mkdir -p centos-stream-9 && cd centos-stream-9
@@ -482,9 +487,10 @@ sudo /usr/local/sbin/chefctl -iv
 # /opt/cinc/bin/cinc-client --config /etc/cinc/client.rb --json-attributes /etc/chef/run-list.json
 ```
 
-## Ubuntu NVIDIA Jetson
+Ubuntu NVIDIA Jetson
+--------------------
 
-## Spin up Ubuntu 20.04 arm64 cloud image as a VM
+### Spin up Ubuntu 20.04 arm64 cloud image as a VM
 
 ```
 curl -LO https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-arm64.img
@@ -606,7 +612,8 @@ virsh destroy ubuntu-server-2404
 virsh undefine ubuntu-server-2004 --nvram --remove-all-storage
 ```
 
-## Install 1Password CLI
+Install 1Password CLI
+---------------------
 
 ```
 apt-get update
@@ -621,7 +628,8 @@ sudo chgrp onepassword-cli /usr/local/bin/op
 sudo chmod g+s /usr/local/bin/op
 ```
 
-## Install cinc-client and chefctl
+Install cinc-client and chefctl
+-------------------------------
 
 ```
 # chefctl uses a shebang that points at /opt/chef, so make sure we have a link

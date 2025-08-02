@@ -1,4 +1,5 @@
-# Taste Tester
+Taste Tester
+============
 
 Prerequisites - Ubuntu
 

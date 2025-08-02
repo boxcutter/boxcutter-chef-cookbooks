@@ -1,4 +1,5 @@
-# boxcutter_can
+boxcutter_can
+=============
 
 Configures Controller Area Network (CAN) Bus devices.
 
@@ -29,7 +30,8 @@ sudo apt install linux-image-generic
 sudo reboot
 ```
 
-## Testing vcan0
+Testing vcan0
+-------------
 
 ```
 candump -tz vcan0 &

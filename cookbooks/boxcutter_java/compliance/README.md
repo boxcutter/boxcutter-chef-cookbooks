@@ -1,4 +1,5 @@
-# compliance
+compliance
+==========
 
 This directory contains Cinc Auditor profile, waiver and input objects which are used with the Cinc Infra Compliance Phase.
 

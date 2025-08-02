@@ -1,6 +1,8 @@
-# boxcutter_prometheus
+boxcutter_prometheus
+====================
 
-## Usage
+Usage
+-----
 
 ### Prometheus
 

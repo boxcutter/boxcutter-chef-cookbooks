@@ -1,6 +1,8 @@
-# Cinc Workstation
+Cinc Workstation
+================
 
-## Linux Install
+Linux Install
+-------------
 
 Use the installation script provided by Cinc. The script detects your
 OS version and downloads the appropriate package.
@@ -75,7 +77,8 @@ eval "$(cinc shell-init bash)"
 EOF
 ```
 
-## macOS Install
+macOS Install
+-------------
 
 Download the latest version of the Cinc Workstation package from
 https://downloads.cinc.sh/files/stable/cinc-workstation/ for your version
@@ -145,7 +148,8 @@ eval "$(cinc shell-init zsh)"
 EOF
 ```
 
-## macOS Uninstall
+macOS Uninstall
+---------------
 
 To remove Cinc Workstation, run `uninstall_chef_workstation` (located
 in `/usr/local/bin/uninstall_chef_workstation`).

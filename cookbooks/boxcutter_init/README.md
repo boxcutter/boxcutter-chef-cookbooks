@@ -1,4 +1,4 @@
-# boxcutter_init
+boxcutter_init
+==============
 
 TODO: Enter the cookbook description here.
-

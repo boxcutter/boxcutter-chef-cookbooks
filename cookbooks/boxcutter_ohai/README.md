@@ -1,9 +1,11 @@
-# boxcutter_ohai
+boxcutter_ohai
+==============
 
 Installs ohai plugins that set the highest-precedence automatic defaults used
 by all other cookbooks in this hierarchy.
 
-## Description
+Description
+-----------
 
 This is a support cookbook intended to used along with the `boxcutter_init`
 cookbook to set global defaults. This cookbook is placed first in the run list

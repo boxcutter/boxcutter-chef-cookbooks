@@ -1,4 +1,5 @@
-# boxcutter_postgresql
+boxcutter_postgresql
+====================
 
 PostgreSQL is a free, open-source relational database system that stores,
 manages, and retrieves structured data.
@@ -9,7 +10,8 @@ manages, and retrieves structured data.
 - It is licensed under a very permissive **PostgreSQL License** (similar to
   MIT).
 
-## Usage
+Usage
+-----
 
 By default, this cookbook installs PostgreSQL 16 and ensures
 that the postgres server is enabled and set to restart on boot.
@@ -21,7 +23,8 @@ and the client configuration through node attributes.
 Future versions of this cookbook may add more options to configure
 databases themselves.
 
-## Terminology Differences
+Terminology Differences
+-----------------------
 
 ### Cluster vs. Instance
 
@@ -37,7 +40,8 @@ parameters specified in the `postgresql.conf` for the data directory.
 Use `node['boxcutter_postgresql']['server']['pg_hba']` to automate
 configuring of the `pg_hba.conf` file, that controls client configuration.
 
-## Resources
+Resources
+---------
 
 There are a few supporting resources that are used to encapsulate "update"
 functionality used in the "configuration as data" implementation on various

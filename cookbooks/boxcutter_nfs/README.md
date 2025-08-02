@@ -1,11 +1,12 @@
-# boxcutter_nfs
+boxcutter_nfs
+=============
 
 Configures NFS servers and clients.
 
 Usage
 -----
 
-## Server
+### Server
 
 The `boxcutter_nfs::server` recipe will configure an NFS server and make a list
 of directories available to clients.
@@ -14,7 +15,7 @@ of directories available to clients.
 containing a list of directories on the NFS server to make available to NFS
 clients.
 
-## Client
+### Client
 
 The `boxcutter_nfs::client` recipe will configure a host as an NFS client so
 it cant mount NFS shares.

@@ -1,4 +1,5 @@
-# boxcutter_netbox
+boxcutter_netbox
+==================
 
 ```
 # upgrade
@@ -11,8 +12,8 @@ python3 manage.py createsuperuser
 # python3 manage.py createsuperuser
 Username: admin
 Email address: admin@example.com
-Password: 
-Password (again): 
+Password:
+Password (again):
 Superuser created successfully.
 
 python3 manage.py runserver 0.0.0.0:8000 --insecure
