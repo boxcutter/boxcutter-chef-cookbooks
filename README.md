@@ -25,7 +25,7 @@ You may also find the following videos from Phil Dibowitz helpful:
 [![Watch The Softer Side of DevOps](https://img.youtube.com/vi/ry51Llzil1I/0.jpg)](https://www.youtube.com/watch?v=ry51Llzil1I)
 
 The primary maintainer of this repo, Mischa Taylor, is also working on some
-[training](https://taylorific.github.io/chef-training) on Meta-style API
+[training](https://taylorific.github.io/chef-training) for Meta-style API
 coding.
 
 Attributions
