@@ -77,8 +77,8 @@ module Boxcutter
         client = nil
         begin
           # connection_params = { port: 5432, user: 'postgres' }
-          connection_params = { host: new_resource.connect_hostname, port: new_resource.connect_port,
-dbname: new_resource.connect_dbname, user: new_resource.connect_username, password: new_resource.connect_password }
+          connection_params = { :host => new_resource.connect_hostname, :port => new_resource.connect_port,
+:dbname => new_resource.connect_dbname, :user => new_resource.connect_username, :password => new_resource.connect_password }
           client = ::PG::Connection.new(**connection_params)
         ensure
           if Process.euid != original_euid
@@ -149,7 +149,7 @@ dbname: new_resource.connect_dbname, user: new_resource.connect_username, passwo
 
       def self.role_exist?(new_resource)
         sql = 'SELECT rolname FROM pg_roles WHERE rolname=$1'
-        result = execute_sql_params(new_resource, sql, [new_resource.role_name], max_one_result: true)
+        result = execute_sql_params(new_resource, sql, [new_resource.role_name], :max_one_result => true)
         !nil_or_empty?(result)
       end
 
@@ -231,7 +231,7 @@ dbname: new_resource.connect_dbname, user: new_resource.connect_username, passwo
       def self.database_exist?(new_resource)
         sql = 'SELECT * FROM pg_database WHERE datname=$1'
         params = [new_resource.database_name]
-        result = execute_sql_params(new_resource, sql, params, max_one_result: true)
+        result = execute_sql_params(new_resource, sql, params, :max_one_result => true)
 
         return false if result.to_a.empty?
 
@@ -244,7 +244,7 @@ dbname: new_resource.connect_dbname, user: new_resource.connect_username, passwo
       def self.select_database(new_resource)
         sql = 'SELECT * FROM pg_database WHERE datname=$1'
         params = [new_resource.database_name]
-        result = execute_sql_params(new_resource, sql, params, max_one_result: true)
+        result = execute_sql_params(new_resource, sql, params, :max_one_result => true)
 
         return if result.to_a.empty?
 

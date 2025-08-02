@@ -1,6 +1,6 @@
 unified_mode true
 
-property :package_name, String, name_property: true
+property :package_name, String, :name_property => true
 property :channel, String
 property :version, String
 property :user, String
@@ -34,10 +34,10 @@ action_class do
     command = %{conda list --full-name #{new_resource.package_name} | grep "^#{new_resource.package_name} "}
     cmd = Mixlib::ShellOut.new(
       'bash',
-      input: conda_command_script(new_resource.anaconda_root, command),
-      user: new_resource.user,
-      group: new_resource.group,
-      login: true,
+      :input => conda_command_script(new_resource.anaconda_root, command),
+      :user => new_resource.user,
+      :group => new_resource.group,
+      :login => true,
       )
     cmd.run_command
     cmd.valid_exit_codes = [0, 1]

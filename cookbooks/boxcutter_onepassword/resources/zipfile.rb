@@ -1,7 +1,7 @@
 unified_mode true
 
-property :package_name, String, name_property: true
-property :bin_links, Array, default: []
+property :package_name, String, :name_property => true
+property :bin_links, Array, :default => []
 
 action :install do
   package 'unzip'

@@ -8,10 +8,10 @@ Chef.event_handler do
 
     resource_updates << {
       name: "#{resource.resource_name}[#{resource.name}]",
-      cookbook: resource.cookbook_name,
-      recipe: resource.recipe_name,
-      line: resource.source_line,
-      action: action,
+      :cookbook => resource.cookbook_name,
+      :recipe => resource.recipe_name,
+      :line => resource.source_line,
+      :action => action,
     }
   end
 

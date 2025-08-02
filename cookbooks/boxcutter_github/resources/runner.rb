@@ -1,14 +1,14 @@
 # https://docs.chef.io/custom_resource_glossary
 unified_mode true
 
-property :install_directory, String, name_property: true
+property :install_directory, String, :name_property => true
 property :runner_name, String
 property :url, String
 property :owner, String
 property :group, String
 property :work_directory, String
 property :labels, Array
-property :disable_update, [true, false], default: false
+property :disable_update, [true, false], :default => false
 
 load_current_value do |new_resource|
   puts 'MISCHA: load_current_value'
@@ -16,7 +16,7 @@ load_current_value do |new_resource|
   if runner_config_file && ::File.exist?(runner_config_file)
     # .NET writes out config files with a byte-order mark, which Ruby can't
     # parse by default. Tell ruby that it is encoded with a BOM.
-    runner_config = ::File.read(runner_config_file, encoding: 'bom|utf-8')
+    runner_config = ::File.read(runner_config_file, :encoding => 'bom|utf-8')
     runner_json = JSON.parse(runner_config)
     puts "MISCHA: current_value agentName = #{runner_json['agentName']}"
 
@@ -220,7 +220,7 @@ action_class do
     cmd << "/repos/#{owner}/#{repo}/actions/runners/registration-token"
     command_to_execute = cmd.join(' ')
 
-    shell_out = shell_out(command_to_execute, login: true, user: new_resource.owner, group: new_resource.group)
+    shell_out = shell_out(command_to_execute, :login => true, :user => new_resource.owner, :group => new_resource.group)
     shell_out.error!
     parsed_stdout = JSON.parse(shell_out.stdout)
     parsed_stdout['token']
@@ -247,9 +247,9 @@ action_class do
 
     shell_out = shell_out(
       command_to_execute,
-      login: true,
-      user: cli_user,
-      group: cli_group,
+      :login => true,
+      :user => cli_user,
+      :group => cli_group,
 )
     shell_out.error!
     parsed_stdout = JSON.parse(shell_out.stdout)
@@ -267,9 +267,9 @@ action_class do
 
     shell_out = shell_out(
       command_to_execute,
-      login: true,
-      user: new_resource.owner,
-      group: new_resource.group,
+      :login => true,
+      :user => new_resource.owner,
+      :group => new_resource.group,
 )
     shell_out.error!
     JSON.parse(shell_out.stdout)
@@ -294,7 +294,7 @@ action_class do
     command_to_execute = "#{runner_root}/svc.sh status"
     shell_out = Mixlib::ShellOut.new(
       command_to_execute,
-      cwd: "#{new_resource.install_directory}/latest",
+      :cwd => "#{new_resource.install_directory}/latest",
 ).run_command
     shell_out.exitstatus == 0
   end
@@ -330,9 +330,9 @@ action_class do
 
     gh_auth_status = Mixlib::ShellOut.new(
       'gh auth status',
-      login: true,
-      user: cli_user,
-      group: cli_group,
+      :login => true,
+      :user => cli_user,
+      :group => cli_group,
     ).run_command
     gh_auth_status.exitstatus != 0
   end
@@ -349,9 +349,9 @@ action_class do
 
     gh_auth_login = Mixlib::ShellOut.new(
       "echo #{boxcutter_self_hosted_runner_access_token} | gh auth login --with-token",
-      login: true,
-      user: cli_user,
-      group: cli_group,
+      :login => true,
+      :user => cli_user,
+      :group => cli_group,
     ).run_command
     gh_auth_login.error!
   end

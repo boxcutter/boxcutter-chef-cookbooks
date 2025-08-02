@@ -48,7 +48,7 @@ action_class do
         next unless ::File.exist?(runner_local_config_file)
         # .NET writes out config files with a byte-order mark, which Ruby can't
         # parse by default. Tell ruby that it is encoded with a BOM.
-        runner_local_config = ::File.read(runner_local_config_file, encoding: 'bom|utf-8')
+        runner_local_config = ::File.read(runner_local_config_file, :encoding => 'bom|utf-8')
         runner_json = JSON.parse(runner_local_config)
         runner_config['runner_name'] = runner_json['name']
         runner_config['id'] = runner_json['id']

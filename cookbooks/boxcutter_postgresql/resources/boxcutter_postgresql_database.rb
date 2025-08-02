@@ -1,14 +1,14 @@
 unified_mode true
 provides :boxcutter_postgresql_database
 
-property :database_name, String, name_property: true
+property :database_name, String, :name_property => true
 property :owner, [String, Integer]
-property :connect_dbname, String, desired_state: false
-property :connect_username, String, desired_state: false
-property :connect_password, String, desired_state: false
-property :connect_hostname, String, desired_state: false
-property :connect_port, Integer, default: 5432, desired_state: false
-property :connection_string, String, desired_state: false
+property :connect_dbname, String, :desired_state => false
+property :connect_username, String, :desired_state => false
+property :connect_password, String, :desired_state => false
+property :connect_hostname, String, :desired_state => false
+property :connect_port, Integer, :default => 5432, :desired_state => false
+property :connection_string, String, :desired_state => false
 
 load_current_value do |new_resource|
   puts 'MISCHA: boxcutter_postgresql_database: load_current_value'

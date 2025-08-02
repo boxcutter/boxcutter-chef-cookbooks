@@ -68,15 +68,15 @@ node.default['boxcutter_acme']['lego']['config'].each do |name, config|
     group 'root'
     mode '0700'
     variables(
-      certificate_name: config['certificate_name'],
-      data_path: config['data_path'],
-      server: config.key?('server') || 'https://acme-v02.api.letsencrypt.org/directory',
-      email: config['email'],
-      domains: config['domains'].join(' '),
-      cloudflare_dns_api_token: config['cloudflare_dns_api_token'],
-      extra_parameters: config.key?('extra_parameters') ? config['extra_parameters'].join(' ') : '--http',
-      extra_environment: config['extra_environment'],
-      renew_days: config['renew_days'] || 30,
+      :certificate_name => config['certificate_name'],
+      :data_path => config['data_path'],
+      :server => config.key?('server') || 'https://acme-v02.api.letsencrypt.org/directory',
+      :email => config['email'],
+      :domains => config['domains'].join(' '),
+      :cloudflare_dns_api_token => config['cloudflare_dns_api_token'],
+      :extra_parameters => config.key?('extra_parameters') ? config['extra_parameters'].join(' ') : '--http',
+      :extra_environment => config['extra_environment'],
+      :renew_days => config['renew_days'] || 30,
     )
   end
 

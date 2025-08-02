@@ -43,7 +43,7 @@ action :manage do
         source 'condarc'
         owner anaconda_data['user']
         group anaconda_data['group']
-        variables(config: anaconda_data['condarc'])
+        variables(:config => anaconda_data['condarc'])
       end
     end
   end

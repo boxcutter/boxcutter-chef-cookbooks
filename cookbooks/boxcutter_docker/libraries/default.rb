@@ -7,9 +7,9 @@ module Boxcutter
       def self.context_ls(user, group)
         cmd = Mixlib::ShellOut.new(
           'docker context ls --format json',
-          login: true,
-          user: user,
-          group: group,
+          :login => true,
+          :user => user,
+          :group => group,
         ).run_command
         cmd.error!
         contexts = []
@@ -34,9 +34,9 @@ module Boxcutter
       def self.context_create(name, data, user, group)
         cmd = Mixlib::ShellOut.new(
           context_create_command(name, data),
-          login: true,
-          user: user,
-          group: group,
+          :login => true,
+          :user => user,
+          :group => group,
           ).run_command
         cmd.error!
       end
@@ -51,9 +51,9 @@ module Boxcutter
       def self.context_rm(name, user, group)
         cmd = Mixlib::ShellOut.new(
           context_rm_command(name),
-          login: true,
-          user: user,
-          group: group,
+          :login => true,
+          :user => user,
+          :group => group,
           ).run_command
         cmd.error!
       end
@@ -64,9 +64,9 @@ module Boxcutter
         # https://github.com/docker/buildx/pull/2138
         cmd = Mixlib::ShellOut.new(
           'docker buildx ls --no-trunc --format json',
-          login: true,
-          user: user,
-          group: group,
+          :login => true,
+          :user => user,
+          :group => group,
           ).run_command
         cmd.error!
         builder_instances = []
@@ -99,9 +99,9 @@ module Boxcutter
 
         shellout = Mixlib::ShellOut.new(
           command,
-          login: true,
-          user: user,
-          group: group,
+          :login => true,
+          :user => user,
+          :group => group,
           ).run_command
         shellout.error!
       end
@@ -120,9 +120,9 @@ module Boxcutter
 
         shellout = Mixlib::ShellOut.new(
           command,
-          login: true,
-          user: user,
-          group: group,
+          :login => true,
+          :user => user,
+          :group => group,
           ).run_command
         shellout.error!
       end
@@ -138,9 +138,9 @@ module Boxcutter
         Chef::Log.debug("boxcutter_docker: buildx_rm_command=#{command}")
         shellout = Mixlib::ShellOut.new(
           command,
-          login: true,
-          user: user,
-          group: group,
+          :login => true,
+          :user => user,
+          :group => group,
           ).run_command
         shellout.error!
       end

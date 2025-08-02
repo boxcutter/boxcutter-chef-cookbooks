@@ -60,14 +60,14 @@ default['boxcutter_postgresql'] = {
     'enable' => true,
     'config' => default_config,
     'pg_hba' => {
-      hosts: [
-        { type: 'local', database: 'all', user: 'postgres', method: 'peer' },
-        { type: 'local', database: 'all', user: 'all', method: 'peer' },
-        { type: 'host', database: 'all', user: 'all', address: '127.0.0.1/32', method: 'scram-sha-256' },
-        { type: 'host', database: 'all', user: 'all', address: '::1/128', method: 'scram-sha-256' },
-        { type: 'local', database: 'replication', user: 'all', method: 'peer' },
-        { type: 'host', database: 'replication', user: 'all', address: '127.0.0.1/32', method: 'scram-sha-256' },
-        { type: 'host', database: 'replication', user: 'all', address: '::1/128', method: 'scram-sha-256' },
+      :hosts => [
+        { :type => 'local', :database => 'all', :user => 'postgres', :method => 'peer' },
+        { :type => 'local', :database => 'all', :user => 'all', :method => 'peer' },
+        { :type => 'host', :database => 'all', :user => 'all', :address => '127.0.0.1/32', :method => 'scram-sha-256' },
+        { :type => 'host', :database => 'all', :user => 'all', :address => '::1/128', :method => 'scram-sha-256' },
+        { :type => 'local', :database => 'replication', :user => 'all', :method => 'peer' },
+        { :type => 'host', :database => 'replication', :user => 'all', :address => '127.0.0.1/32', :method => 'scram-sha-256' },
+        { :type => 'host', :database => 'replication', :user => 'all', :address => '::1/128', :method => 'scram-sha-256' },
       ],
     },
   },

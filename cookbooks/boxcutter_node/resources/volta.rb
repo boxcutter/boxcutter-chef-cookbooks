@@ -19,7 +19,7 @@ action :configure do
 
       volta_path = ::File.join(volta_home, 'bin', 'volta')
       check_command = "#{volta_path} list all --format plain | grep #{tool_name_to_install}"
-      result = shell_out(check_command, login: true, user: volta_config['user'], group: volta_config['group'])
+      result = shell_out(check_command, :login => true, :user => volta_config['user'], :group => volta_config['group'])
 
       if result.exitstatus != 0
         puts "MISCHA: need to install #{tool_name_to_install}"

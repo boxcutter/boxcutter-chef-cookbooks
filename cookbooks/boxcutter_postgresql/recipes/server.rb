@@ -34,7 +34,7 @@ when 'ubuntu'
   end
 
   service 'postgresql' do
-    supports restart: true, status: true, reload: true
+    supports :restart => true, :status => true, :reload => true
     action [:enable, :start]
     only_if { node['boxcutter_postgresql']['server']['enable'] }
   end
@@ -81,7 +81,7 @@ when 'centos'
 
   service 'postgresql' do
     service_name 'postgresql-16.service'
-    supports restart: true, status: true, reload: true
+    supports :restart => true, :status => true, :reload => true
     action [:enable, :start]
     only_if { node['boxcutter_postgresql']['server']['enable'] }
   end

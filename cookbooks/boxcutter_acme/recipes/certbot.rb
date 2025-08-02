@@ -60,7 +60,7 @@ if node.exist?('boxcutter_acme', 'certbot', 'cloudflare_api_token') ||
     group 'root'
     mode '0400'
     variables(
-      cloudflare_api_token: cloudflare_api_token,
+      :cloudflare_api_token => cloudflare_api_token,
       )
   end
 end
@@ -77,11 +77,11 @@ node.default['boxcutter_acme']['certbot']['config'].each do |name, config|
     group 'root'
     mode '0700'
     variables(
-      certbot_bin: config['certbot_bin'],
-      domains: Boxcutter::Acme.to_bash_array(config['domains']),
-      email: config['email'],
-      cloudflare_ini: config['cloudflare_ini'],
-      extra_args: config['extra_args'],
+      :certbot_bin => config['certbot_bin'],
+      :domains => Boxcutter::Acme.to_bash_array(config['domains']),
+      :email => config['email'],
+      :cloudflare_ini => config['cloudflare_ini'],
+      :extra_args => config['extra_args'],
     )
     notifies :run, "execute[#{name} obtain certificate]", :immediately
   end

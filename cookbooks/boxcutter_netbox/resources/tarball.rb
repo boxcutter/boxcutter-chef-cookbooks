@@ -1,11 +1,11 @@
 unified_mode true
 
-property :package_name, String, name_property: true
-property :version, String, required: true
+property :package_name, String, :name_property => true
+property :version, String, :required => true
 property :filename, String
 property :source, String
-property :checksum, String, required: true
-property :creates, String, required: true
+property :checksum, String, :required => true
+property :creates, String, :required => true
 
 action :install do
   name = new_resource.package_name

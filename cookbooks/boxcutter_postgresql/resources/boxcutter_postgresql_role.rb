@@ -1,16 +1,16 @@
 unified_mode true
 provides :boxcutter_postgresql_role
 
-property :role_name, String, name_property: true
+property :role_name, String, :name_property => true
 property :login, [true, false]
 property :plain_text_password, String
 property :encrypted_password, String
-property :connect_dbname, String, desired_state: false
-property :connect_username, String, desired_state: false
-property :connect_password, String, desired_state: false
-property :connect_hostname, String, desired_state: false
-property :connect_port, Integer, default: 5432, desired_state: false
-property :connection_string, String, desired_state: false
+property :connect_dbname, String, :desired_state => false
+property :connect_username, String, :desired_state => false
+property :connect_password, String, :desired_state => false
+property :connect_hostname, String, :desired_state => false
+property :connect_port, Integer, :default => 5432, :desired_state => false
+property :connection_string, String, :desired_state => false
 
 load_current_value do |new_resource|
   puts 'MISCHA: boxcutter_postgresql_role: load_current_value'

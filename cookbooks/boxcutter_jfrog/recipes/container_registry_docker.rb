@@ -168,10 +168,10 @@ http_request 'accept_eula' do
 end
 
 payload = {
-  userName: 'admin',
-  oldPassword: 'password',
-  newPassword1: 'Superseekret63',
-  newPassword2: 'Superseekret63',
+  :userName => 'admin',
+  :oldPassword => 'password',
+  :newPassword1 => 'Superseekret63',
+  :newPassword2 => 'Superseekret63',
 }
 json_payload = payload.to_json
 

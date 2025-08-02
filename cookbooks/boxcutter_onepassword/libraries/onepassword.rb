@@ -10,14 +10,14 @@ module Boxcutter
       # 1Password Connect Server does not support op user get --me
       if ['auto', 'service_account'].include?(type)
         command = '/usr/local/bin/op user get --me'
-        shellout = Mixlib::ShellOut.new(command, env: environment)
+        shellout = Mixlib::ShellOut.new(command, :env => environment)
         shellout.run_command
         shellout.error!
         Chef::Log.debug("boxcutter_onepassword[op_read]: op user get --me\n#{shellout.stdout}")
       end
 
       command = "/usr/local/bin/op read '#{reference}'"
-      shellout = Mixlib::ShellOut.new(command, env: environment)
+      shellout = Mixlib::ShellOut.new(command, :env => environment)
       shellout.run_command
       shellout.error!
       shellout.stdout.strip
@@ -36,7 +36,7 @@ module Boxcutter
       command = op_document_cmd.join(' ')
       puts "MISCHA op_document_get: #{command}"
       puts "MISCHA environment: #{environment}"
-      shellout = Mixlib::ShellOut.new(command, env: environment)
+      shellout = Mixlib::ShellOut.new(command, :env => environment)
       shellout.run_command
       shellout.error!
       shellout.stdout.strip
@@ -82,7 +82,7 @@ module Boxcutter
       uri = URI.parse(url)
 
       # Open a connection and download the file
-      Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
         request = Net::HTTP::Get.new(uri)
         http.request(request) do |response|
           # Write the file to disk
