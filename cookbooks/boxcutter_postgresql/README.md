@@ -64,3 +64,10 @@ boxcutter_postgresql_role 'dev1'
 - `:create` - Define a new database role. *(default)*
 - `:alter` - Change a database role.
 - `:drop` - Remove a database role.
+
+Attributions
+------------
+Thanks to Lance Albertson (@ramereth), Jason Field (@xorima) and the
+Sous Chefs (@sous-chefs) for their [PostgreSQL cookbook](https://github.com/sous-chefs/postgresql)
+Some of the code from Sous Chefs was adapted to the Meta/Facebook
+API style in this cookbook.
