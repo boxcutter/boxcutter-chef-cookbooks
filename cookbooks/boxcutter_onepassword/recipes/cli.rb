@@ -38,7 +38,7 @@ when 'ubuntu', 'debian'
   # curl -sS https://downloads.1password.com/linux/keys/1password.asc
   node.default['fb_apt']['keymap']['onepassword'] = <<~EOS
     -----BEGIN PGP PUBLIC KEY BLOCK-----
-    
+
     mQINBFkeAh4BEACy6fUHiFi/YvXZ2E5Gs7qFL8TSKQGLt0g8w/NtBotMNveW2Nzg
     aXcmJ2E0aXY7nBRtpIgRRrb7XuskDZwGmVx4PQshaZuIozS0T1kdMitobi4k3g2M
     551yf1bPWl1neVJ5MmbpknnaIG6VjMHxcRKE0xXDYhpBtt7QQQw1HT8vOjUOXBUf

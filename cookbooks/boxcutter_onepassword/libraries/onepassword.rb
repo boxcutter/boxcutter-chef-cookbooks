@@ -7,6 +7,7 @@ module Boxcutter
       shellout.error!
       shellout.stdout.strip
     end
+
     def self.op_read(reference, type = 'auto')
       environment = op_environment(type)
       cli = op_cli
