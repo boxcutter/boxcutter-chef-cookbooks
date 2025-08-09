@@ -62,8 +62,11 @@ module Boxcutter
       environment
     end
 
+    # If we are called during compile time, we may need to bootstrap the
+    # cli. We store it under /opt so it won't conflict with the final
+    # package insta..
     def self.bootstrap_op_cli
-      '/opt/onepassword/bin/op'
+      '/opt/op-bootstrap/bin/op'
     end
 
     def self.op_cli

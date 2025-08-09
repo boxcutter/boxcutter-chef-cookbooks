@@ -6,3 +6,7 @@ end
 describe command('/usr/bin/op') do
   it { should exist }
 end
+
+describe directory('/opt/op-bootstrap') do
+  it { should_not exist }
+end

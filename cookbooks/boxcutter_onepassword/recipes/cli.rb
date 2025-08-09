@@ -104,3 +104,15 @@ end
 package '1password-cli' do
   action :upgrade
 end
+
+# If we needed to bootstrap the op cli, clean it up, as we should be
+# installed from the package if we got here
+directory '/opt/op-bootstrap' do
+  recursive true
+  action :delete
+end
+
+# Clean up previous install location used before packages
+file '/usr/local/bin/op' do
+  action :delete
+end
