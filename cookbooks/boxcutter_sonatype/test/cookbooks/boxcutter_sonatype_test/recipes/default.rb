@@ -6,8 +6,6 @@ node.run_state['boxcutter_sonatype'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = 'admin'
 node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
-# node.run_state['boxcutter_sonatype']['nexus_repository']['admin_username'] = 'chef'
-# node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'sucre-canonize-ROADSTER-bashful'
 
 node.default['boxcutter_sonatype']['nexus_repository']['roles'] = {
   'engineering-read-only' => {
@@ -161,31 +159,3 @@ node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
 }
 
 include_recipe 'boxcutter_sonatype::default'
-
-# include_recipe 'boxcutter_acme::lego'
-# include_recipe 'fb_nginx'
-#
-# node.default['fb_nginx']['enable_default_site'] = false
-# node.default['fb_nginx']['config']['http']['proxy_send_timeout'] = '120'
-# node.default['fb_nginx']['config']['http']['proxy_read_timeout'] = '300'
-# node.default['fb_nginx']['config']['http']['proxy_buffering'] = 'off'
-# node.default['fb_nginx']['config']['http']['proxy_request_buffering'] = 'off'
-# node.default['fb_nginx']['config']['http']['keepalive_timeout'] = '5 5'
-# node.default['fb_nginx']['config']['http']['tcp_nodelay'] = 'on'
-#
-# node.default['fb_nginx']['sites']['nexus'] = {
-#   'listen 443' => 'ssl',
-#   'server_name' => 'hq0-nexus01.sandbox.polymathrobotics.dev',
-#   'client_max_body_size' => '1G',
-#   'ssl_certificate' =>
-#     '/etc/lego/certificates/hq0-nexus01.sandbox.polymathrobotics.dev.crt',
-#   'ssl_certificate_key' =>
-#     '/etc/lego/certificates/hq0-nexus01.sandbox.polymathrobotics.dev.key',
-#   'location /' => {
-#     'proxy_set_header Host' => '$host:$server_port',
-#     'proxy_set_header X-Real-IP' => '$remote_addr',
-#     'proxy_set_header X-Forwarded-For' => '$proxy_add_x_forwarded_for',
-#     'proxy_set_header X-Forwarded-Proto' => '"https"',
-#     'proxy_pass' => 'http://127.0.0.1:8081',
-#   },
-# }
