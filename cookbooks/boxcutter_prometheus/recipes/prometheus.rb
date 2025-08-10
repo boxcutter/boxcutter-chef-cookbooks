@@ -63,10 +63,15 @@ template '/etc/prometheus/prometheus.yml' do
   notifies :reload, 'service[prometheus]'
 end
 
-directory '/var/lib/prometheus' do
-  owner 'prometheus'
-  group 'prometheus'
-  mode '0755'
+%w{
+  /var/lib/prometheus
+  /var/lib/prometheus/data
+}.each do |dir|
+  directory dir do
+    owner 'prometheus'
+    group 'prometheus'
+    mode '0755'
+  end
 end
 
 template '/etc/systemd/system/prometheus.service' do
