@@ -75,6 +75,7 @@ end
   'fb_util_linux',
   'fb_users',
   'boxcutter_chef',
+  'boxcutter_digitalocean',
   'boxcutter_nfs',
   'boxcutter_site_settings',
 ].each do |cb|

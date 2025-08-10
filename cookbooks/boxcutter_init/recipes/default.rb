@@ -191,6 +191,8 @@ include_recipe 'fb_profile'
 #   end
 # end
 
+include_recipe 'boxcutter_digitalocean'
+
 # we recommend you put this as late in the list as possible - it's one of the
 # few places where APIs need to use another API directly... other cookbooks
 # often want to setup cronjobs at runtime based on user attributes... they can
