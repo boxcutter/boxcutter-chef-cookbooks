@@ -54,11 +54,11 @@ action :register do
   # https://github.com/actions/runner/releases
   case node['kernel']['machine']
   when 'x86_64', 'amd64'
-    url = 'https://github.com/actions/runner/releases/download/v2.321.0/actions-runner-linux-x64-2.321.0.tar.gz'
-    checksum = 'ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e'
+    url = 'https://github.com/actions/runner/releases/download/v2.327.1/actions-runner-linux-x64-2.327.1.tar.gz'
+    checksum = 'd68ac1f500b747d1271d9e52661c408d56cffd226974f68b7dc813e30b9e0575'
   when 'aarch64', 'arm64'
-    url = 'https://github.com/actions/runner/releases/download/v2.321.0/actions-runner-linux-arm64-2.321.0.tar.gz'
-    checksum = '62cc5735d63057d8d07441507c3d6974e90c1854bdb33e9c8b26c0da086336e1'
+    url = 'https://github.com/actions/runner/releases/download/v2.327.1/actions-runner-linux-arm64-2.327.1.tar.gz'
+    checksum = '16102096988246f250a745c6a813a5a0b8901e2f554f9440c97e8573fd4da111'
   end
 
   filename = ::File.basename(url)
