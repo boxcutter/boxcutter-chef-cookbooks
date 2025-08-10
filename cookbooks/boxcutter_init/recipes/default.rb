@@ -30,8 +30,6 @@ include_recipe 'boxcutter_init::site_settings'
 # TODO: use fedora_derived?
 if node.centos? || node.rhel? || node.fedora?
   # HERE: yum
-  # We turn this off to avoid clobbering /etc/yum,repos.d in the CI
-  node.default['fb_yum_repos']['manage_repos'] = false
   include_recipe 'fb_dnf'
   include_recipe 'fb_rpm'
 end
