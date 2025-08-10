@@ -1,5 +1,5 @@
 #
-# Cookbook:: polymath_ros_test
+# Cookbook:: boxcutter_ros_test
 # Recipe:: rocker
 #
 

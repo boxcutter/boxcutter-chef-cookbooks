@@ -1,4 +1,4 @@
-# Chef InSpec test for recipe polymath_ros::build_essential
+# Chef InSpec test for recipe boxcutter_ros::build_essential
 
 # The Chef InSpec reference, with examples and extensive documentation, can be
 # found at https://docs.chef.io/inspec/resources/
