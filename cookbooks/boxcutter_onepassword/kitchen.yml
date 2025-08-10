@@ -40,6 +40,11 @@ platforms:
       image: boxcutter/dokken-ubuntu-24.04
       pid_one_command: /bin/systemd
 
+  - name: debian-12
+    driver:
+      image: boxcutter/dokken-debian-12
+      pid_one_command: /bin/systemd
+
   - name: centos-stream-9
     driver:
       image: boxcutter/dokken-centos-stream-9
@@ -57,6 +62,16 @@ suites:
       inspec_tests:
         - test/integration/cli
     attributes:
+    lifecycle:
+      pre_converge:
+        - remote: |
+            bash -xc '
+              set +x
+              mkdir -p /etc/cinc
+              ln -s /etc/cinc /etc/chef
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token
+              set -x
+            '
 
   - name: service-account
     named_run_list: boxcutter_onepassword_test_service_account

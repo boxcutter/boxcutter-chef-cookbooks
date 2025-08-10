@@ -1,22 +1,27 @@
 module Boxcutter
   class OnePassword
+    def self.op_whoami(type = 'auto')
+      command = "#{op_cli} whoami"
+      shellout = Mixlib::ShellOut.new(command, :env => op_environment(type))
+      shellout.run_command
+      shellout.error!
+      shellout.stdout.strip
+    end
+
     def self.op_read(reference, type = 'auto')
       environment = op_environment(type)
-
-      if !::File.exist?('/usr/local/bin/op')
-        install_op_cli
-      end
+      cli = op_cli
 
       # 1Password Connect Server does not support op user get --me
       if ['auto', 'service_account'].include?(type)
-        command = '/usr/local/bin/op user get --me'
+        command = "#{cli} user get --me"
         shellout = Mixlib::ShellOut.new(command, :env => environment)
         shellout.run_command
         shellout.error!
         Chef::Log.debug("boxcutter_onepassword[op_read]: op user get --me\n#{shellout.stdout}")
       end
 
-      command = "/usr/local/bin/op read '#{reference}'"
+      command = "#{cli} read '#{reference}'"
       shellout = Mixlib::ShellOut.new(command, :env => environment)
       shellout.run_command
       shellout.error!
@@ -26,11 +31,7 @@ module Boxcutter
     def self.op_document_get(item, vault, type = 'auto')
       environment = op_environment(type)
 
-      if !::File.exist?('/usr/local/bin/op')
-        install_op_cli
-      end
-
-      op_document_cmd = ['/usr/local/bin/op', 'document', 'get', "'#{item}'"]
+      op_document_cmd = [op_cli, 'document', 'get', "'#{item}'"]
       op_document_cmd << "--vault '#{vault}'" unless vault.nil?
 
       command = op_document_cmd.join(' ')
@@ -61,10 +62,26 @@ module Boxcutter
       environment
     end
 
+    # If we are called during compile time, we may need to bootstrap the
+    # cli. We store it under /opt so it won't conflict with the final
+    # package insta..
+    def self.bootstrap_op_cli
+      '/opt/op-bootstrap/bin/op'
+    end
+
+    def self.op_cli
+      if !::File.exist?('/usr/bin/op')
+        install_bootstrap_op_cli
+        return bootstrap_op_cli
+      end
+
+      '/usr/bin//op'
+    end
+
     # If "op_read" is called during compile time, this might happen before
     # the main default recipe runs to install the cli. Bootstrap the 1Password
     # cli at compile time to ensure things don't fail at this point.
-    def self.install_op_cli
+    def self.install_bootstrap_op_cli
       require 'rbconfig'
       require 'net/http'
       require 'uri'
@@ -73,6 +90,7 @@ module Boxcutter
       architecture = RbConfig::CONFIG['host_cpu']
       puts "MISCHA: architecture #{architecture}"
 
+      # https://releases.1password.com/developers/cli/
       url = 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.31.1/op_linux_amd64_v2.31.1.zip'
       if ['aarch64', 'arm64'].include?(architecture)
         url = 'https://cache.agilebits.com/dist/1P/op2/pkg/v2.31.1/op_linux_arm64_v2.31.1.zip'
@@ -94,8 +112,10 @@ module Boxcutter
         end
       end
 
-      unzip_file(tmp_path, 'op', '/usr/local/bin')
-      ::File.chmod(0o755, '/usr/local/bin/op')
+      bootstrap_op_cli_dirname = ::File.dirname(bootstrap_op_cli)
+      FileUtils.mkdir_p(bootstrap_op_cli_dirname) unless Dir.exist?(bootstrap_op_cli_dirname)
+      unzip_file(tmp_path, 'op', bootstrap_op_cli_dirname)
+      ::File.chmod(0o755, ::File.join(bootstrap_op_cli_dirname, 'op'))
     end
 
     def self.unzip_file(zip_file, filename, destination)
