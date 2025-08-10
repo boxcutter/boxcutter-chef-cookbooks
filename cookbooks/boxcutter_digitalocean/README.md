@@ -34,4 +34,3 @@ displayed in the DigitalOcean web GUI.
 You can use the `node['boxcutter_digitalocean']['metrics_agent']['enable']`
 attribute to enable/disable the droplet agent. The default is `true` which
 enables the agent.
-
