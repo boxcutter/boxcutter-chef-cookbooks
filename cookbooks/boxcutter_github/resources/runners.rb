@@ -87,36 +87,3 @@ action_class do
     working_directory
   end
 end
-
-# action :manage do
-#   if local_gitlab_runner_config.key?('runners')
-#     current_runners = local_gitlab_runner_config['runners'].map { |hash| hash['name'] }
-#     desired_runners = node['polymath_gitlab_runner']['runners'].keys
-#     runners_to_delete = current_runners - desired_runners
-#     Chef::Log.info("current_runners=#{current_runners}, runners_to_delete=#{runners_to_delete}")
-#     runners_to_delete.each do |description|
-#       polymath_gitlab_runner_runner description do
-#         action :unregister
-#       end
-#     end
-#   end
-#
-#   node['polymath_gitlab_runner']['runners'].each do |description, runner_config|
-#     polymath_gitlab_runner_runner description do
-#       executor runner_config['executor']
-#       paused runner_config['paused']
-#       # These properties may soon be deprecated as sensitive
-#       tag_list runner_config['tag_list']
-#       run_untagged runner_config['run_untagged']
-#       locked runner_config['locked']
-#       access_level runner_config['access_level']
-#       action :register
-#     end
-#   end
-# end
-#
-# action_class do
-#   def local_gitlab_runner_config
-#     @local_gitlab_runner_config ||= Tomlrb.load_file('/etc/gitlab-runner/config.toml')
-#   end
-# end
