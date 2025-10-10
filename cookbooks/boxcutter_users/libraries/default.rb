@@ -84,12 +84,6 @@ module FB
       'taylor' => {
         'uid' => 2003,
       },
-      'david' => {
-        'uid' => 2005,
-      },
-      'emerson' => {
-        'uid' => 2006,
-      },
       'opuser' => {
         'uid' => 8010,
       },
@@ -184,12 +178,6 @@ module FB
       },
       'taylor' => {
         'gid' => 2003,
-      },
-      'david' => {
-        'gid' => 2005,
-      },
-      'emerson' => {
-        'gid' => 2006,
       },
       'opuser' => {
         'gid' => 8010,
