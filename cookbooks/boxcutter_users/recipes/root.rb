@@ -16,12 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-root_password = Boxcutter::OnePassword.op_read('op://Automation-Org/root/hash')
-
 user 'root' do
   password root_password
   shell '/bin/bash'
   comment 'root'
   gid 'root'
   action :manage
+  not_if { kitchen? &&
+           Boxcutter::OnePassword.op_read('op://Automation-Org/root/hash')  }
 end
