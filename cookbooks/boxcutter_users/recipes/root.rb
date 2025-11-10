@@ -22,6 +22,8 @@ user 'root' do
   comment 'root'
   gid 'root'
   action :manage
-  not_if { kitchen? &&
-           Boxcutter::OnePassword.op_read('op://Automation-Org/root/hash')  }
+  not_if do
+    kitchen? &&
+      Boxcutter::OnePassword.op_read('op://Automation-Org/root/hash')
+  end
 end
