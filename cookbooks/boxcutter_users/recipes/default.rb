@@ -54,11 +54,7 @@ node.default['fb_ssh']['enable_central_authorized_keys'] = true
 node.default['fb_ssh']['authorized_keys']['taylor']['mahowald'] =
   'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINRK4hkcpUiaSkiLEytgwMYcKylBioXPLx1TnwJFrLPl mahowald'
 node.default['fb_ssh']['authorized_keys']['taylor']['sheila'] =
-  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINy9cJcJl8oN6bRtcBc4RZq8f/T6P1AFR3YS1YRYi5YY sheila'
-node.default['fb_ssh']['authorized_keys']['taylor']['joan'] =
-  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGTw44QBehDXY6ebitrYydyAAhDFLBSkQ59RovcVsvX joan'
-node.default['fb_ssh']['authorized_keys']['sheila']['mahowald'] =
-  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMC7b+X2a0mRV8A7W5zolbrkALqFizKtuhmM+xZWKohl sheila@mahowald'
+  'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEWerEkujoB7ipGnWJwnPGFu3DuUQJtc1zB6YqjGRziE sheila'
 
 # If we're running in test kitchen on digitalocean, make sure ssh keys for
 # root aren't nuked so that "kitchen login" works after the first
@@ -70,7 +66,5 @@ if kitchen? && digital_ocean?
   node.default['fb_ssh']['authorized_keys']['root']['mahowald'] =
     'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINRK4hkcpUiaSkiLEytgwMYcKylBioXPLx1TnwJFrLPl mahowald'
   node.default['fb_ssh']['authorized_keys']['root']['sheila'] =
-    'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINy9cJcJl8oN6bRtcBc4RZq8f/T6P1AFR3YS1YRYi5YY sheila'
-  node.default['fb_ssh']['authorized_keys']['root']['joan'] =
-    'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGTw44QBehDXY6ebitrYydyAAhDFLBSkQ59RovcVsvX joan'
+    'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEWerEkujoB7ipGnWJwnPGFu3DuUQJtc1zB6YqjGRziE sheila'
 end
