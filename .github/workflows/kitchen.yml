@@ -11,9 +11,10 @@ jobs:
     strategy:
       fail-fast: false
     uses: facebook/chef-cookbooks/.github/workflows/reusable-kitchen-tests.yml@main
-    secrets:
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+    secrets: inherit
     with:
       universe: true
       suite: local
       kitchen_local_yaml: .kitchen.local.yml
+    env:
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
