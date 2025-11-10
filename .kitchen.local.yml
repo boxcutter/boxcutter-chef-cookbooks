@@ -93,3 +93,13 @@ suites:
       - recipe[boxcutter_ohai]
       - recipe[boxcutter_ci_fixes]
       - recipe[boxcutter_init]
+    lifecycle:
+      pre_converge:
+        - remote: |
+            bash -xc '
+              set +x
+              mkdir -p /etc/cinc
+              ln -s /etc/cinc /etc/chef
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token
+              set -x
+            '
