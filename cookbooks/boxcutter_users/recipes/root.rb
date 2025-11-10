@@ -17,13 +17,12 @@
 # limitations under the License.
 
 user 'root' do
-  password root_password
+  password lazy {
+    Boxcutter::OnePassword.op_read('op://Automation-Org/root/hash')
+  }
   shell '/bin/bash'
   comment 'root'
   gid 'root'
   action :manage
-  not_if do
-    kitchen? &&
-      Boxcutter::OnePassword.op_read('op://Automation-Org/root/hash')
-  end
+  not_if { kitchen? }
 end
