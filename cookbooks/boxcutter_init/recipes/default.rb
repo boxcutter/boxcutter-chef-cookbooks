@@ -132,7 +132,7 @@ include_recipe 'fb_logrotate'
 include_recipe 'fb_tmpclean'
 include_recipe 'fb_sudo'
 # HERE: ntp
-if node.linux?
+if node.linux? && !node.container?
   include_recipe 'fb_chrony'
 
   if node.centos? || node.rhel? || node.fedora? || node.ubuntu?
