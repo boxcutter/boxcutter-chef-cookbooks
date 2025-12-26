@@ -93,7 +93,7 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
   end
 
   # arm64 builder
-  ssh_known_hosts_entry '10.63.47.109' do
+  ssh_known_hosts_entry '10.63.45.75' do
     file_location '/home/github-runner/.ssh/known_hosts'
     owner 'github-runner'
     group 'github-runner'
@@ -111,9 +111,9 @@ if new_amd64_self_hosted_runner_list.include?(node['hostname'])
         'platform' => 'linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/386',
         'use' => true,
         'append' => {
-          '10.63.47.109' => {
-            'name' => '10.63.47.109',
-            'endpoint' => 'host=ssh://github-runner@10.63.47.109',
+          '10.63.45.75' => {
+            'name' => '10.63.45.75',
+            'endpoint' => 'host=ssh://github-runner@10.63.45.75',
             'platform' => 'linux/arm64,linux/arm/v7,linux/arm/v6',
           },
         },
