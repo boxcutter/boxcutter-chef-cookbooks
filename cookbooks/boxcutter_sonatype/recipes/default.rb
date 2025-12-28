@@ -170,10 +170,10 @@ ruby_block 'bootstrap nexus admin' do
                                :open_timeout => 5,
                                :read_timeout => 20) { |h| h.request(req) }
       rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EHOSTUNREACH, Errno::ENETUNREACH,
-             Errno::ETIMEDOUT, Net::OpenTimeout, Net::ReadTimeout, EOFError, SocketError => conn_err
-        last_error = e
+             Errno::ETIMEDOUT, Net::OpenTimeout, Net::ReadTimeout, EOFError, SocketError => err
+        last_error = err
         if i == attempts - 1
-          raise "Nexus: unable to connect to #{uri} after #{attempts} attempts: #{conn_err.class}: #{conn_err.message}"
+          raise "Nexus: unable to connect to #{uri} after #{attempts} attempts: #{err.class}: #{err.message}"
         end
         Chef::Log.info("Nexus: #{uri} not reachable yet (#{e.class}: #{e.message}); retrying in #{delay}s...")
         sleep delay
