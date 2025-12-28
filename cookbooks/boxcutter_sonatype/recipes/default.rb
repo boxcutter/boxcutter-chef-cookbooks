@@ -162,19 +162,17 @@ ruby_block 'bootstrap nexus admin' do
       last_error = nil
 
       attempts.times do |i|
-        begin
-          return Net::HTTP.start(uri.host, uri.port,
-                                 :open_timeout => 5,
-                                 :read_timeout => 20) { |h| h.request(req) }
-        rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EHOSTUNREACH, Errno::ENETUNREACH,
-               Errno::ETIMEDOUT, Net::OpenTimeout, Net::ReadTimeout, EOFError, SocketError => e
-          last_error = e
-          if i == attempts - 1
-            raise "Nexus: unable to connect to #{uri} after #{attempts} attempts: #{e.class}: #{e.message}"
-          end
-          Chef::Log.info("Nexus: #{uri} not reachable yet (#{e.class}: #{e.message}); retrying in #{delay}s...")
-          sleep delay
+        return Net::HTTP.start(uri.host, uri.port,
+                               :open_timeout => 5,
+                               :read_timeout => 20) { |h| h.request(req) }
+      rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EHOSTUNREACH, Errno::ENETUNREACH,
+             Errno::ETIMEDOUT, Net::OpenTimeout, Net::ReadTimeout, EOFError, SocketError => e
+        last_error = e
+        if i == attempts - 1
+          raise "Nexus: unable to connect to #{uri} after #{attempts} attempts: #{e.class}: #{e.message}"
         end
+        Chef::Log.info("Nexus: #{uri} not reachable yet (#{e.class}: #{e.message}); retrying in #{delay}s...")
+        sleep delay
       end
 
       fail last_error # should never reach
@@ -287,7 +285,7 @@ ruby_block 'bootstrap nexus admin' do
         # managed password doesn't work; bootstrap using admin.password if available
         pw_file = admin_pw_candidates.find { |p| ::File.exist?(p) }
         if pw_file.nil?
-          fail "Nexus: managed admin password rejected and no bootstrap " \
+          fail 'Nexus: managed admin password rejected and no bootstrap ' \
                "admin.password found in: #{admin_pw_candidates.join(', ')}"
         end
 
@@ -298,7 +296,7 @@ ruby_block 'bootstrap nexus admin' do
         begin
           ensure_anonymous_setting.call(bootstrap_pw, desired_anonymous)
         rescue => e
-          Chef::Log.info("Nexus: could not set anonymous with bootstrap " \
+          Chef::Log.info('Nexus: could not set anonymous with bootstrap ' \
                          "password (#{e.class}: #{e.message}); continuing bootstrap...")
         end
 
