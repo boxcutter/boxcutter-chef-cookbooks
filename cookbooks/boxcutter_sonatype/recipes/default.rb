@@ -126,7 +126,11 @@ ruby_block 'wait for nexus http' do
           end
 
           Chef::Log.info("Nexus returned HTTP #{res.code}; retrying...")
-        rescue => e
+        rescue Errno::ECONNREFUSED, Errno::ECONNRESET,
+               Errno::EHOSTUNREACH, Errno::ENETUNREACH,
+               Errno::ETIMEDOUT,
+               Net::OpenTimeout, Net::ReadTimeout,
+               EOFError, SocketError => e
           Chef::Log.info("Nexus not ready yet (#{e}); retrying...")
         end
 
@@ -295,7 +299,12 @@ ruby_block 'bootstrap nexus admin' do
         # Always try to apply anonymous setting with bootstrap password (even if it may fail)
         begin
           ensure_anonymous_setting.call(bootstrap_pw, desired_anonymous)
-        rescue => e
+        rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EHOSTUNREACH,
+               Errno::ENETUNREACH, Errno::ETIMEDOUT,
+               Net::OpenTimeout, Net::ReadTimeout,
+               EOFError, SocketError,
+               JSON::ParserError,
+               RuntimeError => e
           Chef::Log.info('Nexus: could not set anonymous with bootstrap ' \
                          "password (#{e.class}: #{e.message}); continuing bootstrap...")
         end
