@@ -9,8 +9,8 @@ property :online, [TrueClass, FalseClass], :default => true
 property :storage_blob_store_name, String, :default => 'default'
 property :storage_strict_content_type_validation, [TrueClass, FalseClass], :default => false
 property :storage_write_policy, String,
-         :equal_to => %w{allow allow_once read_only},
-         :default => 'allow'
+         :equal_to => %w{ALLOW ALLOW_ONCE READ_ONLY},
+         :default => 'ALLOW'
 
 load_current_value do |new_resource|
   response = nil

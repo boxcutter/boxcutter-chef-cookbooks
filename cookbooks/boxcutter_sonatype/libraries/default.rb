@@ -342,7 +342,7 @@ module Boxcutter
             'storage' => {
               'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
               'strictContentTypeValidation' => true,
-              'writePolicy' => 'allow',
+              'writePolicy' => 'ALLOW',
               'latestPolicy' => true,
             },
             'cleanup' => {
@@ -412,7 +412,7 @@ module Boxcutter
             'storage' => {
               'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
               'strictContentTypeValidation' => true,
-              'writePolicy' => 'allow',
+              'writePolicy' => 'ALLOW',
             },
             'cleanup' => {
               'policyNames' => [],
@@ -460,7 +460,7 @@ module Boxcutter
             'storage' => {
               'blobStoreName' => repository_config.fetch('storage_blob_store_name', 'default'),
               'strictContentTypeValidation' => true,
-              'writePolicy' => 'allow',
+              'writePolicy' => 'ALLOW',
             },
             'cleanup' => {
               'policyNames' => [],

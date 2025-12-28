@@ -96,3 +96,9 @@ action :configure do
     end
   end
 end
+
+# Normally we would just check for the existence of /var/lib/nexus/admin.password
+# to determine whether or not we need to configure the admin password.
+# Unfortunately, there are regressions/issues with the admin.password file
+# being recreated on upgrades:
+# https://github.com/sonatype/nexus-public/issues/458

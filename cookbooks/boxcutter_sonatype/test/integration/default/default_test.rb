@@ -3,14 +3,12 @@
 # The Chef InSpec reference, with examples and extensive documentation, can be
 # found at https://docs.chef.io/inspec/resources/
 
-unless os.windows?
-  # This is an example test, replace with your own test.
-  describe user('root'), :skip do
-    it { should exist }
-  end
-end
+describe file('/opt/sonatype/nexus/bin/nexus.vmoptions') do
+  it { should exist }
+  it { should be_file }
 
-# This is an example test, replace it with your own test.
-describe port(80), :skip do
-  it { should_not be_listening }
+  its('content') { should match(%r{^-Dkaraf\.data=/var/lib/nexus/nexus-data$}m) }
+  its('content') { should match(%r{^-Dkaraf\.data=/var/lib/nexus/nexus-data/log$}m) }
+  its('content') { should match(%r{^-Dkaraf\.data=/var/lib/nexus/nexus-data/log/jvm\.log$}m) }
+  its('content') { should match(%r{^-Dkaraf\.data=/var/lib/nexus/nexus-data/tmp$}m) }
 end

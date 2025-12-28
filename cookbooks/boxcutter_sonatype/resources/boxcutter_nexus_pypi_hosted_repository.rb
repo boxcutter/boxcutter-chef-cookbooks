@@ -9,8 +9,8 @@ property :online, [TrueClass, FalseClass], :default => true
 property :storage_blob_store_name, String, :default => 'default'
 property :storage_strict_content_type_validation, [TrueClass, FalseClass], :default => false
 property :storage_write_policy, String,
-         :equal_to => %w{allow allow_once read_only},
-         :default => 'allow'
+         :equal_to => %w{ALLOW ALLOW_ONCE READ_ONLY},
+         :default => 'ALLOW'
 # property :cleanup_policy_names
 # property :component_proprietary_components property :docker_v1_enabled, [TrueClass, FalseClass], default: false
 
