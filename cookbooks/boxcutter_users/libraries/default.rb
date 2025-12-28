@@ -53,6 +53,8 @@ module FB
       },
       'nexus' => {
         'uid' => 696,
+        'home' => '/var/lib/nexus',
+        'shell' => '/usr/sbin/nologin',
       },
       # # Start phasing out language-specific UIDs
       # 'java' => {
