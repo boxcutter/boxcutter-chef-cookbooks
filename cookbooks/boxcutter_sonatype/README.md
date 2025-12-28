@@ -6,16 +6,15 @@ ongoing configuration of a Sonatype Nexus Repository 3 instance using Chef.
 
 At a high level, this cookbook:
 
-•	Installs Nexus Repository 3
-•	Ensures the Nexus service is running
-•	Bootstraps the admin account (if required)
-•	Accepts the Nexus EULA (if required)
-•	Enforces selected security and access settings (for example, anonymous access)
-•	Ensures the instance is left in a known, converged state
+- Installs Nexus Repository 3
+- Ensures the Nexus service is running
+- Bootstraps the admin account (if required)
+- Accepts the Nexus EULA (if required)
+- Enforces selected security and access settings (for example, anonymous access)
+- Ensures the instance is left in a known, converged state
 
 This cookbook is safe to run repeatedly. All configuration steps are
 idempotent and driven through the Nexus REST API.
-
 
 Usage
 -----
@@ -48,7 +47,7 @@ The automation looks for Nexus admin password in the following order
 (highest priority first):
 
 1. `node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password']`
-2. `node['boxcutter_sonatype']['nexus_repository']['admin_password']`
+1. `node['boxcutter_sonatype']['nexus_repository']['admin_password']`
 
 If a password is present in `node.run_state`, it will always take precedence
 over any value defined in node attributes.
@@ -58,7 +57,7 @@ over any value defined in node attributes.
 The recommended approach is to inject the password into `node.run_state`
 from a wrapper cookbook at converge time:
 
-```
+```ruby
 # Initialize the parent hash if it doesn't exist
 node.run_state['boxcutter_sonatype'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
