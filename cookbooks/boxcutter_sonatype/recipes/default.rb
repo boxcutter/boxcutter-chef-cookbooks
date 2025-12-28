@@ -306,7 +306,8 @@ ruby_block 'bootstrap nexus admin' do
                JSON::ParserError
           Chef::Log.info('Nexus: could not set anonymous with bootstrap password; continuing bootstrap...')
         rescue StandardError => err
-          Chef::Log.warn("Nexus: unexpected error setting anonymous with bootstrap password (#{err.class}: #{err.message}); continuing...")
+          Chef::Log.warn('Nexus: unexpected error setting anonymous with bootstrap ' \
+                         "password (#{err.class}: #{err.message}); continuing...")
         end
 
         # Now change admin password to managed password
