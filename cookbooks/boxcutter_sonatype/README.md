@@ -66,7 +66,7 @@ node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
 ```
 
-Using `node.run_state `ensures the password is available only for the duration
+Using `node.run_state` ensures the password is available only for the duration
 of the Chef run and is not stored or indexed by the Chef Server.
 
 ### Admin password recovery
