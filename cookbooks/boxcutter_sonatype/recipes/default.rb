@@ -116,8 +116,8 @@ ruby_block 'wait for nexus http' do
           res = Net::HTTP.start(
             uri.host,
             uri.port,
-            open_timeout: 5,
-            read_timeout: 5
+            :open_timeout => 5,
+            :read_timeout => 5,
           ) { |http| http.get(uri.request_uri) }
 
           if res.is_a?(Net::HTTPSuccess)
@@ -164,10 +164,10 @@ ruby_block 'bootstrap nexus admin' do
       attempts.times do |i|
         begin
           return Net::HTTP.start(uri.host, uri.port,
-                                 open_timeout: 5,
-                                 read_timeout: 20) { |h| h.request(req) }
+                                 :open_timeout => 5,
+                                 :read_timeout => 20) { |h| h.request(req) }
         rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EHOSTUNREACH, Errno::ENETUNREACH,
-          Errno::ETIMEDOUT, Net::OpenTimeout, Net::ReadTimeout, EOFError, SocketError => e
+               Errno::ETIMEDOUT, Net::OpenTimeout, Net::ReadTimeout, EOFError, SocketError => e
           last_error = e
           if i == attempts - 1
             raise "Nexus: unable to connect to #{uri} after #{attempts} attempts: #{e.class}: #{e.message}"
@@ -177,7 +177,7 @@ ruby_block 'bootstrap nexus admin' do
         end
       end
 
-      raise last_error # should never reach
+      fail last_error # should never reach
     end
 
     # Auth probe: returns true if password works
@@ -196,7 +196,7 @@ ruby_block 'bootstrap nexus admin' do
       req.body = new_pw
       res = http_request.call(change_pw_uri, req)
       unless [200, 204].include?(res.code.to_i)
-        raise "Nexus: failed to change admin password: HTTP #{res.code} #{res.message} #{res.body}"
+        fail "Nexus: failed to change admin password: HTTP #{res.code} #{res.message} #{res.body}"
       end
     end
 
@@ -208,7 +208,7 @@ ruby_block 'bootstrap nexus admin' do
       return if get_res.code.to_i == 404
 
       unless get_res.code.to_i == 200
-        raise "Nexus: GET /security/anonymous failed: HTTP #{get_res.code} #{get_res.message} #{get_res.body}"
+        fail "Nexus: GET /security/anonymous failed: HTTP #{get_res.code} #{get_res.message} #{get_res.body}"
       end
 
       current = JSON.parse(get_res.body)
@@ -225,7 +225,7 @@ ruby_block 'bootstrap nexus admin' do
 
       put_res = http_request.call(anonymous_uri, put_req)
       unless [200, 204].include?(put_res.code.to_i)
-        raise "Nexus: failed to set anonymous=#{desired_enabled}: HTTP #{put_res.code} #{put_res.message} #{put_res.body}"
+        fail "Nexus: failed to set anonymous=#{desired_enabled}: HTTP #{put_res.code} #{put_res.message} #{put_res.body}"
       end
 
       # Re-check to confirm it actually changed
@@ -234,12 +234,12 @@ ruby_block 'bootstrap nexus admin' do
       verify_res = http_request.call(anonymous_uri, verify_req)
 
       unless verify_res.code.to_i == 200
-        raise "Nexus: verify GET failed: HTTP #{verify_res.code} #{verify_res.message} #{verify_res.body}"
+        fail "Nexus: verify GET failed: HTTP #{verify_res.code} #{verify_res.message} #{verify_res.body}"
       end
 
       verify_body = JSON.parse(verify_res.body)
       unless verify_body['enabled'] == desired_enabled
-        raise "Nexus: anonymous.enabled is still #{verify_body['enabled'].inspect} after PUT"
+        fail "Nexus: anonymous.enabled is still #{verify_body['enabled'].inspect} after PUT"
       end
 
       Chef::Log.info("Nexus: anonymous.enabled now #{verify_body['enabled']}.")
@@ -255,7 +255,7 @@ ruby_block 'bootstrap nexus admin' do
       return if get_res.code.to_i == 404
 
       unless get_res.code.to_i == 200
-        raise "Nexus: GET /system/eula failed: HTTP #{get_res.code} #{get_res.message} #{get_res.body}"
+        fail "Nexus: GET /system/eula failed: HTTP #{get_res.code} #{get_res.message} #{get_res.body}"
       end
 
       body = JSON.parse(get_res.body)
@@ -265,7 +265,7 @@ ruby_block 'bootstrap nexus admin' do
       end
 
       disclaimer = body['disclaimer'].to_s
-      raise 'Nexus: EULA disclaimer missing/empty' if disclaimer.empty?
+      fail 'Nexus: EULA disclaimer missing/empty' if disclaimer.empty?
 
       post_req = Net::HTTP::Post.new(eula_uri)
       post_req.basic_auth('admin', password)
@@ -274,7 +274,7 @@ ruby_block 'bootstrap nexus admin' do
 
       post_res = http_request.call(eula_uri, post_req)
       unless [200, 204].include?(post_res.code.to_i)
-        raise "Nexus: POST /system/eula failed: HTTP #{post_res.code} #{post_res.message} #{post_res.body}"
+        fail "Nexus: POST /system/eula failed: HTTP #{post_res.code} #{post_res.message} #{post_res.body}"
       end
 
       Chef::Log.info('Nexus: EULA accepted.')
@@ -286,11 +286,11 @@ ruby_block 'bootstrap nexus admin' do
         # managed password doesn't work; bootstrap using admin.password if available
         pw_file = admin_pw_candidates.find { |p| ::File.exist?(p) }
         if pw_file.nil?
-          raise "Nexus: managed admin password rejected and no bootstrap admin.password found in: #{admin_pw_candidates.join(', ')}"
+          fail "Nexus: managed admin password rejected and no bootstrap admin.password found in: #{admin_pw_candidates.join(', ')}"
         end
 
         bootstrap_pw = ::File.read(pw_file).strip
-        raise "Nexus: bootstrap password file empty: #{pw_file}" if bootstrap_pw.empty?
+        fail "Nexus: bootstrap password file empty: #{pw_file}" if bootstrap_pw.empty?
 
         # Always try to apply anonymous setting with bootstrap password (even if it may fail)
         begin
@@ -304,7 +304,7 @@ ruby_block 'bootstrap nexus admin' do
         change_admin_password.call(bootstrap_pw, admin_password)
 
         unless auth_ok.call(admin_password)
-          raise 'Nexus: admin password change appeared to succeed, but managed password still cannot authenticate'
+          fail 'Nexus: admin password change appeared to succeed, but managed password still cannot authenticate'
         end
       end
 
