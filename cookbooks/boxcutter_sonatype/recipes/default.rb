@@ -304,9 +304,9 @@ ruby_block 'bootstrap nexus admin' do
                Net::OpenTimeout, Net::ReadTimeout,
                EOFError, SocketError,
                JSON::ParserError,
-               RuntimeError => e
+               RuntimeError => err
           Chef::Log.info('Nexus: could not set anonymous with bootstrap ' \
-                         "password (#{e.class}: #{e.message}); continuing bootstrap...")
+                         "password (#{err.class}: #{err.message}); continuing bootstrap...")
         end
 
         # Now change admin password to managed password
