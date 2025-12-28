@@ -300,10 +300,10 @@ ruby_block 'bootstrap nexus admin' do
         begin
           ensure_anonymous_setting.call(bootstrap_pw, desired_anonymous)
         rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EHOSTUNREACH,
-          Errno::ENETUNREACH, Errno::ETIMEDOUT,
-          Net::OpenTimeout, Net::ReadTimeout,
-          EOFError, SocketError,
-          JSON::ParserError
+               Errno::ENETUNREACH, Errno::ETIMEDOUT,
+               Net::OpenTimeout, Net::ReadTimeout,
+               EOFError, SocketError,
+               JSON::ParserError
           Chef::Log.info('Nexus: could not set anonymous with bootstrap password; continuing bootstrap...')
         rescue StandardError => err
           Chef::Log.warn("Nexus: unexpected error setting anonymous with bootstrap password (#{err.class}: #{err.message}); continuing...")
