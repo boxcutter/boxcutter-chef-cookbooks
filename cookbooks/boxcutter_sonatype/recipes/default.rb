@@ -225,7 +225,8 @@ ruby_block 'bootstrap nexus admin' do
 
       put_res = http_request.call(anonymous_uri, put_req)
       unless [200, 204].include?(put_res.code.to_i)
-        fail "Nexus: failed to set anonymous=#{desired_enabled}: HTTP #{put_res.code} #{put_res.message} #{put_res.body}"
+        fail "Nexus: failed to set anonymous=#{desired_enabled}: " \
+             "HTTP #{put_res.code} #{put_res.message} #{put_res.body}"
       end
 
       # Re-check to confirm it actually changed
@@ -286,7 +287,8 @@ ruby_block 'bootstrap nexus admin' do
         # managed password doesn't work; bootstrap using admin.password if available
         pw_file = admin_pw_candidates.find { |p| ::File.exist?(p) }
         if pw_file.nil?
-          fail "Nexus: managed admin password rejected and no bootstrap admin.password found in: #{admin_pw_candidates.join(', ')}"
+          fail "Nexus: managed admin password rejected and no bootstrap " \
+               "admin.password found in: #{admin_pw_candidates.join(', ')}"
         end
 
         bootstrap_pw = ::File.read(pw_file).strip
@@ -296,7 +298,8 @@ ruby_block 'bootstrap nexus admin' do
         begin
           ensure_anonymous_setting.call(bootstrap_pw, desired_anonymous)
         rescue => e
-          Chef::Log.info("Nexus: could not set anonymous with bootstrap password (#{e.class}: #{e.message}); continuing bootstrap...")
+          Chef::Log.info("Nexus: could not set anonymous with bootstrap " \
+                         "password (#{e.class}: #{e.message}); continuing bootstrap...")
         end
 
         # Now change admin password to managed password
