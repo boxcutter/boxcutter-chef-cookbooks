@@ -17,17 +17,6 @@
 # limitations under the License.
 
 SERVICE_CONFIG = {
-  # /opt/couchdb owned by root
-  'couchdb' => {
-    'directories' => [
-      '/opt/couchdb/etc',
-      '/var/log/couchdb',
-      '/var/lib/couchdb',
-    ],
-    'services' => [
-      'couchdb',
-    ],
-  },
 }.freeze
 
 FB::Users::UID_MAP.each do |user_name, desired_user_data|
