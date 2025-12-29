@@ -79,3 +79,89 @@ https://support.sonatype.com/hc/en-us/articles/213467158-How-to-reset-a-forgotte
 
 After resetting the password, update the value supplied to this cookbook and
 re-run Chef.
+
+### Repositories
+
+The `node['boxcutter_sonatype']['nexus_repository']['repositories']` hash
+configures Nexus repositories.
+
+```ruby
+node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
+  'gazebo-apt-proxy' => {
+    'name' => 'gazebo-apt-proxy',
+    'type' => 'proxy',
+    'format' => 'apt',
+    'proxy_remote_url' => 'http://packages.osrfoundation.org/gazebo/ubuntu-stable',
+    'apt_distribution' => 'jammy',
+    'apt_flat' => false,
+  },
+  'docker-proxy' => {
+    'name' => 'docker-proxy',
+    'type' => 'proxy',
+    'format' => 'docker',
+    'proxy_remote_url' => 'https://registry-1.docker.io',
+    'docker_v1_enabled' => true,
+    'docker_force_basic_auth' => true,
+    'docker_http_port' => 10080,
+    'docker_https_port' => 10443,
+    'docker_proxy_index_type' => 'HUB',
+  },
+  # ... additional repositories omitted for brevity
+}
+```
+
+### Users
+
+The `node['boxcutter_sonatype']['nexus_repository']['users']` hash
+configures Nexus users.
+
+```ruby
+node.default['boxcutter_sonatype']['nexus_repository']['users'] = {
+  'chef' => {
+    'user_id' => 'chef',
+    'first_name' => 'Chef',
+    'last_name' => 'User',
+    'email_address' => 'nobody@nowhere.com',
+    'password' => 'superseekret',
+    'roles' => ['nx-admin'],
+  },
+}
+```
+
+### Roles
+
+The `node['boxcutter_sonatype']['nexus_repository']['roles']` hash
+configures Nexus roles.
+
+```ruby
+node.default['boxcutter_sonatype']['nexus_repository']['roles'] = {
+  'engineering-read-only' => {
+    'id' => 'engineering-read-only',
+    'name' => 'engineering-read-only',
+    'description' => 'Read-only access to engineering repositories',
+    'privileges' => [
+      'nx-healthcheck-read',
+      'nx-search-read',
+      'nx-repository-view-*-*-read',
+      'nx-repository-view-*-*-browse',
+    ],
+    'roles' => [],
+  },
+}
+```
+
+### Blobstores
+
+The `node['boxcutter_sonatype']['nexus_repository']['roles']` hash
+configures Nexus blobstores. Blobstores define where artifacts are physically
+stored.
+
+```ruby
+node.default['boxcutter_sonatype']['nexus_repository']['blobstores'] = {
+  'default' => {
+    'name' => 'default',
+    'type' => 'file',
+    'path' => 'default',
+  },
+}
+```
