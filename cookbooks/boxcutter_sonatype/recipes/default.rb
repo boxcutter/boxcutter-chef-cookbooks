@@ -18,8 +18,8 @@
 
 admin_password = node['boxcutter_sonatype']['nexus_repository']['admin_password']
 if node.run_state.key?('boxcutter_sonatype') \
-  && node.run_state['boxcutter_sonatype'].key?('nexus_repository') \
-  && node.run_state['boxcutter_sonatype']['nexus_repository'].key?('admin_password')
+   && node.run_state['boxcutter_sonatype'].key?('nexus_repository') \
+   && node.run_state['boxcutter_sonatype']['nexus_repository'].key?('admin_password')
   admin_password = node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password']
 end
 
@@ -32,273 +32,300 @@ node.default['fb_iptables']['filter']['INPUT']['rules']['nexus'] = {
   ],
 }
 
-install_root = node['boxcutter_sonatype']['nexus_repository']['install_root']
-# Default: /opt/sonatype
-directory install_root do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  recursive true
-  action :create
-end
-
-# https://help.sonatype.com/en/download.html
-version = 'nexus-3.76.1-01'
-url = 'https://download.sonatype.com/nexus/3/nexus-3.76.1-01-unix.tar.gz'
-checksum = 'e6a68b903a445fc6b923a2ea922accb336e659a838099f2efb08e382332ff8f1'
-
-tmp_path = ::File.join(Chef::Config[:file_cache_path], ::File.basename(url))
-
-remote_file tmp_path do
-  source url
-  checksum checksum
-end
-
-nexus_version_path = ::File.join(install_root, version)
-
-# The install tar.gz includes a skeleton `sonatype-work` directory to create
-# an empty data directory. Ignore this path, as we'll manage this in Chef.
-#
-# This sonatype-work tree doesn't have any content, it's just a skeleton:
-# ls -alR sonatype-work/nexus3/
-# sonatype-work/nexus3/:
-# total 16
-# drwxr-xr-x 4 root root 4096 Aug 21 20:09 .
-# drwxr-xr-x 3 root root 4096 Aug 21 20:09 ..
-# -rw-r--r-- 1 root root    0 Aug  8 16:52 clean_cache
-# drwxr-xr-x 2 root root 4096 Aug 21 20:09 log
-# drwxr-xr-x 2 root root 4096 Aug 21 20:09 tmp
-#
-# sonatype-work/nexus3/log:
-# total 8
-# drwxr-xr-x 2 root root 4096 Aug 21 20:09 .
-# drwxr-xr-x 4 root root 4096 Aug 21 20:09 ..
-# -rw-r--r-- 1 root root    0 Aug  8 16:52 .placeholder
-#
-# sonatype-work/nexus3/tmp:
-# total 8
-# drwxr-xr-x 2 root root 4096 Aug 21 20:09 .
-# drwxr-xr-x 4 root root 4096 Aug 21 20:09 ..
-# -rw-r--r-- 1 root root    0 Aug  8 16:52 .placeholder
-execute 'extract nexus' do
-  command <<-BASH
-    tar --exclude='sonatype-work*' --extract --directory '#{install_root}' --file #{tmp_path}
-    chown -R nexus:nexus '#{nexus_version_path}'
-  BASH
-  # Default: /opt/sonatype/nexus/bin/nexus
-  creates ::File.join(nexus_version_path, 'bin', 'nexus')
-end
-
-# /opt/sonatype/nexus
-nexus_home = ::File.join(install_root, 'nexus')
-link nexus_home do
-  to nexus_version_path.to_s
-end
-
-# /opt/sonatype/sonatype-work/nexus3
-data_path = node['boxcutter_sonatype']['nexus_repository']['data_path']
-
-[
-  data_path,
-  ::File.join(data_path, 'etc'),
-  ::File.join(data_path, 'log'),
-  ::File.join(data_path, 'tmp'),
-].each do |dir|
-  directory dir do
-    owner 'nexus'
-    group 'nexus'
-    mode '0755'
-    recursive true
-    action :create
-  end
-end
-
-# template ::File.join(nexus_home, 'bin', 'nexus.vmoptions') do
-#   source 'nexus.properties.erb'
-#   owner 200
-#   group 200
-#   mode '0644'
-#   variables(
-#     properties: node['boxcutter_sonatype']['nexus_repository']['runtime']['properties'],
-#   )
-# end
-
-template ::File.join(data_path, 'etc', 'nexus.properties') do
-  source 'nexus.properties.erb'
-  owner 200
-  group 200
-  mode '0644'
-  variables(
-    :properties => node['boxcutter_sonatype']['nexus_repository']['runtime']['properties'],
-  )
-end
-
-node.default['boxcutter_java']['sdkman'] = {
-  ::File.join(nexus_home, '.sdkman') => {
-    'user' => 'nexus',
-    'group' => 'nexus',
-    'candidates' => {
-      'java' => {
-        '17.0.12-tem' => nil,
-      },
-    },
-  },
-}
-
+# We used to make the home for the 'nexus' user to be /opt/sonatype/nexus,
+# but recent versions of Nexus require things like javaPrefs
+# runuser -u nexus -- /bin/bash
+# cd /opt/sonatype/nexus/bin
+# ./nexus run
 if defined?(FB::Users)
   FB::Users.initialize_group(node, 'nexus')
   node.default['fb_users']['users']['nexus'] = {
-    # /opt/sonatype/nexus
-    'home' => nexus_home,
+    'home' => '/var/lib/nexus',
     'gid' => 'nexus',
-    'shell' => '/bin/bash',
-    'manage_home' => false,
+    'shell' => '/usr/sbin/nologin',
     'action' => :add,
   }
 end
 
-include_recipe 'boxcutter_java::default'
+boxcutter_sonatype_nexus_repository_tarball 'install' do
+  version lazy { node['boxcutter_sonatype']['nexus_repository']['version'] }
+  url lazy { node['boxcutter_sonatype']['nexus_repository']['url'] }
+  checksum lazy { node['boxcutter_sonatype']['nexus_repository']['checksum'] }
+end
 
-start_nexus_script = ::File.join(install_root, 'start-nexus-repository-manager.sh')
-template start_nexus_script do
-  source 'start-nexus-repository-manager.sh.erb'
-  owner 'root'
-  group 'root'
+directory 'nexus data dir' do
+  path lazy { node['boxcutter_sonatype']['nexus_repository']['nexus_data_dir'] }
+  owner 'nexus'
+  group 'nexus'
   mode '0755'
+  recursive true
 end
 
-systemd_unit 'nexus-repository-manager.service' do
-  content <<-EOU.gsub(/^\s+/, '')
-  [Unit]
-  Description=Nexus Repository Manager service
-  After=network.target
-  [Service]
-  Type=simple
-  LimitNOFILE=65536
-  ExecStart=#{start_nexus_script}
-  User=nexus
-  Restart=on-failure
-  StartLimitInterval=30min
-  StartLimitBurst=2
-  [Install]
-  WantedBy=multi-user.target
-  EOU
-  action [:create, :enable, :start]
+directory 'nexus data dir etc' do
+  path lazy { ::File.join(node['boxcutter_sonatype']['nexus_repository']['nexus_data_dir'], 'etc') }
+  owner 'nexus'
+  group 'nexus'
+  mode '0755'
+  recursive true
 end
 
-# repository_data_directory = '/opt/sonatype/sonatype-work/nexus3'
-repository_url = 'http://127.0.0.1:8081'
+directory 'nexus data dir log' do
+  path lazy { ::File.join(node['boxcutter_sonatype']['nexus_repository']['nexus_data_dir'], 'log') }
+  owner 'nexus'
+  group 'nexus'
+  mode '0755'
+  recursive true
+end
 
-ruby_block 'wait until nexus is ready' do
-  block do
-    result = false
-    seconds_waited = 0
-    seconds_sleep_interval = 10
-    seconds_timeout = 300
-    uri = URI.parse(repository_url)
-    loop do
-      begin
-        response = ::Net::HTTP.get_response(uri)
-        puts "MISCHA: Got code #{response.code_type}"
-        if response.code_type == Net::HTTPOK
-          result = true
-          break
-        end
-      rescue Errno::ECONNRESET, Errno::ECONNREFUSED, EOFError => e
-        puts "MISCHA: Nexus is not accepting requests - #{e.message}"
-        puts "MISCHA: Nexus is not accepting requests - #{e.inspect}"
-        nil
-      end
-      break if seconds_waited > seconds_timeout
-      sleep(seconds_sleep_interval)
-      seconds_waited += seconds_sleep_interval
-    end
+template 'nexus properties' do
+  path lazy { ::File.join(node['boxcutter_sonatype']['nexus_repository']['nexus_data_dir'], 'etc', 'nexus.properties') }
+  source 'nexus.properties.erb'
+  owner 'nexus'
+  group 'nexus'
+  mode '0644'
+end
 
-    result
-  end
+execute 'nexus reload systemd' do
+  command '/bin/systemctl daemon-reload'
   action :nothing
 end
 
-template ::File.join(data_path, 'nexus.properties') do
-  source 'nexus.properties.erb'
-  owner 200
-  group 200
+template '/etc/systemd/system/nexus.service' do
+  source 'nexus.service.erb'
   mode '0644'
-  variables(
-    :properties => node['boxcutter_sonatype']['nexus_repository']['properties'],
-  )
-  notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
+  owner node.root_user
+  group node.root_group
+  notifies :run, 'execute[nexus reload systemd]', :immediately
 end
 
-if node['boxcutter_sonatype']['nexus_repository']['manage_admin']
-  # OLD_PASSWORD=$(cat '/opt/sonatype/sonatype-work/nexus-data/admin.password')
-  # curl -ifu admin:"${OLD_PASSWORD}" \
-  #   -XPUT -H 'Content-Type: text/plain' \
-  #   --data "${NEW_PASSWORD}" \
-  #   http://127.0.0.1:8081/service/rest/v1/security/users/admin/change-password
-  admin_password_path = ::File.join(data_path, 'admin.password')
+service 'nexus' do
+  action [:enable, :start]
+end
 
-  file admin_password_path do
-    action :nothing
-  end
+ruby_block 'wait for nexus http' do
+  block do
+    require 'net/http'
+    require 'uri'
+    require 'timeout'
 
-  http_request 'change admin password' do
-    url lazy { "#{repository_url}/service/rest/v1/security/users/admin/change-password" }
-    headers lazy {
-      {
-        'Content-Type' => 'text/plain',
-        'Authorization' => "Basic #{Base64.encode64("admin:#{::File.read(admin_password_path)}").strip}",
-      }
-    }
-    message lazy { admin_password }
-    action :nothing
-    # only_if { ::File.exist?(admin_password_path) }
-  end
+    uri = URI('http://127.0.0.1:8081/')
 
-  http_request 'enable_anonymous_user' do
-    url lazy { "#{repository_url}/service/rest/v1/security/anonymous" }
-    headers({
-              'Content-Type' => 'application/json',
-              'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}",
-            })
-    message '{ "enabled": true, "userId": "anonymous" }'
-    action :nothing
-  end
+    Timeout.timeout(300) do
+      loop do
+        begin
+          res = Net::HTTP.start(
+            uri.host,
+            uri.port,
+            :open_timeout => 5,
+            :read_timeout => 5,
+          ) { |http| http.get(uri.request_uri) }
 
-  file '/var/chef/.sonatype_nexus_configured' do
-    owner 'root'
-    group 'root'
-    mode '0644'
-    notifies :run, 'ruby_block[wait until nexus is ready]', :immediately
-    notifies :put, 'http_request[change admin password]', :immediately
-    notifies :delete, "file[#{admin_password_path}]", :immediately
-    notifies :put, 'http_request[enable_anonymous_user]', :immediately
+          if res.is_a?(Net::HTTPSuccess)
+            Chef::Log.info('Nexus HTTP endpoint is reachable.')
+            break
+          end
+
+          Chef::Log.info("Nexus returned HTTP #{res.code}; retrying...")
+        rescue Errno::ECONNREFUSED, Errno::ECONNRESET,
+               Errno::EHOSTUNREACH, Errno::ENETUNREACH,
+               Errno::ETIMEDOUT,
+               Net::OpenTimeout, Net::ReadTimeout,
+               EOFError, SocketError => e
+          Chef::Log.info("Nexus not ready yet (#{e}); retrying...")
+        end
+
+        sleep 5
+      end
+    end
+  rescue Timeout::Error
+    raise 'Timed out waiting for Nexus HTTP endpoint'
   end
 end
 
-# verify:
-# curl -u <username>:<password> http://<nexus-url>/service/rest/v1/security/anonymous
-#
-# curl -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} \
-#   -X PUT \
-#   -H 'Content-Type: application/json' \
-#   -d '{ "enabled": true, "userId": "anonymous" }' \
-#   http://127.0.0.1:8081/service/rest/v1/security/anonymous
-#
-# curl -u <username>:<password> \
-#   -X PUT \
-#   -H "Content-Type: application/json" \
-#   -d '{"enabled": false}' \
-#   http://<nexus-url>/service/rest/v1/security/anonymous
+ruby_block 'bootstrap nexus admin' do
+  block do
+    require 'net/http'
+    require 'uri'
+    require 'json'
+    require 'timeout'
 
-# http_request 'enable_anonymous_user' do
-#   url lazy { "#{repository_url}/service/rest/v1/security/anonymous" }
-#   headers({
-#             'Content-Type' => 'application/json',
-#             'Authorization' => "Basic #{Base64.encode64("admin:#{admin_password}").strip}",
-#           })
-#   message '{ "enabled": true, "userId": "anonymous" }'
-#   action :nothing
-# end
+    nexus_url = 'http://127.0.0.1:8081'
+    eula_uri        = URI("#{nexus_url}/service/rest/v1/system/eula")
+    change_pw_uri   = URI("#{nexus_url}/service/rest/v1/security/users/admin/change-password")
+    anonymous_uri   = URI("#{nexus_url}/service/rest/v1/security/anonymous")
+    realms_uri      = URI("#{nexus_url}/service/rest/v1/security/realms/active") # simple auth probe
+
+    desired_anonymous = true
+
+    nexus_data_dir = node['boxcutter_sonatype']['nexus_repository']['nexus_data_dir'] # /var/lib/nexus/nexus-data
+    admin_pw_candidates = [
+      ::File.join(nexus_data_dir, 'admin.password'),
+    ]
+
+    http_request = lambda do |uri, req, attempts: 60, delay: 5|
+      last_error = nil
+
+      attempts.times do |i|
+        return Net::HTTP.start(uri.host, uri.port,
+                               :open_timeout => 5,
+                               :read_timeout => 20) { |h| h.request(req) }
+      rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EHOSTUNREACH, Errno::ENETUNREACH,
+             Errno::ETIMEDOUT, Net::OpenTimeout, Net::ReadTimeout, EOFError, SocketError => err
+        last_error = err
+        if i == attempts - 1
+          raise "Nexus: unable to connect to #{uri} after #{attempts} attempts: #{err.class}: #{err.message}"
+        end
+        Chef::Log.info("Nexus: #{uri} not reachable yet (#{e.class}: #{e.message}); retrying in #{delay}s...")
+        sleep delay
+      end
+
+      fail last_error # should never reach
+    end
+
+    # Auth probe: returns true if password works
+    auth_ok = lambda do |password|
+      req = Net::HTTP::Get.new(realms_uri)
+      req.basic_auth('admin', password)
+      res = http_request.call(realms_uri, req)
+      res.code.to_i == 200
+    end
+
+    # One-time password change using known current password
+    change_admin_password = lambda do |old_pw, new_pw|
+      req = Net::HTTP::Put.new(change_pw_uri)
+      req.basic_auth('admin', old_pw)
+      req['Content-Type'] = 'text/plain'
+      req.body = new_pw
+      res = http_request.call(change_pw_uri, req)
+      unless [200, 204].include?(res.code.to_i)
+        fail "Nexus: failed to change admin password: HTTP #{res.code} #{res.message} #{res.body}"
+      end
+    end
+
+    ensure_anonymous_setting = lambda do |password, desired_enabled|
+      get_req = Net::HTTP::Get.new(anonymous_uri)
+      get_req.basic_auth('admin', password)
+      get_res = http_request.call(anonymous_uri, get_req)
+
+      return if get_res.code.to_i == 404
+
+      unless get_res.code.to_i == 200
+        fail "Nexus: GET /security/anonymous failed: HTTP #{get_res.code} #{get_res.message} #{get_res.body}"
+      end
+
+      current = JSON.parse(get_res.body)
+
+      # Build desired payload from what Nexus reports (keeps required fields like realmName/userId)
+      desired = current.merge('enabled' => desired_enabled)
+
+      Chef::Log.info("Nexus: forcing anonymous.enabled=#{desired_enabled} (was #{current['enabled'].inspect})")
+
+      put_req = Net::HTTP::Put.new(anonymous_uri)
+      put_req.basic_auth('admin', password)
+      put_req['Content-Type'] = 'application/json'
+      put_req.body = JSON.dump(desired)
+
+      put_res = http_request.call(anonymous_uri, put_req)
+      unless [200, 204].include?(put_res.code.to_i)
+        fail "Nexus: failed to set anonymous=#{desired_enabled}: " \
+             "HTTP #{put_res.code} #{put_res.message} #{put_res.body}"
+      end
+
+      # Re-check to confirm it actually changed
+      verify_req = Net::HTTP::Get.new(anonymous_uri)
+      verify_req.basic_auth('admin', password)
+      verify_res = http_request.call(anonymous_uri, verify_req)
+
+      unless verify_res.code.to_i == 200
+        fail "Nexus: verify GET failed: HTTP #{verify_res.code} #{verify_res.message} #{verify_res.body}"
+      end
+
+      verify_body = JSON.parse(verify_res.body)
+      unless verify_body['enabled'] == desired_enabled
+        fail "Nexus: anonymous.enabled is still #{verify_body['enabled'].inspect} after PUT"
+      end
+
+      Chef::Log.info("Nexus: anonymous.enabled now #{verify_body['enabled']}.")
+    end
+
+    # Accept EULA (must GET disclaimer then POST it back with accepted=true)
+    accept_eula = lambda do |password|
+      # Some versions may not have this endpoint
+      get_req = Net::HTTP::Get.new(eula_uri)
+      get_req.basic_auth('admin', password)
+      get_res = http_request.call(eula_uri, get_req)
+
+      return if get_res.code.to_i == 404
+
+      unless get_res.code.to_i == 200
+        fail "Nexus: GET /system/eula failed: HTTP #{get_res.code} #{get_res.message} #{get_res.body}"
+      end
+
+      body = JSON.parse(get_res.body)
+      if body['accepted'] == true
+        Chef::Log.info('Nexus: EULA already accepted.')
+        return
+      end
+
+      disclaimer = body['disclaimer'].to_s
+      fail 'Nexus: EULA disclaimer missing/empty' if disclaimer.empty?
+
+      post_req = Net::HTTP::Post.new(eula_uri)
+      post_req.basic_auth('admin', password)
+      post_req['Content-Type'] = 'application/json'
+      post_req.body = JSON.dump({ 'accepted' => true, 'disclaimer' => disclaimer })
+
+      post_res = http_request.call(eula_uri, post_req)
+      unless [200, 204].include?(post_res.code.to_i)
+        fail "Nexus: POST /system/eula failed: HTTP #{post_res.code} #{post_res.message} #{post_res.body}"
+      end
+
+      Chef::Log.info('Nexus: EULA accepted.')
+    end
+
+    Timeout.timeout(300) do
+      # --- Step 1: ensure managed admin password works ---
+      unless auth_ok.call(admin_password)
+        # managed password doesn't work; bootstrap using admin.password if available
+        pw_file = admin_pw_candidates.find { |p| ::File.exist?(p) }
+        if pw_file.nil?
+          fail 'Nexus: managed admin password rejected and no bootstrap ' \
+               "admin.password found in: #{admin_pw_candidates.join(', ')}"
+        end
+
+        bootstrap_pw = ::File.read(pw_file).strip
+        fail "Nexus: bootstrap password file empty: #{pw_file}" if bootstrap_pw.empty?
+
+        # Always try to apply anonymous setting with bootstrap password (even if it may fail)
+        begin
+          ensure_anonymous_setting.call(bootstrap_pw, desired_anonymous)
+        rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::EHOSTUNREACH,
+               Errno::ENETUNREACH, Errno::ETIMEDOUT,
+               Net::OpenTimeout, Net::ReadTimeout,
+               EOFError, SocketError,
+               JSON::ParserError
+          Chef::Log.info('Nexus: could not set anonymous with bootstrap password; continuing bootstrap...')
+        rescue StandardError => err
+          Chef::Log.warn('Nexus: unexpected error setting anonymous with bootstrap ' \
+                         "password (#{err.class}: #{err.message}); continuing...")
+        end
+
+        # Now change admin password to managed password
+        Chef::Log.info("Nexus: setting managed admin password using #{pw_file}...")
+        change_admin_password.call(bootstrap_pw, admin_password)
+
+        unless auth_ok.call(admin_password)
+          fail 'Nexus: admin password change appeared to succeed, but managed password still cannot authenticate'
+        end
+      end
+
+      # --- Step 2: accept EULA (requires admin auth) ---
+      accept_eula.call(admin_password)
+
+      # Step 3: enforce anonymous access as configured
+      ensure_anonymous_setting.call(admin_password, desired_anonymous)
+    end
+  end
+end
 
 boxcutter_sonatype_nexus_repository 'configure'

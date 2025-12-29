@@ -1,0 +1,21 @@
+# This file is configured by Chef. Local changes will be overwritten.
+
+<%
+vmoptions = node['boxcutter_sonatype']['nexus_repository']['vmoptions'].to_hash
+nexus_data_dir = node['boxcutter_sonatype']['nexus_repository']['nexus_data_dir']
+-%>
+<% vmoptions.each do |key, value| -%>
+<%= value.nil? ? key : "#{key}=#{value}" %>
+<%end -%>
+<% unless vmoptions.key?('-Dkaraf.data') -%>
+-Dkaraf.data=<%= nexus_data_dir %>
+<% end -%>
+<% unless vmoptions.key?('-Dkaraf.log') -%>
+-Dkaraf.log=<%= ::File.join(nexus_data_dir, 'log') %>
+<% end -%>
+<% unless vmoptions.key?('-XX:LogFile') -%>
+-XX:LogFile=<%= ::File.join(nexus_data_dir, 'log', 'jvm.log') %>
+<% end -%>
+<% unless vmoptions.key?('-Djava.io.tmpdir') -%>
+-Djava.io.tmpdir=<%= ::File.join(nexus_data_dir, 'tmp') %>
+<% end -%>

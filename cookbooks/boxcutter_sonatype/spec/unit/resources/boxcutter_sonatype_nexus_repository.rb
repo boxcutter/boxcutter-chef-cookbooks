@@ -82,7 +82,7 @@ describe 'boxcutter_sonatype_nexus_repository' do
              'storage' => {
                'blobStoreName' => 'default',
                'strictContentTypeValidation' => true,
-               'writePolicy' => 'ALLOW',
+               'writePolicy' => 'allow',
              },
              'cleanup' => {
                'policyNames' => [],
@@ -143,7 +143,7 @@ describe 'boxcutter_sonatype_nexus_repository' do
              'storage' => {
                'blobStoreName' => 'default',
                'strictContentTypeValidation' => true,
-               'writePolicy' => 'ALLOW',
+               'writePolicy' => 'allow',
              },
              'cleanup' => {
                'policyNames' => [],
