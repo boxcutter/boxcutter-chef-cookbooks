@@ -16,38 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# nfs_server_hosts = %w{
-#   nfs-server-centos-stream-9
-#   nfs-server-ubuntu-2204
-# }.include?(node['hostname'])
-#
-# if nfs_server_hosts
-#   node.default['fb_iptables']['filter']['INPUT']['rules']['nfs server'] = {
-#     'rules' => [
-#       '-p tcp --dport 2049 -j ACCEPT',
-#       '-p udp --dport 2049 -j ACCEPT',
-#     ],
-#   }
-#
-#   directory '/var/nfs' do
-#     owner node.root_user
-#     group node.root_group
-#     mode '0755'
-#   end
-#
-#   directory '/var/nfs/general' do
-#     owner 'nobody'
-#     group node.ubuntu? ? 'nogroup' : 'nobody'
-#     mode '0777'
-#   end
-#
-#   node.default['boxcutter_nfs']['server']['exports']['/var/nfs/general'] = %w{
-#     *(rw,sync,no_subtree_check,insecure)
-#   }
-#
-#   include_recipe 'boxcutter_nfs::server'
-# end
-
 nexus_hosts = %w{
   crake-nexus
 }.include?(node['hostname'])
@@ -359,13 +327,4 @@ if nexus_hosts
   node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = nexus_admin_password
 
   include_recipe 'boxcutter_sonatype::default'
-
-  # node['boxcutter_docker']['buildkits']['x86_64_builder'] = {
-  #   'name' => 'x86-64-builder',
-  #   'use' => true,
-  # }
-  # node['boxcutter_docker']['contexts']['nvidia_jetson_agx_orin'] = {
-  #   'name' => 'nvidia-jetson-agx-orin',
-  #   'docker' => 'host=ssh://craft@10.63.34.15',
-  # }
 end
