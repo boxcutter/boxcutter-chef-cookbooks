@@ -63,7 +63,7 @@ node.run_state['boxcutter_sonatype'] ||= {}
 node.run_state['boxcutter_sonatype']['nexus_repository'] ||= {}
 
 # Provide the Nexus admin password for this Chef run only
-node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'Superseekret63'
+node.run_state['boxcutter_sonatype']['nexus_repository']['admin_password'] = 'superseekret'
 ```
 
 Using `node.run_state` ensures the password is available only for the duration
