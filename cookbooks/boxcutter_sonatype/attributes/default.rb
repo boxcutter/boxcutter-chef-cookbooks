@@ -1,13 +1,9 @@
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
   # https://help.sonatype.com/en/download.html
-  sonatype_nexus_version = 'nexus-3.76.1-01'
-  sonatype_nexus_url = 'https://download.sonatype.com/nexus/3/nexus-3.76.1-01-unix.tar.gz'
-  sonatype_nexus_checksum = 'e6a68b903a445fc6b923a2ea922accb336e659a838099f2efb08e382332ff8f1'
-
-  # sonatype_nexus_version = 'nexus-3.87.1-01',
-  # sonatype_nexus_url = 'https://download.sonatype.com/nexus/3/nexus-3.87.1-01-linux-x86_64.tar.gz',
-  # sonatype_nexus_checksum = '9403cc4a78e11af09fc65e217e381dfcf435755dea31cdba9c947d6e1d439cd7',
+  sonatype_nexus_version = 'nexus-3.87.1-01'
+  sonatype_nexus_url = 'https://download.sonatype.com/nexus/3/nexus-3.87.1-01-linux-x86_64.tar.gz'
+  sonatype_nexus_checksum = '9403cc4a78e11af09fc65e217e381dfcf435755dea31cdba9c947d6e1d439cd7'
 when 'aarch64', 'arm64'
   sonatype_nexus_version = 'nexus-3.87.1-01'
   sonatype_nexus_url = 'https://download.sonatype.com/nexus/3/nexus-3.87.1-01-linux-aarch_64.tar.gz'
