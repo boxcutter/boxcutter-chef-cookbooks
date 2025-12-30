@@ -40,12 +40,6 @@ module FB
         'home' => '/usr/share/grafana',
         'shell' => '/bin/false',
       },
-      'couchdb' => {
-        'uid' => 694,
-        'comment' => 'CouchDB Administrator',
-        'home' => '/opt/couchdb',
-        'shell' => '/bin/bash',
-      },
       '_fluentd' => {
         'uid' => 695,
         'home' => '/var/lib/fluent',
@@ -141,9 +135,6 @@ module FB
       },
       'grafana' => {
         'gid' => 693,
-      },
-      'couchdb' => {
-        'gid' => 694,
       },
       '_fluentd' => {
         'gid' => 695,
