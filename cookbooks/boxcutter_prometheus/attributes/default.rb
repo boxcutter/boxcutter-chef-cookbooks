@@ -33,13 +33,13 @@ default['boxcutter_prometheus']['prometheus'] = {
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  alertmanager_source = 'https://github.com/prometheus/alertmanager/releases/download/v0.28.1/alertmanager-0.28.1.linux-amd64.tar.gz'
-  alertmanager_checksum = '5ac7ab5e4b8ee5ce4d8fb0988f9cb275efcc3f181b4b408179fafee121693311'
-  alertmanager_creates = 'alertmanager-0.28.1.linux-amd64'
+  alertmanager_source = 'https://github.com/prometheus/alertmanager/releases/download/v0.30.0/alertmanager-0.30.0.linux-amd64.tar.gz'
+  alertmanager_checksum = '86fd95034e3e17094d6951118c54b396200be22a1c16af787e1f7129ebce8f1f'
+  alertmanager_creates = 'alertmanager-0.30.0.linux-amd64'
 when 'aarch64', 'arm64'
-  alertmanager_source = 'https://github.com/prometheus/alertmanager/releases/download/v0.28.1/alertmanager-0.28.1.linux-arm64.tar.gz'
-  alertmanager_checksum = 'd8832540e5b9f613d2fd759e31d603173b9c61cc7bb5e3bc7ae2f12038b1ce4f'
-  alertmanager_creates = 'alertmanager-0.28.1.linux-arm64'
+  alertmanager_source = 'https://github.com/prometheus/alertmanager/releases/download/v0.30.0/alertmanager-0.30.0.linux-arm64.tar.gz'
+  alertmanager_checksum = '061a5ab3998fb8af75192980a559c7bfa3892da55098da839d7a79d94abe0b61'
+  alertmanager_creates = 'alertmanager-0.30.0.linux-arm64'
 end
 
 default['boxcutter_prometheus']['alertmanager'] = {
