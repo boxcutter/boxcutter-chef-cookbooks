@@ -108,13 +108,13 @@ default['boxcutter_prometheus']['blackbox_exporter'] = {
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  node_exporter_source = 'https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz'
-  node_exporter_checksum = 'becb950ee80daa8ae7331d77966d94a611af79ad0d3307380907e0ec08f5b4e8'
-  node_exporter_creates = 'node_exporter-1.9.1.linux-amd64'
+  node_exporter_source = 'https://github.com/prometheus/node_exporter/releases/download/v1.10.2/node_exporter-1.10.2.linux-amd64.tar.gz'
+  node_exporter_checksum = 'c46e5b6f53948477ff3a19d97c58307394a29fe64a01905646f026ddc32cb65b'
+  node_exporter_creates = 'node_exporter-1.10.2.linux-amd64'
 when 'aarch64', 'arm64'
-  node_exporter_source = 'https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-arm64.tar.gz'
-  node_exporter_checksum = '848f139986f63232ced83babe3cad1679efdbb26c694737edc1f4fbd27b96203'
-  node_exporter_creates = 'node_exporter-1.9.1.linux-arm64'
+  node_exporter_source = 'https://github.com/prometheus/node_exporter/releases/download/v1.10.2/node_exporter-1.10.2.linux-arm64.tar.gz'
+  node_exporter_checksum = 'de69ec8341c8068b7c8e4cfe3eb85065d24d984a3b33007f575d307d13eb89a6'
+  node_exporter_creates = 'node_exporter-1.10.2.linux-arm64'
 end
 
 default['boxcutter_prometheus']['node_exporter'] = {
