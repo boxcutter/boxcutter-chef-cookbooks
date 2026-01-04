@@ -65,13 +65,13 @@ default['boxcutter_prometheus']['alertmanager'] = {
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  pushgateway_source = 'https://github.com/prometheus/pushgateway/releases/download/v1.11.1/pushgateway-1.11.1.linux-amd64.tar.gz'
-  pushgateway_checksum = '6ce6ffab84d0d71195036326640295c02165462abd12b8092b0fa93188f5ee37'
-  pushgateway_creates = 'pushgateway-1.11.1.linux-amd64'
+  pushgateway_source = 'https://github.com/prometheus/pushgateway/releases/download/v1.11.2/pushgateway-1.11.2.linux-amd64.tar.gz'
+  pushgateway_checksum = '2ec72315e150dda071fdeef09360780a386a67e5207ebaa53bb18f2f1a3b89cf'
+  pushgateway_creates = 'pushgateway-1.11.2.linux-amd64'
 when 'aarch64', 'arm64'
-  pushgateway_source = 'https://github.com/prometheus/pushgateway/releases/download/v1.11.1/pushgateway-1.11.1.linux-arm64.tar.gz'
-  pushgateway_checksum = 'b6dc1c1c46d1137e5eda253f6291247e39330d3065a839857b947e59b4f3e64b'
-  pushgateway_creates = 'pushgateway-1.11.1.linux-arm64'
+  pushgateway_source = 'https://github.com/prometheus/pushgateway/releases/download/v1.11.2/pushgateway-1.11.2.linux-arm64.tar.gz'
+  pushgateway_checksum = 'b3fb835dbb0a29b1d6f9cd7ae3568a5615e59b96f8787965248cea67163d4db1'
+  pushgateway_creates = 'pushgateway-1.11.2.linux-arm64'
 end
 
 default['boxcutter_prometheus']['pushgateway'] = {
