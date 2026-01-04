@@ -163,7 +163,7 @@ when 'x86_64', 'amd64'
   redis_exporter_creates = 'redis_exporter-v1.80.1.linux-amd64'
 when 'aarch64', 'arm64'
   redis_exporter_source = 'https://github.com/oliver006/redis_exporter/releases/download/v1.80.1/redis_exporter-v1.80.1.linux-arm64.tar.gz'
-  redis_exporter_checksum = 'sha256:a807907d413edb1c0aa88513e7c1570c302873bd1cfcbf36fb53a14629177882'
+  redis_exporter_checksum = 'a807907d413edb1c0aa88513e7c1570c302873bd1cfcbf36fb53a14629177882'
   redis_exporter_creates = 'redis_exporter-v1.80.1.linux-arm64'
 end
 
@@ -179,13 +179,13 @@ default['boxcutter_prometheus']['redis_exporter'] = {
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  nvidia_gpu_exporter_source = 'https://github.com/utkuozdemir/nvidia_gpu_exporter/releases/download/v1.3.2/nvidia_gpu_exporter_1.3.2_linux_x86_64.tar.gz'
-  nvidia_gpu_exporter_checksum = 'bc10dd41356625d28d18bf4d34c181050fc5c4cf28beee8774846d0140adac5f'
-  nvidia_gpu_exporter_creates = 'nvidia_gpu_exporter_1.3.2_linux_x86_64'
+  nvidia_gpu_exporter_source = 'https://github.com/utkuozdemir/nvidia_gpu_exporter/releases/download/v1.4.1/nvidia_gpu_exporter_1.4.1_linux_x86_64.tar.gz'
+  nvidia_gpu_exporter_checksum = '0c7dd64b424ff54c7860777faa4da703e5a7486ea258cf6d6f5620fc691feaa5'
+  nvidia_gpu_exporter_creates = 'nvidia_gpu_exporter_1.4.1_linux_x86_64'
 when 'aarch64', 'arm64'
-  nvidia_gpu_exporter_source = 'https://github.com/utkuozdemir/nvidia_gpu_exporter/releases/download/v1.3.2/nvidia_gpu_exporter_1.3.2_linux_arm64.tar.gz'
-  nvidia_gpu_exporter_checksum = 'a201b3eefe08b2b713ccc9d5a929e9353ecd0b94d2ff6001b32dd2549e722ad5'
-  nvidia_gpu_exporter_creates = 'nvidia_gpu_exporter_1.3.2_linux_arm64'
+  nvidia_gpu_exporter_source = 'https://github.com/utkuozdemir/nvidia_gpu_exporter/releases/download/v1.4.1/nvidia_gpu_exporter_1.4.1_linux_arm64.tar.gz'
+  nvidia_gpu_exporter_checksum = '0256d69167582eaf44c1412859fb267a562ca0eb56ce3d6d76781533589fee3b'
+  nvidia_gpu_exporter_creates = 'nvidia_gpu_exporter_1.4.1_linux_arm64'
 end
 
 default['boxcutter_prometheus']['nvidia_gpu_exporter'] = {
