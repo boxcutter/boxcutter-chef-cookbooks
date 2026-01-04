@@ -1,12 +1,12 @@
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  prometheus_source = 'https://github.com/prometheus/prometheus/releases/download/v3.4.1/prometheus-3.4.1.linux-amd64.tar.gz'
-  prometheus_checksum = '09203151c132f36b004615de1a3dea22117ad17e6d7a59962e34f3abf328f312'
-  prometheus_creates = 'prometheus-3.4.1.linux-amd64'
+  prometheus_source = 'https://github.com/prometheus/prometheus/releases/download/v3.8.1/prometheus-3.8.1.linux-amd64.tar.gz'
+  prometheus_checksum = 'a09972ced892cd298e353eb9559f1a90f499da3fb4ff0845be352fc138780ee7'
+  prometheus_creates = 'prometheus-3.8.1.linux-amd64'
 when 'aarch64', 'arm64'
-  prometheus_source = 'https://github.com/prometheus/prometheus/releases/download/v3.4.1/prometheus-3.4.1.linux-arm64.tar.gz'
-  prometheus_checksum = '2a85be1dff46238c0d799674e856c8629c8526168dd26c3de2cecfbfc6f9a0a2'
-  prometheus_creates = 'prometheus-3.4.1.linux-arm64'
+  prometheus_source = 'https://github.com/prometheus/prometheus/releases/download/v3.8.1/prometheus-3.8.1.linux-arm64.tar.gz'
+  prometheus_checksum = '8d95804e692bba65a48d32ecdfb3d4acd8e1560d440c8cc08f48167cb838ec4b'
+  prometheus_creates = 'prometheus-3.8.1.linux-arm64'
 end
 
 default['boxcutter_prometheus']['prometheus'] = {
