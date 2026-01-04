@@ -86,7 +86,7 @@ default['boxcutter_prometheus']['pushgateway'] = {
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  blockbox_exporter_source = 'https://github.com/prometheus/blackbox_exporter/releases/download/v0.26.0/blackbox_exporter-0.26.0.linux-amd64.tar.gz'
+  blockbox_exporter_source = 'https://github.com/prometheus/blackbox_exporter/releases/download/v0.28.0/blackbox_exporter-0.28.0.linux-amd64.tar.gz'
   blockbox_exporter_checksum = '4b1bb299c685ecff75d41e55e90aae8e02a658395fb14092c7f9c5c9d75016c7'
   blockbox_exporter_creates = 'blackbox_exporter-0.26.0.linux-amd64'
 when 'aarch64', 'arm64'
@@ -135,13 +135,13 @@ default['boxcutter_prometheus']['node_exporter'] = {
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  postgres_exporter_source = 'https://github.com/prometheus-community/postgres_exporter/releases/download/v0.17.1/postgres_exporter-0.17.1.linux-amd64.tar.gz'
-  postgres_exporter_checksum = '6da7d2edafd69ecceb08addec876786fa609849f6d5f903987c0d61c3fc89506'
-  postgres_exporter_creates = 'postgres_exporter-0.17.1.linux-amd64'
+  postgres_exporter_source = 'https://github.com/prometheus-community/postgres_exporter/releases/download/v0.18.1/postgres_exporter-0.18.1.linux-amd64.tar.gz'
+  postgres_exporter_checksum = '1630965540d49a4907ad181cef5696306d7a481f87f43978538997e85d357272'
+  postgres_exporter_creates = 'postgres_exporter-0.18.1.linux-amd64'
 when 'aarch64', 'arm64'
-  postgres_exporter_source = 'https://github.com/prometheus-community/postgres_exporter/releases/download/v0.17.1/postgres_exporter-0.17.1.linux-arm64.tar.gz'
-  postgres_exporter_checksum = '405af4e838a3d094d575e5aaeac43bd0a1818aaf2c840a3c8fc2c6fcc77218dc'
-  postgres_exporter_creates = 'postgres_exporter-0.17.1.linux-arm64'
+  postgres_exporter_source = 'https://github.com/prometheus-community/postgres_exporter/releases/download/v0.18.1/postgres_exporter-0.18.1.linux-arm64.tar.gz'
+  postgres_exporter_checksum = '81c22dc2b6dcc58e9e2b5c0e557301dbf0ca0812ee3113d31984c1a37811d1cc'
+  postgres_exporter_creates = 'postgres_exporter-0.18.1.linux-arm64'
 end
 
 default['boxcutter_prometheus']['postgres_exporter'] = {
