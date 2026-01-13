@@ -16,6 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Port 9100 is the default node exporter port
+node.default['fb_iptables']['filter']['INPUT']['rules']['node_exporter'] = {
+  'rules' => [
+    '-p tcp --dport 9100 -j ACCEPT',
+  ],
+}
+
 include_recipe 'boxcutter_prometheus::user'
 
 boxcutter_prometheus_tarball 'node_exporter' do
