@@ -21,6 +21,16 @@ nexus_hosts = %w{
 }.include?(node['hostname'])
 
 if nexus_hosts
+  node.default['boxcutter_prometheus']['node_exporter']['command_line_flags'] = {
+    'collector.systemd' => nil,
+    'collector.processes' => nil,
+    'no-collector.infiniband' => nil,
+    'no-collector.nfs' => nil,
+    'collector.textfile' => nil,
+    'collector.textfile.directory' => '/var/lib/node_exporter/textfile',
+    'web.listen-address' => ':9100',
+  }
+
   include_recipe 'boxcutter_prometheus::node_exporter'
 
   storage_blob_store_name = 'default'
