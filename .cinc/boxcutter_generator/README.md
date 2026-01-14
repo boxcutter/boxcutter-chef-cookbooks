@@ -11,8 +11,8 @@ This skeleton was initially generated with: `cinc generate generator boxcutter_g
 ```shell
 # generate your new cookbook using the generator as a template
 cinc generate cookbook COOKBOOK_NAME \
-  --copyright 'Boxcutter' \
-  --email 'noreply@jpfm.dev' \
+  --copyright 'Taylor.dev, LLC' \
+  --email 'noreply@boxcutter.dev' \
   --license 'apachev2' \
   --kitchen dokken \
   --generator-cookbook .cinc/boxcutter_generator

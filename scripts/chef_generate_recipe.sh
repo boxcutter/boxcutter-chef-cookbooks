@@ -14,7 +14,7 @@ fi
 RECIPE_NAME=$1
 
 cinc generate recipe "${RECIPE_NAME}" \
-  --copyright 'Boxcutter' \
+  --copyright 'Taylor.dev, LLC' \
   --email 'noreply@boxcutter.dev' \
   --license 'apachev2' \
   --generator-cookbook "${GENERATOR_COOKBOOK}"
