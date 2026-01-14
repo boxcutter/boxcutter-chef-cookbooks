@@ -21,6 +21,8 @@ arm64_self_hosted_runner_list = %w{
 }
 
 if arm64_self_hosted_runner_list.include?(node['hostname'])
+  include_recipe 'boxcutter_prometheus::node_exporter'
+
   package 'jq'
 
   node.default['boxcutter_docker']['enable_cleanup'] = false
@@ -61,6 +63,8 @@ new_amd64_self_hosted_runner_list = %w{
 }
 
 if new_amd64_self_hosted_runner_list.include?(node['hostname'])
+  include_recipe 'boxcutter_prometheus::node_exporter'
+
   package 'jq'
 
   node.default['boxcutter_docker']['enable_cleanup'] = false
