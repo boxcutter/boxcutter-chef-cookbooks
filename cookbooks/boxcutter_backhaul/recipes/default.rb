@@ -21,6 +21,8 @@ nexus_hosts = %w{
 }.include?(node['hostname'])
 
 if nexus_hosts
+  include_recipe 'boxcutter_prometheus::node_exporter'
+
   storage_blob_store_name = 'default'
   node.default['boxcutter_sonatype']['nexus_repository']['repositories'] = {
     'ros-apt-proxy' => {
