@@ -21,6 +21,16 @@ arm64_self_hosted_runner_list = %w{
 }
 
 if arm64_self_hosted_runner_list.include?(node['hostname'])
+  node.default['boxcutter_prometheus']['node_exporter']['command_line_flags'] = {
+    'collector.systemd' => nil,
+    'collector.processes' => nil,
+    'no-collector.infiniband' => nil,
+    'no-collector.nfs' => nil,
+    'collector.textfile' => nil,
+    'collector.textfile.directory' => '/var/lib/node_exporter/textfile',
+    'web.listen-address' => ':9100',
+  }
+
   include_recipe 'boxcutter_prometheus::node_exporter'
 
   package 'jq'
@@ -63,6 +73,16 @@ new_amd64_self_hosted_runner_list = %w{
 }
 
 if new_amd64_self_hosted_runner_list.include?(node['hostname'])
+  node.default['boxcutter_prometheus']['node_exporter']['command_line_flags'] = {
+    'collector.systemd' => nil,
+    'collector.processes' => nil,
+    'no-collector.infiniband' => nil,
+    'no-collector.nfs' => nil,
+    'collector.textfile' => nil,
+    'collector.textfile.directory' => '/var/lib/node_exporter/textfile',
+    'web.listen-address' => ':9100',
+  }
+
   include_recipe 'boxcutter_prometheus::node_exporter'
 
   package 'jq'
