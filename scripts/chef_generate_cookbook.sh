@@ -18,7 +18,7 @@ COOKBOOK_NAME=$1
 pushd "${REPO_PATH}/cookbooks"
 
 cinc generate cookbook "${COOKBOOK_NAME}" \
-  --copyright 'Boxcutter' \
+  --copyright 'Taylor.dev, LLC' \
   --email 'noreply@boxcutter.dev' \
   --license 'apachev2' \
   --kitchen dokken \

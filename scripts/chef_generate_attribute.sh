@@ -14,7 +14,7 @@ fi
 ATTRIBUTE_NAME=$1
 
 cinc generate attribute "${ATTRIBUTE_NAME}" \
-  --copyright 'Boxcutter' \
+  --copyright 'Taylor.dev, LLC' \
   --email 'noreply@boxcutter.dev' \
   --license 'apachev2' \
   --generator-cookbook "${GENERATOR_COOKBOOK}"

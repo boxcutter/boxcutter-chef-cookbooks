@@ -2,7 +2,7 @@
 # Cookbook:: boxcutter_jfrog
 # Recipe:: container_registry_docker
 #
-# Copyright:: 2024, Boxcutter
+# Copyright:: 2024-present, Taylor.dev, LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
