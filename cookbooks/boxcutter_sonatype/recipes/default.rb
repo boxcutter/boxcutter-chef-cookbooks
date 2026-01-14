@@ -102,7 +102,7 @@ service 'nexus' do
   action [:enable, :start]
 end
 
-ruby_block 'wait for nexus http' do
+whyrun_safe_ruby_block 'wait for nexus http' do
   block do
     require 'net/http'
     require 'uri'
@@ -142,7 +142,7 @@ ruby_block 'wait for nexus http' do
   end
 end
 
-ruby_block 'bootstrap nexus admin' do
+whyrun_safe_ruby_block 'bootstrap nexus admin' do
   block do
     require 'net/http'
     require 'uri'
