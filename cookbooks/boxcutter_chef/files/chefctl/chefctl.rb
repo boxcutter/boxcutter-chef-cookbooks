@@ -170,6 +170,9 @@ module Chefctl
     # See Chefctl::Plugin.rerun_chef?
     max_retries 1
 
+    # where to find certs and configs
+    client_config_dir '/etc/chef'
+
     # The testing timestamp.
     # See https://github.com/facebook/taste-tester
     testing_timestamp '/etc/chef/test_timestamp'
@@ -210,6 +213,16 @@ module Chefctl
     # Process.spawn works fine for all platforms. This option meant to preserve
     # old Windows behaviour, lack of logging now, and shouldn't be used.
     windows_subshell false
+
+    # Priority level to set the chef-client process to. This was mostly tested
+    # on a Windows laptop and may not work as expected elsewhere, so you should
+    # do proper testing prior to changing client configurations.
+    # Linux/mac use niceness values, Windows uses values set in windows APIs.
+    # Niceness values range from -20 (most favorable to the process) to
+    # 19 (least favorable to the process).
+    # Windows values are as follows: "Idle" => 64, "BelowNormal" => 16384,
+    # "Normal" => 32, "AboveNormal" => 32768, "High" => 128, "Realtime" => 256
+    priority nil
   end
 
   # Chefctl plugins are used to define custom behavior for chefctl.
@@ -249,11 +262,30 @@ module Chefctl
     # them if necessary.
     # The return value is ignored.
     def generate_certs
-      client_prod_cert = '/etc/chef/client-prod.pem'
+      client_prod_cert = "#{Chefctl::Config.client_config_dir}/client-prod.pem"
       if File.zero?(client_prod_cert)
         Chefctl.logger.info('zero-byte client pem found, removing')
         File.unlink(client_prod_cert)
       end
+    end
+
+    # Called after the lock is acquired, before pre_run (and this before
+    # the chef run is started). This hook is intended to allow suppressing
+    # Chef runs under specific conditions. Examples might include:
+    #
+    #   - Device is on battery
+    #   - Device is not connected to VPN/backhaul/etc.
+    #   - Some global service meant to disable runs during an emergency
+    #
+    # Defaults, of course, to false. Should be used with care. While we _will_
+    # log that the chef run was skipped at the request of the plugin, the plugin
+    # should log _why_ it was skipped so that it appears in the log.
+    #
+    # Note that if the return value is an Integer, that integer is used as
+    # the exit value of chefctl. If it's `true`, the exit value is 0, and
+    # if it is `false`, chef runs normally.
+    def skip_run?
+      false
     end
 
     # Called after the lock is acquired, before the chef run is started.
@@ -527,14 +559,14 @@ module Chefctl
                 Chefctl.logger.debug(
                   "Ignoring (#{p[:pid]},#{p[:command].inspect}) since it's " +
                   "in a different namespace #{p[:nsid]}",
-                )
+                  )
               end
               x
             end
           else
             Chefctl.logger.error(
               "Uh oh. I couldn't figure out my own pid nsid: #{pid_ns.inspect}",
-            )
+              )
           end
         else
           Chefctl.logger.debug('Not checking for process namespaces.')
@@ -557,10 +589,13 @@ module Chefctl
             # Don't kill any ssh processes, but we might kill their children
             # separately. It'll get cleaned up if the child gets killed anyway.
             /ssh/,
+            # Don't kill antlir image builds
+            /antlir/,
             # Facebook-ism, ignore
             /sush/,
+            /h[\ds]h/,
           ],
-        )
+          )
 
         # return only the pids
         chef_procs.map do |p|
@@ -869,11 +904,19 @@ module Chefctl
 
         symlink_output(:chef_cur)
 
-        do_splay unless Chefctl::Config.immediate
-
-        plugin.pre_run(@paths[:out])
-
-        retval = do_chef_runs
+        ret = plugin.skip_run?
+        if ret.is_a?(FalseClass)
+          do_splay unless Chefctl::Config.immediate
+          plugin.pre_run(@paths[:out])
+          retval = do_chef_runs
+        else
+          Chefctl.logger.info('Plugin requested skipping chef run.')
+          # if it's an integer, use that as the exit code, otherwise
+          # we keep it 0, indicating success
+          if ret.is_a?(Integer)
+            retval = ret
+          end
+        end
 
         plugin.post_run(@paths[:out], retval)
 
@@ -885,7 +928,7 @@ module Chefctl
       if retval > 0
         if Chefctl::Config.immediate || !Chefctl::Config.quiet
           Chefctl.logger.info("#{@chef_name} failed with exit code #{retval}," +
-                       ' check log output!')
+                              ' check log output!')
         end
       end
 
@@ -933,7 +976,7 @@ module Chefctl
       retval = 0
       num_tries = 0
       loop do
-        retval = run
+        retval = run(num_tries)
         num_tries += 1
 
         # break if we've already run chef the max number of times
@@ -1000,7 +1043,6 @@ module Chefctl
         env['PATH'] = Chefctl::Config.path.join(File::PATH_SEPARATOR)
       end
 
-      Chefctl.logger.info("Running chef-client with the following environment variables: #{env.inspect}")
       env
     end
 
@@ -1059,7 +1101,7 @@ module Chefctl
     end
 
     # Perform a chef run.
-    def run
+    def run(retry_count)
       if Chefctl.lib.is_a?(Chefctl::Lib::Windows) &&
          Chefctl::Config.windows_subshell
         # TODO(yottatsa): this code is deprecated.
@@ -1080,10 +1122,16 @@ module Chefctl
           Chefctl.logger.warn(
             'chefctl log file is nil!' +
             "Redirecting chef-client's output to the shell!",
-          )
+            )
         end
+        chef_env = get_chef_env
+        if retry_count > 0
+          Chefctl.logger.warn("This is a rerun attempt, rerun number #{retry_count}")
+          chef_env['RETRY_COUNT'] = retry_count.to_s
+        end
+        Chefctl.logger.info("Running chef-client with the following environment variables: #{chef_env.inspect}")
         chef_client_pid = Process.spawn(
-          get_chef_env,
+          chef_env,
           *get_chef_cmd,
           # Chefctl.log_file is set at the bottom of this file by the
           # init_logger call which is always passed a file, but just
@@ -1094,7 +1142,15 @@ module Chefctl
           # Windows requires lot of environment variables to be set. We used
           # subshell before, which means we barely changing the behavior.
           :unsetenv_others => !Chefctl.lib.is_a?(Chefctl::Lib::Windows),
-        )
+          )
+        begin
+          if !Chefctl::Config.priority.nil?
+            Process.setpriority(Process::PRIO_PROCESS, chef_client_pid, Chefctl::Config.priority)
+            Chefctl.logger.info("Set priority of chef-client to #{Chefctl::Config.priority}.")
+          end
+        rescue Exception => e # rubocop:disable Lint/RescueException
+          Chefctl.logger.info("Failed to set priority of chef-client #{e.message}")
+        end
         chef_client = Process.wait2(chef_client_pid)[1]
 
         # output_t is nil if we're running with -q/--quiet
@@ -1129,8 +1185,8 @@ module Chefctl
           FileUtils.cp(@paths[:out], @paths[:first])
         else
           Chefctl.logger.debug("No first-run log at #{@paths[:first]}, but " +
-            "the current log (#{@paths[:out]}) isn't the oldest log " +
-            "(#{oldest_log}), so we're not copying to #{@paths[:first]}.")
+                               "the current log (#{@paths[:out]}) isn't the oldest log " +
+                               "(#{oldest_log}), so we're not copying to #{@paths[:first]}.")
         end
       end
     end
@@ -1296,8 +1352,45 @@ if $PROGRAM_NAME == __FILE__
     parser.on(
       '--program PROGRAM',
       "name of the chefctl process. defaults to '#{$PROGRAM_NAME}'",
-    ) do |v|
+      ) do |v|
       Chefctl.program_name = v
+    end
+
+    parser.
+      on(
+        '--priority PRIORITY',
+        'Set the process priority for chef-client using niceness or one of ' +
+        "'Idle', 'BelowNormal', 'Normal', 'AboveNormal', 'High', 'Realtime'",
+        ) do |v|
+      priority_map = if Chefctl.lib.is_a?(Chefctl::Lib::Windows)
+                       {
+                         # Windows priority values from https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processpriorityclass?view=net-9.0
+                         'Idle' => 64,
+                         'BelowNormal' => 16384,
+                         'Normal' => 32,
+                         'AboveNormal' => 32768,
+                         'High' => 128,
+                         'Realtime' => 256,
+                       }
+                     else
+                       {
+                         # Unix priority values based on https://man7.org/linux/man-pages/man1/nice.1.html
+                         'Idle' => 19,
+                         'BelowNormal' => 10,
+                         'Normal' => 0,
+                         'AboveNormal' => -5,
+                         'High' => -10,
+                         'Realtime' => -20,
+                       }
+                     end
+
+      if v =~ /^-?\d+$/
+        options[:priority] = v.to_i
+      elsif priority_map.key?(v)
+        options[:priority] = priority_map[v]
+      else
+        fail(ArgumentError, "Invalid priority value '#{v}'. Please use an integer or one of the predefined strings.")
+      end
     end
   end
 
@@ -1318,7 +1411,7 @@ if $PROGRAM_NAME == __FILE__
     quit "Log directory #{logdir} is a file."
   end
   FileUtils.mkdir_p(logdir, :mode => 0o775) unless
-      File.exist?(logdir)
+    File.exist?(logdir)
   FileUtils.touch(logfile)
   Chefctl.init_logger(logfile)
   Chefctl.logger.level = :debug if Chefctl::Config.verbose
