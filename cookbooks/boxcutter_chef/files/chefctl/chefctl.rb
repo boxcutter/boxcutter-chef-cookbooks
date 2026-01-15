@@ -409,21 +409,21 @@ module Chefctl
       # only queue 5 runs. worse case we'll queue 15 runs.
       if chefctl_procs.length < 15
 
-        STDOUT.sync = true
+        $stdout.sync = true
 
         unless chefclient_procs.empty?
           # chef-client is currently running. we don't want to just kill it,
           # instead we want to wait for it to finish
 
-          STDOUT << "Waiting for #{client_name} runs to complete "
+          $stdout << "Waiting for #{client_name} runs to complete "
           until chefclient_procs.empty?
-            STDOUT << '.'
+            $stdout << '.'
             sleep 5
           end
-          STDOUT << "\nChef-client runs completed.\n"
+          $stdout << "\nChef-client runs completed.\n"
         end
 
-        STDOUT.sync = false
+        $stdout.sync = false
 
         # no more chef-client processes running. kill any chefctls left over
         procs = chefctl_procs
@@ -1023,8 +1023,8 @@ module Chefctl
         cmd = Chefctl::Config.chef_client + chef_args
       else
         cmd = [
-                Chefctl::Config.chef_client,
-              ] + chef_args
+          Chefctl::Config.chef_client,
+        ] + chef_args
       end
 
       Chefctl.logger.info("Running chef-client: #{cmd.inspect}")
@@ -1051,7 +1051,7 @@ module Chefctl
     def copy_output(logf)
       begin
         data = Chefctl.lib.read_nonblock(logf)
-        STDOUT << data
+        $stdout << data
       rescue EOFError
         return false
       end
@@ -1137,7 +1137,7 @@ module Chefctl
           # init_logger call which is always passed a file, but just
           # to be safe, we only attempt to log to the file if it's non-nil.
           # otherwise, just echo the output to the terminal.
-          [:out, :err] => (Chefctl.log_file ? Chefctl.log_file.to_i : STDERR),
+          [:out, :err] => (Chefctl.log_file ? Chefctl.log_file.to_i : $stderr),
           :close_others => true,
           # Windows requires lot of environment variables to be set. We used
           # subshell before, which means we barely changing the behavior.
