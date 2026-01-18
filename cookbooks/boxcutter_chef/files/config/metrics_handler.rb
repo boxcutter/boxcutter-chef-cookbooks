@@ -3,6 +3,8 @@ require 'time'
 
 module Boxcutter
   class MetricsHandler < ::Chef::Handler
+    FORCE_METRICS_COLLECTOR = '/var/chef/chef-force-metrics-collector'.freeze
+
     def initialize(path: '/var/chef/reports', filename: 'chef-run-metrics.json')
       @path = path
       @filename = filename
@@ -61,8 +63,24 @@ module Boxcutter
         'updated_resources_count' => run_status.updated_resources.count,
       }
 
+      if taste_tester? && !force_metrics_collector?
+        Chef::Log.info(
+          'boxcutter_chef: metrics_handler - In taste tester mode. Metrics collector not running.' +
+          "To override, touch #{FORCE_METRICS_COLLECTOR}",
+        )
+        return
+      end
+
       File.open(metrics_path, 'w') { |f| f.write(JSON.pretty_generate(out)) }
-      Chef::Log.info("wrote chef run metrics to #{metrics_path}")
+      Chef::Log.info("boxcutter_chef: metrics_hander - wrote chef run metrics to #{metrics_path}")
+    end
+
+    def taste_tester?
+      !Chef::Config[:chef_server_url].start_with?('chefzero://')
+    end
+
+    def force_metrics_collector?
+      File.exist?(FORCE_METRICS_COLLECTOR )
     end
   end
 end
