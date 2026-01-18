@@ -3,19 +3,19 @@ require 'time'
 
 module Boxcutter
   class MetricsHandler < ::Chef::Handler
-    def initialize(path: "/var/chef/reports", filename: "chef-run-metrics.json")
+    def initialize(path: '/var/chef/reports', filename: 'chef-run-metrics.json')
       @path = path
       @filename = filename
     end
 
     def report
       # Will get called here on compile errors instead of exception
-      Chef::Log.info("Entering report handler")
+      Chef::Log.info('boxcutter_chef: metrics_hander - Entering report handler')
       write_metrics
     end
 
     def exception
-      Chef::Log.info("Entering exception handler")
+      Chef::Log.info('boxcutter_chef: metrics_handler - Entering exception handler')
       write_metrics
     end
 
@@ -47,7 +47,7 @@ module Boxcutter
                      end
 
       out = {
-        # stable schema keys (don’t rename lightly)
+        # stable schema keys (don't rename lightly)
         'report_time_iso8601' => now,
         'success' => success ? 1 : 0,
         'last_success_time_iso8601' => last_success,
