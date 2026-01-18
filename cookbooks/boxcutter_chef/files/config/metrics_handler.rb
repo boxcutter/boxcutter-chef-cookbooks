@@ -80,7 +80,7 @@ module Boxcutter
     end
 
     def force_metrics_collector?
-      File.exist?(FORCE_METRICS_COLLECTOR )
+      File.exist?(FORCE_METRICS_COLLECTOR)
     end
   end
 end
