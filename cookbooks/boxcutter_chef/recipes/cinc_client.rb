@@ -118,6 +118,13 @@ cookbook_file "#{config_dir}/handlers/attribute_changed_handler.rb" do
   mode '0644'
 end
 
+cookbook_file "#{config_dir}/handlers/metrics_handler.rb" do
+  source 'config/metrics_handler.rb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+end
+
 template "#{config_dir}/client-prod.rb" do
   source 'client-prod.rb.erb'
   cookbook 'boxcutter_chef'
@@ -148,3 +155,16 @@ template "#{config_dir}/run-list.json" do
   group 'root'
   mode '0644'
 end
+
+cookbook_file '/usr/local/sbin/chef_metrics_collector.sh' do
+  source 'metrics/chef_metrics_collector.sh'
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
+node.default['fb_timers']['jobs']['collect_chef_metrics'] = {
+  'calendar' => FB::Systemd::Calendar.every(2).minutes,
+  'command' => '/usr/local/sbin/chef_metrics_collector.sh',
+  'only_if' => proc { File.exist?('/var/lib/node_exporter/textfile') },
+}
