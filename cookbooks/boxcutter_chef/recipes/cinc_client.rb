@@ -163,7 +163,7 @@ cookbook_file '/usr/local/sbin/chef_metrics_collector.sh' do
   mode '0755'
 end
 
-node.default['fb_timers']['jobs']['collect_chef_metrics'] = {
+node.default['fb_timers']['jobs']['chef_metrics_collector'] = {
   'calendar' => FB::Systemd::Calendar.every(2).minutes,
   'command' => '/usr/local/sbin/chef_metrics_collector.sh',
   'only_if' => proc { File.exist?('/var/lib/node_exporter/textfile') },
