@@ -11,7 +11,11 @@ ExecReload=/bin/kill -s SIGHUP $MAINPID
 ExecStart=/opt/prometheus/latest/prometheus \
 <% options = node['boxcutter_prometheus']['prometheus']['command_line_flags'].reject { |k, _| k == 'config.file' } %>
 <% options.each do |key, value| %>
+<%   if value.nil? || value == true -%>
+  --<%= key %> \
+<%   else -%>
   --<%= key %>="<%= value %>" \
+<%   end -%>
 <% end %>
   --config.file=/etc/prometheus/prometheus.yml
 Restart=on-failure
