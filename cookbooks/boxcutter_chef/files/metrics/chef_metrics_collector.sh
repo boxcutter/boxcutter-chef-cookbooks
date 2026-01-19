@@ -40,6 +40,9 @@ chef_client_run_success${tags} ${success}
 # HELP chef_client_run_last_success_timestamp_seconds Unix timestamp of the most recent successful Chef run.
 # TYPE chef_client_run_last_success_timestamp_seconds gauge
 chef_client_run_last_success_timestamp_seconds${tags} ${last_success_unix_epoch}
+# HELP chef_client_run_last_timestamp_seconds Time in seconds since the last Chef run (might not have been successful).
+# TYPE chef_client_run_last_timestamp_seconds gauge
+chef_client_run_last_timestamp_seconds${tags} ${report_time_unix_epoch}
 # HELP chef_client_run_duration_seconds Duration of the last Chef run in seconds.
 # TYPE chef_client_run_duration_seconds gauge
 chef_client_run_duration_seconds${tags} ${elapsed_seconds}
