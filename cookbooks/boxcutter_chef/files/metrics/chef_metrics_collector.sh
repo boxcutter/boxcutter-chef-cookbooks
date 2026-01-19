@@ -45,10 +45,10 @@ chef_client_run_last_success_timestamp_seconds${tags} ${last_success_unix_epoch}
 chef_client_run_duration_seconds${tags} ${elapsed_seconds}
 # HELP chef_client_run_resources_total Total resources in the last Chef run.
 # TYPE chef_client_run_resources_total gauge
-chef_client_resources_total${tags} ${all_resources_count}
+chef_client_run_resources_total${tags} ${all_resources_count}
 # HELP chef_client_run_updated_resources_total Updated resources in the last Chef run.
 # TYPE chef_client_run_updated_resources_total gauge
-chef_client_updated_resources_total${tags} ${updated_resources_count}
+chef_client_run_updated_resources_total${tags} ${updated_resources_count}
 EOF
 
   # Rename the temporary file atomically.
