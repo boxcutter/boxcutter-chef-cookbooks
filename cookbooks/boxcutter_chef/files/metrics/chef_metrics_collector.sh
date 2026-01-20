@@ -28,6 +28,9 @@ metrics_to_stdout() {
   echo "Elapsed time (ms): ${elapsed_time_ms}"
   echo "All resources: ${all_resources_count}"
   echo "Updated resources: ${updated_resources_count}"
+  echo "Now (Unix epoch): ${now_unix_epoch}"
+  echo "now - report_time (s): ${now_minus_report_time_seconds}"
+  echo "now - last_success (s): ${now_minus_last_success_seconds}"
 }
 
 metrics_to_prometheus() {
@@ -52,6 +55,12 @@ chef_client_run_resources_total${tags} ${all_resources_count}
 # HELP chef_client_run_updated_resources_total Updated resources in the last Chef run.
 # TYPE chef_client_run_updated_resources_total gauge
 chef_client_run_updated_resources_total${tags} ${updated_resources_count}
+# HELP chef_client_run_time_since_last_seconds Seconds since the last Chef run report time (now - report_time).
+# TYPE chef_client_run_time_since_last_seconds gauge
+chef_client_run_time_since_last_seconds${tags} ${now_minus_report_time_seconds}
+# HELP chef_client_run_time_since_last_success_seconds Seconds since the last successful Chef run (now - last_success).
+# TYPE chef_client_run_time_since_last_success_seconds gauge
+chef_client_run_time_since_last_success_seconds${tags} ${now_minus_last_success_seconds}
 EOF
 
   # Rename the temporary file atomically.
@@ -77,9 +86,29 @@ end_time_unix_epoch="$(iso_to_epoch "$end_time_iso8601")"
 
 elapsed_seconds="$(jq -nr --arg v "$elapsed_time_ms" '($v|tonumber) / 1000.0')"
 
+# "now" and convenience age metrics
+now_unix_epoch="$(date +%s)"
+now_minus_report_time_seconds="$(( now_unix_epoch - report_time_unix_epoch ))"
+now_minus_last_success_seconds="$(( now_unix_epoch - last_success_unix_epoch ))"
+
+# Guard against missing/zero timestamps producing huge/negative numbers
+if [[ "$report_time_unix_epoch" -le 0 ]]; then
+  now_minus_report_time_seconds="0"
+fi
+if [[ "$last_success_unix_epoch" -le 0 ]]; then
+  now_minus_last_success_seconds="0"
+fi
+if [[ "$now_minus_report_time_seconds" -lt 0 ]]; then
+  now_minus_report_time_seconds="0"
+fi
+if [[ "$now_minus_last_success_seconds" -lt 0 ]]; then
+  now_minus_last_success_seconds="0"
+fi
+
+tier="default"
 if [[ -r "$CONFIG_FILE" ]]; then
-  tier="$(jq -r '.tier // empty' "$CONFIG_FILE")"
-  [[ -n "$tier" ]] || tier="default"
+  t="$(jq -r '.tier // empty' "$CONFIG_FILE")"
+  [[ -n "$t" ]] && tier="$t"
 fi
 
 tags="{tier=\"$tier\"}"
