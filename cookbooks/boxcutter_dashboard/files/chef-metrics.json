@@ -134,8 +134,7 @@
           "mode": "single",
           "sort": "none"
         }
-      },
-      "pluginVersion": "12.3.1"
+      }
     },
     {
       "id": 2,
@@ -232,8 +231,7 @@
           "mode": "single",
           "sort": "none"
         }
-      },
-      "pluginVersion": "12.3.1"
+      }
     },
     {
       "id": 3,
@@ -331,8 +329,7 @@
           "mode": "single",
           "sort": "none"
         }
-      },
-      "pluginVersion": "12.3.1"
+      }
     },
     {
       "id": 4,
@@ -430,8 +427,7 @@
           "mode": "single",
           "sort": "none"
         }
-      },
-      "pluginVersion": "12.3.1"
+      }
     },
     {
       "id": 5,
@@ -528,8 +524,7 @@
           "mode": "single",
           "sort": "none"
         }
-      },
-      "pluginVersion": "12.3.1"
+      }
     },
     {
       "id": 6,
@@ -626,8 +621,7 @@
           "mode": "single",
           "sort": "none"
         }
-      },
-      "pluginVersion": "12.3.1"
+      }
     }
   ],
   "time": {
