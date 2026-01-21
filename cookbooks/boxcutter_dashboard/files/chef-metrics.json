@@ -2,7 +2,7 @@
   "id": null,
   "uid": "chef-metrics",
   "title": "Chef Metrics",
-  "tags": [],
+  "tags": ["chef"],
   "timezone": "browser",
   "schemaVersion": 42,
   "version": 0,
@@ -40,11 +40,12 @@
       "id": 1,
       "type": "timeseries",
       "title": "Chef Run Success",
+      "interval": "1m",
       "gridPos": {
-        "h": 8,
-        "w": 12,
         "x": 0,
-        "y": 0
+        "y": 0,
+        "w": 12,
+        "h": 8
       },
       "datasource": {
         "type": "prometheus",
@@ -52,7 +53,6 @@
       },
       "targets": [
         {
-          "editorMode": "code",
           "expr": "chef_client_run_success",
           "legendFormat": "{{instance}}",
           "range": true,
@@ -140,11 +140,12 @@
       "id": 2,
       "type": "timeseries",
       "title": "Chef Run Duration",
+      "interval": "1m",
       "gridPos": {
-        "h": 8,
-        "w": 12,
         "x": 12,
-        "y": 0
+        "y": 0,
+        "w": 12,
+        "h": 8
       },
       "datasource": {
         "type": "prometheus",
@@ -152,7 +153,6 @@
       },
       "targets": [
         {
-          "editorMode": "code",
           "expr": "chef_client_run_duration_seconds",
           "legendFormat": "{{instance}}",
           "range": true,
@@ -239,10 +239,10 @@
       "title": "Time Since Last Success",
       "description": "Seconds since last successful Chef run",
       "gridPos": {
-        "h": 8,
-        "w": 12,
         "x": 0,
-        "y": 8
+        "y": 8,
+        "w": 12,
+        "h": 8
       },
       "datasource": {
         "type": "prometheus",
@@ -250,7 +250,6 @@
       },
       "targets": [
         {
-          "editorMode": "code",
           "expr": "chef_client_run_time_since_last_success_seconds",
           "legendFormat": "{{instance}}",
           "range": true,
@@ -336,11 +335,12 @@
       "type": "timeseries",
       "title": "Time Since Last Run",
       "description": "Seconds since last Chef run (any outcome)",
+      "interval": "1m",
       "gridPos": {
-        "h": 8,
-        "w": 12,
         "x": 12,
-        "y": 8
+        "y": 8,
+        "w": 12,
+        "h": 8
       },
       "datasource": {
         "type": "prometheus",
@@ -348,7 +348,6 @@
       },
       "targets": [
         {
-          "editorMode": "code",
           "expr": "chef_client_run_time_since_last_seconds",
           "legendFormat": "{{instance}}",
           "range": true,
@@ -433,11 +432,12 @@
       "id": 5,
       "type": "timeseries",
       "title": "Chef Resources Updated",
+      "interval": "1m",
       "gridPos": {
-        "h": 8,
-        "w": 12,
         "x": 0,
-        "y": 16
+        "y": 16,
+        "w": 12,
+        "h": 8
       },
       "datasource": {
         "type": "prometheus",
@@ -445,7 +445,6 @@
       },
       "targets": [
         {
-          "editorMode": "code",
           "expr": "chef_client_run_updated_resources_total",
           "legendFormat": "{{instance}}",
           "range": true,
@@ -530,11 +529,12 @@
       "id": 6,
       "type": "timeseries",
       "title": "Chef Resources Total",
+      "interval": "1m",
       "gridPos": {
-        "h": 8,
-        "w": 12,
         "x": 12,
-        "y": 16
+        "y": 16,
+        "w": 12,
+        "h": 8
       },
       "datasource": {
         "type": "prometheus",
@@ -542,7 +542,6 @@
       },
       "targets": [
         {
-          "editorMode": "code",
           "expr": "chef_client_run_resources_total",
           "legendFormat": "{{instance}}",
           "range": true,
