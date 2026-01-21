@@ -1,4 +1,5 @@
-# boxcutter_dashboard
+boxcutter_dashboard
+===================
 
 Work in progress for a top-level machine type that aggregates metrics and
 telemetry from a robotics fleet and offers web dashboards in Grafana.
