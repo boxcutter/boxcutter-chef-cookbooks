@@ -48,9 +48,9 @@ node.default['boxcutter_prometheus']['prometheus']['config'] = {
       'job_name' => 'node',
       'file_sd_configs' => [
         {
-          'files' => ['/etc/prometheus/file_sd/node_targets.yml']
-        }
-      ]
+          'files' => ['/etc/prometheus/file_sd/node_targets.yml'],
+        },
+      ],
     },
   ],
 }
@@ -68,7 +68,7 @@ include_recipe 'boxcutter_prometheus::prometheus'
 node.default['fb_grafana']['datasources']['prometheus'] = {
   'type' => 'prometheus',
   'orgId' => 1,
-  'url' => "http://localhost:9090",
+  'url' => 'http://localhost:9090',
   'access' => 'proxy',
   'isDefault' => true,
   'editable' => false,
