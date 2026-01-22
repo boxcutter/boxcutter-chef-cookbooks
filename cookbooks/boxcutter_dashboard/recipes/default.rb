@@ -20,25 +20,6 @@ node.default['fb_iptables']['filter']['INPUT']['rules']['prometheus'] = {
   'rule' => '-p tcp --dport 9090 -j ACCEPT',
 }
 
-directory '/etc/prometheus' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-end
-
-directory '/etc/prometheus/file_sd' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-end
-
-template '/etc/prometheus/file_sd/node_targets.yml' do
-  source 'node_targets.yml.erb'
-  owner 'root'
-  group 'prometheus'
-  mode '0644'
-end
-
 node.default['boxcutter_prometheus']['prometheus']['config'] = {
   'global' => {
     'scrape_interval' => '60s',
@@ -64,6 +45,20 @@ node.default['boxcutter_prometheus']['prometheus']['command_line_flags'] = {
 }
 
 include_recipe 'boxcutter_prometheus::prometheus'
+
+directory '/etc/prometheus/file_sd' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  recursive true
+end
+
+template '/etc/prometheus/file_sd/node_targets.yml' do
+  source 'node_targets.yml.erb'
+  owner 'root'
+  group 'prometheus'
+  mode '0644'
+end
 
 node.default['fb_grafana']['datasources']['prometheus'] = {
   'type' => 'prometheus',
