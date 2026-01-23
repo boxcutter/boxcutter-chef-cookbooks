@@ -6,6 +6,7 @@ def self.test_remote_client_rb_extra_code(_hostname)
     no_lazy_load false
     local_key_generation true
     json_attribs '/etc/cinc/run-list.json'
+    timestap_file '/etc/cinc/test_timestamp'
     %w(
       attribute_changed_handler.rb
       metrics_handler.rb
