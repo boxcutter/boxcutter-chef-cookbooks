@@ -43,8 +43,8 @@ if dashboard_hosts
         'static_configs' => [
           {
             'targets' => ['localhost:9090'],
-          }
-        ]
+          },
+        ],
       },
     ],
   }
