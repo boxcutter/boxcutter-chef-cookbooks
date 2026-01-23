@@ -17,7 +17,7 @@
 # limitations under the License.
 
 dashboard_hosts = %w{
-  dashboard
+  crake-dashboard
 }.include?(node['hostname'])
 
 if dashboard_hosts
