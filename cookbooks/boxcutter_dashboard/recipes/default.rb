@@ -38,6 +38,14 @@ if dashboard_hosts
           },
         ],
       },
+      {
+        'job_name' => 'prometheus',
+        'static_configs' => [
+          {
+            'targets' => ['localhost:9090'],
+          },
+        ],
+      },
     ],
   }
 
