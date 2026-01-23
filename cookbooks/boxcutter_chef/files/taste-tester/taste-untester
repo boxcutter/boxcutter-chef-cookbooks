@@ -14,12 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# default configs
-CONFLINK='/etc/chef/client.rb'
-PRODCONF='/etc/chef/client-prod.rb'
-CERTLINK='/etc/chef/client.pem'
-PRODCERT='/etc/chef/client-prod.pem'
-STAMPFILE='/etc/chef/test_timestamp'
+# default configs (environment overrides these)
+: "${CONFLINK:=/etc/chef/client.rb}"
+: "${PRODCONF:=/etc/chef/client-prod.rb}"
+: "${CERTLINK:=/etc/chef/client.pem}"
+: "${PRODCERT:=/etc/chef/client-prod.pem}"
+: "${STAMPFILE:=/etc/chef/test_timestamp}"
 
 # let the config file overwrite them
 CONFIG_FILE="${CONFIG_FILE:-/etc/taste-untester-config}"
@@ -38,18 +38,18 @@ debug() {
 
 set_server_to_prod() {
   ME=$(basename "$MYSELF")
-  if [ -s $STAMPFILE ]; then
+  if [ -s "$STAMPFILE" ]; then
     # shellcheck disable=SC2046
-    kill -- -$(cat $STAMPFILE)
+    kill -- -$(cat "$STAMPFILE")
   fi
-  rm -f $CONFLINK
-  ln -s $PRODCONF $CONFLINK
+  rm -f "$CONFLINK"
+  ln -s "$PRODCONF" "$CONFLINK"
   # Legacy FB stuff, will go away
-  if [ -h $CERTLINK ]; then
-    rm $CERTLINK
-    ln -s $PRODCERT $CERTLINK
+  if [ -h "$CERTLINK" ]; then
+    rm "$CERTLINK"
+    ln -s "$PRODCERT" "$CERTLINK"
   fi
-  rm -f $STAMPFILE
+  rm -f "$STAMPFILE"
   logger -p user.warning -t "$ME" Reverted to production Chef.
   if [ -e '/usr/bin/wall' ]; then
     echo "Reverted $(hostname) to production Chef." | wall
@@ -57,23 +57,23 @@ set_server_to_prod() {
 }
 
 check_server() {
-  if [ ! -h $CONFLINK ]; then
+  if [ ! -h "$CONFLINK" ]; then
     return
   fi
-  current_config=$(readlink $CONFLINK)
-  if [ "$current_config" = $PRODCONF ]; then
+  current_config=$(readlink "$CONFLINK")
+  if [ "$current_config" = "$PRODCONF" ]; then
     if [ -f "$STAMPFILE" ]; then
-      rm -f $STAMPFILE
+      rm -f "$STAMPFILE"
     fi
     return
   fi
 
   now=$(date +%s)
   if [ "$(uname)" = 'Darwin' ]; then
-    stamp_time=$(stat -f "%m" -t "%z" $STAMPFILE)
+    stamp_time=$(stat -f "%m" -t "%z" "$STAMPFILE")
     stamp=$(date -r "$stamp_time")
   else
-    stamp=$(stat -c %y $STAMPFILE)
+    stamp=$(stat -c %y "$STAMPFILE")
     stamp_time=$(date +%s -d "$stamp")
   fi
 
