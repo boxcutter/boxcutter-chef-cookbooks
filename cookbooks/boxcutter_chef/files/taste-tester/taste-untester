@@ -49,7 +49,7 @@ set_server_to_prod() {
     rm "$CERTLINK"
     ln -s "$PRODCERT" "$CERTLINK"
   fi
-  rm -f ""$STAMPFILE"
+  rm -f "$STAMPFILE"
   logger -p user.warning -t "$ME" Reverted to production Chef.
   if [ -e '/usr/bin/wall' ]; then
     echo "Reverted $(hostname) to production Chef." | wall
