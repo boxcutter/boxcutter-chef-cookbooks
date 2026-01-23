@@ -14,12 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# default configs
-CONFLINK='/etc/chef/client.rb'
-PRODCONF='/etc/chef/client-prod.rb'
-CERTLINK='/etc/chef/client.pem'
-PRODCERT='/etc/chef/client-prod.pem'
-STAMPFILE='/etc/chef/test_timestamp'
+# default configs (environment overrides these)
+: "${CONFLINK:=/etc/chef/client.rb}"
+: "${PRODCONF:=/etc/chef/client-prod.rb}"
+: "${CERTLINK:=/etc/chef/client.pem}"
+: "${PRODCERT:=/etc/chef/client-prod.pem}"
+: "${STAMPFILE:=/etc/chef/test_timestamp}"
 
 # let the config file overwrite them
 CONFIG_FILE="${CONFIG_FILE:-/etc/taste-untester-config}"

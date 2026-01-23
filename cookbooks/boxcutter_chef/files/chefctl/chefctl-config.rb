@@ -69,7 +69,7 @@ client_config_dir '/etc/cinc'
 
 # The testing timestamp.
 # See https://github.com/facebook/taste-tester
-# testing_timestamp '/etc/chef/test_timestamp'
+testing_timestamp '/etc/cinc/test_timestamp'
 
 # Whether or not to run chef in whyrun mode.
 # whyrun false

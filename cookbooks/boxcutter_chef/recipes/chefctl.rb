@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+config_dir = '/etc/cinc'
+
 cookbook_file '/usr/local/sbin/chefctl.rb' do
   source 'chefctl/chefctl.rb'
   owner 'root'
@@ -30,7 +32,7 @@ cookbook_file '/etc/chefctl-config.rb' do
   mode '0644'
 end
 
-cookbook_file '/etc/chef/chefctl_hooks.rb' do
+cookbook_file ::File.join(config_dir, 'chefctl_hooks.rb') do
   source 'chefctl/chefctl_hooks.rb'
   owner 'root'
   group 'root'
@@ -60,37 +62,10 @@ cookbook_file '/usr/local/sbin/stop_chef_temporarily' do
   mode '0755'
 end
 
-confdir = '/etc/chef'
-
-# {
-#   'chef' => {
-#     'time' => '*/15 * * * *',
-#     'command' => '/usr/bin/test -f /var/chef/cron.default.override -o ' +
-#       "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q &>/dev/null",
-#   },
-#   'taste-untester' => {
-#     'time' => '*/5 * * * *',
-#     'command' => '/usr/local/sbin/taste-untester &>/dev/null',
-#   },
-#   'remove override files' => {
-#     'time' => '*/5 * * * *',
-#     'command' => '/usr/bin/find /var/chef/ -maxdepth 1 ' +
-#       '-name cron.default.override -mmin +60 -exec /bin/rm -f {} \; &>/dev/null',
-#   },
-#   # keep two weeks of chef run logs
-#   'cleanup chef logs' => {
-#     'time' => '1 1 * * *',
-#     'command' => '/usr/bin/find /var/log/chef -maxdepth 1 ' +
-#       '-name chef.2* -mtime +14 -exec /bin/rm -f {} \; &>/dev/null',
-#   },
-# }.each do |name, job|
-#   node.default['fb_cron']['jobs'][name] = job
-# end
-
 node.default['fb_timers']['jobs']['chef'] = {
   'calendar' => FB::Systemd::Calendar.every(15).minutes,
   'command' => "/bin/sh -c '/usr/bin/test -f /var/chef/cron.default.override -o " +
-    "-f #{confdir}/test_timestamp || /usr/local/sbin/chefctl -q'",
+    "-f #{config_dir}/test_timestamp || /usr/local/sbin/chefctl -q'",
   'service_options' => {
     # Chef runs are normally pretty fast, but if you're running chef for the first
     # time on a machine, it can take a while. 1d 6h is much longer than even these
@@ -104,6 +79,13 @@ node.default['fb_timers']['jobs']['chef'] = {
 node.default['fb_timers']['jobs']['taste-untester'] = {
   'calendar' => FB::Systemd::Calendar.every(5).minutes,
   'command' => '/usr/local/sbin/taste-untester',
+  'environment' => {
+    'CONFLINK' => '/etc/cinc/client.rb',
+    'PRODCONF' => '/etc/cinc/client-prod.rb',
+    'CERTLINK' => '/etc/cinc/client.pem',
+    'PRODCERT' => '/etc/cinc/client-prod.pem',
+    'STAMPFILE'=> '/etc/cinc/test_timestamp',
+  },
 }
 node.default['fb_timers']['jobs']['remove_override_files'] = {
   'calendar' => FB::Systemd::Calendar.every(5).minutes,
