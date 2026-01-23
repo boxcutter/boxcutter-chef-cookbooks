@@ -29,6 +29,8 @@ chef_client '/opt/cinc/bin/cinc-client'
 # Whether or not chef-client should provide debug output.
 # debug false
 
+# trace false
+
 # Default options to pass to chef-client.
 # chef_options ['--no-fork']
 chef_options ['--no-fork']
@@ -62,6 +64,9 @@ log_dir '/var/log/chef'
 # See Chefctl::Plugin.rerun_chef?
 # max_retries 1
 
+# where to find certs and configs
+client_config_dir '/etc/cinc'
+
 # The testing timestamp.
 # See https://github.com/facebook/taste-tester
 # testing_timestamp '/etc/chef/test_timestamp'
@@ -70,7 +75,7 @@ log_dir '/var/log/chef'
 # whyrun false
 
 # The default location of the chefctl plugin file.
-plugin_path '/etc/chef/chefctl_hooks.rb'
+plugin_path '/etc/cinc/chefctl_hooks.rb'
 
 # The default PATH environment variable to use for chef-client.
 # path %w{
