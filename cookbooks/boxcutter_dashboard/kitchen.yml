@@ -50,6 +50,7 @@ platforms:
       ports:
         - '3000:3000' # grafana
         - '9090:9090' # prometheus
+        - '2480:80' # nginx
 
   - name: centos-stream-9
     driver:
