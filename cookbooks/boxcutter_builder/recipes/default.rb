@@ -21,6 +21,8 @@ arm64_self_hosted_runner_list = %w{
 }
 
 if arm64_self_hosted_runner_list.include?(node['hostname'])
+  include_recipe 'boxcutter_onepassword::cli'
+
   node.default['boxcutter_prometheus']['node_exporter']['command_line_flags'] = {
     'collector.systemd' => nil,
     'collector.processes' => nil,
@@ -73,6 +75,8 @@ new_amd64_self_hosted_runner_list = %w{
 }
 
 if new_amd64_self_hosted_runner_list.include?(node['hostname'])
+  include_recipe 'boxcutter_onepassword::cli'
+
   node.default['boxcutter_prometheus']['node_exporter']['command_line_flags'] = {
     'collector.systemd' => nil,
     'collector.processes' => nil,
