@@ -21,6 +21,8 @@ nexus_hosts = %w{
 }.include?(node['hostname'])
 
 if nexus_hosts
+  include_recipe 'boxcutter_onepassword::cli'
+
   node.default['boxcutter_prometheus']['node_exporter']['command_line_flags'] = {
     'collector.systemd' => nil,
     'collector.processes' => nil,
