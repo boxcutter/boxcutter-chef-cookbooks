@@ -11,7 +11,7 @@
 Chef.event_handler do
   on :attribute_changed do |precedence, key, value|
     # Do absolutely nothing unless debug logging is enabled
-    next unless [:debug, :trace].include?(Chef::Config[:log_level])
+    next unless Chef::Log.debug?
 
     # Skip attributes coming from ohai
     next if precedence == :automatic
@@ -24,7 +24,7 @@ Chef.event_handler do
     filename, line_number = frame.split(':')
     location = "#{filename}:#{line_number}"
     Chef::Log.debug(
-      "- node.#{precedence}#{key.map { |n| "[\"#{n}\"]" }.join} = #{value} at #{location}",
+      "Attribute change: node.#{precedence}#{key.map { |n| "[\"#{n}\"]" }.join} = #{value} at #{location}",
     )
   end
 end
