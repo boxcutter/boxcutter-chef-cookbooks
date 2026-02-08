@@ -11,7 +11,7 @@
 Chef.event_handler do
   on :attribute_changed do |precedence, key, value|
     # Do absolutely nothing unless debug logging is enabled
-    next unless Chef::Log.debug?
+    next unless [:debug, :trace].include?(Chef::Config[:log_level])
 
     # Skip attributes coming from ohai
     next if precedence == :automatic
