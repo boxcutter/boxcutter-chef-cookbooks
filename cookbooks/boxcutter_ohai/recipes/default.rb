@@ -46,7 +46,7 @@ Chef.event_handler do
       Chef::Log.debug("Updated #{resource_updates.size} resource(s):")
       resource_updates.each do |r|
         Chef::Log.debug(
-          "- #{r[:name]} (#{r[:cookbook]}::#{r[:recipe]} line #{r[:line]}) via :#{r[:action]}"
+          "- #{r[:name]} (#{r[:cookbook]}::#{r[:recipe]} line #{r[:line]}) via :#{r[:action]}",
         )
       end
     end
