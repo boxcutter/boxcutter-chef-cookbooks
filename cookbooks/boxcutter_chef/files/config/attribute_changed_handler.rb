@@ -16,7 +16,7 @@ Chef.event_handler do
     # Skip attributes coming from ohai
     next if precedence == :automatic
 
-    Chef::Log.debug("Attributes changed:")
+    Chef::Log.debug('Attributes changed:')
 
     frame = caller.find { |line| line.include?('cookbooks/') }
     # Example Entry
