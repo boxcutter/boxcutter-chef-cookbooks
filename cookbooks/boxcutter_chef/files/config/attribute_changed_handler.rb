@@ -10,19 +10,20 @@
 #  chefctl -ivd -- --log_level trace
 Chef.event_handler do
   on :attribute_changed do |precedence, key, value|
+    # Do absolutely nothing unless debug logging is enabled
+    next unless Chef::Log.debug?
+
     # Skip attributes coming from ohai
     next if precedence == :automatic
+
+    Chef::Log.debug('Attributes changed:')
 
     frame = caller.find { |line| line.include?('cookbooks/') }
     # Example Entry
     # /etc/cinc/local-mode-cache/cache/cookbooks/fb_apt/resources/sources_list.rb:79:in 'block class_from_file'
     filename, line_number = frame.split(':')
     location = "#{filename}:#{line_number}"
-    puts(
-      "attribute_changed: key: #{key}, value: #{value}, precedence: #{precedence} at #{location}",
-    )
-    # Trying out improved form
-    puts(
+    Chef::Log.debug(
       "- node.#{precedence}#{key.map { |n| "[\"#{n}\"]" }.join} = #{value} at #{location}",
     )
   end
