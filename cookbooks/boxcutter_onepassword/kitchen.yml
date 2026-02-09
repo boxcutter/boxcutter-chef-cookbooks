@@ -56,7 +56,7 @@ platforms:
         - RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
 suites:
-  - name: cli
+  - name: cli-cinc
     named_run_list: boxcutter_onepassword_test_cli
     verifier:
       inspec_tests:
@@ -65,15 +65,34 @@ suites:
     lifecycle:
       pre_converge:
         - remote: |
-            bash -xc '
-              set +x
+            bash -c '
+              if [ -z "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" ]; then
+                echo "ERROR: OP_SERVICE_ACCOUNT_TOKEN environment variable is not set"
+                exit 1
+              fi
               mkdir -p /etc/cinc
-              ln -s /etc/cinc /etc/chef
-              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token
-              set -x
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/cinc/op_service_account_token
             '
 
-  - name: service-account
+  - name: cli-chef
+    named_run_list: boxcutter_onepassword_test_cli
+    verifier:
+      inspec_tests:
+        - test/integration/cli
+    attributes:
+    lifecycle:
+      pre_converge:
+        - remote: |
+            bash -c '
+              if [ -z "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" ]; then
+                echo "ERROR: OP_SERVICE_ACCOUNT_TOKEN environment variable is not set"
+                exit 1
+              fi
+              mkdir -p /etc/chef
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token
+            '
+
+  - name: service-account-cinc
     named_run_list: boxcutter_onepassword_test_service_account
     verifier:
       inspec_tests:
@@ -85,12 +104,34 @@ suites:
       # export OP_SERVICE_ACCOUNT_TOKEN=$(op read 'op://Automation-Org/mzqlddelxv6oe7dfz3vc7iad7m/credential' --account PB5KE5S2ORAQTDUOLBDJTLAPVU)
       pre_converge:
         - remote: |
-            bash -xc '
-              set +x
+            bash -c '
+              if [ -z "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" ]; then
+                echo "ERROR: OP_SERVICE_ACCOUNT_TOKEN environment variable is not set"
+                exit 1
+              fi
               mkdir -p /etc/cinc
-              ln -s /etc/cinc /etc/chef
-              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token
-              set -x
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/cinc/op_service_account_token
+            '
+
+  - name: service-account-chef
+    named_run_list: boxcutter_onepassword_test_service_account
+    verifier:
+      inspec_tests:
+        - test/integration/cli
+    attributes:
+    lifecycle:
+      # op item get 'Service Account Auth Token: automation-org-readonly-blue' --vault Automation-Org --account PB5KE5S2ORAQTDUOLBDJTLAPVU
+      # op item get mzqlddelxv6oe7dfz3vc7iad7m --vault Automation-Org --account PB5KE5S2ORAQTDUOLBDJTLAPVU --format json
+      # export OP_SERVICE_ACCOUNT_TOKEN=$(op read 'op://Automation-Org/mzqlddelxv6oe7dfz3vc7iad7m/credential' --account PB5KE5S2ORAQTDUOLBDJTLAPVU)
+      pre_converge:
+        - remote: |
+            bash -c '
+              if [ -z "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" ]; then
+                echo "ERROR: OP_SERVICE_ACCOUNT_TOKEN environment variable is not set"
+                exit 1
+              fi
+              mkdir -p /etc/cinc
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/cinc/op_service_account_token
             '
 
   - name: connect-server
