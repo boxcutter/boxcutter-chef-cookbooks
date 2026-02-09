@@ -36,7 +36,7 @@ module Boxcutter
         :type => type,
         :event => 'op_read',
         :extra => { :reference => reference },
-        :log_stdout => false
+        :log_stdout => false,
       ).stdout.strip
     end
 
@@ -54,7 +54,7 @@ module Boxcutter
         :type => type,
         :event => 'op_document_get',
         :extra => { :item => item, :vault => vault },
-        log_stdout: false
+        :log_stdout => false,
       ).stdout.strip
     end
 
@@ -141,17 +141,16 @@ module Boxcutter
       uri = URI.parse(url)
 
       Chef::Log.info(
-        "boxcutter_onepassword[install_bootstrap_op_cli]: downloading op cli " \
+        'boxcutter_onepassword[install_bootstrap_op_cli]: downloading op cli ' \
         "arch=#{architecture} to #{tmp_path} (basename=#{::File.basename(url)})",
       )
-
 
       # Open a connection and download the file
       Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
         request = Net::HTTP::Get.new(uri)
         http.request(request) do |response|
           if response.code.to_i >= 400
-            fail "boxcutter_onepassword[install_bootstrap_op_cli]: failed download " \
+            fail 'boxcutter_onepassword[install_bootstrap_op_cli]: failed download ' \
                  "http=#{response.code} url_basename=#{::File.basename(url)}"
           end
 
@@ -186,12 +185,11 @@ module Boxcutter
         # Skip extraction if file already exists
         if ::File.exist?(target_path)
           Chef::Log.debug("boxcutter_onepassword[unzip_file]: #{target_path} exists; skipping extraction")
-          return
+        else
+          ::FileUtils.mkdir_p(File.dirname(target_path))
+          entry.extract(target_path)
+          Chef::Log.debug("boxcutter_onepassword[unzip_file]: extracted #{filename.inspect} to #{destination}")
         end
-
-        ::FileUtils.mkdir_p(File.dirname(target_path))
-        entry.extract(target_path)
-        Chef::Log.debug("boxcutter_onepassword[unzip_file]: extracted #{filename.inspect} to #{destination}")
       end
     end
 
@@ -199,25 +197,20 @@ module Boxcutter
 
     def self.op_connect_host_path
       op_connect_host_path = '/etc/cinc/op_connect_host'
-      if ::File.exist?(op_connect_host_path)
-        Chef::Log.debug("boxcutter_onepassword: using #{op_connect_host_path} for op_connect_host_path")
-      else
+      unless ::File.exist?(op_connect_host_path)
         op_connect_host_path = '/etc/chef/op_connect_host'
-        Chef::Log.debug("boxcutter_onepassword: using #{op_connect_host_path} for op_connect_host_path")
       end
+      Chef::Log.debug("boxcutter_onepassword: using #{op_connect_host_path} for op_connect_host_path")
       op_connect_host_path
     end
 
     def self.op_connect_token_path
       op_connect_token_path = '/etc/cinc/op_connect_token'
-      if ::File.exist?(op_connect_token_path)
-        Chef::Log.debug("boxcutter_onepassword: using #{op_connect_token_path} for op_connect_token_path")
-        op_connect_token_path
-      else
+      unless ::File.exist?(op_connect_token_path)
         op_connect_token_path = '/etc/chef/op_connect_token'
-        Chef::Log.debug("boxcutter_onepassword: using #{op_connect_token_path} for op_connect_token_path")
-        op_connect_token_path
       end
+      Chef::Log.debug("boxcutter_onepassword: using #{op_connect_token_path} for op_connect_token_path")
+      op_connect_token_path
     end
 
     def self.op_connect_server_token_found?
