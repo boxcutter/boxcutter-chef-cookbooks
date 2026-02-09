@@ -11,7 +11,7 @@ module Boxcutter
       env = op_environment(type)
 
       command = "#{cli} whoami"
-      run_shellout(command, :env => env, :type => type, :event => 'op_whoami', :log_stdout => true).stdout.strip
+      run_shellout(command, :env => env, :event => 'op_whoami', :log_stdout => true).stdout.strip
     end
 
     def self.op_read(reference, type = 'auto')
@@ -21,10 +21,10 @@ module Boxcutter
       # 1Password Connect Server does not support `op user get --me`
       if ['auto', 'service_account'].include?(type)
         command = "#{cli} user get --me"
-        run_shellout(command, :env => env, :type => type, :event => 'op_user_get_me', :log_stdout => true)
+        run_shellout(command, :env => env, :event => 'op_user_get_me', :log_stdout => true)
       else
         Chef::Log.debug(
-          "boxcutter_onepassword[op_read]: skipping `op user get --me` for type=#{type.inspect} (connect_server)",
+          "boxcutter_onepassword[op_read]: skipping `op user get --me` for (connect_server)",
         )
       end
 
@@ -33,7 +33,6 @@ module Boxcutter
       run_shellout(
         command,
         :env => env,
-        :type => type,
         :event => 'op_read',
         :extra => { :reference => reference },
         :log_stdout => false,
@@ -51,7 +50,6 @@ module Boxcutter
       run_shellout(
         command,
         :env => env,
-        :type => type,
         :event => 'op_document_get',
         :extra => { :item => item, :vault => vault },
         :log_stdout => false,
@@ -72,7 +70,7 @@ module Boxcutter
 
         Chef::Log.info(
           "boxcutter_onepassword[op_environment]: using auth=#{chosen} requested=#{requested.inspect} " \
-            "env_keys=#{env.keys.sort.inspect} sources=#{summarize_token_sources(env)}",
+          "env_keys=#{env.keys.sort.inspect} sources=#{summarize_token_sources(env)}",
         )
         return env
       end
@@ -277,9 +275,9 @@ module Boxcutter
 
     # ---- logging/shellout helpers ----
 
-    def self.run_shellout(command, env:, type:, event:, extra: {}, log_stdout: false)
+    def self.run_shellout(command, env:, event:, extra: {}, log_stdout: false)
       Chef::Log.debug(
-        "boxcutter_onepassword[#{event}]: start type=#{type.inspect} " \
+        "boxcutter_onepassword[#{event}]: " \
         "command=#{command.inspect} env_keys=#{(env || {}).keys.sort.inspect} extra=#{extra.inspect}",
       )
 
@@ -288,7 +286,7 @@ module Boxcutter
 
       if shellout.error?
         Chef::Log.error(
-          "boxcutter_onepassword[#{event}]: failed type=#{type.inspect} exitstatus=#{shellout.exitstatus} " \
+          "boxcutter_onepassword[#{event}]: exitstatus=#{shellout.exitstatus} " \
           "command=#{command.inspect} env_keys=#{(env || {}).keys.sort.inspect} extra=#{extra.inspect} " \
           "stdout=#{truncate(shellout.stdout)} stderr=#{truncate(shellout.stderr)}",
         )
@@ -298,7 +296,7 @@ module Boxcutter
       Chef::Log.debug("boxcutter_onepassword[#{event}]: stdout=#{truncate(shellout.stdout)}") if log_stdout
 
       Chef::Log.info(
-        "boxcutter_onepassword[#{event}]: ok type=#{type.inspect} " \
+        "boxcutter_onepassword[#{event}]: ok " \
         "exitstatus=#{shellout.exitstatus} extra=#{extra.inspect}",
       )
       shellout
