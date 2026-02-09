@@ -24,7 +24,7 @@ module Boxcutter
         run_shellout(command, :env => env, :event => 'op_user_get_me', :log_stdout => true)
       else
         Chef::Log.debug(
-          "boxcutter_onepassword[op_read]: skipping `op user get --me` for (connect_server)",
+          'boxcutter_onepassword[op_read]: skipping `op user get --me` for (connect_server)',
         )
       end
 
