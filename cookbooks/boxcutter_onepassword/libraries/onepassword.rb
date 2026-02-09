@@ -4,14 +4,14 @@ module Boxcutter
     OP_CLI_VERSION = '2.32.1'.freeze
     OP_CLI_DOWNLOAD_URL_AMD64 = "https://cache.agilebits.com/dist/1P/op2/pkg/v#{OP_CLI_VERSION}/op_linux_amd64_v#{OP_CLI_VERSION}.zip".freeze
     OP_CLI_DOWNLOAD_URL_ARM64 = "https://cache.agilebits.com/dist/1P/op2/pkg/v#{OP_CLI_VERSION}/op_linux_arm64_v#{OP_CLI_VERSION}.zip".freeze
-    STDIO_TRUNCATE = 2000.freeze
+    STDIO_TRUNCATE = 2000
 
     def self.op_whoami(type = 'auto')
       cli = op_cli
       env = op_environment(type)
 
       command = "#{cli} whoami"
-      run_shellout(command, env: env, type: type, event: 'op_whoami', log_stdout: true).stdout.strip
+      run_shellout(command, :env => env, :type => type, :event => 'op_whoami', :log_stdout => true).stdout.strip
     end
 
     def self.op_read(reference, type = 'auto')
@@ -21,20 +21,22 @@ module Boxcutter
       # 1Password Connect Server does not support `op user get --me`
       if ['auto', 'service_account'].include?(type)
         command = "#{cli} user get --me"
-        run_shellout(command, env: env, type: type, event: 'op_user_get_me', log_stdout: true)
+        run_shellout(command, :env => env, :type => type, :event => 'op_user_get_me', :log_stdout => true)
       else
-        Chef::Log.debug("boxcutter_onepassword[op_read]: skipping `op user get --me` for type=#{type.inspect} (connect_server)")
+        Chef::Log.debug(
+          "boxcutter_onepassword[op_read]: skipping `op user get --me` for type=#{type.inspect} (connect_server)",
+        )
       end
 
       command = "#{cli} read '#{reference}'"
       # IMPORTANT: Do not log stdout (secret contents)
       run_shellout(
         command,
-        env: env,
-        type: type,
-        event: 'op_read',
-        extra: { reference: reference },
-        log_stdout: false
+        :env => env,
+        :type => type,
+        :event => 'op_read',
+        :extra => { :reference => reference },
+        :log_stdout => false
       ).stdout.strip
     end
 
@@ -48,18 +50,17 @@ module Boxcutter
       # Documents may be secrets too; default: no stdout logging.
       run_shellout(
         command,
-        env: env,
-        type: type,
-        event: 'op_document_get',
-        extra: { item: item, vault: vault },
+        :env => env,
+        :type => type,
+        :event => 'op_document_get',
+        :extra => { :item => item, :vault => vault },
         log_stdout: false
       ).stdout.strip
     end
 
     def self.op_environment(type)
-      # Determine which auth mode we’ll use, and log clearly (without secrets).
+      # Determine which auth mode we'll use, and log clearly (without secrets).
       requested = type
-      chosen = nil
 
       if op_connect_server_token_found? && ['auto', 'connect_server'].include?(requested)
         chosen = 'connect_server'
@@ -71,7 +72,7 @@ module Boxcutter
 
         Chef::Log.info(
           "boxcutter_onepassword[op_environment]: using auth=#{chosen} requested=#{requested.inspect} " \
-            "env_keys=#{env.keys.sort.inspect} sources=#{summarize_token_sources(env)}"
+            "env_keys=#{env.keys.sort.inspect} sources=#{summarize_token_sources(env)}",
         )
         return env
       end
@@ -81,20 +82,21 @@ module Boxcutter
         env = {
           'OP_SERVICE_ACCOUNT_TOKEN' => token_from_env_or_file(
             'OP_SERVICE_ACCOUNT_TOKEN',
-            op_service_account_token_path
+            op_service_account_token_path,
           ),
         }
 
         Chef::Log.info(
           "boxcutter_onepassword[op_environment]: using auth=#{chosen} requested=#{requested.inspect} " \
-            "env_keys=#{env.keys.sort.inspect} sources=#{summarize_token_sources(env)}"
+            "env_keys=#{env.keys.sort.inspect} sources=#{summarize_token_sources(env)}",
         )
         return env
       end
 
       Chef::Log.error(
         "boxcutter_onepassword[op_environment]: no usable auth found requested=#{requested.inspect} " \
-          "connect_server_present=#{op_connect_server_token_found?} service_account_present=#{op_service_account_token_found?}"
+        "connect_server_present=#{op_connect_server_token_found?} " \
+        "service_account_present=#{op_service_account_token_found?}",
       )
       fail "boxcutter_onepassword[op_environment]: 1Password token not found (type=#{requested.inspect})"
     end
@@ -110,7 +112,7 @@ module Boxcutter
 
     def self.op_cli
       unless ::File.exist?('/usr/bin/op')
-        Chef::Log.warn("boxcutter_onepassword[op_cli]: /usr/bin/op not found; bootstrapping op cli at compile time")
+        Chef::Log.warn('boxcutter_onepassword[op_cli]: /usr/bin/op not found; bootstrapping op cli at compile time')
         install_bootstrap_op_cli
         return bootstrap_op_cli
       end
@@ -138,7 +140,10 @@ module Boxcutter
 
       uri = URI.parse(url)
 
-      Chef::Log.info("boxcutter_onepassword[install_bootstrap_op_cli]: downloading op cli arch=#{architecture} to #{tmp_path} (basename=#{::File.basename(url)})")
+      Chef::Log.info(
+        "boxcutter_onepassword[install_bootstrap_op_cli]: downloading op cli " \
+        "arch=#{architecture} to #{tmp_path} (basename=#{::File.basename(url)})",
+      )
 
 
       # Open a connection and download the file
@@ -146,7 +151,8 @@ module Boxcutter
         request = Net::HTTP::Get.new(uri)
         http.request(request) do |response|
           if response.code.to_i >= 400
-            fail "boxcutter_onepassword[install_bootstrap_op_cli]: failed download http=#{response.code} url_basename=#{::File.basename(url)}"
+            fail "boxcutter_onepassword[install_bootstrap_op_cli]: failed download " \
+                 "http=#{response.code} url_basename=#{::File.basename(url)}"
           end
 
           # Write the file to disk
@@ -168,7 +174,9 @@ module Boxcutter
     end
 
     def self.unzip_file(zip_file, filename, destination)
-      Chef::Log.debug("boxcutter_onepassword[unzip_file]: extracting #{filename.inspect} from #{zip_file} to #{destination}")
+      Chef::Log.debug(
+        "boxcutter_onepassword[unzip_file]: extracting #{filename.inspect} from #{zip_file} to #{destination}",
+      )
 
       Zip::File.open(zip_file) do |zip|
         entry = zip.find_entry(filename)
@@ -193,12 +201,11 @@ module Boxcutter
       op_connect_host_path = '/etc/cinc/op_connect_host'
       if ::File.exist?(op_connect_host_path)
         Chef::Log.debug("boxcutter_onepassword: using #{op_connect_host_path} for op_connect_host_path")
-        op_connect_host_path
       else
         op_connect_host_path = '/etc/chef/op_connect_host'
         Chef::Log.debug("boxcutter_onepassword: using #{op_connect_host_path} for op_connect_host_path")
-        op_connect_host_path
       end
+      op_connect_host_path
     end
 
     def self.op_connect_token_path
@@ -232,13 +239,16 @@ module Boxcutter
     def self.op_service_account_token_path
       op_service_account_token_path = '/etc/cinc/op_service_account_token'
       if ::File.exist?(op_service_account_token_path)
-        Chef::Log.debug("boxcutter_onepassword: using #{op_service_account_token_path} for op_service_account_token_path")
-        op_service_account_token_path
+        Chef::Log.debug(
+          "boxcutter_onepassword: using #{op_service_account_token_path} for op_service_account_token_path",
+        )
       else
         op_service_account_token_path = '/etc/chef/op_service_account_token'
-        Chef::Log.debug("boxcutter_onepassword: using #{op_service_account_token_path} for op_service_account_token_path")
-        op_service_account_token_path
+        Chef::Log.debug(
+          "boxcutter_onepassword: using #{op_service_account_token_path} for op_service_account_token_path"
+        )
       end
+      op_service_account_token_path
     end
 
     def self.op_service_account_token_found?
