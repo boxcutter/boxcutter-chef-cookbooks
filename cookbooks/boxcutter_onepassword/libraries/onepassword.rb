@@ -280,7 +280,7 @@ module Boxcutter
     def self.run_shellout(command, env:, type:, event:, extra: {}, log_stdout: false)
       Chef::Log.debug(
         "boxcutter_onepassword[#{event}]: start type=#{type.inspect} " \
-          "command=#{command.inspect} env_keys=#{(env || {}).keys.sort.inspect} extra=#{extra.inspect}"
+        "command=#{command.inspect} env_keys=#{(env || {}).keys.sort.inspect} extra=#{extra.inspect}",
       )
 
       shellout = Mixlib::ShellOut.new(command, :env => env)
@@ -289,8 +289,8 @@ module Boxcutter
       if shellout.error?
         Chef::Log.error(
           "boxcutter_onepassword[#{event}]: failed type=#{type.inspect} exitstatus=#{shellout.exitstatus} " \
-            "command=#{command.inspect} env_keys=#{(env || {}).keys.sort.inspect} extra=#{extra.inspect} " \
-            "stdout=#{truncate(shellout.stdout)} stderr=#{truncate(shellout.stderr)}"
+          "command=#{command.inspect} env_keys=#{(env || {}).keys.sort.inspect} extra=#{extra.inspect} " \
+          "stdout=#{truncate(shellout.stdout)} stderr=#{truncate(shellout.stderr)}",
         )
         shellout.error!
       end
@@ -299,7 +299,7 @@ module Boxcutter
 
       Chef::Log.info(
         "boxcutter_onepassword[#{event}]: ok type=#{type.inspect} " \
-        "exitstatus=#{shellout.exitstatus} extra=#{extra.inspect}"
+        "exitstatus=#{shellout.exitstatus} extra=#{extra.inspect}",
       )
       shellout
     end
