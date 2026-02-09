@@ -231,16 +231,12 @@ module Boxcutter
 
     def self.op_service_account_token_path
       op_service_account_token_path = '/etc/cinc/op_service_account_token'
-      if ::File.exist?(op_service_account_token_path)
-        Chef::Log.debug(
-          "boxcutter_onepassword: using #{op_service_account_token_path} for op_service_account_token_path",
-        )
-      else
+      unless ::File.exist?(op_service_account_token_path)
         op_service_account_token_path = '/etc/chef/op_service_account_token'
-        Chef::Log.debug(
-          "boxcutter_onepassword: using #{op_service_account_token_path} for op_service_account_token_path"
-        )
       end
+      Chef::Log.debug(
+        "boxcutter_onepassword: using #{op_service_account_token_path} for op_service_account_token_path",
+      )
       op_service_account_token_path
     end
 
@@ -275,7 +271,8 @@ module Boxcutter
         return token
       end
 
-      fail "boxcutter_onepassword[op_service_account_token]: token not found in env #{environment_variable_name} or file #{file_path}"
+      fail 'boxcutter_onepassword[op_service_account_token]: token not found in ' \
+           "env #{environment_variable_name} or file #{file_path}"
     end
 
     # ---- logging/shellout helpers ----
@@ -301,7 +298,8 @@ module Boxcutter
       Chef::Log.debug("boxcutter_onepassword[#{event}]: stdout=#{truncate(shellout.stdout)}") if log_stdout
 
       Chef::Log.info(
-        "boxcutter_onepassword[#{event}]: ok type=#{type.inspect} exitstatus=#{shellout.exitstatus} extra=#{extra.inspect}"
+        "boxcutter_onepassword[#{event}]: ok type=#{type.inspect} " \
+        "exitstatus=#{shellout.exitstatus} extra=#{extra.inspect}"
       )
       shellout
     end
