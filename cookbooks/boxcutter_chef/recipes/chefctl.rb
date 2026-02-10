@@ -55,13 +55,6 @@ cookbook_file '/usr/local/sbin/taste-untester' do
   mode '0755'
 end
 
-cookbook_file '/usr/local/sbin/taste-untester.env' do
-  source 'taste-tester/taste-untester.env'
-  owner 'root'
-  group 'root'
-  mode '0755'
-end
-
 cookbook_file '/usr/local/sbin/stop_chef_temporarily' do
   source 'chefctl/stop_chef_temporarily'
   owner 'root'
