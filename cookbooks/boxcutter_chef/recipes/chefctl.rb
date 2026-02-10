@@ -81,11 +81,11 @@ node.default['fb_timers']['jobs']['taste-untester'] = {
   'command' => '/usr/local/sbin/taste-untester',
   'service_options' => {
     'Environment' => [
-      'CONFLINK=/etc/cinc/client.rb',
-      'PRODCONF=/etc/cinc/client-prod.rb',
-      'CERTLINK=/etc/cinc/client.pem',
-      'PRODCERT=/etc/cinc/client-prod.pem',
-      'STAMPFILE=/etc/cinc/test_timestamp',
+      "CONFLINK=#{::File.join(config_dir, 'client.rb')}",
+      "PRODCONF=#{::File.join(config_dir, 'client-prod.rb')}",
+      "CERTLINK=#{::File.join(config_dir, 'client.pem')}",
+      "PRODCERT=#{::File.join(config_dir, 'client-prod.pem')}",
+      "STAMPFILE=#{::File.join(config_dir, 'test_timestamp')}",
     ],
   },
 }
