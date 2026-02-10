@@ -63,7 +63,6 @@ module Boxcutter
       if op_connect_server_token_found? && ['auto', 'connect_server'].include?(requested)
         chosen = 'connect_server'
         env = {
-          # FIX: OP_CONNECT_HOST should come from OP_CONNECT_HOST
           'OP_CONNECT_HOST'  => token_from_env_or_file('OP_CONNECT_HOST',  op_connect_host_path),
           'OP_CONNECT_TOKEN' => token_from_env_or_file('OP_CONNECT_TOKEN', op_connect_token_path),
         }
