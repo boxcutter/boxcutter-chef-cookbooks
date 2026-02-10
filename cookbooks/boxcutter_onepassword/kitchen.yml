@@ -134,7 +134,7 @@ suites:
               echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/cinc/op_service_account_token
             '
 
-  - name: connect-server
+  - name: connect-server-cinc
     named_run_list: boxcutter_onepassword_test_connect_server
     verifier:
       inspec_tests:
@@ -152,12 +152,34 @@ suites:
       # export OP_CONNECT_HOST=http://localhost:8080
       pre_converge:
         - remote: |
-            bash -xc '
-              set +x
+            bash -c '
               mkdir -p /etc/cinc
-              ln -s /etc/cinc /etc/chef
+              echo "<%= ENV['OP_CONNECT_HOST'] %>" > /etc/cinc/op_connect_host
+              echo "<%= ENV['OP_CONNECT_TOKEN'] %>" > /etc/cinc/op_connect_token
+              echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/cinc/op_service_account_token
+            '
+
+  - name: connect-server-chef
+    named_run_list: boxcutter_onepassword_test_connect_server
+    verifier:
+      inspec_tests:
+        - test/integration/cli
+    attributes:
+    lifecycle:
+      # op item get 'Service Account Auth Token: automation-org-readonly-blue' --vault Automation-Org --account PB5KE5S2ORAQTDUOLBDJTLAPVU
+      # op item get mzqlddelxv6oe7dfz3vc7iad7m --vault Automation-Org --account PB5KE5S2ORAQTDUOLBDJTLAPVU --format json
+      # export OP_SERVICE_ACCOUNT_TOKEN=$(op read 'op://Automation-Org/mzqlddelxv6oe7dfz3vc7iad7m/credential' --account PB5KE5S2ORAQTDUOLBDJTLAPVU)
+      #
+      # op item get 'sandbox-connect-server Access Token: sandbox-rw-blue' --vault Automation-Org --account PB5KE5S2ORAQTDUOLBDJTLAPVU
+      # op item get nuhhhrxxzz4cjmssx3226ejfzm --vault Automation-Org --account PB5KE5S2ORAQTDUOLBDJTLAPVU --format json
+      # export OP_CONNECT_TOKEN=$(op read 'op://Automation-Org/nuhhhrxxzz4cjmssx3226ejfzm/credential' --account PB5KE5S2ORAQTDUOLBDJTLAPVU)
+      #
+      # export OP_CONNECT_HOST=http://localhost:8080
+      pre_converge:
+        - remote: |
+            bash -c '
+              mkdir -p /etc/chef
               echo "<%= ENV['OP_CONNECT_HOST'] %>" > /etc/chef/op_connect_host
               echo "<%= ENV['OP_CONNECT_TOKEN'] %>" > /etc/chef/op_connect_token
               echo "<%= ENV['OP_SERVICE_ACCOUNT_TOKEN'] %>" > /etc/chef/op_service_account_token
-              set -x
             '
