@@ -55,6 +55,13 @@ cookbook_file '/usr/local/sbin/taste-untester' do
   mode '0755'
 end
 
+cookbook_file '/usr/local/sbin/taste-untester.env' do
+  source 'taste-tester/taste-untester.env'
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
 cookbook_file '/usr/local/sbin/stop_chef_temporarily' do
   source 'chefctl/stop_chef_temporarily'
   owner 'root'
@@ -79,12 +86,14 @@ node.default['fb_timers']['jobs']['chef'] = {
 node.default['fb_timers']['jobs']['taste-untester'] = {
   'calendar' => FB::Systemd::Calendar.every(5).minutes,
   'command' => '/usr/local/sbin/taste-untester',
-  'environment' => {
-    'CONFLINK' => '/etc/cinc/client.rb',
-    'PRODCONF' => '/etc/cinc/client-prod.rb',
-    'CERTLINK' => '/etc/cinc/client.pem',
-    'PRODCERT' => '/etc/cinc/client-prod.pem',
-    'STAMPFILE'=> '/etc/cinc/test_timestamp',
+  'service_options' => {
+    'Environment' => [
+      'CONFLINK=/etc/cinc/client.rb',
+      'PRODCONF=/etc/cinc/client-prod.rb',
+      'CERTLINK=/etc/cinc/client.pem',
+      'PRODCERT=/etc/cinc/client-prod.pem',
+      'STAMPFILE=/etc/cinc/test_timestamp',
+    ],
   },
 }
 node.default['fb_timers']['jobs']['remove_override_files'] = {
