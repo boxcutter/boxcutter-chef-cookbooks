@@ -24,7 +24,10 @@ node.default['boxcutter_onepassword']['connect_server']['onepassword_credentials
   'sandbox-connect-server Credentials File'
 node.default['boxcutter_onepassword']['connect_server']['onepassword_credentials']['vault'] = \
   'Automation-Org'
-include_recipe 'boxcutter_onepassword::connect_server'
+## This won't work in a dokken harness because can't do docker in docker
+# include_recipe 'boxcutter_onepassword::connect_server'
+
+include_recipe 'boxcutter_onepassword::cli'
 
 # There's no great ways to test these runtime functions that I know of.
 # Can't really use chefspec because it installs the 1Password CLI at
@@ -46,6 +49,7 @@ if public_key != 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD2y6TEs9+Mc6FRUbRBDsb+6a
   fail 'Unable to read "craft SSH Key" - did you remember to set OP_CONNECT_TOKEN?'
 end
 
+# op item get 'sandbox-connect-server Access Token: sandbox-rw-blue' --vault Automation-Org
 # export OP_API_TOKEN="<token>"
 # curl \
 #     -H "Accept: application/json" \
