@@ -158,13 +158,13 @@ default['boxcutter_prometheus']['postgres_exporter'] = {
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  redis_exporter_source = 'https://github.com/oliver006/redis_exporter/releases/download/v1.80.1/redis_exporter-v1.80.1.linux-amd64.tar.gz'
-  redis_exporter_checksum = '1818cc2cbd3bac62a6f43054a2cc1596fc5f6148ce80112a6308bc3cad6d81fa'
-  redis_exporter_creates = 'redis_exporter-v1.80.1.linux-amd64'
+  redis_exporter_source = 'https://github.com/oliver006/redis_exporter/releases/download/v1.82.0/redis_exporter-v1.82.0.linux-amd64.tar.gz'
+  redis_exporter_checksum = '2d98dd0888f46e206bf3ad1b7c1784934a3a39cd8774cf47615f4c15594547cd'
+  redis_exporter_creates = 'redis_exporter-v1.82.0.linux-amd64'
 when 'aarch64', 'arm64'
-  redis_exporter_source = 'https://github.com/oliver006/redis_exporter/releases/download/v1.80.1/redis_exporter-v1.80.1.linux-arm64.tar.gz'
-  redis_exporter_checksum = 'a807907d413edb1c0aa88513e7c1570c302873bd1cfcbf36fb53a14629177882'
-  redis_exporter_creates = 'redis_exporter-v1.80.1.linux-arm64'
+  redis_exporter_source = 'https://github.com/oliver006/redis_exporter/releases/download/v1.82.0/redis_exporter-v1.82.0.linux-arm64.tar.gz'
+  redis_exporter_checksum = '13aaa6acbb145848cb97ed3bab22747e094b3f0ed22df83c8ace593e3c527c95'
+  redis_exporter_creates = 'redis_exporter-v1.82.0.linux-arm64'
 end
 
 default['boxcutter_prometheus']['redis_exporter'] = {
