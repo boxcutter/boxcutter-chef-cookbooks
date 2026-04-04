@@ -65,7 +65,7 @@ if node.exist?('boxcutter_acme', 'certbot', 'cloudflare_api_token') ||
   end
 end
 
-node.default['boxcutter_acme']['certbot']['config'].each do |name, config|
+node['boxcutter_acme']['certbot']['config'].each do |name, config|
   execute "#{name} obtain certificate" do
     command config['renew_script_path']
     action :nothing

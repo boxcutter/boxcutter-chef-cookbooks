@@ -45,7 +45,7 @@ when 'ubuntu'
                          ::File.basename(node['boxcutter_chef']['cinc_client']['source']))
            }
     action :upgrade
-    only_if { node.default['boxcutter_chef']['cinc_client']['manage_packages'] }
+    only_if { node['boxcutter_chef']['cinc_client']['manage_packages'] }
     only_if { node.debian? || node.ubuntu? }
     notifies :run, 'ruby_block[reexec chef]', :immediately
   end
@@ -56,7 +56,7 @@ when 'centos'
                          ::File.basename(node['boxcutter_chef']['cinc_client']['source']))
            }
     action :upgrade
-    only_if { node.default['boxcutter_chef']['cinc_client']['manage_packages'] }
+    only_if { node['boxcutter_chef']['cinc_client']['manage_packages'] }
     only_if { node.centos? || node.fedora? }
     notifies :run, 'ruby_block[reexec chef]', :immediately
   end
@@ -127,7 +127,6 @@ end
 
 template "#{config_dir}/client-prod.rb" do
   source 'client-prod.rb.erb'
-  cookbook 'boxcutter_chef'
   owner 'root'
   group 'root'
   mode '0644'
@@ -150,7 +149,6 @@ end
 
 template "#{config_dir}/run-list.json" do
   source 'run-list.json.erb'
-  cookbook 'boxcutter_chef'
   owner 'root'
   group 'root'
   mode '0644'
