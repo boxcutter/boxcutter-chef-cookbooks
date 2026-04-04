@@ -135,13 +135,13 @@ default['boxcutter_prometheus']['node_exporter'] = {
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  postgres_exporter_source = 'https://github.com/prometheus-community/postgres_exporter/releases/download/v0.18.1/postgres_exporter-0.18.1.linux-amd64.tar.gz'
-  postgres_exporter_checksum = '1630965540d49a4907ad181cef5696306d7a481f87f43978538997e85d357272'
-  postgres_exporter_creates = 'postgres_exporter-0.18.1.linux-amd64'
+  postgres_exporter_source = 'https://github.com/prometheus-community/postgres_exporter/releases/download/v0.19.1/postgres_exporter-0.19.1.linux-amd64.tar.gz'
+  postgres_exporter_checksum = '229096c7988df6ca41fe5b4bf66865089971535e7f0d819c12c920ec64dd2bd0'
+  postgres_exporter_creates = 'postgres_exporter-0.19.1.linux-amd64'
 when 'aarch64', 'arm64'
-  postgres_exporter_source = 'https://github.com/prometheus-community/postgres_exporter/releases/download/v0.18.1/postgres_exporter-0.18.1.linux-arm64.tar.gz'
-  postgres_exporter_checksum = '81c22dc2b6dcc58e9e2b5c0e557301dbf0ca0812ee3113d31984c1a37811d1cc'
-  postgres_exporter_creates = 'postgres_exporter-0.18.1.linux-arm64'
+  postgres_exporter_source = 'https://github.com/prometheus-community/postgres_exporter/releases/download/v0.19.1/postgres_exporter-0.19.1.linux-arm64.tar.gz'
+  postgres_exporter_checksum = '0ac6fe8c1f66f13b12adb8da282d248d9e1a48df6684e453ca232fd8fd62a11a'
+  postgres_exporter_creates = 'postgres_exporter-0.19.1.linux-arm64'
 end
 
 default['boxcutter_prometheus']['postgres_exporter'] = {
