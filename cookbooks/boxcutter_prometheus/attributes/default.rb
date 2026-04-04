@@ -200,13 +200,13 @@ default['boxcutter_prometheus']['nvidia_gpu_exporter'] = {
 
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
-  snmp_exporter_source = 'https://github.com/prometheus/snmp_exporter/releases/download/v0.29.0/snmp_exporter-0.29.0.linux-amd64.tar.gz'
-  snmp_exporter_checksum = 'fd7ded886180063a8f77e1ca18cc648e44b318b9c92bcb3867b817d93a5232d6'
-  snmp_exporter_creates = 'snmp_exporter-0.29.0.linux-amd64'
+  snmp_exporter_source = 'https://github.com/prometheus/snmp_exporter/releases/download/v0.30.1/snmp_exporter-0.30.1.linux-amd64.tar.gz'
+  snmp_exporter_checksum = '026aac4e23447ed593a783eccab9089cd41d77d17c9d2a0ab84398e45a0bb93e'
+  snmp_exporter_creates = 'snmp_exporter-0.30.1.linux-amd64'
 when 'aarch64', 'arm64'
-  snmp_exporter_source = 'https://github.com/prometheus/snmp_exporter/releases/download/v0.29.0/snmp_exporter-0.29.0.linux-arm64.tar.gz'
-  snmp_exporter_checksum = 'e590870ad2fcd39ea9c7d722d6e85aa6f1cc9e8671ff3f17feba12a6b5a3b47a'
-  snmp_exporter_creates = 'snmp_exporter-0.29.0.linux-arm64'
+  snmp_exporter_source = 'https://github.com/prometheus/snmp_exporter/releases/download/v0.30.1/snmp_exporter-0.30.1.linux-arm64.tar.gz'
+  snmp_exporter_checksum = 'a12d159a8fee527e9f7b4dfa36eec490629f8d3c1fe4bcd155a7820ae8983949'
+  snmp_exporter_creates = 'snmp_exporter-0.30.1.linux-arm64'
 end
 
 default['boxcutter_prometheus']['snmp_exporter'] = {
