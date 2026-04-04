@@ -87,12 +87,12 @@ default['boxcutter_prometheus']['pushgateway'] = {
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
   blockbox_exporter_source = 'https://github.com/prometheus/blackbox_exporter/releases/download/v0.28.0/blackbox_exporter-0.28.0.linux-amd64.tar.gz'
-  blockbox_exporter_checksum = '4b1bb299c685ecff75d41e55e90aae8e02a658395fb14092c7f9c5c9d75016c7'
-  blockbox_exporter_creates = 'blackbox_exporter-0.26.0.linux-amd64'
+  blockbox_exporter_checksum = 'caf5d242fb1cf6d5cb678f3f799f22703d4fafea26b03dcbbd7e1f1825e06329'
+  blockbox_exporter_creates = 'blackbox_exporter-0.28.0.linux-amd64'
 when 'aarch64', 'arm64'
-  blockbox_exporter_source = 'https://github.com/prometheus/blackbox_exporter/releases/download/v0.26.0/blackbox_exporter-0.26.0.linux-arm64.tar.gz'
-  blockbox_exporter_checksum = 'afb5581b1d4ea45078eebc96e4f989f912d1144d2cc131db8a6c0963bcc6a654'
-  blockbox_exporter_creates = 'blackbox_exporter-0.26.0.linux-arm64'
+  blockbox_exporter_source = 'https://github.com/prometheus/blackbox_exporter/releases/download/v0.28.0/blackbox_exporter-0.28.0.linux-arm64.tar.gz'
+  blockbox_exporter_checksum = '63312be0983d85e5109710a7dc93df3051157ae581853fa3655d171cc1b2806e'
+  blockbox_exporter_creates = 'blackbox_exporter-0.28.0.linux-arm64'
 end
 
 default['boxcutter_prometheus']['blackbox_exporter'] = {
