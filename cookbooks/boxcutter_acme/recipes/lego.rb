@@ -61,7 +61,7 @@ link '/opt/lego/latest/bin' do
   to path.to_s
 end
 
-node.default['boxcutter_acme']['lego']['config'].each do |name, config|
+node['boxcutter_acme']['lego']['config'].each do |name, config|
   template config['renew_script_path'] do
     source 'lego_renew.sh.erb'
     owner 'root'
