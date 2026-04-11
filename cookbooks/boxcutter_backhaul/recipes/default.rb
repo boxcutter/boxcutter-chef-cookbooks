@@ -246,6 +246,7 @@ if nexus_hosts
   node.default['fb_nginx']['enable_default_site'] = false
   node.default['fb_nginx']['config']['http']['proxy_send_timeout'] = '3600s'
   node.default['fb_nginx']['config']['http']['proxy_read_timeout'] = '3600s'
+  node.default['fb_nginx']['config']['http']['proxy_max_temp_file_size'] = '16384m'
   node.default['fb_nginx']['config']['http']['proxy_buffering'] = 'off'
   node.default['fb_nginx']['config']['http']['proxy_request_buffering'] = 'off'
   node.default['fb_nginx']['config']['http']['keepalive_timeout'] = '5 5'
