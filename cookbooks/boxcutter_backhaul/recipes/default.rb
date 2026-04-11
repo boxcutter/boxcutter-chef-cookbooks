@@ -255,7 +255,7 @@ if nexus_hosts
   node.default['fb_nginx']['sites']['nexus'] = {
     'listen 443' => 'ssl',
     'server_name' => 'crake-nexus.org.boxcutter.net',
-    'client_max_body_size' => '1G',
+    'client_max_body_size' => '10G',
     'ssl_certificate' =>
       '/etc/letsencrypt/live/crake-nexus.org.boxcutter.net/fullchain.pem',
     'ssl_certificate_key' =>
