@@ -1,13 +1,13 @@
 case node['kernel']['machine']
 when 'x86_64', 'amd64'
   # https://help.sonatype.com/en/download.html
-  sonatype_nexus_version = 'nexus-3.87.1-01'
-  sonatype_nexus_url = 'https://download.sonatype.com/nexus/3/nexus-3.87.1-01-linux-x86_64.tar.gz'
-  sonatype_nexus_checksum = '9403cc4a78e11af09fc65e217e381dfcf435755dea31cdba9c947d6e1d439cd7'
+  sonatype_nexus_version = 'nexus-3.91.0-07'
+  sonatype_nexus_url = 'https://download.sonatype.com/nexus/3/nexus-3.91.0-07-linux-x86_64.tar.gz'
+  sonatype_nexus_checksum = '0ea43b61949c8d882ec76e25a12c33fef95841f603adfe5445c7b943b049bd2a'
 when 'aarch64', 'arm64'
-  sonatype_nexus_version = 'nexus-3.87.1-01'
-  sonatype_nexus_url = 'https://download.sonatype.com/nexus/3/nexus-3.87.1-01-linux-aarch_64.tar.gz'
-  sonatype_nexus_checksum = '35847fc66895d3bd5cf8582b4d6c22161a00ce36924aed19f9b38107334b2ebb'
+  sonatype_nexus_version = 'nexus-3.91.0-07'
+  sonatype_nexus_url = 'https://download.sonatype.com/nexus/3/nexus-3.91.0-07-linux-aarch_64.tar.gz'
+  sonatype_nexus_checksum = 'd89e13f18bf11bca37a9a05892df230c9277d89fc9c4a75e4dbfc16c0b6b7095'
 end
 
 default['boxcutter_sonatype']['nexus_repository'] = {
