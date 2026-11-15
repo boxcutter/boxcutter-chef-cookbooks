@@ -18,10 +18,13 @@
 
 node.default['fb_systemd']['default_target'] = 'graphical.target'
 
+# fb_users dropped its fb_users_auth data bag lookup upstream, so read the
+# password hash ourselves and pass it through the attribute API.
 node.default['fb_users']['users']['boxcutter'] = {
   'gid' => 'users',
   'home' => '/home/boxcutter',
   'shell' => '/bin/bash',
+  'password' => data_bag_item('fb_users_auth', 'boxcutter')['password'],
   'action' => :add,
 }
 
