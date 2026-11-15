@@ -18,18 +18,26 @@
 
 node.default['fb_systemd']['default_target'] = 'graphical.target'
 
-# fb_users dropped its fb_users_auth data bag lookup upstream, so read the
-# password hash ourselves and pass it through the attribute API.
 node.default['fb_users']['users']['boxcutter'] = {
   'gid' => 'users',
   'home' => '/home/boxcutter',
   'shell' => '/bin/bash',
-  'password' => data_bag_item('fb_users_auth', 'boxcutter')['password'],
   'action' => :add,
 }
 
 node.default['fb_sudo']['users']['boxcutter']['admin'] =
   'ALL=(ALL:ALL) NOPASSWD: ALL'
+
+# fb_users creates the account without a password. Set the hash separately,
+# read lazily at converge time, so it never lands in node attributes. Same
+# pattern as boxcutter_users::root.
+user 'boxcutter' do
+  password lazy {
+    Boxcutter::OnePassword.op_read('op://Automation-Org/boxcutter/hash')
+  }
+  action :manage
+  not_if { kitchen? }
+end
 
 directory '/home/boxcutter/.config' do
   owner 'boxcutter'
