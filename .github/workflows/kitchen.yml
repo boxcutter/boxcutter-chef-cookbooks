@@ -10,7 +10,7 @@ jobs:
   kitchen:
     strategy:
       fail-fast: false
-    uses: facebook/chef-cookbooks/.github/workflows/reusable-kitchen-tests.yml@main
+    uses: meta/chef-cookbooks/.github/workflows/reusable-kitchen-tests.yml@main
     secrets: inherit
     with:
       universe: true

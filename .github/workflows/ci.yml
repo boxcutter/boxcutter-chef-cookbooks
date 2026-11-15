@@ -7,6 +7,6 @@ on:
 
 jobs:
   ci:
-    uses: facebook/chef-cookbooks/.github/workflows/reusable-ci.yml@main
+    uses: meta/chef-cookbooks/.github/workflows/reusable-ci.yml@main
     with:
       universe: true
