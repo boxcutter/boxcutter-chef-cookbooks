@@ -12,7 +12,6 @@ provisioner:
   chef_binary: /opt/cinc/bin/cinc-client
   chef_license: accept-no-persist
   chef_log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
-  data_bags_path: "../../data_bags"
   client_rb:
     # Needed to avoid apply2file error on intel for mac
     file_backup_path: nil
